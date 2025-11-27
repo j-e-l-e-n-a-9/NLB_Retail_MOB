@@ -1,0 +1,37 @@
+IT_001:MNUXVXELDN
+e_invoice_issuer_name:SIMPS'S D.O.O.
+FP_007:RSJIWOFWOA
+e_invoice_creditor_account:SI56 0230 9001 4140 137
+FP_005:YHZSYNZLGN
+FP_006:CBOUTSJRME
+e_invoice_creditor_reference_noSpace:NRC
+e_invoice_purpose_code_noSpace:CMDT
+e_invoice_creditor_address:MOTNICA 3
+e_invoice_issuer_name_noSpace:SIMPS'SD.O.O.
+e_invoice_creditor_bic:LJBASI20XXX
+e_invoice_purpose_code:CMDT
+int_01:SVDRAHBGUG
+SP_007:FTUXRRMCKN
+e_invoice_creditor_bic_noSpace:LJBASI20XXX
+SP_006:ERGJPCAOCS
+int_03:RQEUFJEWEC
+SP_008:PSRHQCPKPU
+int_02:JOJCZULXPS
+e_invoice_amount:4,93
+SP_003:NUMCQJAIYR
+int_05:JBEIXGUGFJ
+int_04:NVBSOECBIM
+SP_002:CVJKMCBJJY
+e_invoice_creditor_address_noSpace:MOTNICA31236TRZINSLOVENIA
+int_07:WULXEYFEUU
+SP_005:ECAOXJPBZH
+e_invoice_just_purpose:PLAČILO PREDRAČUNA ŠTP7
+int_06:HNVEDCKRBI
+SP_004:YLSOBUCWXH
+SO_001:33.27
+e_invoice_creditor_account_noSpace:SI56023090014140137
+e_invoice_creditor_reference:NRC
+FP_003:FMNPLCSBPK
+FP_004:DPQAXMXGYE
+SP_001:EUGPRWCHAO
+FP_001:UVYYGAZJEH
