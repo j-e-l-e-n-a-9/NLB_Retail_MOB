@@ -7896,4 +7896,57 @@ public class Steps {
         MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
         Assert.assertTrue(elementForName.isDisplayed());
     }
+
+    @And("Remember transaction details")
+    public void rememberTransactionDetails() {
+        Map<String, String> data = new HashMap<>();
+
+        String[] ids = {
+                "nlb-date",
+                "nlb-title",
+                "nlb-details"
+
+        };
+
+        for(String id : ids){
+            MobileElement element = x.createMobileElementById(id);
+            data.put(id,element.getText());
+        }
+
+        String[] labels = {
+                "Creditor",
+                "Creditor Account number",
+                "Transaction ID"
+        };
+
+
+        for (String label : labels) {
+            String xpath = "//android.widget.TextView[@text='" + label + "']/following-sibling::android.widget.TextView[1]";
+            MobileElement valueElement = x.createMobileElementByXpath(xpath);
+            data.put(label, valueElement.getText());
+        }
+
+        DataManager.userObject.put("TransactionDetails",data);
+        System.out.println("Remembered: "+ data);
+
+    }
+
+    @And("Assert transaction details by remembered values")
+    public void assertTransactionDetailsByRememberedValues() {
+
+        Map<String,String> expected = (Map<String,String>) DataManager.userObject.get("TransactionDetails");
+        System.out.println("Expected: " + expected);
+
+        MobileElement contentElement = x.createMobileElementByXpath("//android.view.ViewGroup[@resource-id=\"com.google.android.apps.docs:id/pdf_view\"]//android.view.ViewGroup[@content-desc]");
+        String contentRaw =contentElement.getAttribute("contentDescription");
+        String content = contentRaw.replaceAll("\\s+", " ").trim();
+        System.out.println("Content: " + content);
+        assertTrue(content.contains("Potvrda o izvršenoj transakciji važi bez potpisa i pečata"));
+        assertTrue(content.contains("Status Realizovan"));
+
+        //System.out.println("nlb date: "+ expected.get("nlb-date"));
+        //assertTrue(content.contains("Datum valute " + expected.get("nlb-date")));
+        //assertTrue(content.contains("Svrha\n" + expected.get("nlb-title")));
+
+    }
 }
