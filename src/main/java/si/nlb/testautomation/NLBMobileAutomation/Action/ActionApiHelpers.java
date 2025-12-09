@@ -292,6 +292,14 @@ public class ActionApiHelpers {
                     ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.SPACE));
                     break;
                 }
+                case '=': {
+                    ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.EQUALS));
+                    break;
+                }
+                case '@': {
+                    ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.AT));
+                    break;
+                }
             }
         }
     }

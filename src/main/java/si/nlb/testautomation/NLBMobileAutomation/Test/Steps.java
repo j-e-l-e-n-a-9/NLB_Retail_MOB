@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
+import javafx.util.Pair;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.Wait;
@@ -64,6 +65,7 @@ public class Steps {
     SelectByText tx = new SelectByText();
     SelectByXpath x = new SelectByXpath();
     SelectByClass cn = new SelectByClass();
+    private Pair<String, String> pairs;
 
     //region - App command -
     @Given("Go to APP")
@@ -4086,6 +4088,7 @@ public class Steps {
         String xPath = "(//*[@resource-id='nlb-card-container'])[1]";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
+
     }
 
     @And("Assert Product page for product with name from Excel {string} columnName {string}")
@@ -7948,5 +7951,262 @@ public class Steps {
         //assertTrue(content.contains("Datum valute " + expected.get("nlb-date")));
         //assertTrue(content.contains("Svrha\n" + expected.get("nlb-title")));
 
+    }
+
+
+    @And("Assert Filter icon is displayed")
+    public void assertFilterIconIsDisplayed() {
+        String xPath = "//android.view.View[@content-desc='Filters']//following-sibling::android.view.View[@resource-id='nlb-icon-button']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        assertTrue(element.isDisplayed());
+    }
+
+    @And("Assert Search field is displayed")
+    public void assertSearchFieldIsDisplayed() {
+        String searchFieldxPath = "//android.widget.EditText//android.widget.TextView[@text='Search...']";
+        MobileElement searchFieldElement = x.createMobileElementByXpath(searchFieldxPath);
+        assertTrue(searchFieldElement.isDisplayed());
+
+        String clearxPath = "//android.widget.ImageView[@content-desc=\"Clear search input\"]";
+        MobileElement clearSearchEelement = x.createMobileElementByXpath(clearxPath);
+        assertTrue(clearSearchEelement.isDisplayed());
+    }
+
+    @And("Search transactions by detail from excel {string} columnName {string}")
+    public void searchTransactionsByDetailFromExcelColumnName(String rowindex, String columnName) throws Throwable {
+        String detail = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        System.out.println("Detail: " + detail);
+        String searchFieldxPath = "//android.widget.EditText//android.widget.TextView[@text='Search...']";
+        MobileElement searchFieldElement = x.createMobileElementByXpath(searchFieldxPath);
+        hp.ClickOnElement(searchFieldElement);
+
+
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        hp.clickElement(elForEditText);
+
+        ActionApiHelpers.clearInputField(driver.findElement(elForEditText));
+        Character[] charObjectArray = Utilities.toCharacterArray(detail);
+        hp.pressKey(charObjectArray);
+
+    }
+
+
+    @And("Remember default number of transactions")
+    public void rememberDefaultNumberOfTransactions() throws Throwable{
+
+        List<Pair<String, String>> transactions = new ArrayList<>();
+
+        boolean end = false;
+
+        while (!end) {
+
+            // uvijek ponovo locirati sve kartice nakon svakog scrolla
+            List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
+            int beforeAdd = transactions.size();
+
+            for (MobileElement card : visibleCards) {
+
+                try {
+                    //MobileElement freshCard = (MobileElement) driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']")).get(i);
+
+                    String date = card.findElement(By.xpath(".//*[@resource-id='nlb-date']")).getText();
+                    String purpose = card.findElement(By.xpath(".//*[@resource-id='nlb-title']")).getText();
+
+                    Pair<String, String> newPair = new Pair<>(date, purpose);
+
+                    if (!transactions.contains(newPair)) {
+                        transactions.add(newPair);
+                    }
+
+                } catch (StaleElementReferenceException | NoSuchElementException stale) {
+                    continue;
+                }
+            }
+
+            if (transactions.size() == beforeAdd) {
+                end = true;
+            } else {
+                hp.scrollDown(driver);
+            }
+        }
+
+        for (Pair<String, String> pairs : transactions) {
+            System.out.println(pairs.getKey() + " - " + pairs.getValue());
+        }
+
+        DataManager.userObject.put("defaultTransactionsNumber", transactions.size());
+    }
+
+
+    @And("Assert there are default number of transactions")
+    public void assertThereAreDefaultNumberOfTransactions() {
+        int defNoTransactions = (int) DataManager.userObject.get("defaultTransactionsNumber");
+
+        List<Pair<String, String>> transactions = new ArrayList<>();
+
+        boolean end=false;
+        while(!end){
+
+            List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id=\"nlb-card-container\"]"));
+            int beforeAdd=transactions.size();
+
+            for(MobileElement card : visibleCards){
+
+                String date=card.findElement(By.xpath(".//*[@resource-id=\"nlb-date\"]")).getAttribute("text");
+                String purpose = card.findElement(By.xpath(".//*[@resource-id=\"nlb-title\"]")).getAttribute("text");
+                Pair<String,String> newPair = new Pair<>(date,purpose);
+
+                if(!transactions.contains(newPair)){
+                    transactions.add(newPair);
+                }
+            }
+
+            if(transactions.size()==beforeAdd){
+                end=true;
+            }else{
+                hp.scrollDown(driver);
+            }
+
+        }
+        for(Pair<String,String> pairs : transactions){
+            this.pairs = pairs;
+            System.out.println(pairs.getKey() + " - " + pairs.getValue());
+        }
+        int size=transactions.size();
+        assertTrue(defNoTransactions==size);
+
+    }
+
+
+    @And("Assert transactions are filtered by searchValue from column {string}")
+    public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) {
+
+        String searchValue = driver.findElement(By.xpath("//android.widget.EditText")).getText();
+        System.out.println("Search box value: " + searchValue);
+
+
+        String xPathFilter="";
+        switch (column) {
+            case "search_purpose":
+                xPathFilter = ".//*[@resource-id='nlb-title']";
+                break;
+
+            default:
+                throw new RuntimeException("Excel filter type not supported: " + searchValue);
+        }
+
+        List<String> transactions = new ArrayList<>();
+
+        boolean end = false;
+        while (!end) {
+
+            List<MobileElement> visibleCards =
+                    driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
+
+            int beforeAdd = transactions.size();
+
+            for (MobileElement card : visibleCards) {
+
+                String currentDetail = card.findElement(By.xpath(xPathFilter)).getText();
+                currentDetail=currentDetail.trim().toLowerCase();
+                System.out.println("Current detail: " + currentDetail);
+                assertTrue(currentDetail.contains(searchValue));
+                transactions.add(currentDetail);
+            }
+
+            if (transactions.size() == beforeAdd) {
+                end = true;
+            } else {
+                hp.scrollDown(driver);
+            }
+        }
+    }
+
+
+    @And("Click on Clear search")
+    public void clickOnClearSearch() throws Throwable {
+        String xPath = "//android.widget.ImageView[@content-desc=\"Clear search input\"]";
+        MobileElement element=x.createMobileElementByXpath(xPath);
+        hp.ClickOnElement(element);
+
+    }
+
+    @And("Search invalid filter {string}")
+    public void searchInvalidFilter(String input) throws Throwable {
+
+        String searchFieldxPath = "//android.widget.EditText//android.widget.TextView[@text='Search...']";
+        MobileElement searchFieldElement = x.createMobileElementByXpath(searchFieldxPath);
+        hp.ClickOnElement(searchFieldElement);
+
+
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        hp.clickElement(elForEditText);
+
+        ActionApiHelpers.clearInputField(driver.findElement(elForEditText));
+        Character[] charObjectArray = Utilities.toCharacterArray(input);
+        hp.pressKey(charObjectArray);
+        System.out.println("input: " + input);
+    }
+
+    @And("Assert error message for invalid search")
+    public void assertErrorMessageForInvalidSearch() {
+       String xPath = "//android.widget.TextView[@text=\"No results found. Adjust your values and try again.\"]";
+        int maxScrolls = 2;
+        boolean found = false;
+        WaitHelpers.waitForSeconds(7);
+        for (int i = 1; i <= maxScrolls; i++) {
+            try {
+                MobileElement element =(MobileElement) driver.findElement(By.xpath(xPath));
+                if (element.isDisplayed()) {
+                    found = true;
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            if (i < maxScrolls) {
+                hp.scrollDown(driver);
+            }
+        }
+
+        // Ako nije pronađen, fail
+        assertTrue("Element se nije pojavio ni posle skrolovanja",found);
+    }
+
+
+    @And("Search invalid filter emoji")
+    public void searchInvalidFilterEmoji() throws Throwable {
+        MobileElement searchField = (MobileElement) driver.findElement(By.xpath("//android.widget.EditText"));
+        searchField.click();
+        Thread.sleep(500);
+        searchField.sendKeys("😊");
+
+
+    }
+    @And("Assert transaction list is sorted by amount from {string} to {string}")
+    public void assertTransactionListIsSortedToMatchConditions(String amountTo, String amountFrom) throws Exception {{
+
+        Double amountTO=Double.valueOf(amountTo);
+        Double amountFROM=Double.valueOf(amountFrom);
+
+        List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
+
+        int size = listAmount.size();
+        for (int i = 0; i < size; i++) {
+            String amountStr = listAmount.get(i);
+            // Normalizacija amount-a
+            String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
+            Float amount = Float.valueOf(normalized);
+
+            if (amount < amountTO || amount > amountFROM) {
+                System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
+                Assert.fail();
+            }
+
+
+
+
+        }
+    }
     }
 }
