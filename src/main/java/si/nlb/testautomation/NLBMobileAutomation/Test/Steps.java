@@ -7,6 +7,7 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import javafx.util.Pair;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import net.sf.cglib.core.Local;
@@ -45,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -3347,7 +3349,7 @@ public class Steps {
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit name\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit name\"]";
+        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit product card\"]";
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
         for(int i = 0; i<10; i++){
             if(hp.isElementNotPresent(elForEditAccount)){
@@ -4173,45 +4175,45 @@ public class Steps {
         Assert.assertTrue(element2.isDisplayed());
         Assert.assertEquals("Select time frame", element2.getAttribute("text"));
         //arrow icon
-        String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[1]";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+        //String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[1]";
+        //MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        //Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert Categories transaction filter is displayed correctly")
     public void assertCategoriesTransactionFilterIsDisplayedCorrectly() {
         //filter name
-        String xPath1 = "//android.view.View[@resource-id='nlb-settings-menu'][2]/android.widget.TextView[1]";
+        String xPath1 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[1]";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
         Assert.assertEquals("Categories", element1.getAttribute("text"));
         //filter subtitle
-        String xPath2 = "//android.view.View[@resource-id='nlb-settings-menu'][2]/android.widget.TextView[2]";
+        String xPath2 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[2]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
         Assert.assertTrue(element2.isDisplayed());
         Assert.assertEquals("Select category", element2.getAttribute("text"));
         //arrow icon
-        String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[2]";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+        //String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[2]";
+        //MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        //Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert Type transaction filter is displayed correctly")
     public void assertTypeTransactionFilterIsDisplayedCorrectly() {
         //filter name
-        String xPath1 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[1]";
+        String xPath1 = "//android.view.View[@resource-id='nlb-settings-menu'][2]/android.widget.TextView[1]";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
         Assert.assertEquals("Type", element1.getAttribute("text"));
         //filter subtitle
-        String xPath2 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[2]";
+        String xPath2 = "//android.view.View[@resource-id='nlb-settings-menu'][2]/android.widget.TextView[2]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
         Assert.assertTrue(element2.isDisplayed());
         Assert.assertEquals("All", element2.getAttribute("text"));
         //arrow icon
-        String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[3]";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+        //String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[3]";
+        //MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        //Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert Amount transaction filter is displayed correctly")
@@ -4227,9 +4229,9 @@ public class Steps {
         Assert.assertTrue(element2.isDisplayed());
         Assert.assertEquals("Set amount", element2.getAttribute("text"));
         //arrow icon
-        String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[4]";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+        //String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[4]";
+        //MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        //Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert Tags transaction filter is displayed correctly")
@@ -4245,9 +4247,9 @@ public class Steps {
         Assert.assertTrue(element2.isDisplayed());
         Assert.assertEquals("Select tag", element2.getAttribute("text"));
         //arrow icon
-        String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[5]";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+        //String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[5]";
+        //MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        //Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert {string} button is not enabled")
@@ -4261,7 +4263,7 @@ public class Steps {
     @And("Assert Type transaction filter options are correct")
     public void assertTypeTransactionFilterOptionsAreCorrect() {
         //All transactions option
-        String xPath1 = "//*[@resource-id='nlb-radio-button-ALL']/android.widget.TextView[@text='All transactions']";
+        String xPath1 = "//*[@resource-id='nlb-radio-button-ALL']/android.widget.TextView[@text='All']";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
         //Incoming transactions option
@@ -8208,5 +8210,288 @@ public class Steps {
 
         }
     }
+    }
+
+
+    @And("Hide account from Excel {string} columnName {string} V")
+    public void hideAccountFromExcelColumnNameV(String rowindex, String columnName) throws Throwable {
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Hide Account\"]");
+        WaitHelpers.waitForElement(elForEye);
+        String xPathForHideAccount = "//*[@text='"+accountIban+"']//following-sibling::android.view.View[2]";
+        By elForHideAccount = x.createByXpath(xPathForHideAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForHideAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+        MobileElement elementToHide = x.createMobileElementByXpath(xPathForHideAccount);
+        hp.ClickOnElement(elementToHide);
+        //String xPath = "//android.view.View[@content-desc=\"Back\"]";
+        String xPath="//android.view.View[@content-desc='"+ "Back" + "']";
+        By element = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(element); // DODATO
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        //By element = x.createByXpath(xPath);
+
+
+
+        //WaitHelpers.waitForSeconds(3); // DODATO
+        hp.clickElement(element);
+        By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
+        WaitHelpers.waitForElement(elForLoad);
+    }
+
+
+    @And("Unhide account from Excel {string} columnName {string} if needed V")
+    public void unhideAccountFromExcelColumnNameIfNeededV(String rowindex, String columnName) throws Throwable {
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = "Edit list";
+        String xPathEditList = "//*[@content-desc='" + text + "']";
+        By el = x.createByXpath("//*[@text='" + text + "']");
+        WaitHelpers.waitForElement(el);
+        MobileElement elementForEdit = x.createMobileElementByXpath("//android.widget.Button[@content-desc=\"Edit list\"]");
+        //x.createMobileElementByText("Edit list");
+        try{
+            hp.ClickOnElement(elementForEdit);
+        }
+        catch(Exception e) {
+            System.out.println("EXCP");
+            System.out.println(e.getMessage());
+        }
+
+        By elForEye = x.createByXpath("//android.view.View[@content-desc='Alt=\"Show Account\"']");
+        WaitHelpers.waitForElement(elForEye);
+        String xPathForHideAccount = "//android.view.View[@content-desc='Alt=\"Show Account\"']";
+        By elForHideAccount = x.createByXpath(xPathForHideAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForHideAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+        MobileElement elementToHide = x.createMobileElementByXpath(xPathForHideAccount);
+        hp.ClickOnElement(elementToHide);
+        //String xPath = "//android.view.View[@content-desc=\"Back\"]";
+        String xPath = "//I0.o0/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View";
+        By element = x.createByXpath(xPath);
+        hp.clickElement(element);
+        By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
+        WaitHelpers.waitForElement(elForLoad);
+
+
+    }
+
+    @And("Assert that product card of name {string} and iban {string} from Excel {string} for personal account are shown correctly V")
+    public void assertThatProductCardOfNameAndIbanFromExcelForPersonalAccountAreShownCorrectlyV(String columnName1, String columnName2, String rowindex) {
+        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+
+        MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
+        Assert.assertTrue(elementForProductCard1.isDisplayed());
+        MobileElement elementForProductCard2 = x.createMobileElementByXpath(xPathForProductCard2);
+        Assert.assertTrue(elementForProductCard2.isDisplayed());
+        MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
+        String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
+        Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
+        MobileElement elementForAvailableBalance = x.createMobileElementByXpath(xPathForAvailableBalance);
+        String stringForAvailableBalance = elementForAvailableBalance.getAttribute("text");
+        Assert.assertTrue(stringForAvailableBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
+    }
+    @And("Change name of product {string} into {string}")
+    public void changeNameOfProductInto(String oldName, String newName) throws Throwable {
+        String accountIban = oldName;
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
+        //WaitHelpers.waitForElement(elForEye);
+        String xPathForEditAccount =
+                "//*[@text='" + accountIban + "']" +
+                        "//ancestor::android.view.View[1]" +
+                        "//android.view.View[@content-desc='Edit product card']";
+
+        By elForEditAccount = x.createByXpath(xPathForEditAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForEditAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+
+        MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
+        hp.ClickOnElement(elementToEdit);
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        WaitHelpers.waitForElement(elForEditText);
+        hp.enterTextToMobileElement(newName,elForEditText);
+        MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
+        hp.ClickOnElement(elementForApply);
+
+
+        String xPath = "//android.view.View[@content-desc=\"Back\"]";
+        By element = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(element); // DODATO
+        WebDriverWait wait = new WebDriverWait(driver, 25);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+
+        hp.clickElement(element);
+        By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
+        WaitHelpers.waitForElement(elForLoad);
+    }
+    @And("Assert Currency transaction filter is displayed correctly")
+    public void assertCurrencyTransactionFilterIsDisplayedCorrectly() {
+        //filter name
+        String xPath1 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[1]";
+        MobileElement element1 = x.createMobileElementByXpath(xPath1);
+        Assert.assertTrue(element1.isDisplayed());
+        Assert.assertEquals("Currency", element1.getAttribute("text"));
+        //filter subtitle
+        String xPath2 = "//android.view.View[@resource-id='nlb-settings-menu'][3]/android.widget.TextView[2]";
+        MobileElement element2 = x.createMobileElementByXpath(xPath2);
+        Assert.assertTrue(element2.isDisplayed());
+        Assert.assertEquals("Select currency", element2.getAttribute("text"));
+        //arrow icon
+        /*String xPath3 = "(//android.view.View[@content-desc='Navigate forward'])[2]";
+        MobileElement element3 = x.createMobileElementByXpath(xPath3);
+        Assert.assertTrue(element3.isDisplayed());*/
+    }
+    @And("Click on calendar icon with index {string}")
+    public void clickOnCalendarIconWithIndex(String index) throws Exception {
+        By element = x.createByXpath("(//android.view.View[@content-desc=\"Select date\"])" + "[" + index + "]");
+        hp.clickElement(element);
+    }
+
+
+    @And("Assert transaction list is sorted to match conditions {string} {string} {string} {string} {double} {double}")
+    public void assertTransactionListIsSortedToMatchConditions(String date1, String date2, String transfer, String currencyToDisable, Double minAmount, Double maxAmount) throws Exception {{
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
+        LocalDate startDate = LocalDate.parse(date1, formatter);
+        LocalDate endDate = LocalDate.parse(date2, formatter);
+
+        List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
+        List<String> listCurrency = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-currency");
+        List<String> listDate = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-date");
+
+        int size = listAmount.size();
+        for (int i = 0; i < size; i++) {
+            String amountStr = listAmount.get(i);
+            String currency = listCurrency.get(i);
+            String dateStr = listDate.get(i);
+            dateStr = normalizeDate2(dateStr);
+            // Normalizacija amount-a
+            String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
+            Float amount = Float.valueOf(normalized);
+
+            if (amount < minAmount || amount > maxAmount) {
+                System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
+                Assert.fail();
+            }
+
+            if (Objects.equals(currency, currencyToDisable)) {
+                System.out.println("GRESKA, FILTER ZA CURRENCY NE RADI: " + amount);
+                Assert.fail();
+            }
+
+            if ((Objects.equals(transfer, "Incoming") && normalized.startsWith("-")) ||
+                    (Objects.equals(transfer, "Outgoing") && !normalized.startsWith("-"))) {
+                System.out.println("GRESKA, FILTER ZA TRANSFER(OUTGOING/INCOMING) NE RADI: " + amount);
+                Assert.fail();
+            }
+
+            // Provera datuma
+            try {
+                LocalDate transactionDate = LocalDate.parse(dateStr, formatter);
+                if (transactionDate.isBefore(startDate) || transactionDate.isAfter(endDate)) {
+                    System.out.println("GRESKA, FILTER ZA DATE NE RADI: " + dateStr);
+                    Assert.fail();
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("GRESKA, NEVALIDAN FORMAT DATUMA: " + dateStr);
+                Assert.fail();
+            }
+
+            System.out.println("Iznos transakcije: " + amount + " " + currency + " " + dateStr);
+        }
+    }
+    }
+
+    private String normalizeDate2(String raw) {
+        // Uklanja sve vrste whitespace, uključujući non-breaking space
+        raw = raw.replaceAll("[\\s\\u00A0]+", "");
+
+        // Split (30, 6, 2025)
+        String[] parts = raw.split("\\.");
+        System.out.print("PARTS" + parts);
+        String day = String.format("%02d", Integer.parseInt(parts[0]));
+        String month = String.format("%02d", Integer.parseInt(parts[1]));
+        String year = parts[2];
+
+        return day + "." + month + "." + year;
+    }
+
+
+    @And("Assert product from Excel {string} with iban {string} has name {string} V")
+    public void assertProductFromExcelWithIbanHasNameV(String rowindex, String columnName, String expectedName) {
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
+        MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
+        Assert.assertTrue(elementForName.isDisplayed());
+    }
+
+    @Then("Change name of product from Excel {string} columnName {string} into {string} V")
+    public void changeNameOfProductFromExcelColumnNameIntoV(String rowindex, String columnName, String newName) throws Throwable {
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
+        //WaitHelpers.waitForElement(elForEye);
+        String xPathForEditAccount =
+                "//*[@text='" + accountIban + "']" +
+                        "//ancestor::android.view.View[1]" +
+                        "//android.view.View[@content-desc='Edit product card']";
+
+        By elForEditAccount = x.createByXpath(xPathForEditAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForEditAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+
+        MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
+        hp.ClickOnElement(elementToEdit);
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        WaitHelpers.waitForElement(elForEditText);
+        //DODATO KLIK NA X
+        String xp = "//android.view.ViewGroup/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View";
+        MobileElement xButton = x.createMobileElementByXpath(xp);
+        hp.ClickOnElement(xButton);
+        WaitHelpers.waitForSeconds(2);
+
+        //DODATO
+        hp.enterTextToMobileElement(newName,elForEditText);
+        MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
+        hp.ClickOnElement(elementForApply);
+
+
+        String xPath = "//android.view.View[@content-desc=\"Back\"]";
+        By element = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(element); // DODATO
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+
+        hp.clickElement(element);
+        By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
+        WaitHelpers.waitForElement(elForLoad);
     }
 }

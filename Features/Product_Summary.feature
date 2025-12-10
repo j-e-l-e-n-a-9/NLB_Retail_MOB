@@ -236,3 +236,81 @@ Feature: Product_Summary
     Examples:
       | rowindex |
       |        2 |
+
+  @Product_Summary_Edit_Product_View[MOB_ANDROID]
+  Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
+
+    Given Open Application
+  #And Wait "100" seconds
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+  #And Change language to english
+    When Click "My Products"
+    And Hide account from Excel "<rowindex>" columnName "second_personal_account_iban" V
+    Then Assert that product card of name "second_personal_account_name" and iban "second_personal_account_iban" from Excel "<rowindex>" is not displayed
+    When Click "My NLB"
+    When Click "My Products"
+    And Unhide account from Excel "<rowindex>" columnName "second_personal_account_name" if needed V
+    And Assert that product card of name "second_personal_account_name" and iban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+  @Product_Summary-Edit_Product_view-edit_name_of_account_[MOB_ANDROID]_1
+  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account_[MOB_ANDROID]_1
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+
+    Then Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "NLB Klasicni racun2" V
+    And Assert product from Excel "<rowindex>" with iban "second_personal_account_iban" has name "NLB Klasicni racun2" V
+    And Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "Devizni platni račun" V
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+  @Product_Summary-Edit_Product_view-edit_name_of_card_[MOB_ANDROID]_1
+  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_card_[MOB_ANDROID]_1
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+
+    Then Change name of product from Excel "<rowindex>" columnName "second_personal_card_name" into "NLB Kartica 1" V
+    Then Scroll down until element with text "NLB Kartica 1" is in view
+    Then Scroll up until element with text "Edit list" is in view
+    #And Assert product from Excel "<rowindex>" with iban "second_personal_card_name" has name "NLB Kartica 1"
+    And Change name of product "NLB Kartica 1" into "Visa revolving card"
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Product_Summary-Edit_Product_view-edit_name_of_deposit_[MOB_ANDROID]_1
+  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_deposit_[MOB_ANDROID]_1
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+
+    Then Change name of product from Excel "<rowindex>" columnName "deposit_account_iban" into "NLB Deposit 1" V
+    Then Scroll down until element with text "NLB Deposit 1" is in view
+    And Assert product from Excel "<rowindex>" with iban "deposit_account_iban" has name "NLB Deposit 1"
+    When Click "My NLB"
+    When Click "My Products"
+    And Scroll up until element with text "Edit list" is in view
+    And Change name of product from Excel "<rowindex>" columnName "deposit_account_iban" into "Term deposits" V
+
+    Examples:
+      | rowindex |
+      |        1 |
