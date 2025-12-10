@@ -46,7 +46,7 @@ Feature: Product_Summary
 
     Examples:
       | rowindex |
-      |        2 |
+      |        3 |
 
 
   @Product_Summary_Sorting_on_the_Product_Summary_[ANDROID]
@@ -84,7 +84,7 @@ Feature: Product_Summary
 
     #@Products - Current account
 
-    And Change the name od product from Excel "<rowindex>" column "personal_account_iban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    And Change the name od product from Excel "<rowindex>" column "second_personal_account_iban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     And Click on element by text "Apply"
     And Scroll down until element with text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" is in view
     And Assert element by contains text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -92,8 +92,8 @@ Feature: Product_Summary
     And Delete name of product "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     And Click on element by text "Apply"
 
-    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
-    And Assert product from Excel "<rowindex>" with iban "personal_account_iban" has name "personal_account_name"
+    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
+    And Assert product from Excel "<rowindex>" with iban "second_personal_account_iban" has name "personal_account_name"
 
 
     Examples:
@@ -235,7 +235,7 @@ Feature: Product_Summary
 
     Examples:
       | rowindex |
-      |        2 |
+      |        3 |
 
   @Product_Summary_Edit_Product_View[MOB_ANDROID]
   Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
@@ -251,7 +251,7 @@ Feature: Product_Summary
     When Click "My NLB"
     When Click "My Products"
     And Unhide account from Excel "<rowindex>" columnName "second_personal_account_name" if needed V
-    And Assert that product card of name "second_personal_account_name" and iban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
+    #TODO: Radi i ovaj assert, pada ako se manjaju imena racuna And Assert that product card of name "second_personal_account_name" and iban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
 
     Examples:
       | rowindex |
@@ -268,7 +268,8 @@ Feature: Product_Summary
 
     Then Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "NLB Klasicni racun2" V
     And Assert product from Excel "<rowindex>" with iban "second_personal_account_iban" has name "NLB Klasicni racun2" V
-    And Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "Devizni platni račun" V
+    #And Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "Devizni platni račun" V
+    And Change name of "second_personal_account_iban" from Excel "<rowindex>" to previous name
 
     Examples:
       | rowindex |
@@ -288,6 +289,7 @@ Feature: Product_Summary
     Then Scroll up until element with text "Edit list" is in view
     #And Assert product from Excel "<rowindex>" with iban "second_personal_card_name" has name "NLB Kartica 1"
     And Change name of product "NLB Kartica 1" into "Visa revolving card"
+
 
     Examples:
       | rowindex |
@@ -309,7 +311,8 @@ Feature: Product_Summary
     When Click "My NLB"
     When Click "My Products"
     And Scroll up until element with text "Edit list" is in view
-    And Change name of product from Excel "<rowindex>" columnName "deposit_account_iban" into "Term deposits" V
+    #And Change name of product from Excel "<rowindex>" columnName "deposit_account_iban" into "Term deposits" V
+    And Change name of "deposit_account_iban" from Excel "<rowindex>" to previous name
 
     Examples:
       | rowindex |

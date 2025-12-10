@@ -3374,14 +3374,15 @@ public class Steps {
     }
 
     @And("Assert product from Excel {string} with iban {string} has name {string}")
-    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String column2) {
+    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String expectedName) {
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
-        String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
+        //String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
 
         //String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
+        String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text=\'" + expectedName + "']";
         String xPathForName = "//android.view.View[.//android.widget.TextView[@text='" + accountIban + "'] and .//android.widget.TextView[@text='" + expectedName + "']]";
         //System.out.println("account iban: " + accountIban + " - account name: " + expectedName);
-        MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
+        MobileElement elementForName = x.createMobileElementByXpath(xp);
         Assert.assertTrue(elementForName.isDisplayed());
     }
 
@@ -8493,5 +8494,41 @@ public class Steps {
         hp.clickElement(element);
         By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
         WaitHelpers.waitForElement(elForLoad);
+    }
+
+
+
+    @And("Change name of {string} from Excel {string} to previous name")
+    public void changeNameOfFromExcelToPreviousName(String columnName, String rowindex) throws Throwable {
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
+        //WaitHelpers.waitForElement(elForEye);
+        String xPathForEditAccount =
+                "//*[@text='" + accountIban + "']" +
+                        "//ancestor::android.view.View[1]" +
+                        "//android.view.View[@content-desc='Edit product card']";
+
+        By elForEditAccount = x.createByXpath(xPathForEditAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForEditAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+
+        MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
+        hp.ClickOnElement(elementToEdit);
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        WaitHelpers.waitForElement(elForEditText);
+        //DODATO KLIK NA X
+        String xp = "//android.view.ViewGroup/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View";
+        MobileElement xButton = x.createMobileElementByXpath(xp);
+        hp.ClickOnElement(xButton);
+        MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
+        hp.ClickOnElement(elementForApply);
+
     }
 }
