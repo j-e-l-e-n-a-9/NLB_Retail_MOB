@@ -322,9 +322,9 @@ Feature: Product_Summary
 
     When Click "My Products"
 
-    Then Change name of product from Excel "<rowindex>" columnName "deposit_account_bban" into "NLB Deposit 1" V
+    Then Change name of product from Excel "<rowindex>" columnName "term_deposit_bban" into "NLB Deposit 1" V
     Then Scroll down until element with text "NLB Deposit 1" is in view
-    And Assert product from Excel "<rowindex>" with bban "deposit_account_bban" has name "NLB Deposit 1"
+    And Assert product from Excel "<rowindex>" with bban "term_deposit_bban" has name "NLB Deposit 1"
     When Click "My NLB"
     When Click "My Products"
     Then Scroll up until element with text "Edit list" is in view
