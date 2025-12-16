@@ -48,8 +48,8 @@ Feature: Product_Summary
       | rowindex |
       |        3 |
 
-  @Term_Deposits_Lists_[MOB_ANDROID]
-  Scenario Outline: Term_Deposits_Lists_[MOB_ANDROID]
+  @Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
