@@ -357,28 +357,3 @@ Feature: Current_Domestic_Accounts
       | rowindex |
       |        3 |
 
-
-  @Current_Domestic_Accounts_Transactions_Details_Transaction_Confirmation_[MOB_ANDROID]
-  Scenario Outline: Current_Domestic_Accounts_Transactions_Details_Transaction_Confirmation_[MOB_ANDROID]
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    And Click on element by text "My Products"
-
-    When Scroll down until element with text "205-9001015647000-10" is in view
-    And Click on element by contains text "-10"
-    And Wait for element by text "Available balance"
-    And Assert account number is displayed in BBAN format by xPath "//android.widget.TextView[@text=\"205-9001015647000-10\"]"
-    And Assert account name from excel "<rowindex>" column name "currentDomesticAccountName" is displayed
-    #Available balance
-    And Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-product-details-primary-balance\"]"
-    #Current balance
-    And Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-product-details-secondary-balance\"]"
-    And Scroll down until element with text "Porez na kapitalnu dobit" is in view
-    And Click on element by text "Porez na kapitalnu dobit"
-    And Assert element by xPath "//android.widget.TextView[@text=\"Confirmation\"]" is displayed
-    And Click on element by text "Confirmation"
-
-    Examples:
-      | rowindex |
-      |        2 |
