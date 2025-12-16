@@ -4070,6 +4070,7 @@ public class Steps {
     @And("Click on Product from Excel {string} columnName {string} in My Products")
     public void clickOnProductFromExcelColumnNameInMyProducts(String rowindex, String columnName) throws Exception {
         String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+
         WaitHelpers.waitForSeconds(3);
         String xPath = "//android.widget.TextView[@resource-id='nlb-value-product-account-id' and @text = '" + text + "']";
         By el = By.xpath(xPath);

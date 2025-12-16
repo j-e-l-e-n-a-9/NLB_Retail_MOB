@@ -257,7 +257,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      | 2        |
+      | 4        |
 
   @Current_Accounts-Transactions-Filter-Clear-Filter[MOB_ANDROID]
   Scenario Outline: Currente_Accounts-Transactions-Filter-Clear-Filter[MOB_ANDROID]
@@ -287,7 +287,7 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "Incoming transactions" is not displayed
     Examples:
       | rowindex |
-      | 2        |
+      | 4        |
 
 
   @Current_Domestic_Accounts_Transactions_Filter_By_Date_CustomDateRange_[MOB_ANDROID]
