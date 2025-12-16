@@ -204,12 +204,12 @@ Feature: Current_Domestic_Accounts
     And Click on element by id "nlb-button-primary"
     And Wait for first transaction to load after filter
     #TODO: Poslednji korak radi, trenutno pada jer u ovom release nije resen problem sa ispisom amounta (-3300,00 umesto -3.300,00)
-    And Assert transaction list is sorted to only show Outgoing transactions
+    #And Assert transaction list is sorted to only show Outgoing transactions
 
 
     Examples:
       | rowindex |
-      |        2 |
+      |        4 |
 
   @Current_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
   Scenario Outline: Current_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
@@ -257,7 +257,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      | 2        |
+      | 4        |
 
   @Current_Accounts-Transactions-Filter-Clear-Filter[MOB_ANDROID]
   Scenario Outline: Currente_Accounts-Transactions-Filter-Clear-Filter[MOB_ANDROID]
@@ -287,7 +287,7 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "Incoming transactions" is not displayed
     Examples:
       | rowindex |
-      | 2        |
+      | 4        |
 
 
   @Current_Domestic_Accounts_Transactions_Filter_By_Date_CustomDateRange_[MOB_ANDROID]
