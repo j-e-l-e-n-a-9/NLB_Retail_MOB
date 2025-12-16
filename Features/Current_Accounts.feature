@@ -2,7 +2,7 @@ Feature: Current_Accounts
 
 
 
-  @@Current_Accounts-Transactions_Details-Create_Confirmation_[MOB_ANDROID]
+  @Current_Accounts-Transactions_Details-Create_Confirmation_[MOB_ANDROID]
   Scenario Outline: Current_Accounts-Transactions_Details-Create_Confirmation_[MOB_ANDROID]
 
     Given Open Application

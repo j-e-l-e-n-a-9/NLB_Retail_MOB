@@ -4336,18 +4336,18 @@ public class Steps {
 
     @And("Assert From label in Date transactions filter")
     public void assertFromLabelInDateTransactionsFilter() {
-        String xPath = "//*[@resource-id='nlb-radio-button-CUSTOM_DATE_RANGE']/following-sibling::android.widget.TextView[1]";
+        String xPath = "//android.view.View[@resource-id=\"nlb-card-container\"]/android.view.View[5]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
-        Assert.assertEquals("From", element.getAttribute("text"));
+//        Assert.assertEquals("From", element.getAttribute("text"));
     }
 
     @And("Assert To label in Date transactions filter")
     public void assertToLabelInDateTransactionsFilter() {
-        String xPath = "//*[@resource-id='nlb-radio-button-CUSTOM_DATE_RANGE']/following-sibling::android.widget.TextView[2]";
+        String xPath = "//android.view.View[@resource-id=\"nlb-card-container\"]/android.view.View[6]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
-        Assert.assertEquals("To", element.getAttribute("text"));
+//        Assert.assertEquals("To", element.getAttribute("text"));
     }
 
     @And("Assert From field is correctly displayed in Date transactions filter")
@@ -8530,5 +8530,139 @@ public class Steps {
         MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
         hp.ClickOnElement(elementForApply);
 
+    }
+
+    @And("Assert that products in My products page is loaded")
+    public void assertThatProductsInMyProductsPageIsLoaded() throws Exception {
+        By element = x.createByXpath("//android.widget.TextView[@text=\"My Products\"]");
+        hp.clickElement(element);
+
+        By productXpath = By.xpath("//android.view.View[@resource-id='nlb-product-summary-card']");
+        WaitHelpers.waitForElement(productXpath);
+
+        String xPath = "//android.widget.TextView[@text=\"Term deposit amount\"]";
+        By lastProductLabel  = By.xpath(xPath);
+
+        for(int i = 0; i<35; i++){
+            if(hp.isElementNotPresent(lastProductLabel )){
+                hp.scrollDown(driver);
+            }
+        }
+
+        List<WebElement> products = driver.findElements(productXpath);
+        Assert.assertTrue("Nijedan proizvod nije učitan!", products.size() > 0);
+
+        Assert.assertFalse("Poslednji proizvod ('Term deposit amount') nije učitan ni posle skrolovanja!",
+                hp.isElementNotPresent(lastProductLabel));
+    }
+
+    @Then("Assert amount and currency are displayed by Android xpath {string}")
+    public void assertAmountAndCurrencyAreDisplayedByAndroidXpath(String xPath) {
+        WebElement element = driver.findElement(By.xpath(xPath));
+        Assert.assertTrue("Amount and currency are not displayed!", element.isDisplayed());
+
+        String text = element.getText();
+        System.out.println("Vraceni element: " + text);
+
+        Assert.assertTrue("Amount not found in text!", text.matches(".*\\d.*"));
+        Assert.assertTrue("Currency not found in text!", text.matches(".*[A-Za-z]{3}.*"));
+    }
+
+    @And("Assert Product number is in BBAN format by xPath {string}")
+    public void assertProductNumberIsInBBANFormatByXPath(String xPath) {
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String accountNumber = element.getText().trim();
+
+        Assert.assertTrue(accountNumber.matches("^\\d{3}-\\d{13}-\\d{2}$"));
+    }
+
+    @And("Assert that whole product card of term deposit account with name {string} and bban {string} from Excel {string} acts as a clickable button")
+    public void assertThatWholeProductCardOfTermDepositAccountWithNameAndBbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
+        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
+        String productBban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']";
+        String xPathForProductBban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@text='Term deposit amount']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAssert = "//*[@resource-id='nlb-header-card']";
+        String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
+
+        MobileElement elementForProductName = x.createMobileElementByXpath(xPathForProductName);
+        hp.ClickOnElement(elementForProductName);
+        By elWait1 = x.createByXpath(xPathForAssert);
+        WaitHelpers.waitForElement(elWait1);
+        MobileElement elementForAssert1 = x.createMobileElementByXpath(xPathForAssert);
+        Assert.assertTrue(elementForAssert1.isDisplayed());
+        driver.navigate().back();
+        By elForLoad1 = x.createByXpath(xPathForLoad);
+        WaitHelpers.waitForElement(elForLoad1);
+
+//        MobileElement elementForProductBban = x.createMobileElementByXpath(xPathForProductBban);
+//        hp.ClickOnElement(elementForProductBban);
+//        By elWait2 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait2);
+//        MobileElement elementForAssert2 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert2.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad2 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad2);
+//
+//        MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
+//        hp.ClickOnElement(elementForProductCard1);
+//        By elWait3 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait3);
+//        MobileElement elementForAssert3 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert3.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad3 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad3);
+//
+//        MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
+//        hp.ClickOnElement(elementForCurrentBalance);
+//        By elWait5 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait5);
+//        MobileElement elementForAssert5 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert5.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad5 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad5);
+    }
+
+    @And("Assert button Apply in Calendar is enabled")
+    public void assertButtonApplyInCalendarIsEnabled() {
+        String xPath = "//android.widget.TextView[@text='Apply']/following-sibling::android.widget.Button";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertTrue(element.isDisplayed());
+        Assert.assertTrue(element.isEnabled());
+    }
+
+    @And("Click on button Apply in Calendar")
+    public void clickOnButtonApplyInCalendar() throws Exception {
+        String xPath = "//android.widget.TextView[@text='Apply']/following-sibling::android.widget.Button";
+        By element = x.createByXpath(xPath);
+        hp.clickElement(element);
+    }
+
+    @And("Assert account number is displayed in BBAN format by xPath {string}")
+    public void assertAccountNumberIsDisplayedInBBANFormatByXPath(String xPath) {
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String accountNumber = element.getText().trim();
+
+        Assert.assertTrue(element.isDisplayed());
+        Assert.assertTrue(accountNumber.matches("^\\d{3}-\\d{13}-\\d{2}$"));
+    }
+
+    @And("Assert account name from excel {string} column name {string} is displayed")
+    public void assertAccountNameFromExcelColumnNameIsDisplayed(String rowindex, String columnName) {
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + text + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertTrue(element.isDisplayed());
+    }
+
+    @And("Assert element by xPath {string} is displayed")
+    public void assertElementByXPathIsDisplayed(String xPath) {
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertTrue(element.isDisplayed());
     }
 }

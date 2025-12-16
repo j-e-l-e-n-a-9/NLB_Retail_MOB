@@ -288,3 +288,97 @@ Feature: Current_Domestic_Accounts
     Examples:
       | rowindex |
       | 2        |
+
+
+  @Current_Domestic_Accounts_Transactions_Filter_By_Date_CustomDateRange_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts_Transactions_Filter_By_Date_CustomDateRange_[MOB_ANDROID]
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    And Wait for first transaction to load
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Assert list of element by id "nlb-item-row" is displayed
+    And Assert Transaction filter button in Product
+    And Click Transaction filter button in Product
+    And Wait first Transaction filter
+
+    And Assert screen header is "Transaction filter"
+    And Assert back button in screen "Transaction filter"
+    And Assert Date transaction filter is displayed correctly
+    And Assert Type transaction filter is displayed correctly
+    And Assert Currency transaction filter is displayed correctly
+    And Assert Amount transaction filter is displayed correctly
+    And Assert "Apply" button is not enabled
+
+    And Click on element by text "Date"
+    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+    And Assert screen header is "Date"
+    And Assert back button in screen "Date"
+    And Assert element "nlb-radio-button-LAST_7_DAYS" by id
+    And Assert element "nlb-radio-button-THIS_MONTH" by id
+    And Assert element "nlb-radio-button-LAST_MONTH" by id
+    And Assert element "nlb-radio-button-CUSTOM_DATE_RANGE" by id
+    And Assert element "nlb-input-date-from-click-area" by id
+    And Assert element "nlb-input-date-to-click-area" by id
+    And Assert From label in Date transactions filter
+    And Assert To label in Date transactions filter
+    And Assert From field is correctly displayed in Date transactions filter
+    And Assert To field is correctly displayed in Date transactions filter
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+    And Assert "Apply" button primary is enabled
+
+    When Click on element by id "nlb-input-date-from-click-area"
+    And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    And Assert button Cancel in Calendar is enabled
+    And Assert button Apply in Calendar is enabled
+    And Click on button Apply in Calendar
+    And Assert From field in Date transactions filter has date year 2025 month 5 day 8
+
+    And Click on element by id "nlb-input-date-to-click-area"
+    And Click on date in Calendar with year 2025 month 7 day 8 and assert that it is shown correctly
+    And Assert button Cancel in Calendar is enabled
+    And Assert button Apply in Calendar is enabled
+    And Click on button Apply in Calendar
+    And Assert To field in Date transactions filter has date year 2025 month 7 day 8
+
+    And Click on element by id "nlb-button-primary"
+    And Assert subtitle of Transaction filter Date is correct for dates year 2025 month 5 day 8 and year 2025 month 7 day 8
+    And Assert "Apply" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by text "Apply"
+    And Wait for first transaction to load after filter
+
+    Then Assert transactions dates are between dates year 2025 month 5 day 8 and year 2025 month 7 day 8
+
+    Examples:
+      | rowindex |
+      |        3 |
+
+
+  @Current_Domestic_Accounts_Transactions_Details_Transaction_Confirmation_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts_Transactions_Details_Transaction_Confirmation_[MOB_ANDROID]
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+
+    When Scroll down until element with text "205-9001015647000-10" is in view
+    And Click on element by contains text "-10"
+    And Wait for element by text "Available balance"
+    And Assert account number is displayed in BBAN format by xPath "//android.widget.TextView[@text=\"205-9001015647000-10\"]"
+    And Assert account name from excel "<rowindex>" column name "currentDomesticAccountName" is displayed
+    #Available balance
+    And Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-product-details-primary-balance\"]"
+    #Current balance
+    And Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-product-details-secondary-balance\"]"
+    And Scroll down until element with text "Porez na kapitalnu dobit" is in view
+    And Click on element by text "Porez na kapitalnu dobit"
+    And Assert element by xPath "//android.widget.TextView[@text=\"Confirmation\"]" is displayed
+    And Click on element by text "Confirmation"
+
+    Examples:
+      | rowindex |
+      |        2 |
