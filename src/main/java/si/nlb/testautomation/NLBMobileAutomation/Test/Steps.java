@@ -905,6 +905,7 @@ public class Steps {
     @And("Scroll until element with text from excel {string} columnName {string} is in view")
     public void scrollUntilElementWithTextFromExcelColumnNameIsInView(String rowindex, String columnName) {
         String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        System.out.println("Trazi se: " + text);
         WaitHelpers.waitForSeconds(3);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
         String xPath = "//*[@text = '" + text + "']";

@@ -46,7 +46,7 @@ Feature: Product_Summary
 
     Examples:
       | rowindex |
-      |        3 |
+      |        5 |
 
   @Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
   Scenario Outline: Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
