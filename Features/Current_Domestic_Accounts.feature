@@ -29,7 +29,7 @@ Feature: Current_Domestic_Accounts
     And Assert transactions are filtered by searchValue from column "search_purpose"
     And Click on Clear search
     And Wait for first transaction to load
-    #And Assert there are default number of transactions
+    And Assert there are default number of transactions
 
     #TO-DO Ostale opcije za search filtete - mogu se koristiti svi isti koraci, samo promijeniti columnName
 
