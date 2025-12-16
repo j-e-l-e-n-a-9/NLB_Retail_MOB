@@ -8666,4 +8666,39 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
+
+    @And("Restart name of {string} card to original name")
+    public void restartNameOfCardToOriginalName(String name) throws Throwable {
+
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
+        //WaitHelpers.waitForElement(elForEye);
+        String xPathForEditAccount = "//android.widget.TextView[@text=\"" +name + "\"]\n" +
+                "/following-sibling::android.view.View\n" +
+                "//android.view.View[@content-desc=\"Edit product card\"]\n";
+
+
+        By elForEditAccount = x.createByXpath(xPathForEditAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForEditAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+
+        MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
+        hp.ClickOnElement(elementToEdit);
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        WaitHelpers.waitForElement(elForEditText);
+        //DODATO KLIK NA X
+
+
+        String xp = "//android.view.ViewGroup/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View";
+        MobileElement xButton = x.createMobileElementByXpath(xp);
+        hp.ClickOnElement(xButton);
+        MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
+        hp.ClickOnElement(elementForApply);
+    }
 }

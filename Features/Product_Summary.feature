@@ -300,11 +300,12 @@ Feature: Product_Summary
 
     When Click "My Products"
 
-    Then Change name of product from Excel "<rowindex>" columnName "second_personal_card_name" into "NLB Kartica 1" V
+    Then Change name of product from Excel "<rowindex>" columnName "credit_card_name" into "NLB Kartica 1" V
     Then Scroll down until element with text "NLB Kartica 1" is in view
     Then Scroll up until element with text "Edit list" is in view
-    #And Assert product from Excel "<rowindex>" with bban "second_personal_card_name" has name "NLB Kartica 1"
-    And Change name of product "NLB Kartica 1" into "Visa revolving card"
+    When Click "My NLB"
+    When Click "My Products"
+    And Restart name of "NLB Kartica 1" card to original name
 
 
     Examples:
@@ -326,9 +327,10 @@ Feature: Product_Summary
     And Assert product from Excel "<rowindex>" with bban "deposit_account_bban" has name "NLB Deposit 1"
     When Click "My NLB"
     When Click "My Products"
-    And Scroll up until element with text "Edit list" is in view
-    #And Change name of product from Excel "<rowindex>" columnName "deposit_account_bban" into "Term deposits" V
-    And Change name of "deposit_account_bban" from Excel "<rowindex>" to previous name
+    Then Scroll up until element with text "Edit list" is in view
+    When Click "My NLB"
+    When Click "My Products"
+    And Restart name of "NLB Deposit 1" card to original name
 
     Examples:
       | rowindex |
