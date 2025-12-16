@@ -3266,7 +3266,7 @@ public class Steps {
         WaitHelpers.waitForElement(elForLoad5);
     }
 
-    @Then("Assert that product card of name {string} and iban {string} from Excel {string} for loan account are shown correctly")
+    @Then("Assert that product card of name {string} and bban {string} from Excel {string} for loan account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForLoanAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
@@ -3288,7 +3288,7 @@ public class Steps {
         Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
 
-    @And("Assert that whole product card of loan account with name {string} and iban {string} from Excel {string} acts as a clickable button")
+    @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
@@ -3373,7 +3373,7 @@ public class Steps {
         WaitHelpers.waitForElement(elForLoad);
     }
 
-    @And("Assert product from Excel {string} with iban {string} has name {string}")
+    @And("Assert product from Excel {string} with bban {string} has name {string}")
     public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String expectedName) {
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
         //String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
@@ -3518,7 +3518,7 @@ public class Steps {
         WaitHelpers.waitForElement(elForLoad);
     }
 
-    @Then("Assert that product card of name {string} and iban {string} from Excel {string} is not displayed")
+    @Then("Assert that product card of name {string} and bban {string} from Excel {string} is not displayed")
     public void assertThatProductCardOfNameAndIbanFromExcelIsNotDisplayed(String columnName1, String columnName2, String rowindex) {
         String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
@@ -7697,7 +7697,7 @@ public class Steps {
 
     }
 
-    @And("Assert that whole product card of loan account with name {string} and iban {string} from Excel {string} is clickable")
+    @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} is clickable")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelIsClickable(String columnName1, String columnName2, String rowindex) {
 
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
@@ -8440,7 +8440,7 @@ public class Steps {
     }
 
 
-    @And("Assert product from Excel {string} with iban {string} has name {string} V")
+    @And("Assert product from Excel {string} with bban {string} has name {string} V")
     public void assertProductFromExcelWithIbanHasNameV(String rowindex, String columnName, String expectedName) {
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
         String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";

@@ -13,10 +13,10 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_iban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Assert Filter icon is displayed
@@ -52,10 +52,10 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_iban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Assert Filter icon is displayed
@@ -96,10 +96,10 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_iban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Click Transaction filter button in Product
@@ -140,10 +140,10 @@ Feature: Current_Domestic_Accounts
     #And Change language to english
     When Click "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
 
     When Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "second_personal_account_iban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "second_personal_account_bban"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
     And Assert list of element by id "nlb-item-row" is displayed
     And Assert Transaction filter button in Product
@@ -220,7 +220,7 @@ Feature: Current_Domestic_Accounts
     And Wait for My NLB screen to load
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
 
     When Wait for first transaction to load
     And Click Transaction filter button in Product
@@ -267,7 +267,7 @@ Feature: Current_Domestic_Accounts
     And Wait for My NLB screen to load
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_iban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
 
     When Wait for first transaction to load
     And Click Transaction filter button in Product
