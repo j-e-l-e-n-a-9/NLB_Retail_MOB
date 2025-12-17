@@ -86,7 +86,7 @@ Feature: Product_Summary
 
   @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
   Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
-
+  #Current account
 
     Given Open Application
     #And Wait "100" seconds
@@ -251,7 +251,7 @@ Feature: Product_Summary
 
     Examples:
       | rowindex |
-      |        3 |
+      |        5 |
 
   @Product_Summary_Edit_Product_View[MOB_ANDROID]
   Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
