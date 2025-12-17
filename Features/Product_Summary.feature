@@ -109,7 +109,7 @@ Feature: Product_Summary
     And Click on element by text "Apply"
 
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
-    And Assert product from Excel "<rowindex>" with bban "second_personal_account_bban" has name "personal_account_name"
+    And Assert product from Excel "<rowindex>" with bban "second_personal_account_bban" has name "second_personal_account_name"
 
 
     Examples:

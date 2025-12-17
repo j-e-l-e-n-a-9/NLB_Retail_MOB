@@ -3375,15 +3375,15 @@ public class Steps {
     }
 
     @And("Assert product from Excel {string} with bban {string} has name {string}")
-    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String expectedName) {
+    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String column2) {
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
-        //String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
-
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
+        System.out.println("expected name: " + expectedName);
         //String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
-        String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text=\'" + expectedName + "']";
+        //String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text='" + expectedName + "']";
         String xPathForName = "//android.view.View[.//android.widget.TextView[@text='" + accountIban + "'] and .//android.widget.TextView[@text='" + expectedName + "']]";
         //System.out.println("account iban: " + accountIban + " - account name: " + expectedName);
-        MobileElement elementForName = x.createMobileElementByXpath(xp);
+        MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
         Assert.assertTrue(elementForName.isDisplayed());
     }
 
