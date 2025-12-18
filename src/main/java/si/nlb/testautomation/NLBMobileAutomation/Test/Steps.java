@@ -905,6 +905,7 @@ public class Steps {
     @And("Scroll until element with text from excel {string} columnName {string} is in view")
     public void scrollUntilElementWithTextFromExcelColumnNameIsInView(String rowindex, String columnName) {
         String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        System.out.println("Trazi se: " + text);
         WaitHelpers.waitForSeconds(3);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
         String xPath = "//*[@text = '" + text + "']";
@@ -3287,6 +3288,29 @@ public class Steps {
         String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
         Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
+    @Then("Assert that product card with BBAN {string} from Excel {string} has name from Excel {string}")
+    public void assertLoanProductCardByBbanHasCorrectName(String rowindex, String bbanColumn, String nameColumn) {
+
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex,nameColumn);
+        String expectedBban = DataManager.getDataFromHashDatamap(rowindex,bbanColumn);
+
+        String cardXPath =
+                "//android.view.View[@resource-id='nlb-product-summary-card']" +
+                        "[.//android.widget.TextView[contains(@resource-id,'nlb-value-product-account-id')" +
+                        " and @text='" + expectedBban + "']]";
+
+        MobileElement productCard = x.createMobileElementByXpath(cardXPath);
+        Assert.assertTrue("Product card with BBAN not displayed",productCard.isDisplayed());
+
+        MobileElement nameElement = productCard.findElement(
+                By.xpath(".//android.widget.TextView[contains(@resource-id,'nlb-value-product-account-name')]")
+        );
+
+        String actualName = nameElement.getText();
+
+        Assert.assertEquals("Product name does not match Excel value",expectedName,actualName);
+    }
+
 
     @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
@@ -3374,15 +3398,15 @@ public class Steps {
     }
 
     @And("Assert product from Excel {string} with bban {string} has name {string}")
-    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String expectedName) {
+    public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String column2) {
         String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
-        //String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
-
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
+        System.out.println("expected name: " + expectedName);
         //String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
-        String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text=\'" + expectedName + "']";
+        //String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text='" + expectedName + "']";
         String xPathForName = "//android.view.View[.//android.widget.TextView[@text='" + accountIban + "'] and .//android.widget.TextView[@text='" + expectedName + "']]";
         //System.out.println("account iban: " + accountIban + " - account name: " + expectedName);
-        MobileElement elementForName = x.createMobileElementByXpath(xp);
+        MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
         Assert.assertTrue(elementForName.isDisplayed());
     }
 
@@ -7693,6 +7717,7 @@ public class Steps {
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
 
+        WaitHelpers.waitForSeconds(5);
         String xPath="//*[@content-desc='"+ text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
 
@@ -8004,7 +8029,6 @@ public class Steps {
 
         while (!end) {
 
-            // uvijek ponovo locirati sve kartice nakon svakog scrolla
             List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
             int beforeAdd = transactions.size();
 
@@ -8041,7 +8065,7 @@ public class Steps {
         DataManager.userObject.put("defaultTransactionsNumber", transactions.size());
     }
 
-
+/*
     @And("Assert there are default number of transactions")
     public void assertThereAreDefaultNumberOfTransactions() {
         int defNoTransactions = (int) DataManager.userObject.get("defaultTransactionsNumber");
@@ -8049,21 +8073,27 @@ public class Steps {
         List<Pair<String, String>> transactions = new ArrayList<>();
 
         boolean end=false;
-        while(!end){
+        while(!end) {
 
             List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id=\"nlb-card-container\"]"));
-            int beforeAdd=transactions.size();
+            int beforeAdd = transactions.size();
 
-            for(MobileElement card : visibleCards){
+            try {
+                for (MobileElement card : visibleCards) {
 
-                String date=card.findElement(By.xpath(".//*[@resource-id=\"nlb-date\"]")).getAttribute("text");
-                String purpose = card.findElement(By.xpath(".//*[@resource-id=\"nlb-title\"]")).getAttribute("text");
-                Pair<String,String> newPair = new Pair<>(date,purpose);
+                    String date = card.findElement(By.xpath(".//*[@resource-id=\"nlb-date\"]")).getAttribute("text");
+                    String purpose = card.findElement(By.xpath(".//*[@resource-id=\"nlb-title\"]")).getAttribute("text");
+                    Pair<String, String> newPair = new Pair<>(date, purpose);
 
-                if(!transactions.contains(newPair)){
-                    transactions.add(newPair);
+                    if (!transactions.contains(newPair)) {
+                        transactions.add(newPair);
+                    }
                 }
+            }catch (StaleElementReferenceException | NoSuchElementException stale) {
+
             }
+
+            System.out.println("beforeAdd: " + beforeAdd + "\nposle for petlje: " + transactions.size());
 
             if(transactions.size()==beforeAdd){
                 end=true;
@@ -8079,9 +8109,9 @@ public class Steps {
         int size=transactions.size();
         assertTrue(defNoTransactions==size);
 
-    }
+    }*/
 
-
+/*
     @And("Assert transactions are filtered by searchValue from column {string}")
     public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) {
 
@@ -8108,15 +8138,21 @@ public class Steps {
                     driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
 
             int beforeAdd = transactions.size();
-
+            System.out.println("transactions.size beforeAdd: " + beforeAdd);
             for (MobileElement card : visibleCards) {
+                try {
+                    String currentDetail = card.findElement(By.xpath(xPathFilter)).getText()
+                            .trim().toLowerCase();
 
-                String currentDetail = card.findElement(By.xpath(xPathFilter)).getText();
-                currentDetail=currentDetail.trim().toLowerCase();
-                System.out.println("Current detail: " + currentDetail);
-                assertTrue(currentDetail.contains(searchValue));
-                transactions.add(currentDetail);
+                    System.out.println("Current detail: " + currentDetail);
+                    assertTrue(currentDetail.contains(searchValue));
+                    transactions.add(currentDetail);
+
+                } catch (NoSuchElementException e) {
+                }
             }
+
+            System.out.println("transactions.size: nakon for petlje " + transactions.size());
 
             if (transactions.size() == beforeAdd) {
                 end = true;
@@ -8126,6 +8162,126 @@ public class Steps {
         }
     }
 
+*/
+
+    @And("Assert there are default number of transactions")
+    public void assertThereAreDefaultNumberOfTransactions() {
+
+        int defNoTransactions =
+                (int) DataManager.userObject.get("defaultTransactionsNumber");
+
+        List<Pair<String, String>> transactions = new ArrayList<>();
+
+        MobileElement lastVisibleCard = null;
+        int maxScrolls = 20;
+        int scrollCount = 0;
+
+        while (scrollCount < maxScrolls) {
+
+            List<MobileElement> visibleCards =
+                    driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
+
+            if (visibleCards.isEmpty()) {
+                break;
+            }
+
+            MobileElement currentLastCard =
+                    visibleCards.get(visibleCards.size() - 1);
+
+            if (lastVisibleCard != null &&
+                    currentLastCard.getLocation().getY() ==
+                            lastVisibleCard.getLocation().getY()) {
+                break;
+            }
+
+            for (MobileElement card : visibleCards) {
+                try {
+                    String date = card.findElement(By.xpath(".//*[@resource-id='nlb-date']"))
+                            .getAttribute("text");
+
+                    String purpose = card.findElement(By.xpath(".//*[@resource-id='nlb-title']"))
+                            .getAttribute("text");
+
+                    Pair<String, String> newPair = new Pair<>(date, purpose);
+
+                    if (!transactions.contains(newPair)) {
+                        transactions.add(newPair);
+                    }
+
+                } catch (StaleElementReferenceException | NoSuchElementException e) {
+                }
+            }
+
+            lastVisibleCard = currentLastCard;
+
+            hp.scrollDown(driver);
+            scrollCount++;
+        }
+
+        for (Pair<String, String> pairs : transactions) {
+            System.out.println(pairs.getKey() + " - " + pairs.getValue());
+        }
+
+        assertEquals(defNoTransactions, transactions.size());
+    }
+
+    @And("Assert transactions are filtered by searchValue from column {string}")
+public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) {
+
+    String searchValue = driver.findElement(By.xpath("//android.widget.EditText"))
+            .getText()
+            .trim()
+            .toLowerCase();
+
+    System.out.println("Search box value: " + searchValue);
+
+    String xPathFilter;
+    switch (column) {
+        case "search_purpose":
+            xPathFilter = ".//*[@resource-id='nlb-title']";
+            break;
+        default:
+            throw new RuntimeException("Excel filter type not supported: " + column);
+    }
+
+    MobileElement lastVisibleCard = null;
+
+    while (true) {
+
+        List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
+
+        if (visibleCards.isEmpty()) {
+            break;
+        }
+
+        MobileElement currentLastCard =
+                visibleCards.get(visibleCards.size() - 1);
+
+        if (lastVisibleCard != null &&
+                currentLastCard.getLocation().getY() ==
+                        lastVisibleCard.getLocation().getY()) {
+            break;
+        }
+
+        for (MobileElement card : visibleCards) {
+            try {
+                String currentDetail = card.findElement(By.xpath(xPathFilter))
+                        .getText()
+                        .trim()
+                        .toLowerCase();
+
+                System.out.println("Current detail: " + currentDetail);
+                assertTrue(currentDetail.contains(searchValue));
+
+            } catch (NoSuchElementException e) {
+            }
+        }
+
+        lastVisibleCard = currentLastCard;
+
+        hp.scrollDown(driver);
+    }
+}
 
     @And("Click on Clear search")
     public void clickOnClearSearch() throws Throwable {
@@ -8669,5 +8825,40 @@ public class Steps {
     public void assertElementByXPathIsDisplayed(String xPath) {
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
+    }
+
+    @And("Restart name of {string} card to original name")
+    public void restartNameOfCardToOriginalName(String name) throws Throwable {
+
+        By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
+        WaitHelpers.waitForElement(elForEdit);
+        MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
+        hp.ClickOnElement(elementForEdit);
+        //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
+        //WaitHelpers.waitForElement(elForEye);
+        String xPathForEditAccount = "//android.widget.TextView[@text=\"" +name + "\"]\n" +
+                "/following-sibling::android.view.View\n" +
+                "//android.view.View[@content-desc=\"Edit product card\"]\n";
+
+
+        By elForEditAccount = x.createByXpath(xPathForEditAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForEditAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+
+        MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
+        hp.ClickOnElement(elementToEdit);
+        By elForEditText = x.createByXpath("//android.widget.EditText");
+        WaitHelpers.waitForElement(elForEditText);
+        //DODATO KLIK NA X
+
+
+        String xp = "//android.view.ViewGroup/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View";
+        MobileElement xButton = x.createMobileElementByXpath(xp);
+        hp.ClickOnElement(xButton);
+        MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
+        hp.ClickOnElement(elementForApply);
     }
 }

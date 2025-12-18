@@ -40,13 +40,14 @@ Feature: Product_Summary
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_bban" is in view
     And Swipe vertical short
 
-    Then Assert that product card of name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" for loan account are shown correctly
+    #Then Assert that product card of name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" for loan account are shown correctly
+    Then Assert that product card with BBAN "<rowindex>" from Excel "loan_account_bban" has name from Excel "loan_account_name"
     And Assert that whole product card of loan account with name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" is clickable
     And Click on element by text from excel "<rowindex>" columnName "loan_account_bban" and assert the correct page opens
 
     Examples:
       | rowindex |
-      |        3 |
+      |        5 |
 
   @Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
   Scenario Outline: Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
@@ -86,7 +87,7 @@ Feature: Product_Summary
 
   @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
   Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
-
+  #Current account
 
     Given Open Application
     #And Wait "100" seconds
@@ -110,6 +111,7 @@ Feature: Product_Summary
 
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
     And Assert product from Excel "<rowindex>" with bban "second_personal_account_bban" has name "second_personal_account_name"
+
 
     Examples:
       | rowindex |
@@ -250,7 +252,7 @@ Feature: Product_Summary
 
     Examples:
       | rowindex |
-      |        3 |
+      |        5 |
 
   @Product_Summary_Edit_Product_View[MOB_ANDROID]
   Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
@@ -299,11 +301,12 @@ Feature: Product_Summary
 
     When Click "My Products"
 
-    Then Change name of product from Excel "<rowindex>" columnName "second_personal_card_name" into "NLB Kartica 1" V
+    Then Change name of product from Excel "<rowindex>" columnName "credit_card_name" into "NLB Kartica 1" V
     Then Scroll down until element with text "NLB Kartica 1" is in view
     Then Scroll up until element with text "Edit list" is in view
-    #And Assert product from Excel "<rowindex>" with bban "second_personal_card_name" has name "NLB Kartica 1"
-    And Change name of product "NLB Kartica 1" into "Visa revolving card"
+    When Click "My NLB"
+    When Click "My Products"
+    And Restart name of "NLB Kartica 1" card to original name
 
 
     Examples:
@@ -320,14 +323,16 @@ Feature: Product_Summary
 
     When Click "My Products"
 
-    Then Change name of product from Excel "<rowindex>" columnName "deposit_account_bban" into "NLB Deposit 1" V
+    Then Change name of product from Excel "<rowindex>" columnName "term_deposit_bban" into "NLB Deposit 1" V
     Then Scroll down until element with text "NLB Deposit 1" is in view
-    And Assert product from Excel "<rowindex>" with bban "deposit_account_bban" has name "NLB Deposit 1"
+    And Assert product from Excel "<rowindex>" with bban "term_deposit_bban" has name "NLB Deposit 1" V
+
     When Click "My NLB"
     When Click "My Products"
-    And Scroll up until element with text "Edit list" is in view
-    #And Change name of product from Excel "<rowindex>" columnName "deposit_account_bban" into "Term deposits" V
-    And Change name of "deposit_account_bban" from Excel "<rowindex>" to previous name
+    Then Scroll up until element with text "Edit list" is in view
+    When Click "My NLB"
+    When Click "My Products"
+    And Restart name of "NLB Deposit 1" card to original name
 
     Examples:
       | rowindex |
