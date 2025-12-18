@@ -40,7 +40,8 @@ Feature: Product_Summary
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_bban" is in view
     And Swipe vertical short
 
-    Then Assert that product card of name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" for loan account are shown correctly
+    #Then Assert that product card of name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" for loan account are shown correctly
+    Then Assert that product card with BBAN "<rowindex>" from Excel "loan_account_bban" has name from Excel "loan_account_name"
     And Assert that whole product card of loan account with name "loan_account_name" and bban "loan_account_bban" from Excel "<rowindex>" is clickable
     And Click on element by text from excel "<rowindex>" columnName "loan_account_bban" and assert the correct page opens
 
