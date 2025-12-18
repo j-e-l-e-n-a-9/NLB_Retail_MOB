@@ -3288,6 +3288,29 @@ public class Steps {
         String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
         Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
+    @Then("Assert that product card with BBAN {string} from Excel {string} has name from Excel {string}")
+    public void assertLoanProductCardByBbanHasCorrectName(String rowindex, String bbanColumn, String nameColumn) {
+
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex,nameColumn);
+        String expectedBban = DataManager.getDataFromHashDatamap(rowindex,bbanColumn);
+
+        String cardXPath =
+                "//android.view.View[@resource-id='nlb-product-summary-card']" +
+                        "[.//android.widget.TextView[contains(@resource-id,'nlb-value-product-account-id')" +
+                        " and @text='" + expectedBban + "']]";
+
+        MobileElement productCard = x.createMobileElementByXpath(cardXPath);
+        Assert.assertTrue("Product card with BBAN not displayed",productCard.isDisplayed());
+
+        MobileElement nameElement = productCard.findElement(
+                By.xpath(".//android.widget.TextView[contains(@resource-id,'nlb-value-product-account-name')]")
+        );
+
+        String actualName = nameElement.getText();
+
+        Assert.assertEquals("Product name does not match Excel value",expectedName,actualName);
+    }
+
 
     @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
@@ -7694,6 +7717,7 @@ public class Steps {
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
 
+        WaitHelpers.waitForSeconds(5);
         String xPath="//*[@content-desc='"+ text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
 
