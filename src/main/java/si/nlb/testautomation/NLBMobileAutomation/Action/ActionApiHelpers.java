@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.Wait;
 import si.nlb.testautomation.NLBMobileAutomation.Data.DataManager;
 import si.nlb.testautomation.NLBMobileAutomation.Selectors.SelectById;
@@ -390,7 +391,6 @@ public class ActionApiHelpers {
             throw (e);
         }
         //Thread.sleep(5000);
-
     }
 
     private static boolean isClickable(MobileElement element) throws InterruptedException {
@@ -1383,5 +1383,17 @@ public class ActionApiHelpers {
         for (int i = 0; i < 50; i++) {
             driver.pressKey(new KeyEvent(AndroidKey.DEL));
         }
+    }
+
+    public void clickElementWithJSExecutor(String xPath) {
+        By locator = By.xpath(xPath);
+        WebElement el = driver.findElement(locator);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("elementId", ((RemoteWebElement) el).getId());
+
+        js.executeScript("mobile: clickGesture", params);
     }
 }

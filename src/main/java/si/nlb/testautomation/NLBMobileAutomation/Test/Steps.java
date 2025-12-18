@@ -8581,15 +8581,19 @@ public class Steps {
     public void assertThatWholeProductCardOfTermDepositAccountWithNameAndBbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productBban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']";
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc='Deposit']//following-sibling::*[@text='Oročeni depozit']";
         String xPathForProductBban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']";
         String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@text='Term deposit amount']";
         String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForWholeCard = "(//android.view.View[@resource-id=\"nlb-product-summary-card\"])[4]/android.widget.Button";
 
-        MobileElement elementForProductName = x.createMobileElementByXpath(xPathForProductName);
-        hp.ClickOnElement(elementForProductName);
+//        WaitHelpers.waitForSeconds(5);
+//        MobileElement elementForProductName = x.createMobileElementByXpath(xPathForProductName);
+        hp.clickElementWithJSExecutor(xPathForProductName);
+        By elementForProductName = x.createByXpath(xPathForProductName);
+        hp.clickElement(elementForProductName);
         By elWait1 = x.createByXpath(xPathForAssert);
         WaitHelpers.waitForElement(elWait1);
         MobileElement elementForAssert1 = x.createMobileElementByXpath(xPathForAssert);
