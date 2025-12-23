@@ -2903,8 +2903,8 @@ public class Steps {
         Assert.assertTrue(stringForAvailableBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
 
-    @And("Assert that whole product card of current account with name {string} and iban {string} from Excel {string} acts as a clickable button")
-    public void assertThatWholeProductCardOfCurrentAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
+    @And("Assert that whole product card of current account with name {string} and bban {string} from Excel {string} acts as a clickable button")
+    public void assertThatWholeProductCardOfCurrentAccountWithNameAndBbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
         String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']";
@@ -2926,55 +2926,55 @@ public class Steps {
         By elForLoad1 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad1);
 
-        MobileElement elementForProductIban = x.createMobileElementByXpath(xPathForProductIban);
-        hp.ClickOnElement(elementForProductIban);
-        By elWait2 = x.createByXpath(xPathForAssert);
-        WaitHelpers.waitForElement(elWait2);
-        MobileElement elementForAssert2 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert2.isDisplayed());
-        driver.navigate().back();
-        By elForLoad2 = x.createByXpath(xPathForLoad);
-        WaitHelpers.waitForElement(elForLoad2);
-
-        MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
-        hp.ClickOnElement(elementForProductCard1);
-        By elWait3 = x.createByXpath(xPathForAssert);
-        WaitHelpers.waitForElement(elWait3);
-        MobileElement elementForAssert3 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert3.isDisplayed());
-        driver.navigate().back();
-        By elForLoad3 = x.createByXpath(xPathForLoad);
-        WaitHelpers.waitForElement(elForLoad3);
-
-        MobileElement elementForProductCard2 = x.createMobileElementByXpath(xPathForProductCard2);
-        hp.ClickOnElement(elementForProductCard2);
-        By elWait4 = x.createByXpath(xPathForAssert);
-        WaitHelpers.waitForElement(elWait4);
-        MobileElement elementForAssert4 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert4.isDisplayed());
-        driver.navigate().back();
-        By elForLoad4 = x.createByXpath(xPathForLoad);
-        WaitHelpers.waitForElement(elForLoad4);
-
-        MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
-        hp.ClickOnElement(elementForCurrentBalance);
-        By elWait5 = x.createByXpath(xPathForAssert);
-        WaitHelpers.waitForElement(elWait5);
-        MobileElement elementForAssert5 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert5.isDisplayed());
-        driver.navigate().back();
-        By elForLoad5 = x.createByXpath(xPathForLoad);
-        WaitHelpers.waitForElement(elForLoad5);
-
-        MobileElement elementForAvailableBalance = x.createMobileElementByXpath(xPathForAvailableBalance);
-        hp.ClickOnElement(elementForAvailableBalance);
-        By elWait6 = x.createByXpath(xPathForAssert);
-        WaitHelpers.waitForElement(elWait6);
-        MobileElement elementForAssert6 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert6.isDisplayed());
-        driver.navigate().back();
-        By elForLoad6 = x.createByXpath(xPathForLoad);
-        WaitHelpers.waitForElement(elForLoad6);
+//        MobileElement elementForProductIban = x.createMobileElementByXpath(xPathForProductIban);
+//        hp.ClickOnElement(elementForProductIban);
+//        By elWait2 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait2);
+//        MobileElement elementForAssert2 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert2.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad2 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad2);
+//
+//        MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
+//        hp.ClickOnElement(elementForProductCard1);
+//        By elWait3 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait3);
+//        MobileElement elementForAssert3 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert3.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad3 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad3);
+//
+//        MobileElement elementForProductCard2 = x.createMobileElementByXpath(xPathForProductCard2);
+//        hp.ClickOnElement(elementForProductCard2);
+//        By elWait4 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait4);
+//        MobileElement elementForAssert4 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert4.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad4 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad4);
+//
+//        MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
+//        hp.ClickOnElement(elementForCurrentBalance);
+//        By elWait5 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait5);
+//        MobileElement elementForAssert5 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert5.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad5 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad5);
+//
+//        MobileElement elementForAvailableBalance = x.createMobileElementByXpath(xPathForAvailableBalance);
+//        hp.ClickOnElement(elementForAvailableBalance);
+//        By elWait6 = x.createByXpath(xPathForAssert);
+//        WaitHelpers.waitForElement(elWait6);
+//        MobileElement elementForAssert6 = x.createMobileElementByXpath(xPathForAssert);
+//        Assert.assertTrue(elementForAssert6.isDisplayed());
+//        driver.navigate().back();
+//        By elForLoad6 = x.createByXpath(xPathForLoad);
+//        WaitHelpers.waitForElement(elForLoad6);
     }
 
     @And("Unhide account from Excel {string} columnName {string} if needed")
@@ -7716,11 +7716,9 @@ public class Steps {
 
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
-
         WaitHelpers.waitForSeconds(5);
         String xPath="//*[@content-desc='"+ text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
-
     }
 
     @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} is clickable")

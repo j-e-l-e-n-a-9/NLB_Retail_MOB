@@ -68,8 +68,6 @@ Feature: Product_Summary
 
   @Product_Summary_Sorting_on_the_Product_Summary_[ANDROID]
   Scenario Outline: Product_Summary_Sorting_on_the_Product_Summary_[ANDROID]
-
-
     Given Open Application
     #And Wait "100" seconds
     And Select User from Excel "<rowindex>" columnName "username" and login

@@ -104,7 +104,7 @@ Feature: Current_Domestic_Accounts
 
     And Click Transaction filter button in Product
     And Wait for element by text "Transaction filter"
-    
+
     And Assert element by text "Date"
     And Assert element by text "Type"
     And Assert element by text "Currency"
@@ -356,4 +356,23 @@ Feature: Current_Domestic_Accounts
     Examples:
       | rowindex |
       |        3 |
+
+
+  @Current_Domestic_Accounts-List_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Assert element by xPath "(//*[@resource-id='nlb-value-product-primary-balance'])[1]" is displayed
+    And Assert element by xPath "(//*[@resource-id='nlb-value-product-secondary-balance'])[1]" is displayed
+    And Assert element by xPath "(//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\"])[1]" is displayed
+    And Assert that whole product card of current account with name "currentDomesticAccountName" and bban "currentDomesticAccountBBAN" from Excel "<rowindex>" acts as a clickable button
+
+    Examples:
+      | rowindex |
+      |        2 |
 
