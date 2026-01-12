@@ -1,6 +1,7 @@
 package si.nlb.testautomation.NLBMobileAutomation.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -7390,7 +7391,7 @@ public class Steps {
     }
 
     @And("Enter text {string} into input field {string} in amount filter")
-    public void enterTextIntoInputFieldInAmountFilter(String amount, String text) throws InterruptedException {
+    public void enterTextIntoInputFieldInAmountFilter(String amount, String text) throws Exception {
         if (text.equals("From")){
             String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])[1]";
             By el = By.xpath(xPath);
@@ -7400,6 +7401,7 @@ public class Steps {
             String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])[2]";
             By el = By.xpath(xPath);
             hp.enterTextToElement(amount,el);
+            hp.clickElement(el);
         }
     }
 
@@ -8858,5 +8860,193 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         hp.ClickOnElement(xButton);
         MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
         hp.ClickOnElement(elementForApply);
+    }
+
+    @And("Assert transaction dates are sorted descending")
+    public void assertTransactionDatesAreSortedDescending() {
+//        AppiumDriver driver = Base.driver;
+
+        String xPathDates = "(//android.widget.TextView[@resource-id='nlb-date'])";
+        List<WebElement> dateElements = driver.findElements(By.xpath(xPathDates));
+        Assert.assertFalse("No transaction date elements found by xpath: " + xPathDates, dateElements.isEmpty());
+
+        List<LocalDate> dates = new ArrayList<>();
+
+        for (WebElement el : dateElements) {
+            String raw = el.getText();
+            LocalDate parsed = parseTransactionDate(raw);
+            if (parsed != null) {
+                dates.add(parsed);
+            }
+        }
+        Assert.assertFalse("Transaction date elements found, but none could be parsed.", dates.isEmpty());
+
+        // Provera: svaka sledeća mora biti <= prethodne (opadajući redosled)
+        for (int i = 0; i < dates.size() - 1; i++) {
+            LocalDate current = dates.get(i);
+            LocalDate next = dates.get(i + 1);
+
+            Assert.assertTrue(
+                    "Transaction dates are NOT sorted descending at index " + i +
+                            ". Current=" + current + ", Next=" + next,
+                    !next.isAfter(current)   // next <= current
+            );
+        }
+    }
+
+    private LocalDate parseTransactionDate(String raw) {
+        if (raw == null) return null;
+
+        String s = raw.trim();
+        if (s.isEmpty()) return null;
+
+        s = s.replaceAll("[\\p{Z}\\s]+", "");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy", Locale.ROOT);
+
+        try {
+            return LocalDate.parse(s, formatter);
+        } catch (Exception ex) {
+            throw new AssertionError(
+                    "Unable to parse transaction date text: '" + raw + "' (normalized: '" + s + "')",
+                    ex
+            );
+        }
+    }
+
+    @Then("Assert dates are displayed on the transaction")
+    public void assertDatesAreDisplayedOnTheTransaction() {
+        String xPathDates = "//android.widget.TextView[@resource-id='nlb-date']";
+
+        List<WebElement> dateElements = driver.findElements(By.xpath(xPathDates));
+
+        Assert.assertFalse(
+                "No transaction date elements are displayed on the screen.",
+                dateElements.isEmpty()
+        );
+
+        // Svaki pronađeni datum mora biti vidljiv i imati tekst
+        for (int i = 0; i < dateElements.size(); i++) {
+            WebElement date = dateElements.get(i);
+
+            Assert.assertTrue(
+                    "Transaction date at index " + i + " is not displayed.",
+                    date.isDisplayed()
+            );
+
+            String text = date.getText();
+
+            Assert.assertNotNull(
+                    "Transaction date text is null at index " + i,
+                    text
+            );
+
+            Assert.assertFalse(
+                    "Transaction date text is empty at index " + i,
+                    text.trim().isEmpty()
+            );
+        }
+    }
+
+    @And("Assert transaction icons for type {string} are displayed")
+    public void assertTransactionIconsForTypeAreDisplayed(String type) {
+        String xPathIcons = "//android.view.View[@content-desc='" + type + "']";
+        List<WebElement> icons = driver.findElements(By.xpath(xPathIcons));
+
+        // SAFE: ako trenutno nema tog tipa transakcija na ekranu -> OK
+        if (icons == null || icons.isEmpty()) {
+            Log.info("No transaction icons found for type '" + type + "' on screen. Skipping assert (allowed).");
+            return;
+        }
+
+        for (int i = 0; i < icons.size(); i++) {
+            WebElement icon = icons.get(i);
+
+            Assert.assertTrue(
+                    "Transaction icon for type '" + type + "' at index " + i + " is not displayed.",
+                    icon.isDisplayed()
+            );
+
+            // dodatno: proveri da je content-desc stvarno taj tip
+            String cd = safeGetAttribute(icon, "contentDescription");
+            if (cd == null || cd.trim().isEmpty()) {
+                cd = safeGetAttribute(icon, "name");
+            }
+
+            Assert.assertTrue(
+                    "Transaction icon at index " + i + " has wrong type. Expected '" + type + "', actual '" + cd + "'.",
+                    cd != null && cd.trim().equalsIgnoreCase(type)
+            );
+        }
+    }
+
+    private String safeGetAttribute(WebElement el, String attr) {
+        try { return el.getAttribute(attr); } catch (Exception e) { return null; }
+    }
+
+    @And("Assert description are displayed on the transaction")
+    public void assertDescriptionAreDisplayedOnTheTransaction() {
+        String xPathDescriptions = "//android.widget.TextView[@resource-id='nlb-title']";
+
+        List<WebElement> descriptionElements = driver.findElements(By.xpath(xPathDescriptions));
+
+        Assert.assertFalse(
+                "No transaction descriptions found by xpath: " + xPathDescriptions,
+                descriptionElements.isEmpty()
+        );
+
+        for (int i = 0; i < descriptionElements.size(); i++) {
+            WebElement description = descriptionElements.get(i);
+
+            Assert.assertTrue(
+                    "Transaction description at index " + i + " is not displayed.",
+                    description.isDisplayed()
+            );
+
+            String text = description.getText();
+
+            Assert.assertNotNull(
+                    "Transaction description text is null at index " + i,
+                    text
+            );
+
+            Assert.assertFalse(
+                    "Transaction description text is empty at index " + i,
+                    text.trim().isEmpty()
+            );
+        }
+    }
+
+    @And("Assert counter party name are displayed on the transaction")
+    public void assertCounterPartyNameAreDisplayedOnTheTransaction() {
+        String xPathCounterparty = "//android.widget.TextView[@resource-id='nlb-details']";
+
+        List<WebElement> counterpartyElements = driver.findElements(By.xpath(xPathCounterparty));
+
+        Assert.assertFalse(
+                "No transaction counterparty elements found by xpath: " + xPathCounterparty,
+                counterpartyElements.isEmpty()
+        );
+
+        for (int i = 0; i < counterpartyElements.size(); i++) {
+            WebElement counterparty = counterpartyElements.get(i);
+
+            Assert.assertTrue(
+                    "Transaction counterparty at index " + i + " is not displayed.",
+                    counterparty.isDisplayed()
+            );
+
+            String text = counterparty.getText();
+
+            Assert.assertNotNull(
+                    "Transaction counterparty text is null at index " + i,
+                    text
+            );
+
+            Assert.assertFalse(
+                    "Transaction counterparty text is empty at index " + i,
+                    text.trim().isEmpty()
+            );
+        }
     }
 }

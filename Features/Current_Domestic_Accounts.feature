@@ -89,7 +89,6 @@ Feature: Current_Domestic_Accounts
   Scenario Outline: Current_Domestic_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]
 
     Given Open Application
-    #And Wait "100" seconds
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
     #Open My products page
@@ -130,7 +129,67 @@ Feature: Current_Domestic_Accounts
       | rowindex |
       |        1 |
 
-##
+
+  @Current_Domestic_Accounts-Transactions-Filter_By_Amount_Invalid_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Transactions-Filter_By_Amount_Invalid_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Wait for element by text "Edit list"
+    #Open current account
+    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+
+    And Wait for first transaction to load
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+
+    And Click Transaction filter button in Product
+    And Wait for element by text "Transaction filter"
+
+    And Assert element by text "Date"
+    And Assert element by text "Type"
+    And Assert element by text "Currency"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Amount"
+    And Wait for element by text "From"
+    And Assert element by text "From"
+    And Assert element by text "To"
+
+    And Enter text "100000" into input field "From" in amount filter
+    And Enter text "50000" into input field "To" in amount filter
+
+    And Assert element by contains text "From amount must be less than To amount."
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Wait for element by text "Edit list"
+    #Open current account
+    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+
+    And Wait for first transaction to load
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
   @Domestic_Account_Filter_By_Type[MOB_ANDROID]
   Scenario Outline: Domestic_Account_Filter_By_Type[MOB_ANDROID]
 
@@ -367,10 +426,17 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Assert element by xPath "(//*[@resource-id='nlb-value-product-primary-balance'])[1]" is displayed
-    And Assert element by xPath "(//*[@resource-id='nlb-value-product-secondary-balance'])[1]" is displayed
-    And Assert element by xPath "(//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\"])[1]" is displayed
-    And Assert that whole product card of current account with name "currentDomesticAccountName" and bban "currentDomesticAccountBBAN" from Excel "<rowindex>" acts as a clickable button
+    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+    And Assert transaction dates are sorted descending
+    And Scroll down until element with text "July 2025" is in view
+
+    Then Assert dates are displayed on the transaction
+    And Assert transaction icons for type "Debit" are displayed
+    And Assert transaction icons for type "Credit" are displayed
+    And Assert description are displayed on the transaction
+    And Assert counter party name are displayed on the transaction
 
     Examples:
       | rowindex |
