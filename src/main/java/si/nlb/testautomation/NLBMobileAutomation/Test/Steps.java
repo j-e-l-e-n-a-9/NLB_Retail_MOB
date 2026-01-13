@@ -3220,10 +3220,10 @@ public class Steps {
     public void assertThatWholeProductCardOfGradualSavingsAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -9067,10 +9067,10 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
             Long accountId = Long.parseLong(accountIdText.replaceAll("\\D", ""));
             accountNumbers.add(accountId);
             System.out.println("Savings account ID: " + accountId);
-            /*String accountAmount = card.findElement(
+            String accountAmount = card.findElement(
                     By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-primary-balance']")
             ).getText();
-            System.out.println("Savings account balance: " + accountAmount);*/
+            System.out.println("Savings account balance: " + accountAmount);
         }
         List<Long> sortedAccountNumbers = new ArrayList<>(accountNumbers);
         Collections.sort(sortedAccountNumbers);
