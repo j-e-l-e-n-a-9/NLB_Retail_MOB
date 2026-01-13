@@ -9049,4 +9049,40 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
             );
         }
     }
+
+    @And("Assert that saving accounts are sorted correctly")
+    public void assertThatSavingAccountsAreSortedCorrectly() {
+        List<MobileElement> savingCards = driver.findElements(
+                By.xpath(
+                        "//android.view.View[@resource-id='nlb-product-summary-card']" +
+                                "[.//android.view.View[@content-desc='Savings Account']]"
+                )
+        );
+        System.out.println("Broj SAVINGS kartica: " + savingCards.size());
+        List<Long> accountNumbers = new ArrayList<>();
+        for (MobileElement card : savingCards) {
+            String accountIdText = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-account-id']")
+            ).getText();
+            Long accountId = Long.parseLong(accountIdText.replaceAll("\\D", ""));
+            accountNumbers.add(accountId);
+            System.out.println("Savings account ID: " + accountId);
+            /*String accountAmount = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-primary-balance']")
+            ).getText();
+            System.out.println("Savings account balance: " + accountAmount);*/
+        }
+        List<Long> sortedAccountNumbers = new ArrayList<>(accountNumbers);
+        Collections.sort(sortedAccountNumbers);
+        if (!accountNumbers.equals(sortedAccountNumbers)) {
+            throw new AssertionError(
+                    "Savings accounts NISU sortirani rastuće!\n" +
+                            "Prikazani redosled: " + accountNumbers + "\n" +
+                            "Ispravan redosled: " + sortedAccountNumbers
+            );
+        }
+        System.out.println("Savings accounts su sortirani rastuće ✅");
+    }
+
+
 }

@@ -335,3 +335,25 @@ Feature: Product_Summary
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Product_Summary-Savings_Accounts_List_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Savings_Accounts_List_[MOB_ANDROID]
+    #C70780
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_bban" is in view
+    And Swipe vertical short
+    And Assert that saving accounts are sorted correctly
+
+    #Then Assert that product card of name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" for savings account are shown correctly
+    #And Assert that whole product card of savings account with name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" acts as a clickable button
+
+    Examples:
+      | rowindex |
+      |        1 |
