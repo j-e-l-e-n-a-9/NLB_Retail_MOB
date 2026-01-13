@@ -1057,6 +1057,18 @@ Feature: Current_Accounts
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "nlb-title" to appear
 
+    Then Assert filtered amounts have values between "500" and "1000"When Wait for first transaction to load
+    And Click Transaction filter button in Product
+    And Wait for element by text "Payment amount"
+    And Click on element by text "Payment amount"
+    And Wait for element by text "From"
+    And Enter text "500" into input field "From" in amount filter
+    And Enter text "1000" into input field "To" in amount filter
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Date"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "nlb-title" to appear
+
     Then Assert filtered amounts have values between "500" and "1000"
 
 
