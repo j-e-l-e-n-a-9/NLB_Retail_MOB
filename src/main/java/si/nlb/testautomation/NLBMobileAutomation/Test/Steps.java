@@ -3220,10 +3220,10 @@ public class Steps {
     public void assertThatWholeProductCardOfGradualSavingsAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3267,6 +3267,7 @@ public class Steps {
         By elForLoad5 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad5);
     }
+
 
     @Then("Assert that product card of name {string} and bban {string} from Excel {string} for loan account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForLoanAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
@@ -9048,5 +9049,60 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                     text.trim().isEmpty()
             );
         }
+    }
+
+    @And("Assert that saving accounts are sorted correctly")
+    public void assertThatSavingAccountsAreSortedCorrectly() {
+        List<MobileElement> savingCards = driver.findElements(
+                By.xpath(
+                        "//android.view.View[@resource-id='nlb-product-summary-card']" +
+                                "[.//android.view.View[@content-desc='Savings Account']]"
+                )
+        );
+        System.out.println("Broj SAVINGS kartica: " + savingCards.size());
+        List<Long> accountNumbers = new ArrayList<>();
+        for (MobileElement card : savingCards) {
+            String accountIdText = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-account-id']")
+            ).getText();
+            Long accountId = Long.parseLong(accountIdText.replaceAll("\\D", ""));
+            accountNumbers.add(accountId);
+            System.out.println("Savings account ID: " + accountId);
+            String accountAmount = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-primary-balance']")
+            ).getText();
+            System.out.println("Savings account balance: " + accountAmount);
+        }
+        List<Long> sortedAccountNumbers = new ArrayList<>(accountNumbers);
+        Collections.sort(sortedAccountNumbers);
+        if (!accountNumbers.equals(sortedAccountNumbers)) {
+            throw new AssertionError(
+                    "Savings accounts NISU sortirani rastuće!\n" +
+                            "Prikazani redosled: " + accountNumbers + "\n" +
+                            "Ispravan redosled: " + sortedAccountNumbers
+            );
+        }
+        System.out.println("Savings accounts su sortirani rastuće");
+    }
+
+    @And("Assert Credit Card from excel {string} columnname {string} is displayed correctly")
+    public void assertCreditCardFromExcelColumnnameIsDisplayedCorrectly(String rowindex, String columnName) {
+        String cardName = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String xPath = "//android.widget.TextView[@text='" + cardName + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertEquals("Naziv kartice nije ispisan korektno",cardName, element.getText());
+        String xPathAvailableBalance = "//android.view.View[@resource-id=\"nlb-header-card\"]";
+        MobileElement element2 = x.createMobileElementByXpath(xPathAvailableBalance);
+        MobileElement label = element2.findElement(
+                By.xpath(".//android.widget.TextView[@text='Available balance']")
+        );
+
+        MobileElement balance = element2.findElement(
+                By.xpath(".//android.widget.TextView[@resource-id='nlb-product-details-primary-balance']")
+        );
+
+        Assert.assertEquals("Available balance kartice nije prikazan",label.getText(),"Available balance");
+
+
     }
 }
