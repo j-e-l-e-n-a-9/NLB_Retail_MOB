@@ -9081,8 +9081,27 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                             "Ispravan redosled: " + sortedAccountNumbers
             );
         }
-        System.out.println("Savings accounts su sortirani rastuće ✅");
+        System.out.println("Savings accounts su sortirani rastuće");
     }
 
+    @And("Assert Credit Card from excel {string} columnname {string} is displayed correctly")
+    public void assertCreditCardFromExcelColumnnameIsDisplayedCorrectly(String rowindex, String columnName) {
+        String cardName = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String xPath = "//android.widget.TextView[@text='" + cardName + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertEquals("Naziv kartice nije ispisan korektno",cardName, element.getText());
+        String xPathAvailableBalance = "//android.view.View[@resource-id=\"nlb-header-card\"]";
+        MobileElement element2 = x.createMobileElementByXpath(xPathAvailableBalance);
+        MobileElement label = element2.findElement(
+                By.xpath(".//android.widget.TextView[@text='Available balance']")
+        );
 
+        MobileElement balance = element2.findElement(
+                By.xpath(".//android.widget.TextView[@resource-id='nlb-product-details-primary-balance']")
+        );
+
+        Assert.assertEquals("Available balance kartice nije prikazan",label.getText(),"Available balance");
+
+
+    }
 }
