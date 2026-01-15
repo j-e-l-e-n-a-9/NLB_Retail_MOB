@@ -2452,4 +2452,15 @@ public class RoutineHelper {
         }
     }
 
+    public void assertElementByContentDesc(String desc) throws Throwable {
+        String xPath = "//*[@content-desc='" + desc + "']";
+        By element = x.createByXpath(xPath);
+        //WaitHelpers.waitForElement(element);
+        if (hp.isElementDisplayed(element)) {
+            Log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Element with desc: " + desc + " is visible !!!!!!!!!!!!!!!!!!!!!!!!!");
+        } else {
+            Log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Element with desc: " + desc + " is not visible !!!!!!!!!!!!!!!!!!!!!!!!!");
+            Assert.assertTrue(hp.isElementDisplayed(element));
+        }
+    }
 }

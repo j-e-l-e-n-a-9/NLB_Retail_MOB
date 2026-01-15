@@ -9105,4 +9105,58 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
 
     }
+
+    @And("Assert element by content desc {string}")
+    public void assertElementByContentDesc(String desc) throws Throwable {
+        rh.assertElementByContentDesc(desc);
+
+    }
+
+    @And("Assert nlb-product-details-card by text {string} is not visible")
+    public void assertElementByTextIsNotVisible(String text) {
+        assertTrue(
+                driver.findElements(By.xpath(
+                        "//*[@resource-id='nlb-product-details-card']" +
+                                "[.//android.widget.TextView[@text='" + text + "']]"
+                )).isEmpty()
+        );
+
+    }
+
+    @And("Assert Account details card is displayed correctly")
+    public void assertAccountDetailsCardIsDisplayedCorrectly() throws Throwable {
+        By accountDetailsCard = By.xpath(
+                "//*[@resource-id='nlb-product-details-card']" +
+                        "[.//android.widget.TextView[@text='Account details']]"
+        );
+
+        By accountType = By.xpath("//android.widget.TextView[@text='Account type']");
+        By accountOwner = By.xpath("//android.widget.TextView[@text='Account owner']");
+        By accountNumber = By.xpath("//android.widget.TextView[@text='Account number']");
+       // By bban = By.xpath("//android.widget.TextView[@text='BBAN']");
+
+        Assert.assertTrue(
+                "Account details section is not displayed",
+                hp.isElementDisplayed(accountDetailsCard)
+                );
+
+        Assert.assertTrue(hp.isElementDisplayed(accountType));
+        Assert.assertTrue(hp.isElementDisplayed(accountOwner));
+        Assert.assertTrue(hp.isElementDisplayed(accountNumber));
+        //Assert.assertTrue(hp.isElementDisplayed(bban));
+
+// Unrealized cheques – zavisi od testa
+        if (result.equals("is displayed")) {
+            Assert.assertTrue(
+                    hp.isElementDisplayed(unrealizedCheques),
+                    "Number of unrealized cheques should be displayed"
+            );
+        } else {
+            Assert.assertTrue(
+                    driver.findElements(unrealizedCheques).isEmpty(),
+                    "Number of unrealized cheques should NOT be displayed"
+            );
+        }
+
+    }
 }

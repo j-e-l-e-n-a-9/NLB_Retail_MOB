@@ -14,6 +14,9 @@ Feature: Current_Foreign_Accounts
     When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
+    
+    And Click on element by text "Details"
+    And Assert nlb-product-details-card by text "Financial details" is not visible
 
 
     Examples:
