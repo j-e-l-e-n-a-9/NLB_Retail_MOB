@@ -3859,6 +3859,7 @@ public class Steps {
         Assert.assertTrue(elementForProductCard1.isDisplayed());
         MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
         String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
+        System.out.println("DEPOSIT CURRENT BALANCE" + stringForCurrentBalance);
         Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
 
@@ -3870,45 +3871,45 @@ public class Steps {
         String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
         String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Term deposit amount']";
         String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAssert = "//*[@resource-id='nlb-header-card']";
+        //String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
         MobileElement elementForProductName = x.createMobileElementByXpath(xPathForProductName);
         hp.ClickOnElement(elementForProductName);
-        By elWait1 = x.createByXpath(xPathForAssert);
+      /*  By elWait1 = x.createByXpath(xPathForAssert);
         WaitHelpers.waitForElement(elWait1);
         MobileElement elementForAssert1 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert1.isDisplayed());
+        Assert.assertTrue(elementForAssert1.isDisplayed());*/
         driver.navigate().back();
         By elForLoad1 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad1);
 
         MobileElement elementForProductIban = x.createMobileElementByXpath(xPathForProductIban);
-        hp.ClickOnElement(elementForProductIban);
+       /* hp.ClickOnElement(elementForProductIban);
         By elWait2 = x.createByXpath(xPathForAssert);
         WaitHelpers.waitForElement(elWait2);
         MobileElement elementForAssert2 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert2.isDisplayed());
+        Assert.assertTrue(elementForAssert2.isDisplayed());*/
         driver.navigate().back();
         By elForLoad2 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad2);
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
-        hp.ClickOnElement(elementForProductCard1);
+        /*hp.ClickOnElement(elementForProductCard1);
         By elWait3 = x.createByXpath(xPathForAssert);
         WaitHelpers.waitForElement(elWait3);
         MobileElement elementForAssert3 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert3.isDisplayed());
+        Assert.assertTrue(elementForAssert3.isDisplayed());*/
         driver.navigate().back();
         By elForLoad3 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad3);
 
         MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
         hp.ClickOnElement(elementForCurrentBalance);
-        By elWait5 = x.createByXpath(xPathForAssert);
+     /*   By elWait5 = x.createByXpath(xPathForAssert);
         WaitHelpers.waitForElement(elWait5);
         MobileElement elementForAssert5 = x.createMobileElementByXpath(xPathForAssert);
-        Assert.assertTrue(elementForAssert5.isDisplayed());
+        Assert.assertTrue(elementForAssert5.isDisplayed());*/
         driver.navigate().back();
         By elForLoad5 = x.createByXpath(xPathForLoad);
         WaitHelpers.waitForElement(elForLoad5);

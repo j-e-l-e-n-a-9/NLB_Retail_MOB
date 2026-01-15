@@ -450,3 +450,25 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
   Examples:
     | rowindex |
     |        1 |
+
+
+  @Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+    #C70786
+    #BUG On android 16 1.700,00 is 1700,00
+    #Only happens on 4 digit numbers
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    When Click "My Products"
+
+    And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+    And Swipe vertical short
+
+    # Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+    And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+
+    Examples:
+      | rowindex |
+      |        1 |
