@@ -382,15 +382,36 @@ Feature: Product_Summary
     And Assert element by text "Settings"
     And Assert element by text "Transactions"
     And Click on element by text "Details"
-#    And Assert that saving accounts are sorted correctly
-#    And Assert that whole product card of gradual savings account with name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" acts as a clickable button
-#   # And Assert that whole product card of savings account with name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" acts as a clickable button
-#    And Click on element by text from excel "<rowindex>" columnName "saving_account_name"
-#    And Assert element by text "Details"
-#    And Assert element by text "Statements"
-#    And Assert element by text "Currency exchange"
-    #Then Assert that product card of name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" for savings account are shown correctly
-    #TODO: Assertovati i transakcije kada se pronadje saving racun sa njima
+    And Assert order of card details
+
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Saving_Accounts_Details_Financial_Details[MOB_ANDROID]
+  Scenario Outline: Saving_Accounts_Details_Financial_Details[MOB_ANDROID]
+    #C70780
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    When Click "My Products"
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_name" is in view
+    And Swipe vertical short
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_name"
+    #And Assert element
+    #And Assert Credit Card from excel "<rowindex>" columnname "saving_account_name" is displayed correctly
+    And Assert element by text "Details"
+    And Assert element by text "Statements"
+    #And Assert element by text "Settings"
+    And Assert element by text "Transactions"
+    And Assert element by content desc "Filters"
+    And Assert element by text "Search..."
+   # And Click on element by text "Details"
+   # And Assert order of card details
+
 
     Examples:
       | rowindex |

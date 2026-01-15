@@ -9089,6 +9089,8 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
     public void assertCreditCardFromExcelColumnnameIsDisplayedCorrectly(String rowindex, String columnName) {
         String cardName = DataManager.getDataFromHashDatamap(rowindex,columnName);
         String xPath = "//android.widget.TextView[@text='" + cardName + "']";
+        By el = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(el);
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertEquals("Naziv kartice nije ispisan korektno",cardName, element.getText());
         String xPathAvailableBalance = "//android.view.View[@resource-id=\"nlb-header-card\"]";
@@ -9097,12 +9099,44 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                 By.xpath(".//android.widget.TextView[@text='Available balance']")
         );
 
-        MobileElement balance = element2.findElement(
-                By.xpath(".//android.widget.TextView[@resource-id='nlb-product-details-primary-balance']")
+        MobileElement balance = element2.findElement(By.xpath(".//android.widget.TextView[@resource-id='nlb-product-details-primary-balance']"));
+
+        Assert.assertEquals("Available balance kartice nije prikazan","Available balance", label.getText());
+        String balanceText = balance.getText();
+        Assert.assertTrue(
+                "Balance nije u ispravnom formatu (brojevi + RSD/EUR): " + balanceText,
+                balanceText.matches(".*\\d.*(RSD|EUR)$")
         );
 
-        Assert.assertEquals("Available balance kartice nije prikazan",label.getText(),"Available balance");
-
-
     }
+
+    @And("Assert order of card details")
+    public void assertOrderOfCardDetails() {
+        String xPathFinancialDetails = "(//android.view.View[@resource-id=\"nlb-product-details-card\"])[1]";
+        String xPathAccountDetails = "(//android.view.View[@resource-id=\"nlb-product-details-card\"])[2]";
+        MobileElement finDetails = x.createMobileElementByXpath(xPathFinancialDetails);
+        MobileElement accDetails = x.createMobileElementByXpath(xPathAccountDetails);
+        MobileElement firstChildFinDetails = finDetails.findElement(
+                By.xpath(".//android.widget.TextView")
+        );
+        MobileElement firstChildAccDetails = accDetails.findElement(
+                By.xpath(".//android.widget.TextView")
+        );
+        Assert.assertEquals("Detalji Finansija nisu ispravno prikazni", "Financial details", firstChildFinDetails.getText());
+        Assert.assertEquals("Detalji Racuna nisu ispravno prikazni", "Account details", firstChildAccDetails.getText());
+    }
+
+
+    @And("Assert element by content desc {string}")
+    public void assertElementByContentDesc(String text) {
+        String xPath = "//*[@content-desc='" + text + "']";
+        try {
+            MobileElement me = x.createMobileElementByXpath(xPath);
+            Assert.assertNotNull("Element nije pronađen", me);
+        } catch (Exception e) {
+            Assert.fail("Element sa content-desc '" + text + "' nije pronađen");
+        }
+    }
+
+
 }
