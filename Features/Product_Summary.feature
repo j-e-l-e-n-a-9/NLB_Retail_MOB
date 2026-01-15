@@ -344,7 +344,6 @@ Feature: Product_Summary
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
-
     When Click "My Products"
 
     And Scroll until element with text from excel "<rowindex>" columnName "saving_account_2_bban" is in view
@@ -355,7 +354,6 @@ Feature: Product_Summary
     And Assert element by text "Details"
     And Assert element by text "Statements"
     And Assert element by text "Currency exchange"
-    #TODO: Proveriti da li treba da se nalazi Currency Exchange ili ne
     #Then Assert that product card of name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" for savings account are shown correctly
     #TODO: Assertovati i transakcije kada se pronadje saving racun sa njima
 
@@ -404,7 +402,6 @@ Feature: Product_Summary
     #And Assert Credit Card from excel "<rowindex>" columnname "saving_account_name" is displayed correctly
     And Assert element by text "Details"
     And Assert element by text "Statements"
-    #And Assert element by text "Settings"
     And Assert element by text "Transactions"
     And Assert element by content desc "Filters"
     And Assert element by text "Search..."
@@ -437,11 +434,6 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
   #And Assert that credit cards account numbers are sorted correctly
 
 
-
-
-
-
-
   #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
   #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
 
@@ -451,24 +443,100 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     | rowindex |
     |        1 |
 
+# TODO: Test preuzet od Slovenaca, ako se pojavi i ovde otkomentarisati ga
+#  @Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+#  Scenario Outline: Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+#    #C70786
+#    #BUG On android 16 1.700,00 is 1700,00
+#    #Only happens on 4 digit numbers
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    When Click "My Products"
+#
+#    And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+#    And Swipe vertical short
+#
+#    And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+#    And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
-  @Product_Summary-Term_Deposit_List_[MOB_ANDROID]
-  Scenario Outline: Product_Summary-Term_Deposit_List_[MOB_ANDROID]
-    #C70786
-    #BUG On android 16 1.700,00 is 1700,00
-    #Only happens on 4 digit numbers
-
+  @Product_Summary-Term_Deposit_Accounts_Details_Account_Details_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Term_Deposit_Accounts_Details_Account_Details_[MOB_ANDROID]
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
     When Click "My Products"
-
-    And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+    And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
     And Swipe vertical short
+    And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+    #And Wait for element by text from excel "<rowindex>" columnName "termDepositName"
+    And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
+    And Click on element by text from excel "<rowindex>" columnName "termDepositName"
 
-    # Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
-    And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+    Then Assert element by text "Account details"
+    And Assert element by text "Account type"
+    And Assert text "Deposit" in element id "nlb-account-type"
+    And Assert element by text "Account owner"
+    And Assert text from excel "<rowindex>" columnName "username" in element by id "nlb-account-owner"
+    And Assert element by text "Account number"
+    And Assert text from excel "<rowindex>" columnName "termDepositBBAN" in element by id "nlb-account-number"
+    And Assert element by text "Opening date"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_opening_date" in element by id "nlb-opening-date"
+    And Assert element by text "Expiration date"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_expiration_date" in element by id "nlb-expiration-date"
+    And Click on element by text "Document archive"
 
     Examples:
       | rowindex |
       |        1 |
+
+  @Product_Summary-Term_Deposits_Accounts_Details_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Term_Deposits_Accounts_Details_[MOB_ANDROID]
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    When Click "My Products"
+    And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
+    And Swipe vertical short
+    And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+    And Wait for element by text from excel "<rowindex>" columnName "termDepositName"
+    #And Click on element by text from excel "<rowindex>" columnName "termDepositName"
+    And Click on element by text "Oročeni depozit"
+    
+    Then Assert element by text "Financial details"
+    And Assert element by text "Term deposit amount"
+    #TODO: Ako se resi ovaj bag sa emulatorom i prikazivanjem amounta, tj da na svake 3 cifre ide . promeniti regex ispod, samo umesto d{0,3} staviti d{0,2}
+    And Assert element by id "nlb-deposited-amount" with regex "^(?:(?:0|[1-9]\d{0,3})(?:.\d{3})*),\d{2} EUR$"
+    And Assert element by text "Interest rate"
+    And Assert element by id "nlb-interest-rate" with regex "^\d{1,2},\d{4} \%$"
+    And Assert element by text "Accrued interest"
+    And Assert element by id "nlb-accrued-interest" ends in "EUR"
+    And Assert text from excel "<rowindex>" columnName "maturity_account" in element by id "nlb-maturity-account"
+    And Assert element "nlb-header-card" by id
+    And Assert element by text "Term deposit amount"
+    #TODO: Ako se resi ovaj bag sa emulatorom i prikazivanjem amounta, tj da na svake 3 cifre ide . promeniti regex ispod, samo umesto d{0,3} staviti d{0,2}
+    And Assert element by id "nlb-product-details-primary-balance" with regex "^(?:(?:0|[1-9]\d{0,3})(?:.\d{3})*),\d{2} EUR$"
+
+    Then Assert element by text "Account details"
+    And Assert element by text "Account type"
+    And Assert text "Deposit" in element id "nlb-account-type"
+    And Assert element by text "Account owner"
+    And Assert text from excel "<rowindex>" columnName "username" in element by id "nlb-account-owner"
+    And Assert element by text "Account number"
+    And Assert text from excel "<rowindex>" columnName "termDepositBBAN" in element by id "nlb-account-number"
+    And Assert element by text "Opening date"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_opening_date" in element by id "nlb-opening-date"
+    And Assert element by text "Expiration date"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_expiration_date" in element by id "nlb-expiration-date"
+    And Click on element by text "Document archive"
+
+
+
+    Examples:
+      | rowindex |
+      |        2 |
