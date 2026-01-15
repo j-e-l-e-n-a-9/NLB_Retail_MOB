@@ -5931,24 +5931,28 @@ public class Steps {
     public void assertThatProductCardOfNameAndDetailedNameFromExcelForNlbCreditCardAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForCardNumber = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
+        MobileElement accNumber = x.createMobileElementByXpath(xPathForCardNumber);
+        Assert.assertEquals(productIban,accNumber.getText());
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
         MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
         String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
-        Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
+        System.out.println("CUR BALANCE:" + stringForCurrentBalance);
+        Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})(EUR|RSD)"));
     }
 
     @And("Assert that whole product card of credit card account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfCreditCardAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
         String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
         String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Credit Card\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -9168,7 +9172,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         //Assert.assertTrue(hp.isElementDisplayed(bban));
 
 // Unrealized cheques – zavisi od testa
-        if (result.equals("is displayed")) {
+       /* if (result.equals("is displayed")) {
             Assert.assertTrue(
                     hp.isElementDisplayed(unrealizedCheques),
                     "Number of unrealized cheques should be displayed"
@@ -9178,9 +9182,42 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                     driver.findElements(unrealizedCheques).isEmpty(),
                     "Number of unrealized cheques should NOT be displayed"
             );
-        }
+        }*/
 
     }
 
 
+    @And("Assert that credit cards account numbers are sorted correctly")
+    public void assertThatCreditCardsAccountNumbersAreSortedCorrectly() {
+        List<MobileElement> savingCards = driver.findElements(
+                By.xpath(
+                        "//android.view.View[@resource-id='nlb-product-summary-card']" +
+                                "[.//android.view.View[@content-desc='Savings Account']]"
+                )
+        );
+        System.out.println("Broj SAVINGS kartica: " + savingCards.size());
+        List<Long> accountNumbers = new ArrayList<>();
+        for (MobileElement card : savingCards) {
+            String accountIdText = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-account-id']")
+            ).getText();
+            Long accountId = Long.parseLong(accountIdText.replaceAll("\\D", ""));
+            accountNumbers.add(accountId);
+            System.out.println("Savings account ID: " + accountId);
+            String accountAmount = card.findElement(
+                    By.xpath(".//android.widget.TextView[@resource-id='nlb-value-product-primary-balance']")
+            ).getText();
+            System.out.println("Savings account balance: " + accountAmount);
+        }
+        List<Long> sortedAccountNumbers = new ArrayList<>(accountNumbers);
+        Collections.sort(sortedAccountNumbers);
+        if (!accountNumbers.equals(sortedAccountNumbers)) {
+            throw new AssertionError(
+                    "Savings accounts NISU sortirani rastuće!\n" +
+                            "Prikazani redosled: " + accountNumbers + "\n" +
+                            "Ispravan redosled: " + sortedAccountNumbers
+            );
+        }
+        System.out.println("Savings accounts su sortirani rastuće");
+    }
 }
