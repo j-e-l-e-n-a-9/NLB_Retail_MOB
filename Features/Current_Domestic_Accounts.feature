@@ -503,7 +503,12 @@ Feature: Current_Domestic_Accounts
 
     And Click on element by text "Details"
     And Assert Account details card is displayed correctly
+    And Click on element by desc "Copy account details"
+    And Assert content in clipboard is correct
+
+
 
     Examples:
       | rowindex |
       |        1 |
+

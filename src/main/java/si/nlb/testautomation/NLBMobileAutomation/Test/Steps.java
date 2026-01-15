@@ -9172,18 +9172,6 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         Assert.assertTrue(hp.isElementDisplayed(accountNumber));
         //Assert.assertTrue(hp.isElementDisplayed(bban));
 
-// Unrealized cheques – zavisi od testa
-       /* if (result.equals("is displayed")) {
-            Assert.assertTrue(
-                    hp.isElementDisplayed(unrealizedCheques),
-                    "Number of unrealized cheques should be displayed"
-            );
-        } else {
-            Assert.assertTrue(
-                    driver.findElements(unrealizedCheques).isEmpty(),
-                    "Number of unrealized cheques should NOT be displayed"
-            );
-        }*/
 
     }
 
@@ -9221,4 +9209,26 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         }
         System.out.println("Savings accounts su sortirani rastuće");
     }
+
+    @And("Assert content in clipboard is correct")
+    public void assertContentInClipboardIsCorrect() {
+
+        String expectedText =
+                "Account type: Current account\n" +
+                        "Account owner: OSIR ANOEV\n" +
+                        "Account number: RS35 2059 0010 0779 0944 88";
+
+        Map<String, Object> args = new HashMap<>();
+        args.put("contentType", "plaintext");
+
+        String clipboardText = (String) ((JavascriptExecutor) driver)
+                .executeScript("mobile: getClipboard", args);
+
+        System.out.println("Expected: " + expectedText);
+        System.out.println("Clipboard: " + clipboardText);
+        Assert.assertEquals("Clipboard content does not match expected value", expectedText, clipboardText);
+    }
+
+
+
 }
