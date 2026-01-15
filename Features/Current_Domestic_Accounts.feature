@@ -442,3 +442,68 @@ Feature: Current_Domestic_Accounts
       | rowindex |
       |        2 |
 
+
+  @Current_Domestic_Accounts-Transactions-Filter_By_Date-Predefined_Date_Range_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Transactions-Filter_By_Date-Predefined_Date_Range_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+
+    And Click on element by desc "Filters"
+    And Assert element by text "Date"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+    #TO-DO   Category, Tags, Back, Clear filter
+    
+    And Click on element by text "Date"
+    #The date filter page opens, containing options for Last 7 Days, Current Month, and Previous Month.
+    #As well as a custom date range input section that contains a From field with a date selection calendar and a To field with a date selection calendar
+
+    #And Assert element by text "Last 7 Days"
+    And Assert element "nlb-radio-button-LAST_7_DAYS" by id
+    #And Assert element by text "Current Month"
+    And Assert element "nlb-radio-button-THIS_MONTH" by id
+    #And Assert element by text "Previous Month"
+    And Assert element "nlb-radio-button-LAST_MONTH" by id
+
+
+    And Assert element by text "Custom date range"
+    And Assert element "nlb-radio-button-CUSTOM_DATE_RANGE" by id
+    And Assert element "nlb-input-date-from-click-area" by id
+    And Assert element "nlb-input-date-to-click-area" by id
+
+    #TO-DO Filtere nakon sto bude bilo transakcija za ove opcije, posl transakcija u julu...
+
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+
+  @Current_Domestic_Accounts-Details-Account_Details_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Details-Account_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+
+    And Click on element by text "Details"
+    And Assert Account details card is displayed correctly
+
+    Examples:
+      | rowindex |
+      |        1 |
