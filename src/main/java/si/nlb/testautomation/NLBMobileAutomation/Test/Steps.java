@@ -9368,4 +9368,13 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
         Assert.fail("Element with BBAN " + text + " was not found after scrolling");
     }
+
+    @And("Assert that text {string} has first following sibling from excel {string} columnName {string}")
+    public void assertThatTextHasFirstFollowingSiblingFromExcelColumnName(String textFirst, String rowindex, String column) {
+        String accNumber =  DataManager.getDataFromHashDatamap(rowindex,column);
+        accNumber = accNumber.replace("-", "");
+        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertEquals(accNumber,element.getText());
+    }
 }
