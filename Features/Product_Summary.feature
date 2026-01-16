@@ -472,3 +472,50 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     Examples:
       | rowindex |
       |        1 |
+
+  @Product_Summary-Current_Foreign_Accounts_List_[MOB_ANDROID]
+  Scenario Outline: Product_Summary-Current_Foreign_Accounts_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+
+
+    #TODO - AUTORIZED ACCOUNT kad ih bude bilo
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Manage_Products-Hide/Show_account_on_Product_List_[MOB_ANDROID]
+  Scenario Outline: Manage_Products-Hide/Show_account_on_Product_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Assert element by contains text "Edit list"
+    And Click on element by text "Edit list"
+
+    #Saving accounts
+    And Scroll until element with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is in the view
+    And Hide product card from Excel "<rowindex>" columnName "saving_account_bban"
+    And Assert that product card from Excel "<rowindex>" columnName "saving_account_bban" is hidden
+    And Click on element by desc "Back"
+    And Assert that product card with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is not shown
+    And Click on element by text "Edit list"
+    And Scroll until element with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is in the view
+    And Show product card from Excel "<rowindex>" columnName "saving_account_bban"
+
+
+    Examples:
+      | rowindex |
+      |        1 |

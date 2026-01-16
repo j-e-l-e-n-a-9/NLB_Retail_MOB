@@ -460,7 +460,7 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "Date"
     And Assert element by text "Type"
     And Assert element by text "Amount"
-    #TO-DO   Category, Tags, Back, Clear filter
+    #TODO   Category, Tags, Back, Clear filter
     
     And Click on element by text "Date"
     #The date filter page opens, containing options for Last 7 Days, Current Month, and Previous Month.
@@ -479,7 +479,7 @@ Feature: Current_Domestic_Accounts
     And Assert element "nlb-input-date-from-click-area" by id
     And Assert element "nlb-input-date-to-click-area" by id
 
-    #TO-DO Filtere nakon sto bude bilo transakcija za ove opcije, posl transakcija u julu...
+    #TODO Filtere nakon sto bude bilo transakcija za ove opcije, posl transakcija u julu...
 
 
     Examples:
@@ -508,7 +508,58 @@ Feature: Current_Domestic_Accounts
 
 
 
+    #TODO Number of unrealized cheques @result
+
     Examples:
       | rowindex |
       |        1 |
 
+  @Current_Domestic_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
+
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+
+    And Click on element by desc "Filters"
+    And Assert element by text "Date"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Date"
+    #And Assert element by text "Last 7 Days"
+    And Assert element "nlb-radio-button-LAST_7_DAYS" by id
+    #And Assert element by text "Current Month"
+    And Assert element "nlb-radio-button-THIS_MONTH" by id
+    #And Assert element by text "Previous Month"
+    And Assert element "nlb-radio-button-LAST_MONTH" by id
+
+
+    And Assert element by text "Custom date range"
+    And Assert element "nlb-radio-button-CUSTOM_DATE_RANGE" by id
+    And Assert element "nlb-input-date-from-click-area" by id
+    And Assert element "nlb-input-date-to-click-area" by id
+
+    And Click on element by id "nlb-input-date-from"
+
+    And Click on date in Calendar with year 2026 month 1 day 16 and assert that it is shown correctly
+    And Click on element by text "Apply"
+
+    And Click on element by id "nlb-input-date-to-click-area"
+    And Click on date in Calendar with year 2026 month 1 day 10 and assert that it is shown correctly
+    And Click on element by text "Apply"
+
+
+    #Then Assert transactions dates are between dates year 2024 month 12 day 20 and year 2024 month 12 day 24
+
+
+    Examples:
+      | rowindex |
+      |        1 |

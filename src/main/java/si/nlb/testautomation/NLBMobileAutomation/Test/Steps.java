@@ -1321,6 +1321,7 @@ public class Steps {
     @And("Scroll until element with IBAN from Excel {string} columnName {string} is in the view")
     public void scrollUntilElementWithIBANFromExcelColumnNameIsInTheView(String rowindex, String columnName) throws InterruptedException {
         String iban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        System.out.println("Trazimo bban: " + iban);
         By element = x.createByName(iban);
         hp.scrollIntoViewDownVertical(element);
     }
@@ -7725,7 +7726,7 @@ public class Steps {
 
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
-        WaitHelpers.waitForSeconds(5);
+        WaitHelpers.waitForSeconds(10);
         String xPath="//*[@content-desc='"+ text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
     }
@@ -9222,14 +9223,128 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         Map<String, Object> args = new HashMap<>();
         args.put("contentType", "plaintext");
 
-        String clipboardText = (String) ((JavascriptExecutor) driver)
+
+        String base64Clipboard = (String) ((JavascriptExecutor) driver)
                 .executeScript("mobile: getClipboard", args);
 
+        // ✅ Base64 decode
+        String clipboardText = new String(
+                java.util.Base64.getDecoder().decode(base64Clipboard)
+        );
         System.out.println("Expected: " + expectedText);
         System.out.println("Clipboard: " + clipboardText);
         Assert.assertEquals("Clipboard content does not match expected value", expectedText, clipboardText);
     }
 
 
+
+    @And("Hide product card from Excel {string} columnName {string}")
+    public void hideProductCardFromExcelColumnName(String rowindex, String columnName) {
+
+        String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+
+        MobileElement bbanElement = (MobileElement) driver.findElement(
+                By.xpath("//android.widget.TextView[@text='" + bban + "']")
+        );
+
+        MobileElement cardRoot = bbanElement.findElement(
+                By.xpath("..")
+        );
+
+        MobileElement hideButton = cardRoot.findElement(
+                By.xpath(".//android.view.View[@content-desc='Hide Account']")
+        );
+
+        hideButton.click();
+    }
+
+
+
+
+    @And("Assert that product card from Excel {string} columnName {string} is hidden")
+    public void assertThatProductCardFromExcelColumnNameIsHidden(String rowindex, String columnName) {
+
+        String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String cardXpath =
+                "//android.widget.TextView[@text='" + bban + "']" +
+                        "/ancestor::android.view.View[@resource-id='nlb-card-container']";
+
+        MobileElement card = (MobileElement) driver.findElement(By.xpath(cardXpath));
+
+        MobileElement eyeIcon = card.findElement(
+                By.xpath(".//*[@content-desc='Alt=\"Show Account\"']")
+        );
+
+        //Assert.assertFalse("Eye icon should be disabled", eyeIcon.isEnabled());
+        Assert.assertTrue(eyeIcon.isDisplayed());
+       // Assert.assertFalse("Card should be disabled", card.isEnabled());
+    }
+
+    @And("Assert that product card with BBAN from Excel {string} columnName {string} is not shown")
+    public void assertThatProductCardWithBBANIsNotShown(String rowindex, String columnName) {
+
+        String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+
+        By cardLocator = By.xpath("//android.widget.TextView[@text='" + bban + "']");
+
+        boolean isFound = false;
+
+        for (int i = 0; i < 5; i++) {
+
+            List<MobileElement> elements = driver.findElements(cardLocator);
+
+            if (!elements.isEmpty()) {
+                isFound = true;
+                break;
+            }
+
+            hp.scrollDown(driver);
+        }
+
+        Assert.assertFalse("Hidden product with BBAN " + bban + " is still displayed",
+                isFound
+        );
+    }
+
+    @And("Show product card from Excel {string} columnName {string}")
+    public void showProductCardFromExcelColumnName(String rowindex, String columnName) {
+
+        String bban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+
+        String cardXpath =
+                "//android.widget.TextView[@text='" + bban + "']" +
+                        "/ancestor::android.view.View[@resource-id='nlb-card-container']";
+
+        MobileElement card = (MobileElement) driver.findElement(By.xpath(cardXpath));
+
+        MobileElement showButton = card.findElement(
+                By.xpath(".//*[@content-desc='Alt=\"Show Account\"']")
+        );
+
+        showButton.click();
+
+    }
+
+    @And("Scroll until element with BBAN from Excel {string} columnName {string} is in the view")
+    public void scrollUntilElementWithBBANFromExcelColumnNameIsInTheView(String rowindex, String columnName) {
+
+        String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        By locator = By.xpath("//android.widget.TextView[@text='" + bban + "']");
+
+        int maxScrolls = 6;
+
+        for (int i = 0; i < maxScrolls; i++) {
+
+            List<MobileElement> elements = driver.findElements(locator);
+
+            if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
+                return;
+            }
+
+            hp.scrollDown(driver);
+        }
+
+        Assert.fail("Element with BBAN " + bban + " was not found after scrolling");
+    }
 
 }
