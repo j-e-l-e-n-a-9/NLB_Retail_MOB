@@ -511,11 +511,48 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     And Assert that product card from Excel "<rowindex>" columnName "saving_account_bban" is hidden
     And Click on element by desc "Back"
     And Assert that product card with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is not shown
+
+    And Click on Bottom navigation button "My NLB"
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Assert element by contains text "Edit list"
     And Click on element by text "Edit list"
+
+
+
+    #Term deposit
+    And Scroll until element with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is in the view
+    And Hide product card from Excel "<rowindex>" columnName "term_deposit_bban"
+    And Assert that product card from Excel "<rowindex>" columnName "term_deposit_bban" is hidden
+    And Click on element by desc "Back"
+    And Assert that product card with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is not shown
+
+    And Click on Bottom navigation button "My NLB"
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Assert element by contains text "Edit list"
+    And Click on element by text "Edit list"
+
+     #Card
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_name" is in the view
+    And Hide product card from Excel "<rowindex>" columnName "credit_card_name"
+    And Assert that product card from Excel "<rowindex>" columnName "credit_card_name" is hidden
+    And Click on element by desc "Back"
+    And Assert that product card with BBAN from Excel "<rowindex>" columnName "credit_card_name" is not shown
+
+    And Click on Bottom navigation button "My NLB"
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Assert element by contains text "Edit list"
+    And Click on element by text "Edit list"
+
     And Scroll until element with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is in the view
     And Show product card from Excel "<rowindex>" columnName "saving_account_bban"
-
-
+    And Scroll until element with BBAN from Excel "<rowindex>" columnName "credit_card_name" is in the view
+    And Show product card from Excel "<rowindex>" columnName "credit_card_name"
+    And Scroll until element with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is in the view
+    And Show product card from Excel "<rowindex>" columnName "term_deposit_bban"
+    
     Examples:
       | rowindex |
       |        1 |

@@ -547,14 +547,16 @@ Feature: Current_Domestic_Accounts
     And Assert element "nlb-input-date-from-click-area" by id
     And Assert element "nlb-input-date-to-click-area" by id
 
-    And Click on element by id "nlb-input-date-from"
+    And Click on element by id "nlb-input-date-to-click-area"
+    And Click on date in Calendar with year 2026 month 1 day 10 and assert that it is shown correctly
+    And Click on element by text "Apply"
+
+    And Click on element by id "nlb-input-date-from-click-area"
 
     And Click on date in Calendar with year 2026 month 1 day 16 and assert that it is shown correctly
     And Click on element by text "Apply"
 
-    And Click on element by id "nlb-input-date-to-click-area"
-    And Click on date in Calendar with year 2026 month 1 day 10 and assert that it is shown correctly
-    And Click on element by text "Apply"
+
 
 
     #Then Assert transactions dates are between dates year 2024 month 12 day 20 and year 2024 month 12 day 24

@@ -115,6 +115,7 @@ public class Steps {
 
     @When("Click on element by text {string}")
     public void clickOnElementByText(String text) throws Exception {
+        WaitHelpers.waitForSeconds(5);
         rh.clickOnElementByText(text);
     }
 
@@ -9239,23 +9240,22 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
 
     @And("Hide product card from Excel {string} columnName {string}")
-    public void hideProductCardFromExcelColumnName(String rowindex, String columnName) {
+    public void hideProductCardFromExcelColumnName(String rowindex, String columnName) throws Throwable {
 
         String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
 
-        MobileElement bbanElement = (MobileElement) driver.findElement(
-                By.xpath("//android.widget.TextView[@text='" + bban + "']")
-        );
+        By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Hide Account\"]");
+        WaitHelpers.waitForElement(elForEye);
+        String xPathForHideAccount = "//*[@text='"+bban+"']//following-sibling::android.view.View[2]";
+        By elForHideAccount = x.createByXpath(xPathForHideAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForHideAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+        MobileElement elementToHide = x.createMobileElementByXpath(xPathForHideAccount);
+        hp.ClickOnElement(elementToHide);
 
-        MobileElement cardRoot = bbanElement.findElement(
-                By.xpath("..")
-        );
-
-        MobileElement hideButton = cardRoot.findElement(
-                By.xpath(".//android.view.View[@content-desc='Hide Account']")
-        );
-
-        hideButton.click();
     }
 
 
@@ -9307,21 +9307,22 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
     }
 
     @And("Show product card from Excel {string} columnName {string}")
-    public void showProductCardFromExcelColumnName(String rowindex, String columnName) {
+    public void showProductCardFromExcelColumnName(String rowindex, String columnName) throws Throwable {
 
-        String bban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String bban = DataManager.getDataFromHashDatamap(rowindex, columnName);
 
-        String cardXpath =
-                "//android.widget.TextView[@text='" + bban + "']" +
-                        "/ancestor::android.view.View[@resource-id='nlb-card-container']";
+        By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Alt=\"Show Account\"\"]");
+        WaitHelpers.waitForElement(elForEye);
+        String xPathForShowAccount = "//*[@text='"+bban+"']//following-sibling::android.view.View[2]";
+        By elForShowAccount = x.createByXpath(xPathForShowAccount);
+        for(int i = 0; i<10; i++){
+            if(hp.isElementNotPresent(elForShowAccount)){
+                hp.scrollDown(driver);
+            }
+        }
+        MobileElement elementToShow = x.createMobileElementByXpath(xPathForShowAccount);
+        hp.ClickOnElement(elementToShow);
 
-        MobileElement card = (MobileElement) driver.findElement(By.xpath(cardXpath));
-
-        MobileElement showButton = card.findElement(
-                By.xpath(".//*[@content-desc='Alt=\"Show Account\"']")
-        );
-
-        showButton.click();
 
     }
 
@@ -9347,4 +9348,24 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         Assert.fail("Element with BBAN " + bban + " was not found after scrolling");
     }
 
+    @And("Scroll until element with text from Excel {string} columnName {string} is in the view")
+    public void scrollUntilElementWithTextFromExcelColumnNameIsInTheView(String rowindex, String columnName) {
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        By locator = By.xpath("//android.widget.TextView[@text='" + text + "']");
+
+        int maxScrolls = 6;
+
+        for (int i = 0; i < maxScrolls; i++) {
+
+            List<MobileElement> elements = driver.findElements(locator);
+
+            if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
+                return;
+            }
+
+            hp.scrollDown(driver);
+        }
+
+        Assert.fail("Element with BBAN " + text + " was not found after scrolling");
+    }
 }
