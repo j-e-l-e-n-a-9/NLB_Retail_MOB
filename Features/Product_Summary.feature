@@ -49,21 +49,21 @@ Feature: Product_Summary
       | rowindex |
       |        5 |
 
-  @Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
-  Scenario Outline: Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    And Assert that products in My products page is loaded
-
-    Then Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-value-product-primary-balance\" and @text=\"5304,55 EUR\"]"
-    And Assert Product number is in BBAN format by xPath "//android.widget.TextView[@resource-id=\"nlb-value-product-account-id\" and @text=\"205-9032022325800-66\"]"
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "termDepositBBAN"
-    And Assert that whole product card of term deposit account with name "termDepositName" and bban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
+#  Scenario Outline: Product_Summary-Term_Deposits_Lists_[MOB_ANDROID]
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    And Assert that products in My products page is loaded
+#
+#    Then Assert amount and currency are displayed by Android xpath "//android.widget.TextView[@resource-id=\"nlb-value-product-primary-balance\" and @text=\"5304,55 EUR\"]"
+#    And Assert Product number is in BBAN format by xPath "//android.widget.TextView[@resource-id=\"nlb-value-product-account-id\" and @text=\"205-9032022325800-66\"]"
+#    And Assert Product page for product with name from Excel "<rowindex>" columnName "termDepositBBAN"
+#    And Assert that whole product card of term deposit account with name "termDepositName" and bban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
 
   @Product_Summary_Sorting_on_the_Product_Summary_[ANDROID]
@@ -417,6 +417,80 @@ Feature: Product_Summary
       | rowindex |
       |        1 |
 
+    @Product_Summary-Term_Deposit_Accounts_Details_Account_Details_[MOB_ANDROID]
+    Scenario Outline: Product_Summary-Term_Deposit_Accounts_Details_Account_Details_[MOB_ANDROID]
+      #TODO: TEST TREBA DOVRSITI U TRENUTKU KADA PRORADI Documents archive
+      Given Open Application
+      And Select User from Excel "<rowindex>" columnName "username" and login
+      And Wait for element by resource id "nlb-bottom-nav-button" to appear
+      When Click "My Products"
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
+      And Swipe vertical short
+      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+      #And Wait for element by text from excel "<rowindex>" columnName "termDepositName"
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
+      And Click on element by text from excel "<rowindex>" columnName "termDepositName"
+
+      Then Assert element by text "Account details"
+      And Assert element by text "Account type"
+      And Assert text "Deposit" in element id "nlb-account-type"
+      And Assert element by text "Account owner"
+      And Assert text from excel "<rowindex>" columnName "username" in element by id "nlb-account-owner"
+      And Assert element by text "Account number"
+      And Assert text from excel "<rowindex>" columnName "termDepositBBAN" in element by id "nlb-account-number"
+      And Assert element by text "Opening date"
+      And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_opening_date" in element by id "nlb-opening-date"
+      And Assert element by text "Expiration date"
+      And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_expiration_date" in element by id "nlb-expiration-date"
+      And Click on element by text "Document archive"
+
+        Examples:
+          | rowindex |
+          |        1 |
+
+      @Product_Summary-Term_Deposits_Accounts_Details_[MOB_ANDROID]
+      Scenario Outline: Product_Summary-Term_Deposits_Accounts_Details_[MOB_ANDROID]
+      Given Open Application
+      And Select User from Excel "<rowindex>" columnName "username" and login
+      And Wait for element by resource id "nlb-bottom-nav-button" to appear
+      When Click "My Products"
+
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
+      And Swipe vertical short
+      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+      And Wait for element by text from excel "<rowindex>" columnName "termDepositName"
+      #And Click on element by text from excel "<rowindex>" columnName "termDepositName"
+      And Click on element by text "Oročeni depozit"
+      Then Assert element by text "Financial details"
+      And Assert element by text "Term deposit amount"
+      #TODO: Ako se resi ovaj bag sa emulatorom i prikazivanjem amounta, tj da na svake 3 cifre ide . promeniti regex ispod, samo umesto d{0,3} staviti d{0,2}
+      And Assert element by id "nlb-deposited-amount" with regex "^(?:(?:0|[1-9]\d{0,3})(?:.\d{3})*),\d{2} EUR$"
+      And Assert element by text "Interest rate"
+      And Assert element by id "nlb-interest-rate" with regex "^\d{1,2},\d{4} \%$"
+      And Assert element by text "Accrued interest"
+      And Assert element by id "nlb-accrued-interest" ends in "EUR"
+      And Assert text from excel "<rowindex>" columnName "maturity_account" in element by id "nlb-maturity-account"
+      And Assert element "nlb-header-card" by id
+      And Assert element by text "Term deposit amount"
+      #TODO: Ako se resi ovaj bag sa emulatorom i prikazivanjem amounta, tj da na svake 3 cifre ide . promeniti regex ispod, samo umesto d{0,3} staviti d{0,2}
+      And Assert element by id "nlb-product-details-primary-balance" with regex "^(?:(?:0|[1-9]\d{0,3})(?:.\d{3})*),\d{2} EUR$"
+      Then Assert element by text "Account details"
+      And Assert element by text "Account type"
+      And Assert text "Deposit" in element id "nlb-account-type"
+      And Assert element by text "Account owner"
+      And Assert text from excel "<rowindex>" columnName "username" in element by id "nlb-account-owner"
+      And Assert element by text "Account number"
+      And Assert text from excel "<rowindex>" columnName "termDepositBBAN" in element by id "nlb-account-number"
+      And Assert element by text "Opening date"
+      And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_opening_date" in element by id "nlb-opening-date"
+      And Assert element by text "Expiration date"
+      And Assert text from excel "<rowindex>" columnName "term_deposit_account_details_expiration_date" in element by id "nlb-expiration-date"
+
+      Examples:
+        | rowindex |
+        |         2|
+
 
 
 @Product_Summary-Credit_Card_List_[MOB_ANDROID]
@@ -457,17 +531,16 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     #C70786
     #BUG On android 16 1.700,00 is 1700,00
     #Only happens on 4 digit numbers
+      Given Open Application
+      And Select User from Excel "<rowindex>" columnName "username" and login
+      And Wait for element by resource id "nlb-bottom-nav-button" to appear
+      When Click "My Products"
 
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    When Click "My Products"
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+      And Swipe vertical short
 
-    And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
-    And Swipe vertical short
-
-    # Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
-    And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+      And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
 
     Examples:
       | rowindex |
