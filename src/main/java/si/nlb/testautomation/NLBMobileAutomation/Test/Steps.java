@@ -4613,6 +4613,7 @@ public class Steps {
     public void clickOnDateInCalendarWithYearMonthDayAndAssertThatItIsShownCorrectly(int year, int month, int day) throws Exception {
         //get back to past dates in calendar if needed
         int amountOfMonths = rh.getHowManyMonthsAreBetweenTodayAndSelectedDate(year, month, day);
+        System.out.println("AMOUNT OF MONTHS: " + amountOfMonths);
         if(amountOfMonths>0){
             for(int i=0; i<amountOfMonths; i++){
                 By el = x.createByXpath("//*[@content-desc='Change to previous month']/following-sibling::android.widget.Button");
@@ -9383,5 +9384,33 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         WaitHelpers.waitForSeconds(10);
         String xPath = "(//*[@content-desc='" + desc + "'])[" + index + "]";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
+    }
+
+    @And("Assert element by text {string} is clickable")
+    public void assertElementByTextIsClickable(String text) throws Throwable {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("clickable");
+        Assert.assertEquals("true", clickableAttr);
+    }
+
+    @And("Assert element by text {string} is not clickable")
+    public void assertElementByTextIsNotClickable(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("clickable");
+        Assert.assertEquals("false", clickableAttr);
+    }
+
+    @And("Check if element by text {string} is enabled")
+    public void checkIfElementByTextIsEnabled(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("enabled");
+        Assert.assertEquals("true", clickableAttr);
+    }
+
+    @And("Check if element by text {string} is not enabled")
+    public void checkIfElementByTextIsNotEnabled(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("enabled");
+        Assert.assertEquals("false", clickableAttr);
     }
 }
