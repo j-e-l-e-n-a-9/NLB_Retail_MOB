@@ -88,3 +88,100 @@ Feature: Credit_Cards
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Credit_cards-Transactions-Filter-Filter_By_Type_[MOB_ANDROID]
+  Scenario Outline: Credit_cards-Transactions-Filter-Filter_By_Type_[MOB_ANDROID]
+
+    Given Open Application
+    #And Wait "100" seconds
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Click on element by id "nlb-icon-button"
+    
+    And Assert element by text "Date"
+    #And Assert element by text "Status"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Type"
+    And Click on element by id "nlb-radio-button-INCOMING"
+    And Click on element by text "Apply"
+    And Click on element by text "Apply"
+
+    And Wait "10" seconds
+    And Wait for first Transaction
+    And Assert that all transactions are type "incoming"
+
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+  @Credit_cards-Transactions-Filter-Filter_By_Amount_[MOB_ANDROID]
+  Scenario Outline: Credit_cards-Transactions-Filter-Filter_By_Amount_[MOB_ANDROID]
+
+    Given Open Application
+    #And Wait "100" seconds
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Click on element by id "nlb-icon-button"
+
+    And Assert element by text "Date"
+    #And Assert element by text "Status"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Amount"
+    And Enter amount from "10000" to "20000"
+    And Click on element by text "Apply"
+    And Click on element by text "Apply"
+
+
+
+    And Wait "10" seconds
+    And Wait for first Transaction
+    And Assert that all transactions are between "10000" and "20000"
+
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+  @Credit_cards-Transactions-Filter-Filter_By_Amount_invalid_[MOB_ANDROID]
+  Scenario Outline: Credit_cards-Transactions-Filter-Filter_By_Amount_invalid_[MOB_ANDROID]
+
+    Given Open Application
+    #And Wait "100" seconds
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Click on element by id "nlb-icon-button"
+
+    And Assert element by text "Date"
+    #And Assert element by text "Status"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Amount"
+    #And Enter amount from "10000" to "20000"
+    And Click on element by text "Apply"
+    And Click on element by text "Apply"
+
+
+
+
+    Examples:
+      | rowindex |
+      |        1 |

@@ -560,13 +560,13 @@ public class Steps {
 
     @When("Swipe horizontal")
     public void swipeHorizontal() throws Throwable {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
             int startX = 500;
             int startY = 1300;
             int endX = 500;
             int endY = 600;
             hp.swipeByCordinates(startX, startY, endX, endY);
-        } else{
+        } else {
             int startX = 500;
             int startY = 1800;
             int endX = 500;
@@ -604,7 +604,7 @@ public class Steps {
 
     @And("Assert there are more than 30 transactions")
     public void assertThereAreMoreThan30Transactions() throws Exception {
-        rh.assertThereAreMoreThanTransactionsInTransactionListOFMyProducts("title",30);
+        rh.assertThereAreMoreThanTransactionsInTransactionListOFMyProducts("title", 30);
     }
 
     @And("Assert element {string} by id is enabled")
@@ -710,6 +710,7 @@ public class Steps {
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
         Assert.assertEquals(currentDate, actualDate);
     }
+
     @And("Assert element {string} by id has current date in format {string} uppercase")
     public void assertElementByIdHasCurrentDateInFormatUpperCase(String id, String dateFormat) {
         MobileElement element = d.createMobileElementByResourceId(id);
@@ -722,13 +723,13 @@ public class Steps {
         By el = d.createElementByResourceId(id);
         WaitHelpers.waitForElement(el);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expected,element.getAttribute("text"));
+        Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert text {string} in element id {string} with trim")
     public void assertTextInElementIdWithTrim(String expected, String id) {
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expected,element.getAttribute("text").trim());
+        Assert.assertEquals(expected, element.getAttribute("text").trim());
     }
 
 
@@ -743,9 +744,8 @@ public class Steps {
             String xpath = "//XCUIElementTypeStaticText[@name=\"I wish to exchange\"]//../XCUIElementTypeTextField[@name='receivingTxt']";
             By element = x.createByXpath(xpath);
             hp.enterTextToElement(text, element);
-        }
-        else {
-            if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        } else {
+            if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
                 String textForInput = rh.shiftDigitsToRIght(text);
                 By element = d.createElementById(id);
                 MobileElement typeElement = d.createMobileElementByResourceId(id);
@@ -761,6 +761,7 @@ public class Steps {
 
         }
     }
+
     @And("Enter text from key {string} in element id {string} array")
     public void enterTextFromKeyInElementIdArray(String key, String id) throws Exception {
         String text = (String) DataManager.userObject.get(key);
@@ -804,7 +805,7 @@ public class Steps {
     public void assertTextUnderKeyInElementId(String key, String id) {
         MobileElement element = d.createMobileElementByResourceId(id);
         String expected = (String) DataManager.userObject.get(key);
-        Assert.assertEquals(expected,element.getAttribute("text"));
+        Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert text under key {string} is contained in element id {string}")
@@ -816,22 +817,23 @@ public class Steps {
 
     @And("Assert text in excel {string} columnName {string} in element id {string}")
     public void assertTextInExcelColumnNameInElementId(String rowindex, String columnName, String id) {
-        String expected = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expected,element.getAttribute("text"));
+        Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert list of element by id {string} ends in {string}")
     public void assertListOfElementByIdEndsIn(String id, String end) {
         List<MobileElement> mobileElementList = d.createElementsById(id);
         Assert.assertTrue(mobileElementList.size() != 0);
-        rh.assertListOfMobileElementByIdEndsIn(mobileElementList,end);
+        rh.assertListOfMobileElementByIdEndsIn(mobileElementList, end);
     }
+
     @And("Assert list of element by resource id {string} ends in {string}")
     public void assertListOfElementByResourceIdEndsIn(String id, String end) {
         List<MobileElement> mobileElementList = d.createMobileElementsByResourceId(id);
         Assert.assertTrue(mobileElementList.size() != 0);
-        rh.assertListOfMobileElementByIdEndsIn(mobileElementList,end);
+        rh.assertListOfMobileElementByIdEndsIn(mobileElementList, end);
     }
 
 
@@ -840,12 +842,12 @@ public class Steps {
         List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList(id);
         List<String> orderedList = list;
         Collections.sort(orderedList);
-        Assert.assertEquals(orderedList,list);
+        Assert.assertEquals(orderedList, list);
     }
 
     @And("Click on element by text from excel {string} columnName {string}")
     public void clickOnElementByTextFromExcelColumnName(String rowindex, String columnName) throws Exception {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By element = tx.createElementByText(text);
         hp.clickElement(element);
     }
@@ -874,8 +876,8 @@ public class Steps {
     public void enterRandomPurposeIntoFieldByIdAndRememberItUnderKey(String id, String key) throws Throwable {
         String randomPurpose = rh.generateRandomStringOfCertainLenght(10);
         By element = d.createElementById(id);
-        hp.enterTextToElement(randomPurpose,element);
-        hp.saveTheValueToMapBasic(randomPurpose,key);
+        hp.enterTextToElement(randomPurpose, element);
+        hp.saveTheValueToMapBasic(randomPurpose, key);
     }
 
     @And("Scroll until element with text under key {string} is in view and click")
@@ -885,8 +887,8 @@ public class Steps {
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -895,26 +897,26 @@ public class Steps {
 
     @And("Scroll until element with text {string} is in view and click")
     public void scrollUntilElementWithTextIsInViewAndClick(String text) throws Throwable {
-        MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
+        MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text + "\"))"));
         hp.ClickOnElement(element);
     }
 
     @And("Scroll until element with text {string} is in view")
     public void scrollUntilElementWithTextIsInView(String text) throws Throwable {
-        MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
+        MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text + "\"))"));
     }
 
     @And("Scroll until element with text from excel {string} columnName {string} is in view")
     public void scrollUntilElementWithTextFromExcelColumnNameIsInView(String rowindex, String columnName) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         System.out.println("Trazi se: " + text);
         WaitHelpers.waitForSeconds(3);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<50; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 50; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -926,16 +928,16 @@ public class Steps {
         //rh.clickOnDateInCalendarDaysInTheFuture(days);
         MobileElement elementForDate = d.createMobileElementByResourceId("nlb-input-payment-date-click-area");
         hp.ClickOnElement(elementForDate);
-        String dateInFuture = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.valueOf(days),"dd.MM.YYYY");
+        String dateInFuture = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.valueOf(days), "dd.MM.YYYY");
         String date = hp.returnDateInAppFormat(dateInFuture);
-        if (!hp.checkDateIsCurrent(date)){
+        if (!hp.checkDateIsCurrent(date)) {
             String xPathForChangeOfMonth = "//android.view.View[@content-desc=\"Change to next month\"]";
             MobileElement elementForChangeOfMonth = x.createMobileElementByXpath(xPathForChangeOfMonth);
             hp.ClickOnElement(elementForChangeOfMonth);
         } else {
             System.out.println("No need to change month");
         }
-        String xPathForDateToClick = "//*[@text='"+date+"']";
+        String xPathForDateToClick = "//*[@text='" + date + "']";
         MobileElement elementForDateToClick = x.createMobileElementByXpath(xPathForDateToClick);
         hp.ClickOnElement(elementForDateToClick);
         String xPathForConfirmButton = "//*[@text='Apply']";
@@ -946,10 +948,10 @@ public class Steps {
     @And("Assert element {string} by id has date {string} days from now in format {string}")
     public void assertElementByIdHasDateDaysFromNowInFormat(String id, String days, String format) {
         String expectedDate = rh.getDateDaysFromNowInFormat(days, format);
-        By el = x.createByXpath("//*[@resource-id='co.infinum.nlb.uat:id/"+id+"']");
+        By el = x.createByXpath("//*[@resource-id='co.infinum.nlb.uat:id/" + id + "']");
         WaitHelpers.waitForElement(el);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expectedDate,element.getAttribute("text"));
+        Assert.assertEquals(expectedDate, element.getAttribute("text"));
     }
 
     @And("Swipe until element with text {string} is displayed")
@@ -967,7 +969,7 @@ public class Steps {
     @And("Click on transaction by remembered purpose {string}")
     public void clickOnTransactionByRememberedPurpose(String key) throws Exception {
         String purpose = (String) DataManager.userObject.get(key);
-        By element = x.createByXpath("//android.widget.TextView[@resource-id='"+Hooks.resourceId+"title' and @text='" + purpose + "']");
+        By element = x.createByXpath("//android.widget.TextView[@resource-id='" + Hooks.resourceId + "title' and @text='" + purpose + "']");
         hp.clickElement(element);
     }
 
@@ -992,17 +994,17 @@ public class Steps {
     public void enterRandomPurposeIntoFieldByIdAndRememberItUnderKeyInTxtFile(String id, String key) throws InterruptedException {
         String rawFlag = DataManager.userObject == null ? null : (String) DataManager.userObject.get("flag");
         String flag = rawFlag == null ? "" : String.valueOf(rawFlag);
-        if (flag.equals("corp")){
+        if (flag.equals("corp")) {
             String randomPurpose = rh.generateRandomStringOfCertainLenght(10);
             randomPurpose = "IPX" + randomPurpose;
             By element = d.createElementByResourceId(id);
-            hp.enterTextToElement(randomPurpose,element);
-            Utilities.saveTheValueToFile(randomPurpose,key);
+            hp.enterTextToElement(randomPurpose, element);
+            Utilities.saveTheValueToFile(randomPurpose, key);
         } else {
             String randomPurpose = rh.generateRandomStringOfCertainLenght(10);
             By element = d.createElementByResourceId(id);
-            hp.enterTextToElement(randomPurpose,element);
-            Utilities.saveTheValueToFile(randomPurpose,key);
+            hp.enterTextToElement(randomPurpose, element);
+            Utilities.saveTheValueToFile(randomPurpose, key);
         }
     }
 
@@ -1010,7 +1012,7 @@ public class Steps {
     public void assertTextUnderKeyFromTxtFileInElementId(String key, String id) {
         String purpose = Utilities.getDataFromTxtFileUnderKey(key);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(purpose,element.getAttribute("text"));
+        Assert.assertEquals(purpose, element.getAttribute("text"));
     }
 
     @And("Scroll until element with text from txt file under key {string} is in view and click")
@@ -1022,8 +1024,8 @@ public class Steps {
         String xPath = "//*[@text = '" + purpose + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -1380,8 +1382,7 @@ public class Steps {
             int endX = 50;
             int Y = 550;
             hp.swipeByCordinates(startX, Y, endX, Y);
-        }
-        else {
+        } else {
             int startX = 900;
             int startY = 1050;
             int endX = 200;
@@ -1522,7 +1523,7 @@ public class Steps {
         } else {
             MobileElement element = d.createMobileElementByResourceId("schedulerPaymentStartInputDate");
             String expected = ActionApiHelpers.getTodayDatePlusXDays(1);
-            Assert.assertEquals(expected,element.getAttribute("text"));
+            Assert.assertEquals(expected, element.getAttribute("text"));
         }
     }
 
@@ -1536,13 +1537,13 @@ public class Steps {
     @And("Assert Payment date in payment preview is {int} days in future")
     public void assertPaymentDateInPaymentPreviewIsDaysInFuture(int daysInFuture) throws Throwable {
         String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(daysInFuture, "dd.MM.YYYY");
-        if(Base.testPlatform.equals("iOS")) {
+        if (Base.testPlatform.equals("iOS")) {
             String xPath = "//XCUIElementTypeStaticText[@name='Payment date']//following-sibling::XCUIElementTypeStaticText[@name='" + date + "']";
             By element = x.createByXpath(xPath);
             hp.assertElementDisplayed(element);
-        }else{
+        } else {
             MobileElement element = d.createMobileElementByResourceId("tvPaymentDateValue");
-            Assert.assertEquals(date,element.getAttribute("text"));
+            Assert.assertEquals(date, element.getAttribute("text"));
         }
     }
 
@@ -1619,10 +1620,11 @@ public class Steps {
     @And("Assert that dates by id {string} are correctly sorted")
     public void assertThatDatesByIdAreCorrectlySorted(String id) throws Exception {
         List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList(id);
-        Assert.assertTrue(list.size()>0);
+        Assert.assertTrue(list.size() > 0);
         List<String> orderedList = list;
         Collections.sort(orderedList, new Comparator<String>() {
             DateFormat f = new SimpleDateFormat("dd. M. yyyy");
+
             @Override
             public int compare(String o1, String o2) {
                 try {
@@ -1633,15 +1635,15 @@ public class Steps {
             }
         });
         Collections.reverse(orderedList);
-        Assert.assertEquals(orderedList,list);
+        Assert.assertEquals(orderedList, list);
     }
 
     @And("Assert element by id {string} has date {string} day in the future")
     public void assertElementByIdHasDateDayInTheFuture(String id, String day) {
-        MobileElement element  = d.createMobileElementByResourceId(id);
+        MobileElement element = d.createMobileElementByResourceId(id);
         int i = Integer.parseInt(day);
         String expected = ActionApiHelpers.getTodayDatePlusXDays(i);
-        Assert.assertEquals(element.getAttribute("text"),expected);
+        Assert.assertEquals(element.getAttribute("text"), expected);
     }
 
     @Then("Assert Standing order by amount {string} and value under key {string} from text file")
@@ -1671,9 +1673,9 @@ public class Steps {
 
     @And("Assert {string} of element by id {string} is displayed")
     public void assertOfElementByIdIsDisplayed(String number, String id) {
-        String xPath = "(//*[@resource-id='"+Hooks.resourceId+id+"'])[1]";
+        String xPath = "(//*[@resource-id='" + Hooks.resourceId + id + "'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("displayed"));
+        Assert.assertEquals("true", element.getAttribute("displayed"));
     }
 
     @And("Assert text {string} in native element id {string}")
@@ -1681,14 +1683,14 @@ public class Steps {
         By elWait = x.createByXpath("//*[@resource-id='" + Hooks.nativeElement + id + "']");
         WaitHelpers.waitForElement(elWait);
         MobileElement element = d.createMobileElementByNativeId(id);
-        Assert.assertEquals(text,element.getAttribute("text"));
+        Assert.assertEquals(text, element.getAttribute("text"));
     }
 
     @And("Assert text {string} in {string} element id {string}")
     public void assertTextInElementId(String text, String number, String id) {
         String xPath = "(//*[@resource-id='" + Hooks.resourceId + id + "'])[" + number + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(text,element.getAttribute("text"));
+        Assert.assertEquals(text, element.getAttribute("text"));
     }
 
     @And("Remember list of element value {string} by id {string} under key {string}")
@@ -1700,7 +1702,7 @@ public class Steps {
     public void compareListUnderKeyToListOfValueIdFalse(String key, String attribute, String id) {
         List<MobileElement> mobileElementList = d.createElementsById(id);
         List<String> rememberedAttribute = new ArrayList<>();
-        for(MobileElement element : mobileElementList){
+        for (MobileElement element : mobileElementList) {
             rememberedAttribute.add(element.getAttribute(attribute));
         }
         List<String> expectedList = (List<String>) DataManager.userObject.get(key);
@@ -1711,7 +1713,7 @@ public class Steps {
     public void compareListUnderKeyToListOfValueIdTrue(String key, String attribute, String id) {
         List<MobileElement> mobileElementList = d.createElementsById(id);
         List<String> rememberedAttribute = new ArrayList<>();
-        for(MobileElement element : mobileElementList){
+        for (MobileElement element : mobileElementList) {
             rememberedAttribute.add(element.getAttribute(attribute));
         }
         List<String> expectedList = (List<String>) DataManager.userObject.get(key);
@@ -1723,23 +1725,23 @@ public class Steps {
         String id = "paymentDate";
         List<MobileElement> mobileElementList = d.createElementsById(id);
         String date = Utilities.todayDDMMYYYY();
-        for (MobileElement element : mobileElementList){
+        for (MobileElement element : mobileElementList) {
             DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate start = LocalDate.parse( date , f );
-            LocalDate end = LocalDate.parse( element.getAttribute("text") , f );
-            boolean isBefore = start.isBefore( end ) ;
+            LocalDate start = LocalDate.parse(date, f);
+            LocalDate end = LocalDate.parse(element.getAttribute("text"), f);
+            boolean isBefore = start.isBefore(end);
         }
     }
 
     @And("Assert page {string} in chrome")
     public void assertPageInChrome(String url) {
-        String resourceId="com.android.chrome:id/url_bar";
+        String resourceId = "com.android.chrome:id/url_bar";
         MobileElement element = d.createCustomMobileElementByResourceId(resourceId);
-        Assert.assertEquals(url,element.getAttribute("text"));
+        Assert.assertEquals(url, element.getAttribute("text"));
     }
 
     @And("Go Back")
-    public void goBack(){
+    public void goBack() {
         Base.back();
     }
 
@@ -1780,7 +1782,7 @@ public class Steps {
     public void countTheNumberOfStandingOrdersAndPutResultUnderKey(String key) throws Exception {
         List<String> standingOrders = rh.scrollDownAndPutEveryElementWithIdIntoList("paymentDate");
         int count = standingOrders.size();
-        DataManager.userObject.put(key,count);
+        DataManager.userObject.put(key, count);
     }
 
 
@@ -1790,7 +1792,7 @@ public class Steps {
         int count = standingOrders.size();
         int deleted = Integer.parseInt(deletedNumber);
         int previousCount = (int) DataManager.userObject.get(key);
-        Assert.assertEquals(previousCount-deleted,count);
+        Assert.assertEquals(previousCount - deleted, count);
     }
 
     @And("Assert element {string} by id is disabled")
@@ -1810,7 +1812,7 @@ public class Steps {
     @And("Enter {string} character {string} time in element id {string}")
     public void enterCharacterTimeInElementId(String character, String num, String id) throws Throwable {
         MobileElement element = d.createMobileElementByResourceId(id);
-        rh.sendKeyToElementNumberOfTimes(num,character,element);
+        rh.sendKeyToElementNumberOfTimes(num, character, element);
     }
 
     @And("Remember {string} element attribute {string} by id {string} under key {string}")
@@ -1838,14 +1840,14 @@ public class Steps {
     public void checkIfThereIsOnlySearchedResultWithId(String num, String id) {
         List<MobileElement> mobileElementList = d.createElementsById(id);
         int expected = Integer.parseInt(num);
-        Assert.assertEquals(expected,mobileElementList.size());
+        Assert.assertEquals(expected, mobileElementList.size());
     }
 
     @And("Check if available currencies are correct for new payment")
     public void checkIfAvailableCurrenciesAreCorrectForNewPayment() throws Exception {
         List<String> listOfActualCurrencies = rh.scrollDownAndPutEveryElementWithNativeIdIntoListCurrency("text1");
         List<String> listOfExpectedCurrencies = hp.getListOfAllCurrencies();
-        Assert.assertEquals(listOfExpectedCurrencies,listOfActualCurrencies);
+        Assert.assertEquals(listOfExpectedCurrencies, listOfActualCurrencies);
     }
 
     @And("Enter text from excel {string} columnName {string} in element id {string} array")
@@ -1858,7 +1860,7 @@ public class Steps {
         } else {
             By element = d.createElementById(id);
             hp.clickElement(element);
-            if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+            if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
                 MobileElement elementType = d.createMobileElementByResourceId(id);
                 elementType.setValue(text);
             } else {
@@ -1870,38 +1872,38 @@ public class Steps {
 
     @And("Check if to amount is correct using key {string} and from {string}")
     public void checkIfToAmountIsCorrectUsingKeyAndFrom(String key, String from) {
-        String xPath = "//*[@resource-id='"+Hooks.resourceId+"inputValueTo']//android.widget.EditText";
+        String xPath = "//*[@resource-id='" + Hooks.resourceId + "inputValueTo']//android.widget.EditText";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String askString = (String) DataManager.userObject.get(key);
-        Double ask = Double.parseDouble(askString.replace(",","."));
+        Double ask = Double.parseDouble(askString.replace(",", "."));
         Double fromDouble = Double.parseDouble(from);
-        Double expected =  ask*fromDouble;
+        Double expected = ask * fromDouble;
         DecimalFormat df = new DecimalFormat("0.00");
-        Assert.assertEquals(df.format(expected),element.getAttribute("text").replace(",","."));
+        Assert.assertEquals(df.format(expected), element.getAttribute("text").replace(",", "."));
     }
 
     @And("Check if to amount is correct using key {string} and from {string} reversed")
     public void checkIfToAmountIsCorrectUsingKeyAndFromReversed(String key, String from) {
-        String xPath = "//*[@resource-id='"+Hooks.resourceId+"inputValueTo']//android.widget.EditText";
+        String xPath = "//*[@resource-id='" + Hooks.resourceId + "inputValueTo']//android.widget.EditText";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String bidString = (String) DataManager.userObject.get(key);
-        Double bid = Double.parseDouble(bidString.replace(",","."));
+        Double bid = Double.parseDouble(bidString.replace(",", "."));
         Double fromDouble = Double.parseDouble(from);
-        Double expected = fromDouble/bid;
+        Double expected = fromDouble / bid;
         DecimalFormat df = new DecimalFormat("0.00");
-        Assert.assertEquals(df.format(expected),element.getAttribute("text").replace(",","."));
+        Assert.assertEquals(df.format(expected), element.getAttribute("text").replace(",", "."));
     }
 
     @And("Assert that credit is correctly calculated and correct message is shown in foreign payment using key {string} amount {string} id {string}")
     public void assertThatCreditIsCorrectlyCalculatedAndCorrectMessageIsShownInForeignPaymentUsingKeyAmountId(String key, String amountString, String id) {
         MobileElement element = d.createMobileElementByResourceId(id);
         String askString = (String) DataManager.userObject.get(key);
-        Double ask = Double.parseDouble(askString.replace(",","."));
+        Double ask = Double.parseDouble(askString.replace(",", "."));
         Double amount = Double.parseDouble(amountString);
-        Double expectedAmount = amount/ask;
+        Double expectedAmount = amount / ask;
         DecimalFormat df = new DecimalFormat("0.00");
         String expectedAmountString = df.format(expectedAmount);
-        String expected = "Amount in EUR: "+expectedAmountString+" EUR ("+askString+" USD for 1 EUR)";
+        String expected = "Amount in EUR: " + expectedAmountString + " EUR (" + askString + " USD for 1 EUR)";
     }
 
     @And("Assert saved contact is displayed by account number from excel {string} columnName {string}")
@@ -1922,17 +1924,17 @@ public class Steps {
     @Then("Assert value from clipboard is the same as key {string}")
     public void assertValueFromClipboardIsTheSameAsKey(String key) throws IOException, UnsupportedFlavorException {
         if (Base.testPlatform.equals("iOS")) {
-        String expected = DataManager.userObject.get(key).toString().replace(" ", "");
-        String xPath = "//XCUIElementTypeTextField[@name='URL']";
-        By element = x.createByXpath(xPath);
+            String expected = DataManager.userObject.get(key).toString().replace(" ", "");
+            String xPath = "//XCUIElementTypeTextField[@name='URL']";
+            By element = x.createByXpath(xPath);
 
-        String actual = hp.getAttribute(element, "value").toString().replace(" ", "");
-        Assert.assertEquals(expected, actual);}
-        else{
+            String actual = hp.getAttribute(element, "value").toString().replace(" ", "");
+            Assert.assertEquals(expected, actual);
+        } else {
             String cliboard = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
             String expected = (String) DataManager.userObject.get(key);
             Assert.assertFalse(cliboard.contains(" "));
-            Assert.assertEquals(expected.replaceAll(" ",""),cliboard.replaceAll(" ",""));
+            Assert.assertEquals(expected.replaceAll(" ", ""), cliboard.replaceAll(" ", ""));
         }
     }
 
@@ -2066,85 +2068,85 @@ public class Steps {
 
     @Then("Assert transactions are ordered by months")
     public void assertTransactionsAreOrderedByMonths() throws Throwable {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
             String currentMonth = Utilities.getTodayDateInFormat("MM");
             By elWait = d.createElementById("transactionDate");
             WaitHelpers.waitForElement(elWait);
             List<MobileElement> mobileElementList = d.createElementsById("transactionDate");
             List<String> stringList = new ArrayList<>();
-            for(MobileElement element : mobileElementList){
+            for (MobileElement element : mobileElementList) {
                 stringList.add(element.getAttribute("text"));
             }
-            for (String s : stringList){
+            for (String s : stringList) {
                 String str[] = s.split("\\.");
                 String month = str[1];
-                Assert.assertEquals(currentMonth,month);
+                Assert.assertEquals(currentMonth, month);
             }
             String currentMonthLarge = Utilities.getTodayDateInFormat("MMMM");
             MobileElement dateHeaderElement = d.createMobileElementByResourceId("textDate");
-            Assert.assertEquals(currentMonthLarge.toUpperCase(),dateHeaderElement.getAttribute("text").toUpperCase());
-            String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM",1).toUpperCase();
-            for (int i = 0; i<600; i++){
+            Assert.assertEquals(currentMonthLarge.toUpperCase(), dateHeaderElement.getAttribute("text").toUpperCase());
+            String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM", 1).toUpperCase();
+            for (int i = 0; i < 600; i++) {
                 hp.swipeByCordinates(500, 1200, 500, 600);
-                By elementEight = By.xpath("(//*[@text='"+previousMonthLarge+"'])[1]");
-                boolean isMonthDisplayed = hp.isElementDisplayed(elementEight,5,100);
-                if (isMonthDisplayed){
+                By elementEight = By.xpath("(//*[@text='" + previousMonthLarge + "'])[1]");
+                boolean isMonthDisplayed = hp.isElementDisplayed(elementEight, 5, 100);
+                if (isMonthDisplayed) {
                     break;
                 }
             }
             hp.swipeByCordinates(500, 1200, 500, 600);
             hp.swipeByCordinates(500, 1200, 500, 600);
-            String previousMonth = Utilities.getPreviousMonthInFormat("MM",1);
+            String previousMonth = Utilities.getPreviousMonthInFormat("MM", 1);
             List<MobileElement> mobileElementList2 = d.createElementsById("transactionDate");
-            Assert.assertTrue(mobileElementList2.size()>0);
+            Assert.assertTrue(mobileElementList2.size() > 0);
             List<String> stringList2 = new ArrayList<>();
-            for(MobileElement element2 : mobileElementList2){
+            for (MobileElement element2 : mobileElementList2) {
                 stringList2.add(element2.getAttribute("text"));
             }
-            for (String s1 : stringList2){
+            for (String s1 : stringList2) {
                 String str[] = s1.split("\\.");
                 String month = str[1];
-                Assert.assertEquals(previousMonth,month);
+                Assert.assertEquals(previousMonth, month);
             }
-        } else{
+        } else {
             String currentMonth = Utilities.getTodayDateInFormat("MM");
             By elWait = d.createElementById("transactionDate");
             WaitHelpers.waitForElement(elWait);
             List<MobileElement> mobileElementList = d.createElementsById("transactionDate");
             List<String> stringList = new ArrayList<>();
-            for(MobileElement element : mobileElementList){
+            for (MobileElement element : mobileElementList) {
                 stringList.add(element.getAttribute("text"));
             }
-            for (String s : stringList){
+            for (String s : stringList) {
                 String str[] = s.split("\\.");
                 String month = str[1];
-                Assert.assertEquals(currentMonth,month);
+                Assert.assertEquals(currentMonth, month);
             }
             String currentMonthLarge = Utilities.getTodayDateInFormat("MMMM");
             MobileElement dateHeaderElement = d.createMobileElementByResourceId("textDate");
-            Assert.assertEquals(currentMonthLarge.toUpperCase(),dateHeaderElement.getAttribute("text").toUpperCase());
-            String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM",1).toUpperCase();
-            for (int i = 0; i<600; i++){
+            Assert.assertEquals(currentMonthLarge.toUpperCase(), dateHeaderElement.getAttribute("text").toUpperCase());
+            String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM", 1).toUpperCase();
+            for (int i = 0; i < 600; i++) {
                 hp.swipeByCordinates(500, 1800, 500, 600);
-                By elementEight = By.xpath("(//*[@text='"+previousMonthLarge+"'])[1]");
-                boolean isMonthDisplayed = hp.isElementDisplayed(elementEight,5,100);
-                if (isMonthDisplayed){
+                By elementEight = By.xpath("(//*[@text='" + previousMonthLarge + "'])[1]");
+                boolean isMonthDisplayed = hp.isElementDisplayed(elementEight, 5, 100);
+                if (isMonthDisplayed) {
                     break;
                 }
             }
             hp.swipeByCordinates(500, 1800, 500, 600);
             hp.swipeByCordinates(500, 1800, 500, 600);
-            String previousMonth = Utilities.getPreviousMonthInFormat("MM",1);
+            String previousMonth = Utilities.getPreviousMonthInFormat("MM", 1);
             List<MobileElement> mobileElementList2 = d.createElementsById("transactionDate");
-            Assert.assertTrue(mobileElementList2.size()>0);
+            Assert.assertTrue(mobileElementList2.size() > 0);
             List<String> stringList2 = new ArrayList<>();
-            for(MobileElement element2 : mobileElementList2){
+            for (MobileElement element2 : mobileElementList2) {
                 stringList2.add(element2.getAttribute("text"));
             }
-            for (String s1 : stringList2){
+            for (String s1 : stringList2) {
                 String str[] = s1.split("\\.");
                 String month = str[1];
-                Assert.assertEquals(previousMonth,month);
+                Assert.assertEquals(previousMonth, month);
             }
         }
     }
@@ -2152,22 +2154,22 @@ public class Steps {
     @And("Remember available balance for specific currency under key {string} and add {string}")
     public void rememberAvailableBalanceForSpecificCurrencyUnderKeyAndAdd(String key, String add) {
         MobileElement element = d.createMobileElementByResourceId("tvProductAmount");
-        String balance = element.getAttribute("text").replaceAll("[A-Z]", "").replaceAll("\\.","").replaceAll(",",".").trim();
+        String balance = element.getAttribute("text").replaceAll("[A-Z]", "").replaceAll("\\.", "").replaceAll(",", ".").trim();
         Double doubledBalance = Double.valueOf(balance);
         Double addSum = Double.valueOf(add);
-        Double balanceForStore = doubledBalance+addSum;
-        DataManager.userObject.put(key,balanceForStore.toString().replace(".",","));
+        Double balanceForStore = doubledBalance + addSum;
+        DataManager.userObject.put(key, balanceForStore.toString().replace(".", ","));
     }
 
     @And("Scroll until element with text from excel {string} columnName {string} is in view and click")
     public void scrollUntilElementWithTextFromExcelColumnNameIsInViewAndClick(String rowindex, String columnName) throws Throwable {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\""+text+"\"))"));
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -2175,18 +2177,19 @@ public class Steps {
     }
 
     @And("Remember {string} of payment in transaction details under key {string}")
-    public void rememberPurposeOfPaymentInTransactionDetailsUnderKey(String text,String key) {
-        String xPath = "//*[@text='"+text+"']//following-sibling::*";
+    public void rememberPurposeOfPaymentInTransactionDetailsUnderKey(String text, String key) {
+        String xPath = "//*[@text='" + text + "']//following-sibling::*";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String purposeContent = element.getAttribute("text");
-        DataManager.userObject.put(key,purposeContent);
+        DataManager.userObject.put(key, purposeContent);
     }
+
     @And("Remember only currency of payment in past payment details under key {string}")
     public void rememberOnlyCurrencyOfPaymentInPastPaymentDetailsUnderKey(String key) {
         MobileElement element = d.createMobileElementByResourceId("toAmountTextView");
         String amount[] = element.getAttribute("text").split(" ");
         String currency = amount[1];
-        DataManager.userObject.put(key,currency);
+        DataManager.userObject.put(key, currency);
     }
 
     @Then("Assert if text {string} is found in pdf file")
@@ -2194,83 +2197,81 @@ public class Steps {
         //String path = Utilities.getDownloadsDirPath();
         String path = "/storage/emulated/0/Downloads";
         String filePath = Utilities.getLatestFilePath(path);
-        Assert.assertTrue(Utilities.findTextInPdf(filePath,text));
+        Assert.assertTrue(Utilities.findTextInPdf(filePath, text));
     }
 
     @Then("Assert account from excel {string} columnName {string} is not displayed")
     public void assertAccountFromExcelColumnNameIsNotDisplayed(String rowindex, String columnName) throws Throwable {
-        if(Base.testPlatform.equals("iOS")){
-            String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        if (Base.testPlatform.equals("iOS")) {
+            String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
             String xPath = "//*[@name = \"" + accountIban + "\"]";
             By el = By.xpath(xPath);
-            boolean doesElementExist = hp.isElementDisplayed(el,10,300);
+            boolean doesElementExist = hp.isElementDisplayed(el, 10, 300);
             Assert.assertFalse(doesElementExist);
-        }
-        else{
-            String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        } else {
+            String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
             String xPath = "//*[@text = \"" + accountIban + "\"]";
             By el = By.xpath(xPath);
-            boolean doesElementExist = hp.isElementDisplayed(el,10,300);
+            boolean doesElementExist = hp.isElementDisplayed(el, 10, 300);
             Assert.assertFalse(doesElementExist);
         }
     }
 
     @And("Check if foreign to foreign currency exchage is correct using keys {string} {string} and from {string}")
     public void checkIfForeignToForeignCurrencyExchageIsCorrectUsingKeysAndFrom(String key, String key2, String from) {
-        if(Base.testPlatform.equals("iOS")){
+        if (Base.testPlatform.equals("iOS")) {
             String xPath = "(//*[@name='receivingTxt'])[2]";
             MobileElement element = x.createMobileElementByXpath(xPath);
             String bidString = (String) DataManager.userObject.get(key);
             String askString = (String) DataManager.userObject.get(key2);
-            Double ask = Double.parseDouble(askString.replace(",","."));
-            Double bid = Double.parseDouble(bidString.replace(",","."));
+            Double ask = Double.parseDouble(askString.replace(",", "."));
+            Double bid = Double.parseDouble(bidString.replace(",", "."));
             Double fromDouble = Double.parseDouble(from);
-            Double expected =  (fromDouble/bid)*ask;
+            Double expected = (fromDouble / bid) * ask;
             DecimalFormat df = new DecimalFormat("0.00");
-            Assert.assertEquals(df.format(expected),element.getAttribute("value").replace(",","."));
-        }
-        else{
-            String xPath = "//*[@resource-id='"+Hooks.resourceId+"inputValueTo']//android.widget.EditText";
+            Assert.assertEquals(df.format(expected), element.getAttribute("value").replace(",", "."));
+        } else {
+            String xPath = "//*[@resource-id='" + Hooks.resourceId + "inputValueTo']//android.widget.EditText";
             MobileElement element = x.createMobileElementByXpath(xPath);
             String bidString = (String) DataManager.userObject.get(key);
             String askString = (String) DataManager.userObject.get(key2);
-            Double ask = Double.parseDouble(askString.replace(",","."));
-            Double bid = Double.parseDouble(bidString.replace(",","."));
+            Double ask = Double.parseDouble(askString.replace(",", "."));
+            Double bid = Double.parseDouble(bidString.replace(",", "."));
             Double fromDouble = Double.parseDouble(from);
-            Double expected =  (fromDouble/bid)*ask;
+            Double expected = (fromDouble / bid) * ask;
             DecimalFormat df = new DecimalFormat("0.00");
-            Assert.assertEquals(df.format(expected),element.getAttribute("text").replace(",","."));
+            Assert.assertEquals(df.format(expected), element.getAttribute("text").replace(",", "."));
         }
     }
 
     @And("Assert element by text from excel {string} columnName {string}")
     public void assertElementByTextFromExcelColumnName(String rowindex, String columnName) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+text+"']";
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + text + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by text from excel {string} columnName {string} has following sibling {string}")
-    public void assertElementByTextFromExcelRowindexColumnNameHasFollowingSibling(String rowindex, String columnName,String id) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[@resource-id='"+Hooks.resourceId+""+id+"']";
+    public void assertElementByTextFromExcelRowindexColumnNameHasFollowingSibling(String rowindex, String columnName, String id) {
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[@resource-id='" + Hooks.resourceId + "" + id + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by text from excel {string} columnName {string} appearance number {string}")
     public void assertElementByTextFromExcelColumnNameAppearanceNumber(String rowindex, String columnName, String app) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "(//*[@text='"+text+"'])["+app+"]";
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "(//*[@text='" + text + "'])[" + app + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by text from excel {string} columnName {string} has following sibling {string} appearance number {string}")
     public void assertElementByTextFromExcelColumnNameHasFollowingSiblingAppearanceNumber(String rowindex, String columnName, String id, String app) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "(//*[@text='"+text+"']//following-sibling::*[@resource-id='"+Hooks.resourceId+""+id+"'])["+app+"]";
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*[@resource-id='" + Hooks.resourceId + "" + id + "'])[" + app + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -2278,7 +2279,7 @@ public class Steps {
     @And("Assert element by id {string} is checked {string}")
     public void assertElementByIdIsChecked(String id, String status) {
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(status,element.getAttribute("checked"));
+        Assert.assertEquals(status, element.getAttribute("checked"));
     }
 
 
@@ -2291,7 +2292,7 @@ public class Steps {
 
     @And("Click Done in element with adb")
     public void clickDoneInElementWithAdb() throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder("adb","shell","input","tap","985","2190");
+        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "input", "tap", "985", "2190");
         Process pc = pb.start();
         pc.waitFor();
     }
@@ -2300,12 +2301,12 @@ public class Steps {
     public void rememberElementValueByIdUnderKeyInTxtFile(String attribute, String id, String key) {
         By element = d.createElementById(id);
         String elementAttributeValue = driver.findElement(element).getAttribute(attribute);
-        Utilities.saveTheValueToFile(elementAttributeValue,key);
+        Utilities.saveTheValueToFile(elementAttributeValue, key);
     }
 
     @And("Assert second element by text {string}")
     public void assertSecondElementByText(String text) {
-        String xPath = "(//*[@text='"+text+"'])[2]";
+        String xPath = "(//*[@text='" + text + "'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -2315,7 +2316,7 @@ public class Steps {
         String xPath = "//*[@text = \"" + text + "\"]";
         int timeInt = Integer.parseInt(time);
         By el = By.xpath(xPath);
-        boolean doesElementExist = hp.isElementDisplayed(el,timeInt,1000);
+        boolean doesElementExist = hp.isElementDisplayed(el, timeInt, 1000);
         Assert.assertTrue(doesElementExist);
     }
 
@@ -2325,14 +2326,14 @@ public class Steps {
         int startY = Integer.parseInt(y);
         int endX = Integer.parseInt(x2);
         int endY = Integer.parseInt(y2);
-        hp.swipeByCordinates(startX,startY,endX,endY);
+        hp.swipeByCordinates(startX, startY, endX, endY);
     }
 
     @And("Enter text from excel {string} columnName {string} in element id {string}")
     public void enterTextFromExcelColumnNameInElementId(String rowindex, String columnName, String id) {
         By element = d.createElementByResourceId(id);
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        hp.enterTextToMobileElement(text,element);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        hp.enterTextToMobileElement(text, element);
     }
 
     @And("Assert element with tag {string} containing value {string}")
@@ -2416,8 +2417,8 @@ public class Steps {
 
     @And("Assert element by value from excel {string} columnName {string}")
     public void assertElementByValueFromExcelColumnName(String rowindex, String columnName) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@value='"+text+"']";
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@value='" + text + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -2432,18 +2433,18 @@ public class Steps {
     @And("Assert text {string} is contained in list of elements by id {string}")
     public void assertTextIsContainedInListOfElementsById(String expected, String id) {
         List<MobileElement> elementList = d.createElementsById(id);
-        Assert.assertTrue(elementList.size()>0);
-        for(MobileElement element : elementList){
+        Assert.assertTrue(elementList.size() > 0);
+        for (MobileElement element : elementList) {
             Assert.assertTrue(element.getAttribute("text").toLowerCase().contains(expected.toLowerCase()));
         }
     }
 
     @And("Assert text from excel {string} columnName {string} is contained in list of elements by id {string}")
     public void assertTextFromExcelColumnNameIsContainedInListOfElementsById(String rowindex, String columnName, String id) {
-        String expected = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         List<MobileElement> elementList = d.createElementsById(id);
-        Assert.assertTrue(elementList.size()>0);
-        for(MobileElement element : elementList){
+        Assert.assertTrue(elementList.size() > 0);
+        for (MobileElement element : elementList) {
             Assert.assertTrue(element.getAttribute("text").toLowerCase().contains(expected.toLowerCase()));
         }
     }
@@ -2469,8 +2470,8 @@ public class Steps {
 
     @And("Assert payment dates are filtered by previous month")
     public void assertPaymentDatesAreFilteredByPreviousMonth() {
-        String previousMonth = Utilities.getPreviousMonthInFormat("MMMM",1);
-        String previousMonthForRegex = Utilities.getPreviousMonthInFormat("MM",1);
+        String previousMonth = Utilities.getPreviousMonthInFormat("MMMM", 1);
+        String previousMonthForRegex = Utilities.getPreviousMonthInFormat("MM", 1);
         By elWait2 = tx.createElementByText(previousMonth.toUpperCase());
         WaitHelpers.waitForElement(elWait2);
         MobileElement element = x.createMobileElementByText(previousMonth.toUpperCase());
@@ -2478,16 +2479,16 @@ public class Steps {
         By elWait = d.createElementById("transactionDate");
         WaitHelpers.waitForElement(elWait);
         List<MobileElement> mobileElementList = d.createElementsById("transactionDate");
-        Assert.assertTrue(mobileElementList.size()>0);
-        for (MobileElement el : mobileElementList){
-            Assert.assertTrue(el.getAttribute("text").matches("^[0-9]{2}\\."+previousMonthForRegex+"\\.[0-9]{4}$"));
+        Assert.assertTrue(mobileElementList.size() > 0);
+        for (MobileElement el : mobileElementList) {
+            Assert.assertTrue(el.getAttribute("text").matches("^[0-9]{2}\\." + previousMonthForRegex + "\\.[0-9]{4}$"));
         }
     }
 
     @And("Scroll refresh {string} times")
     public void scrollRefreshTimes(String times) {
         int n = Integer.parseInt(times);
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             hp.swipeByCordinates(500, 600, 500, 1800);
         }
     }
@@ -2503,21 +2504,21 @@ public class Steps {
         By elWait = d.createElementById("transactionDate");
         WaitHelpers.waitForElement(elWait);
         List<MobileElement> mobileElementList = d.createElementsById("transactionDate");
-        Assert.assertTrue(mobileElementList.size()>0);
-        for (MobileElement el : mobileElementList){
-            Assert.assertTrue(el.getAttribute("text").matches("^[0-9]{2}\\."+MonthForRegex+"\\.[0-9]{4}$"));
+        Assert.assertTrue(mobileElementList.size() > 0);
+        for (MobileElement el : mobileElementList) {
+            Assert.assertTrue(el.getAttribute("text").matches("^[0-9]{2}\\." + MonthForRegex + "\\.[0-9]{4}$"));
         }
     }
 
     @And("Assert payment dates are filtered for yesterday")
     public void assertPaymentDatesAreFilteredForYesterday() {
-        String dayForRegex = Utilities.getPreviousDateInFormat("dd",1);
+        String dayForRegex = Utilities.getPreviousDateInFormat("dd", 1);
         By elWait = d.createElementById("transactionDate");
         WaitHelpers.waitForElement(elWait);
         List<MobileElement> mobileElementList = d.createElementsById("transactionDate");
-        Assert.assertTrue(mobileElementList.size()>0);
-        for (MobileElement el : mobileElementList){
-            Assert.assertTrue(el.getAttribute("text").matches("^"+dayForRegex+"\\.[0-1]{1}[0-9]{1}\\.[0-9]{4}$"));
+        Assert.assertTrue(mobileElementList.size() > 0);
+        for (MobileElement el : mobileElementList) {
+            Assert.assertTrue(el.getAttribute("text").matches("^" + dayForRegex + "\\.[0-1]{1}[0-9]{1}\\.[0-9]{4}$"));
         }
     }
 
@@ -2528,43 +2529,43 @@ public class Steps {
         WaitHelpers.waitForElement(elWait);
         List<MobileElement> mobileElementList = d.createElementsById("paymentDate");
         List<String> stringList = new ArrayList<>();
-        String futureMonth = Utilities.getFutureMonthInFormat("MM",1);
-        for(MobileElement element : mobileElementList){
+        String futureMonth = Utilities.getFutureMonthInFormat("MM", 1);
+        for (MobileElement element : mobileElementList) {
             stringList.add(element.getAttribute("text"));
         }
-        for (String s : stringList){
+        for (String s : stringList) {
             String str[] = s.split("\\.");
             String month = str[1];
             Assert.assertTrue(currentMonth.equals(month) || futureMonth.equals(month));
         }
         String currentMonthLarge = Utilities.getTodayDateInFormat("MMMM");
         MobileElement dateHeaderElement = d.createMobileElementByResourceId("textDate");
-        Assert.assertEquals(currentMonthLarge.toUpperCase(),dateHeaderElement.getAttribute("text").toUpperCase());
-        String futureMonthLarge = Utilities.getFutureMonthInFormat("MMMM",1).toUpperCase();
-        for (int i = 0; i<600; i++){
+        Assert.assertEquals(currentMonthLarge.toUpperCase(), dateHeaderElement.getAttribute("text").toUpperCase());
+        String futureMonthLarge = Utilities.getFutureMonthInFormat("MMMM", 1).toUpperCase();
+        for (int i = 0; i < 600; i++) {
             hp.swipeByCordinates(500, 1800, 500, 600);
-            By elementEight = By.xpath("(//*[@text='"+futureMonthLarge+"'])[1]");
-            boolean isMonthDisplayed = hp.isElementDisplayed(elementEight,5,100);
-            if (isMonthDisplayed){
+            By elementEight = By.xpath("(//*[@text='" + futureMonthLarge + "'])[1]");
+            boolean isMonthDisplayed = hp.isElementDisplayed(elementEight, 5, 100);
+            if (isMonthDisplayed) {
                 break;
             }
         }
         hp.swipeByCordinates(500, 1800, 500, 600);
         List<MobileElement> mobileElementList2 = d.createElementsById("paymentDate");
-        Assert.assertTrue(mobileElementList2.size()>0);
+        Assert.assertTrue(mobileElementList2.size() > 0);
         List<String> stringList2 = new ArrayList<>();
-        for(MobileElement element2 : mobileElementList2){
+        for (MobileElement element2 : mobileElementList2) {
             stringList2.add(element2.getAttribute("text"));
         }
         int i = 0;
-        for (String s1 : stringList2){
+        for (String s1 : stringList2) {
             String str[] = s1.split("\\.");
             String month = str[1];
-            if (month.equals(futureMonth)){
+            if (month.equals(futureMonth)) {
                 i++;
             }
         }
-        Assert.assertTrue(i>0);
+        Assert.assertTrue(i > 0);
     }
 
     @Then("Assert transactions are ordered by months for past payments")
@@ -2572,39 +2573,39 @@ public class Steps {
         String currentMonth = Utilities.getTodayDateInFormat("MM");
         List<MobileElement> mobileElementList = d.createElementsById("paymentDate");
         List<String> stringList = new ArrayList<>();
-        for(MobileElement element : mobileElementList){
+        for (MobileElement element : mobileElementList) {
             stringList.add(element.getAttribute("text"));
         }
-        for (String s : stringList){
+        for (String s : stringList) {
             String str[] = s.split("\\.");
             String month = str[1];
-            Assert.assertEquals(currentMonth,month);
+            Assert.assertEquals(currentMonth, month);
         }
         String currentMonthLarge = Utilities.getTodayDateInFormat("MMMM");
         MobileElement dateHeaderElement = d.createMobileElementByResourceId("textDate");
-        Assert.assertEquals(currentMonthLarge.toUpperCase(),dateHeaderElement.getAttribute("text").toUpperCase());
-        String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM",1).toUpperCase();
-        for (int i = 0; i<600; i++){
+        Assert.assertEquals(currentMonthLarge.toUpperCase(), dateHeaderElement.getAttribute("text").toUpperCase());
+        String previousMonthLarge = Utilities.getPreviousMonthInFormat("MMMM", 1).toUpperCase();
+        for (int i = 0; i < 600; i++) {
             hp.swipeByCordinates(500, 1800, 500, 600);
-            By elementEight = By.xpath("(//*[@text='"+previousMonthLarge+"'])[1]");
-            boolean isMonthDisplayed = hp.isElementDisplayed(elementEight,5,100);
-            if (isMonthDisplayed){
+            By elementEight = By.xpath("(//*[@text='" + previousMonthLarge + "'])[1]");
+            boolean isMonthDisplayed = hp.isElementDisplayed(elementEight, 5, 100);
+            if (isMonthDisplayed) {
                 break;
             }
         }
         hp.swipeByCordinates(500, 1800, 500, 600);
         hp.swipeByCordinates(500, 1800, 500, 600);
-        String previousMonth = Utilities.getPreviousMonthInFormat("MM",1);
+        String previousMonth = Utilities.getPreviousMonthInFormat("MM", 1);
         List<MobileElement> mobileElementList2 = d.createElementsById("paymentDate");
-        Assert.assertTrue(mobileElementList2.size()>0);
+        Assert.assertTrue(mobileElementList2.size() > 0);
         List<String> stringList2 = new ArrayList<>();
-        for(MobileElement element2 : mobileElementList2){
+        for (MobileElement element2 : mobileElementList2) {
             stringList2.add(element2.getAttribute("text"));
         }
-        for (String s1 : stringList2){
+        for (String s1 : stringList2) {
             String str[] = s1.split("\\.");
             String month = str[1];
-            Assert.assertEquals(previousMonth,month);
+            Assert.assertEquals(previousMonth, month);
         }
     }
 
@@ -2612,16 +2613,16 @@ public class Steps {
     public void assertThereAreMoreThanPayments(String expected) throws Exception {
         int n = Integer.parseInt(expected);
         List<String> payments = rh.scrollDownAndPutEveryElementWithIdIntoList("title");
-        Assert.assertTrue(payments.size()>n);
+        Assert.assertTrue(payments.size() > n);
     }
 
     @And("Assert payment under key {string} is not displayed in upcoming payments")
     public void assertPaymentUnderKeyIsNotDisplayedInUpcomingPayments(String key) {
         String text = (String) DataManager.userObject.get(key);
         try {
-            MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
+            MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text + "\"))"));
             Assert.assertTrue(false);
-        } catch (Exception e){
+        } catch (Exception e) {
             Assert.assertTrue(true);
         }
     }
@@ -2630,24 +2631,24 @@ public class Steps {
     public void rememberElementAttributeByIdInTxtUnderKey(String attribute, String id, String key) {
         MobileElement element = d.createMobileElementByResourceId(id);
         String value = element.getAttribute(attribute);
-        value = value.replace(":","");
-        Utilities.saveTheValueToFile(value,key);
+        value = value.replace(":", "");
+        Utilities.saveTheValueToFile(value, key);
     }
 
     @Then("Assert there are more than {string} payments using id {string}")
     public void assertThereAreMoreThanPaymentsUsingId(String expected, String id) throws Exception {
         int n = Integer.parseInt(expected);
         List<String> payments = rh.scrollDownAndPutEveryElementWithIdIntoList(id);
-        Assert.assertTrue(payments.size()>n);
+        Assert.assertTrue(payments.size() > n);
     }
 
     @And("Assert element by text from excel {string} columnName {string} does not exist with scroll")
     public void assertElementByTextFromExcelColumnNameDoesNotExistWithScroll(String rowindex, String columnName) {
         String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         try {
-            MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
+            MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text + "\"))"));
             Assert.assertFalse(true);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.print("Contact not found");
         }
     }
@@ -2682,10 +2683,10 @@ public class Steps {
 
     @And("Assert element by text from excel {string} columnName {string} in element by id {string}")
     public void assertElementByTextFromExcelColumnNameInElementById(String rowindex, String columnName, String id) {
-        String expected = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = d.createMobileElementByResourceId(id);
         String actual = element.getAttribute("text");
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Assert list of element by id {string} is equal to list under key {string}")
@@ -2694,7 +2695,7 @@ public class Steps {
         List<String> actual = rh.scrollDownAndPutEveryElementWithIdIntoList(id);
         Collections.sort(expected);
         Collections.sort(actual);
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Click {string} content description from view tag {string}")
@@ -2715,7 +2716,7 @@ public class Steps {
 
     @And("Swipe vertical")
     public void swipeVertical() {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
             int startX = 500;
             int startY = 1200;
             int endX = 500;
@@ -2732,13 +2733,13 @@ public class Steps {
 
     @And("Swipe vertical short")
     public void swipeVerticalShort() {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
             int startX = 500;
             int startY = 1300;
             int endX = 500;
             int endY = 1150;
             hp.swipeByCordinates(startX, startY, endX, endY);
-        } else{
+        } else {
             int startX = 500;
             int startY = 1700;
             int endX = 500;
@@ -2749,7 +2750,7 @@ public class Steps {
 
     @And("Assert element by complete id {string}")
     public void assertElementByCompleteId(String id) {
-        String xPath = "//*[@resource-id='"+id+"']";
+        String xPath = "//*[@resource-id='" + id + "']";
         By elWait = x.createByXpath(xPath);
         WaitHelpers.waitForElement(elWait);
         MobileElement element = d.createCustomMobileElementByResourceId(id);
@@ -2758,15 +2759,15 @@ public class Steps {
 
     @And("Manual scroll using id {string} until element with text from excel {string} columnName {string} is in view")
     public void manualScrollUsingIdUntilElementWithTextFromExcelColumnNameIsInView(String id, String rowindex, String columnName) {
-        String searchedItem = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        rh.manualScrollUsingIdUntilElementWithTextIsInView(searchedItem,"textProductNumber");
+        String searchedItem = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        rh.manualScrollUsingIdUntilElementWithTextIsInView(searchedItem, "textProductNumber");
     }
 
     @And("Wait for text {string} to dissapear")
     public void waitForTextToDissapear(String text) {
         String xPath = "//*[@text = \"" + text + "\"]";
         By el = By.xpath(xPath);
-        WaitHelpers.waitForElementToDisappear(el,30);
+        WaitHelpers.waitForElementToDisappear(el, 30);
     }
 
     @And("Remove Error message if exists")
@@ -2781,8 +2782,8 @@ public class Steps {
     @And("Remove Error message if exists in SLO")
     public void removeErrorMessageIfExistsInSLO() throws Exception {
         By element = x.createByXpath("//*[contains(@text,'Prišlo je do napake. Prosimo, poskusite ponovno.')]");
-        boolean exists = ActionApiHelpers.isElementDisplayedCustom(element,20,300);
-        if(exists == true){
+        boolean exists = ActionApiHelpers.isElementDisplayedCustom(element, 20, 300);
+        if (exists == true) {
             rh.clickOnNativeElementById("button1");
         }
     }
@@ -2790,8 +2791,8 @@ public class Steps {
     @And("Remove Internal Server Error if exists")
     public void removeInternalServerErrorIfExists() throws Exception {
         By element = x.createByXpath("//*[contains(@text,'Internal Server Error')]");
-        boolean exists = ActionApiHelpers.isElementDisplayedCustom(element,20,300);
-        if(exists == true){
+        boolean exists = ActionApiHelpers.isElementDisplayedCustom(element, 20, 300);
+        if (exists == true) {
             rh.clickOnNativeElementById("button1");
         }
     }
@@ -2805,17 +2806,17 @@ public class Steps {
 
     @And("Assert text {string} in second element by id {string}")
     public void assertTextInSecondElementById(String text, String id) {
-        String xPath = "(//*[@resource-id='" + Hooks.resourceId + ""+ id +"'])[2]";
+        String xPath = "(//*[@resource-id='" + Hooks.resourceId + "" + id + "'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertEquals(text, element.getAttribute("text"));
     }
 
     @And("Select User from Excel {string} columnName {string} and login")
     public void selectUserFromExcelColumnNameAndLogin(String rowindex, String columnName) throws Throwable {
-        String mock = DataManager.getDataFromHashDatamap(rowindex,"isMock");
-        String env = DataManager.getDataFromHashDatamap(rowindex,"currentEnv");
-        if (!mock.equals("no")){
-            if (env.equals("tst")){
+        String mock = DataManager.getDataFromHashDatamap(rowindex, "isMock");
+        String env = DataManager.getDataFromHashDatamap(rowindex, "currentEnv");
+        if (!mock.equals("no")) {
+            if (env.equals("tst")) {
                 MobileElement elementForContinueToApp = x.createMobileElementByText("Continue to the app");
                 hp.ClickOnElement(elementForContinueToApp);
             }
@@ -2827,8 +2828,8 @@ public class Steps {
             WaitHelpers.waitForElement(elWaitForForgotYourPin);
             Character[] charObjectArray = Utilities.toCharacterArray("1379");
             hp.pressKey(charObjectArray);
-        }else{
-            String username = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        } else {
+            String username = DataManager.getDataFromHashDatamap(rowindex, columnName);
             String xPathForDropDownMenu = "//*[@resource-id='select-user-dropdown-textfield']";
             //android.widget.Spinner[@resource-id="select-user-dropdown-textfield"]
             By elDropDownMenu = x.createByXpath(xPathForDropDownMenu);
@@ -2839,8 +2840,8 @@ public class Steps {
             WaitHelpers.waitForElement(elDropDownView);
             String xPath = "//*[@text = '" + username + "']";
             By el = By.xpath(xPath);
-            for(int i = 0; i<2; i++){
-                if(hp.isElementNotPresent(el)){
+            for (int i = 0; i < 2; i++) {
+                if (hp.isElementNotPresent(el)) {
                     hp.scrollByCoordinates(driver, 500, 950, 400);
                 }
             }
@@ -2852,8 +2853,8 @@ public class Steps {
 
     @And("Hide account from Excel {string} columnName {string} if needed")
     public void hideAccountFromExcelColumnNameIfNeeded(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        if (accountIban.equals(".")){
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        if (accountIban.equals(".")) {
             System.out.println("This was not needed");
         } else {
             By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
@@ -2862,10 +2863,10 @@ public class Steps {
             hp.ClickOnElement(elementForEdit);
             By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Switch visibility\"]");
             WaitHelpers.waitForElement(elForEye);
-            String xPathForHideAccount = "//*[@text='"+accountIban+"']//following-sibling::*[2]//android.view.View[@content-desc=\"Switch visibility\"]";
+            String xPathForHideAccount = "//*[@text='" + accountIban + "']//following-sibling::*[2]//android.view.View[@content-desc=\"Switch visibility\"]";
             By elForHideAccount = x.createByXpath(xPathForHideAccount);
-            for(int i = 0; i<10; i++){
-                if(hp.isElementNotPresent(elForHideAccount)){
+            for (int i = 0; i < 10; i++) {
+                if (hp.isElementNotPresent(elForHideAccount)) {
                     hp.scrollDown(driver);
                 }
             }
@@ -2881,18 +2882,18 @@ public class Steps {
 
     @And("Wait for element by resource id {string} to appear")
     public void waitForElementByResourceIdToAppear(String id) {
-        By element = x.createByXpath("//*[@resource-id='"+id+"']");
+        By element = x.createByXpath("//*[@resource-id='" + id + "']");
         WaitHelpers.waitForElement(element, 100);
     }
 
     @Then("Assert that product card of name {string} and iban {string} from Excel {string} for personal account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForPersonalAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -2908,14 +2909,14 @@ public class Steps {
 
     @And("Assert that whole product card of current account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfCurrentAccountWithNameAndBbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-cta-button']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -2982,13 +2983,13 @@ public class Steps {
 
     @And("Unhide account from Excel {string} columnName {string} if needed")
     public void unhideAccountFromExcelColumnNameIfNeeded(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        if (accountIban.equals(".")){
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        if (accountIban.equals(".")) {
             System.out.println("This was not needed");
         } else {
             By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
-            for(int i = 0; i<10; i++){
-                if(hp.isElementNotPresent(elForEdit)){
+            for (int i = 0; i < 10; i++) {
+                if (hp.isElementNotPresent(elForEdit)) {
                     hp.scrollUp(driver);
                 }
             }
@@ -2999,8 +3000,8 @@ public class Steps {
             WaitHelpers.waitForElement(elForEye);
             String xPathForHideAccount = "//android.view.View[@content-desc='Alt=\"Show Account\"']";
             By elForHideAccount = x.createByXpath(xPathForHideAccount);
-            for(int i = 0; i<10; i++){
-                if(hp.isElementNotPresent(elForHideAccount)){
+            for (int i = 0; i < 10; i++) {
+                if (hp.isElementNotPresent(elForHideAccount)) {
                     hp.scrollDown(driver);
                 }
             }
@@ -3016,12 +3017,12 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and iban {string} from Excel {string} for savings account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForSavingsAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Booked balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Booked balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3037,14 +3038,14 @@ public class Steps {
 
     @And("Assert that whole product card of savings account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfSavingsAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Booked balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Booked balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3111,12 +3112,12 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and iban {string} from Excel {string} for financial instruments are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForFinancialInstrumentsAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Sum balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Cash']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Sum balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Cash']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3132,14 +3133,14 @@ public class Steps {
 
     @And("Assert that whole product card of financial instruments with name {string} and iban {string} from Excel {string} acts as clickable button")
     public void assertThatWholeProductCardOfFinancialInstrumentsWithNameAndIbanFromExcelActsAsClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Sum balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Cash']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Sum balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Cash']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Securities Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-product-details-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3206,10 +3207,10 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and iban {string} from Excel {string} for gradual savings account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForGradualSavingsAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3220,12 +3221,12 @@ public class Steps {
 
     @And("Assert that whole product card of gradual savings account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfGradualSavingsAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3273,8 +3274,8 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and bban {string} from Excel {string} for loan account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForLoanAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
         //String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Remaining debt']";
         String xPathForProductCard = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text=\"" + productName + "\"]";
         //String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
@@ -3285,18 +3286,19 @@ public class Steps {
         MobileElement elementForIban = x.createMobileElementByXpath(xPathForIban);
 
         Assert.assertTrue(elementForProductCard.isDisplayed());
-        Assert.assertEquals(elementForIban.getText(),productIban);
+        Assert.assertEquals(elementForIban.getText(), productIban);
 
         String xPathForCurrentBalance = xPathForIban + "//following-sibling::*[@text='Remaining debt']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         MobileElement elementForCurrentBalance = x.createMobileElementByXpath(xPathForCurrentBalance);
         String stringForCurrentBalance = elementForCurrentBalance.getAttribute("text");
         Assert.assertTrue(stringForCurrentBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
+
     @Then("Assert that product card with BBAN {string} from Excel {string} has name from Excel {string}")
     public void assertLoanProductCardByBbanHasCorrectName(String rowindex, String bbanColumn, String nameColumn) {
 
-        String expectedName = DataManager.getDataFromHashDatamap(rowindex,nameColumn);
-        String expectedBban = DataManager.getDataFromHashDatamap(rowindex,bbanColumn);
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex, nameColumn);
+        String expectedBban = DataManager.getDataFromHashDatamap(rowindex, bbanColumn);
 
         String cardXPath =
                 "//android.view.View[@resource-id='nlb-product-summary-card']" +
@@ -3304,7 +3306,7 @@ public class Steps {
                         " and @text='" + expectedBban + "']]";
 
         MobileElement productCard = x.createMobileElementByXpath(cardXPath);
-        Assert.assertTrue("Product card with BBAN not displayed",productCard.isDisplayed());
+        Assert.assertTrue("Product card with BBAN not displayed", productCard.isDisplayed());
 
         MobileElement nameElement = productCard.findElement(
                 By.xpath(".//android.widget.TextView[contains(@resource-id,'nlb-value-product-account-name')]")
@@ -3312,18 +3314,18 @@ public class Steps {
 
         String actualName = nameElement.getText();
 
-        Assert.assertEquals("Product name does not match Excel value",expectedName,actualName);
+        Assert.assertEquals("Product name does not match Excel value", expectedName, actualName);
     }
 
 
     @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Remaining debt']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Remaining debt']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Loan\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3370,26 +3372,26 @@ public class Steps {
 
     @And("Change name of product from Excel {string} columnName {string} into {string}")
     public void changeNameOfProductFromExcelColumnNameInto(String rowindex, String columnName, String newName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit name\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit product card\"]";
+        String xPathForEditAccount = "//*[@text='" + accountIban + "']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit product card\"]";
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
-        
+
         MobileElement elementToEdit = x.createMobileElementByXpath(xPathForEditAccount);
         hp.ClickOnElement(elementToEdit);
         By elForEditText = x.createByXpath("//android.widget.EditText");
         WaitHelpers.waitForElement(elForEditText);
-        hp.enterTextToMobileElement(newName,elForEditText);
+        hp.enterTextToMobileElement(newName, elForEditText);
         MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
         hp.ClickOnElement(elementForApply);
 
@@ -3403,8 +3405,8 @@ public class Steps {
 
     @And("Assert product from Excel {string} with bban {string} has name {string}")
     public void assertProductFromExcelWithIbanHasName(String rowindex, String column1, String column2) {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
-        String expectedName = DataManager.getDataFromHashDatamap(rowindex,column2);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, column1);
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex, column2);
         System.out.println("expected name: " + expectedName);
         //String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
         //String xp = "//android.widget.TextView[@resource-id=\"nlb-value-product-account-name\" and @text='" + expectedName + "']";
@@ -3421,8 +3423,8 @@ public class Steps {
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollUp(driver);
             }
         }
@@ -3430,17 +3432,17 @@ public class Steps {
 
     @And("Change name of product from Excel {string} columnName {string} into invalid {string}")
     public void changeNameOfProductFromExcelColumnNameIntoInvalid(String rowindex, String columnName, String newName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit name\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit name\"]";
+        String xPathForEditAccount = "//*[@text='" + accountIban + "']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit name\"]";
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -3461,23 +3463,23 @@ public class Steps {
         Assert.assertTrue(elementForWarningMessage.isDisplayed());
         MobileElement elementForEditText = x.createMobileElementByXpath("//android.widget.EditText");
         String contentOfEditText = elementForEditText.getText();
-        Assert.assertEquals(50,contentOfEditText.length());
+        Assert.assertEquals(50, contentOfEditText.length());
 
     }
 
     @And("Change name of product from Excel {string} columnName {string} into default")
     public void changeNameOfProductFromExcelColumnNameIntoDefault(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit name\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit name\"]";
+        String xPathForEditAccount = "//*[@text='" + accountIban + "']//following-sibling::*[1]//android.view.View[@content-desc=\"Edit name\"]";
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -3493,10 +3495,10 @@ public class Steps {
     public void changeNameOfProductIntoDefault(String accountIban) throws Throwable {
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit name\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//*[@text='"+accountIban+"']//following-sibling::*[2]//android.view.View[@content-desc=\"Edit name\"]";
+        String xPathForEditAccount = "//*[@text='" + accountIban + "']//following-sibling::*[2]//android.view.View[@content-desc=\"Edit name\"]";
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -3514,8 +3516,8 @@ public class Steps {
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -3523,17 +3525,17 @@ public class Steps {
 
     @And("Hide account from Excel {string} columnName {string}")
     public void hideAccountFromExcelColumnName(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Hide Account\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForHideAccount = "//*[@text='"+accountIban+"']//following-sibling::android.view.View[2]";
+        String xPathForHideAccount = "//*[@text='" + accountIban + "']//following-sibling::android.view.View[2]";
         By elForHideAccount = x.createByXpath(xPathForHideAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForHideAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForHideAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -3548,17 +3550,17 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and bban {string} from Excel {string} is not displayed")
     public void assertThatProductCardOfNameAndIbanFromExcelIsNotDisplayed(String columnName1, String columnName2, String rowindex) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
 
-        String xPathForAccountName = "//*[@text='"+accountName+"']";
-        String xPathForAccountIban= "//*[@text='"+accountIban+"']";
+        String xPathForAccountName = "//*[@text='" + accountName + "']";
+        String xPathForAccountIban = "//*[@text='" + accountIban + "']";
 
         By elForAccountName = x.createByXpath(xPathForAccountName);
         By elForAccountIban = x.createByXpath(xPathForAccountIban);
 
-        for(int i = 0; i<15; i++){
-            if (hp.isElementNotPresent(elForAccountIban)){
+        for (int i = 0; i < 15; i++) {
+            if (hp.isElementNotPresent(elForAccountIban)) {
                 hp.scrollDown(driver);
             } else {
                 Assert.fail();
@@ -3568,48 +3570,48 @@ public class Steps {
 
     @And("Assert element by id {string} that has descendant text {string}")
     public void assertElementByIdThatHasDescendantText(String id, String descendantText) {
-        String xPath = "//*[@resource-id='"+id+"']//*[@text='"+descendantText+"']";
+        String xPath = "//*[@resource-id='" + id + "']//*[@text='" + descendantText + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert text {string} in element id {string} with descendant tag {string}")
     public void assertTextInElementIdWithDescendantTag(String expectedText, String id, String descendantTag) {
-        String xPath = "//*[@resource-id='"+id+"']//android.widget."+descendantTag+"";
+        String xPath = "//*[@resource-id='" + id + "']//android.widget." + descendantTag + "";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expectedText,element.getAttribute("text"));
+        Assert.assertEquals(expectedText, element.getAttribute("text"));
     }
 
     @And("Wait for element with {string} content description from view tag {string}")
     public void waitForElementWithContentDescriptionFromViewTag(String contentDesc, String tag) {
-        String xPath = "(//android.view."+tag+"[@content-desc=\""+contentDesc+"\"])[1]";
+        String xPath = "(//android.view." + tag + "[@content-desc=\"" + contentDesc + "\"])[1]";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
     }
 
     @And("Assert Debtor in Own Account Transfer has content description {string} and from Excel {string} account name {string} and iban {string}")
     public void assertDebtorInOwnAccountTransferHasContentDescriptionAndFromExcelAccountNameAndIban(String contentDesc, String rowindex, String columnName1, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='"+contentDesc+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='" + contentDesc + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert Recipient in Own Account Transfer has content description {string} and from Excel {string} account name {string} and iban {string}")
     public void assertRecipientInOwnAccountTransferHasContentDescriptionAndFromExcelAccountNameAndIban(String contentDesc, String rowindex, String columnName1, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@text='Recipient ']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='"+contentDesc+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@text='Recipient ']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='" + contentDesc + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by contains text with special characters {string}")
     public void assertElementByContainsTextWithSpecialCharacters(String text) {
-        String xPath = "//*[contains(@text,\""+text+"\")]";
+        String xPath = "//*[contains(@text,\"" + text + "\")]";
         By elWait = x.createByXpath(xPath);
         WaitHelpers.waitForElement(elWait);
 
@@ -3626,39 +3628,39 @@ public class Steps {
 
     @And("Assert SEPA Recipient has icon {string} and from Excel {string} account name {string} and iban {string}")
     public void assertSEPARecipientHasIconAndFromExcelAccountNameAndIban(String iconText, String rowindex, String columnName1, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@text='Recipient ']//following-sibling::*[@resource-id='nlb-card-container']//*[@text='"+iconText+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@text='Recipient ']//following-sibling::*[@resource-id='nlb-card-container']//*[@text='" + iconText + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert that text {string} has first following sibling with text {string}")
     public void assertThatTextHasFirstFollowingSiblingWithText(String textFirst, String textSecond) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(textSecond,element.getText());
+        Assert.assertEquals(textSecond, element.getText());
     }
 
     @And("Assert that text {string} has first following sibling with text from Excel {string} columnName {string}")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromExcelColumnName(String textFirst, String rowindex, String columnName) {
-        String textSecond = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String textSecond = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(textSecond,element.getText());
+        Assert.assertEquals(textSecond, element.getText());
     }
 
     @And("Assert that second text {string} has first following sibling with text from Excel {string} columnName {string}")
     public void assertThatSecondTextHasFirstFollowingSiblingWithTextFromExcelColumnName(String textFirst, String rowindex, String columnName) {
-        String textSecond = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+textFirst+"'][2]//following-sibling::*[1]";
+        String textSecond = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + textFirst + "'][2]//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(textSecond,element.getText());
+        Assert.assertEquals(textSecond, element.getText());
     }
 
     @And("Assert that text {string} has first following sibling with current date in format {string}")
     public void assertThatTextHasFirstFollowingSiblingWithCurrentDateInFormat(String textFirst, String dateFormat) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String currentDate = Utilities.getTodayDateInFormat(dateFormat);
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
@@ -3667,62 +3669,62 @@ public class Steps {
 
     @And("Assert text {string} in element by id {string} with descendant TextView widget")
     public void assertTextInElementByIdWithDescendantTextViewWidget(String expectedText, String id) {
-        String xPath = "//*[@resource-id='"+id+"']//android.widget.TextView";
+        String xPath = "//*[@resource-id='" + id + "']//android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expectedText,element.getText());
+        Assert.assertEquals(expectedText, element.getText());
     }
 
     @And("Assert text {string} in element by id {string} with descendant View")
     public void assertTextInElementByIdWithDescendantView(String expectedText, String id) {
-        String xPath = "//*[@resource-id='"+id+"']//android.view.View";
+        String xPath = "//*[@resource-id='" + id + "']//android.view.View";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expectedText,element.getText());
+        Assert.assertEquals(expectedText, element.getText());
     }
 
     @And("Assert recipient in first step of payment is {string} from Excel {string} account name {string} and iban {string}")
     public void assertRecipientInFirstStepOfPaymentIsFromExcelAccountNameAndIban(String contentDesc, String rowindex, String columnName1, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@resource-id='nlb-card-container']//*[@content-desc='"+contentDesc+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@resource-id='nlb-card-container']//*[@content-desc='" + contentDesc + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert text from excel {string} columnName {string} in element by id {string}")
     public void assertTextFromExcelColumnNameInElementById(String rowindex, String columnName, String id) {
-        String expected = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expected.replace('\u00A0', ' ').trim().toLowerCase(),element.getText().replace('\u00A0', ' ').trim().toLowerCase());
+        Assert.assertEquals(expected.replace('\u00A0', ' ').trim().toLowerCase(), element.getText().replace('\u00A0', ' ').trim().toLowerCase());
     }
 
     @And("Enter text {string} into search field for country selection")
     public void enterTextIntoSearchFieldForCountrySelection(String text) {
         String xPath = "//android.widget.ImageView[@content-desc=\"Info Icon\"]//following-sibling::android.widget.EditText";
         By el = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(text,el);
+        hp.enterTextToMobileElement(text, el);
     }
 
     @And("Click second element with text {string}")
     public void clickSecondElementWithText(String text) throws Throwable {
-        String xPath = "(//*[@text='"+text+"'])[2]";
+        String xPath = "(//*[@text='" + text + "'])[2]";
         MobileElement el = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(el);
     }
 
     @And("Click on {string} android widget button")
     public void clickOnAndroidWidgetButton(String occ) throws Throwable {
-        String xPath = "(//android.widget.Button)["+occ+"]";
+        String xPath = "(//android.widget.Button)[" + occ + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
 
     @And("Assert {string} content description from view tag {string} has descendant with text {string}")
     public void assertContentDescriptionFromViewTagHasDescendantWithText(String contentDesc, String tag, String text) {
-        String xPath = "//android.view."+tag+"[@content-desc=\""+contentDesc+"\"]/android.widget.TextView";
+        String xPath = "//android.view." + tag + "[@content-desc=\"" + contentDesc + "\"]/android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(text,element.getText());
+        Assert.assertEquals(text, element.getText());
     }
 
     @And("Assert {string} content description from view tag {string} is displayed")
@@ -3745,9 +3747,9 @@ public class Steps {
 
     @And("Try wrong otp on web page from excel {string} columnName {string}")
     public void tryWrongOtpOnWebPageFromExcelColumnName(String rowindex, String columnName) throws IOException, UnsupportedFlavorException {
-        String url = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String env = DataManager.getDataFromHashDatamap(rowindex,"currentEnv");
-        rh.tryWrongOtpFromClipboardOnWebPage(url,env);
+        String url = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String env = DataManager.getDataFromHashDatamap(rowindex, "currentEnv");
+        rh.tryWrongOtpFromClipboardOnWebPage(url, env);
     }
 
     @And("Find the appropriate transaction for canceling manual categorization")
@@ -3759,7 +3761,7 @@ public class Steps {
     public void rememberCurrentCategoryOfTransaction() {
         String xPath = "//*[@resource-id='nlb-card-container']//android.view.View[3]//preceding-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        DataManager.userObject.put("current_category",element.getText());
+        DataManager.userObject.put("current_category", element.getText());
     }
 
     @And("Click on edit button to change category")
@@ -3772,7 +3774,7 @@ public class Steps {
     @And("Click on category from key {string} to get to category selection window")
     public void clickOnCategoryFromKeyToGetToCategorySelectionWindow(String key) throws Throwable {
         String category = (String) DataManager.userObject.get(key);
-        String xPath = "//android.view.View[@content-desc=\""+category+"\"]";
+        String xPath = "//android.view.View[@content-desc=\"" + category + "\"]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
@@ -3786,10 +3788,10 @@ public class Steps {
 
     @And("Assert that product card of name {string} and iban {string} from Excel {string} for vita insurance account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForVitaInsuranceAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Policy value']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Policy value']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3800,12 +3802,12 @@ public class Steps {
 
     @And("Assert that whole product card of vita insurance account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfVitaInsuranceAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Policy value']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Policy value']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3852,10 +3854,10 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and iban {string} from Excel {string} for term deposit account are shown correctly")
     public void assertThatProductCardOfNameAndIbanFromExcelForTermDepositAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) throws InterruptedException {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Term deposit amount']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Term deposit amount']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3868,12 +3870,12 @@ public class Steps {
 
     @And("Assert that whole product card of term deposit account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfTermDepositAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Term deposit amount']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Term deposit amount']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         //String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -3920,12 +3922,12 @@ public class Steps {
 
     @Then("Assert that product card of name {string} and detailed name {string} from Excel {string} for nlb funds account are shown correctly")
     public void assertThatProductCardOfNameAndDetailedNameFromExcelForNlbFundsAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Number of asset units']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Number of asset units']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -3941,14 +3943,14 @@ public class Steps {
 
     @And("Assert that whole product card of nlb funds account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfNlbFundsAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Number of asset units']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Number of asset units']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -4021,52 +4023,52 @@ public class Steps {
     @And("Enter text {string} in element id {string} with clear")
     public void enterTextInElementIdWithClear(String text, String id) throws Throwable {
         By inputField = d.createElementByResourceId(id);
-        rh.EnterTextToElementByIdWithClear(text,inputField);
+        rh.EnterTextToElementByIdWithClear(text, inputField);
     }
 
     @And("Click on following sibling of text {string}")
     public void clickOnFollowingSiblingOfText(String text) throws Throwable {
-        String xPath = "(//*[@text='"+text+"']//following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
 
     @And("Assert value from clipboard is the same as from Excel {string} columnName {string}")
     public void assertValueFromClipboardIsTheSameAsFromExcelColumnName(String rowindex, String columnName) throws IOException, UnsupportedFlavorException {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
         } else {
-            String details = DataManager.getDataFromHashDatamap(rowindex,columnName);
+            String details = DataManager.getDataFromHashDatamap(rowindex, columnName);
             String cliboard = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-            Assert.assertEquals(details,cliboard);
+            Assert.assertEquals(details, cliboard);
         }
     }
 
     @And("Assert text from excel {string} columnName {string} in second element by id {string}")
     public void assertTextFromExcelColumnNameInSecondElementById(String rowindex, String columnName, String id) {
-        String expectedText = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "(//*[@resource-id='"+id+"'])[2]";
+        String expectedText = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "(//*[@resource-id='" + id + "'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expectedText,element.getText());
+        Assert.assertEquals(expectedText, element.getText());
     }
 
     @And("Remember secondary balance of product from Excel {string} columnName {string} under key {string}")
     public void rememberSecondaryBalanceOfProductFromExcelColumnNameUnderKey(String rowindex, String columnName, String key) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+accountName+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + accountName + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        DataManager.userObject.put(key,element.getText());
+        DataManager.userObject.put(key, element.getText());
     }
 
     @And("Assert text from key {string} in element by id {string}")
     public void assertTextFromKeyInElementById(String key, String id) {
         String expectedValue = (String) DataManager.userObject.get(key);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expectedValue,element.getText());
+        Assert.assertEquals(expectedValue, element.getText());
     }
 
     @And("Assert element by widget {string}")
     public void assertElementByWidget(String widgetName) {
-        String xPath = "//android.widget."+widgetName+"";
+        String xPath = "//android.widget." + widgetName + "";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -4075,7 +4077,7 @@ public class Steps {
     public void forceUSDCurrencyInFirstStepOfPaymentProcess() {
         String xPath = "//*[@resource-id='nlb-dropdown-menu']//android.widget.TextView";
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement("USD",element);
+        hp.enterTextToMobileElement("USD", element);
     }
 
     @And("Scroll down until currency {string} in selector is found and click")
@@ -4105,8 +4107,8 @@ public class Steps {
         String xPath = "//android.widget.TextView[@resource-id='nlb-value-product-account-id' and @text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<20; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 20; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -4151,17 +4153,15 @@ public class Steps {
     public void assertTransactionListIsNotSortedAndHasBothIncomingAndOutgoingTransactions() throws Exception {
         int incoming = 0;
         int outgoing = 0;
-        while(incoming<=0 && outgoing<=0){
+        while (incoming <= 0 && outgoing <= 0) {
             List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
 
-            for(String item : list){
-                if(item.matches("^−(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$")){
+            for (String item : list) {
+                if (item.matches("^−(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$")) {
                     outgoing++;
-                }
-                else if(item.matches("^(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$")){
+                } else if (item.matches("^(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$")) {
                     incoming++;
-                }
-                else Assert.fail("Incorrect amount format");
+                } else Assert.fail("Incorrect amount format");
             }
         }
     }
@@ -4178,6 +4178,14 @@ public class Steps {
         String xPath = "(//*[@resource-id='nlb-settings-menu'])[1]";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
+    }
+
+    @And("Wait for first Transaction")
+    public void waitForFirstTransaction() {
+        String xPath = "(//*[@resource-id='nlb-card-container'])[1]";
+        By el = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(el);
+
     }
 
     @And("Assert screen header is {string}")
@@ -4340,7 +4348,7 @@ public class Steps {
     @And("Assert transaction list is sorted to only show Incoming transactions")
     public void assertTransactionListIsSortedToOnlyShowIncomingTransactions() throws Exception {
         List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
-        for(String item : list){
+        for (String item : list) {
             Assert.assertTrue(item.matches("^(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$"));
         }
     }
@@ -4350,8 +4358,8 @@ public class Steps {
         WaitHelpers.waitForSeconds(3);
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollUp(driver);
             }
         }
@@ -4360,7 +4368,7 @@ public class Steps {
     @And("Assert transaction list is sorted to only show Outgoing transactions")
     public void assertTransactionListIsSortedToOnlyShowOutgoingTransactions() throws Exception {
         List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
-        for(String item : list){
+        for (String item : list) {
             Assert.assertTrue(item.matches("^−(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}$"));
         }
     }
@@ -4420,7 +4428,7 @@ public class Steps {
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getLast7DaysDatesInFormat("d.M.yyyy");
 
-        for(String item : list){
+        for (String item : list) {
             item = item.replace(".\u00A0", ".");
             Assert.assertTrue(last7Days.contains(item));
         }
@@ -4430,7 +4438,7 @@ public class Steps {
     public void assertSubtitleOfTransactionFilterDateIsCorrectForThisMonth() {
         List<String> dates = rh.getDatesThisMonthUntilToday("d.M.yyyy");
         String start = dates.get(0).replace(".", ".\u00A0");
-        String end = dates.get(dates.size()-1).replace(".", ".\u00A0");
+        String end = dates.get(dates.size() - 1).replace(".", ".\u00A0");
         String expected = start + " - " + end;
         String xPath = "//android.widget.TextView[@text='Date']/following-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -4444,7 +4452,7 @@ public class Steps {
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getDatesThisMonthUntilToday("d.M.yyyy");
 
-        for(String item : list){
+        for (String item : list) {
             item = item.replace(".\u00A0", ".");
             Assert.assertTrue(last7Days.contains(item));
         }
@@ -4454,7 +4462,7 @@ public class Steps {
     public void assertSubtitleOfTransactionFilterDateIsCorrectForLastMonth() {
         List<String> dates = rh.getDatesLastMonth("d.M.yyyy");
         String start = dates.get(0).replace(".", ".\u00A0");
-        String end = dates.get(dates.size()-1).replace(".", ".\u00A0");
+        String end = dates.get(dates.size() - 1).replace(".", ".\u00A0");
         String expected = start + " - " + end;
         String xPath = "//android.widget.TextView[@text='Date']/following-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -4468,7 +4476,7 @@ public class Steps {
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getDatesLastMonth("d.M.yyyy");
 
-        for(String item : list){
+        for (String item : list) {
             item = item.replace(".\u00A0", ".");
             Assert.assertTrue(last7Days.contains(item));
         }
@@ -4477,13 +4485,13 @@ public class Steps {
     @And("Assert From field in Date transactions filter has value {string}")
     public void assertFromFieldInDateTransactionsFilterHasValue(String expected) {
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
-        expected = expected.replace("." , ".\u00A0");
+        expected = expected.replace(".", ".\u00A0");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert From field in Date transactions filter has today date")
     public void assertFromFieldInDateTransactionsFilterHasTodayDate() {
-        String expected = rh.getTodayDateInFormat("d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getTodayDateInFormat("d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
         Assert.assertEquals(expected, element.getAttribute("text"));
 
@@ -4492,7 +4500,7 @@ public class Steps {
 
     @And("Assert To field in Date transactions filter has today date")
     public void assertToFieldInDateTransactionsFilterHasTodayDate() {
-        String expected = rh.getTodayDateInFormat("d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getTodayDateInFormat("d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-to");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
@@ -4553,7 +4561,7 @@ public class Steps {
 
     @And("Assert To field in Date transactions filter has yesterday date")
     public void assertToFieldInDateTransactionsFilterHasYesterdayDate() {
-        String expected = rh.getDateXDaysInPastFromTodayInFormat(1,"d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getDateXDaysInPastFromTodayInFormat(1, "d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-to");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
@@ -4575,7 +4583,7 @@ public class Steps {
 
     @And("Assert From field in Date transactions filter has day before yesterday date")
     public void assertFromFieldInDateTransactionsFilterHasDayBeforeYesterdayDate() {
-        String expected = rh.getDateXDaysInPastFromTodayInFormat(2,"d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getDateXDaysInPastFromTodayInFormat(2, "d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
@@ -4591,8 +4599,6 @@ public class Steps {
         Assert.assertEquals(expected, element.getAttribute("text"));
 
 
-
-
     }
 
     @And("Assert transactions dates are from day before yesterday to yesterday")
@@ -4603,7 +4609,7 @@ public class Steps {
         pastDays.add(rh.getDateXDaysInPastFromTodayInFormat(2, "d.M.yyyy"));
 
 
-        for(String item : list){
+        for (String item : list) {
             item = item.replace(".\u00A0", ".");
             Assert.assertTrue(pastDays.contains(item));
         }
@@ -4613,14 +4619,13 @@ public class Steps {
     public void clickOnDateInCalendarWithYearMonthDayAndAssertThatItIsShownCorrectly(int year, int month, int day) throws Exception {
         //get back to past dates in calendar if needed
         int amountOfMonths = rh.getHowManyMonthsAreBetweenTodayAndSelectedDate(year, month, day);
-        if(amountOfMonths>0){
-            for(int i=0; i<amountOfMonths; i++){
+        if (amountOfMonths > 0) {
+            for (int i = 0; i < amountOfMonths; i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to previous month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
-        }
-        else if (amountOfMonths<0){
-            for(int i=0; i<Math.abs(amountOfMonths); i++){
+        } else if (amountOfMonths < 0) {
+            for (int i = 0; i < Math.abs(amountOfMonths); i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to next month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
@@ -4641,22 +4646,22 @@ public class Steps {
 
     @And("Assert From field in Date transactions filter has date year {int} month {int} day {int}")
     public void assertFromFieldInDateTransactionsFilterHasDateYearMonthDay(int year, int month, int day) {
-        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert To field in Date transactions filter has date year {int} month {int} day {int}")
     public void assertToFieldInDateTransactionsFilterHasDateYearMonthDay(int year, int month, int day) {
-        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-to");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert subtitle of Transaction filter Date is correct for dates year {int} month {int} day {int} and year {int} month {int} day {int}")
     public void assertSubtitleOfTransactionFilterDateIsCorrectForDatesYearMonthDayAndYearMonthDay(int year1, int month1, int day1, int year2, int month2, int day2) {
-        String from = rh.getDateInFormat(year1, month1, day1, "d.M.yyyy").replace("." , ".\u00A0");
-        String to = rh.getDateInFormat(year2, month2, day2, "d.M.yyyy").replace("." , ".\u00A0");
+        String from = rh.getDateInFormat(year1, month1, day1, "d.M.yyyy").replace(".", ".\u00A0");
+        String to = rh.getDateInFormat(year2, month2, day2, "d.M.yyyy").replace(".", ".\u00A0");
         String expected = from + " - " + to;
         String xPath = "//android.widget.TextView[@text='Date']/following-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -4670,7 +4675,7 @@ public class Steps {
         Assert.assertFalse(list.isEmpty());
         List<String> pastDays = rh.getDatesBetween(year1, month1, day1, year2, month2, day2, "d.M.yyyy");
 
-        for(String item : list){
+        for (String item : list) {
             item = item.replace(".\u00A0", ".");
             Assert.assertTrue(pastDays.contains(item));
         }
@@ -4696,7 +4701,7 @@ public class Steps {
 
     @And("Assert To field in Date transactions filter has date last month fifth")
     public void assertToFieldInDateTransactionsFilterHasDateLastMonthFifth() {
-        String expected = rh.getDateLastMonthDayX(5,"d.M.yyyy").replace("." , ".\u00A0");
+        String expected = rh.getDateLastMonthDayX(5, "d.M.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-to");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
@@ -4745,7 +4750,7 @@ public class Steps {
     public void assertListOfTagFilters() {
         String xPath = "//android.view.View[@resource-id='nlb-checkbox']";
         List<MobileElement> elements = x.createElementsByXpath(xPath);
-        for(MobileElement element : elements){
+        for (MobileElement element : elements) {
             Assert.assertTrue(element.isDisplayed());
             Assert.assertTrue(element.isEnabled());
         }
@@ -4761,7 +4766,7 @@ public class Steps {
         //assert correct results are shown
         String xPath2 = "//android.view.View[@resource-id='nlb-checkbox']/android.widget.TextView";
         List<MobileElement> elements2 = x.createElementsByXpath(xPath2);
-        for(MobileElement element : elements2){
+        for (MobileElement element : elements2) {
             Assert.assertTrue(element.getText().contains(tagName));
             Assert.assertTrue(element.getText().startsWith("#"));
         }
@@ -4771,7 +4776,7 @@ public class Steps {
     public void assertNoneOfTheTagFiltersAreCurrentlySelected() {
         String xPath = "//android.view.View[@resource-id='nlb-checkbox']";
         List<MobileElement> elements = x.createElementsByXpath(xPath);
-        for(MobileElement element : elements){
+        for (MobileElement element : elements) {
             Assert.assertEquals("false", element.getAttribute("checked"));
         }
     }
@@ -4799,7 +4804,7 @@ public class Steps {
         String tagName = DataManager.getDataFromHashDatamap(rowindex, columnName);
         hp.swipeVertical(50, 80, 50);
 
-        for(int i=1; i<=3; i++){
+        for (int i = 1; i <= 3; i++) {
             //click on transaction to show details
             String xPath1 = "(//*[@resource-id='nlb-card-container'])[" + i + "]";
             By el1 = x.createByXpath(xPath1);
@@ -4838,7 +4843,7 @@ public class Steps {
         boolean tag1Present = false;
         boolean tag2Present = false;
         hp.swipeVertical(50, 80, 50);
-        for(int i=1; i<=3; i++){
+        for (int i = 1; i <= 3; i++) {
             //click on transaction to show details
             String xPath1 = "(//*[@resource-id='nlb-card-container'])[" + i + "]";
             By el1 = x.createByXpath(xPath1);
@@ -4850,15 +4855,14 @@ public class Steps {
             String xPath3 = "//android.widget.TextView[@text='Tags']/following-sibling::android.widget.TextView";
             MobileElement element3 = x.createMobileElementByXpath(xPath3);
             Assert.assertTrue(element3.isDisplayed());
-            if(element3.getText().equals("#" + tagName1) && element3.getText().equals("#" + tagName2)){
+            if (element3.getText().equals("#" + tagName1) && element3.getText().equals("#" + tagName2)) {
                 tag1Present = true;
                 tag2Present = true;
             } else if (element3.getText().equals("#" + tagName1)) {
                 tag1Present = true;
             } else if (element3.getText().equals("#" + tagName2)) {
                 tag2Present = true;
-            }
-            else Assert.fail("there is no expected tag found!!!");
+            } else Assert.fail("there is no expected tag found!!!");
             //go back to transaction list
             String xPath4 = "//android.view.View[@content-desc='Back']/following-sibling::android.widget.Button";
             By el4 = x.createByXpath(xPath4);
@@ -4903,7 +4907,7 @@ public class Steps {
 
         String xPath = "//android.view.View[@resource-id='nlb-card-container']/android.widget.TextView[@resource-id='nlb-currency']";
         List<MobileElement> elements = x.createElementsByXpath(xPath);
-        for(MobileElement element : elements){
+        for (MobileElement element : elements) {
             Assert.assertEquals(expectedCurrency, element.getText());
         }
     }
@@ -4913,8 +4917,8 @@ public class Steps {
         String xPath = "//android.widget.TextView[@resource-id='nlb-product-details-primary-balance' and contains(@text, '" + currency + "')]/ancestor::android.view.View[@resource-id='nlb-header-card']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<20; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 20; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollByCoordinatesHorizontal(driver, 650, 700, 200);
             }
         }
@@ -4954,7 +4958,7 @@ public class Steps {
     public void assertListOfTagsIsDisplayedInAddTagPage() {
         String xPath = "//android.view.View[@resource-id= 'nlb-card-container']/android.view.View";
         List<MobileElement> elements = x.createElementsByXpath(xPath);
-        for(MobileElement element : elements){
+        for (MobileElement element : elements) {
             Assert.assertTrue(element.isDisplayed());
         }
     }
@@ -5139,7 +5143,7 @@ public class Steps {
         String xPath1 = "//android.view.View[@resource-id='nlb-cta-button'][3]//android.widget.TextView";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
-        Assert.assertEquals("Statements" , element1.getText());
+        Assert.assertEquals("Statements", element1.getText());
         //image
         String xPath2 = "//android.view.View[@resource-id='nlb-cta-button'][3]//android.view.View[@content-desc='Statements']";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
@@ -5192,7 +5196,7 @@ public class Steps {
         String xPath2 = "//android.widget.ScrollView//android.widget.TextView";
         List<MobileElement> elements = x.createElementsByXpath(xPath2);
         List<String> expectedYears = rh.getXYearsInPast(11);
-        for(int i=0; i< elements.size(); i++){
+        for (int i = 0; i < elements.size(); i++) {
             Assert.assertEquals(expectedYears.get(i), elements.get(i).getText());
         }
     }
@@ -5223,19 +5227,19 @@ public class Steps {
         //date format
         String xPath1 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[1]";
         List<MobileElement> elements1 = x.createMobileElementsByXpath(xPath1);
-        for(MobileElement element : elements1){
+        for (MobileElement element : elements1) {
             Assert.assertTrue(element.getText().matches("^((0?[1-9]|[12]\\d|3[01])\\.\\u00A0(0?[13578]|1[02])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|[12]\\d|30)\\.\\u00A0(0?[13456789]|1[012])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|1\\d|2[0-8])\\.\\u00A0(0?2)\\.\\u00A0((19|20)\\d\\d)|29\\.\\u00A0(0?2)\\.\\u00A0((19|20)(0[48]|[2468][048]|[13579][26])))$"));
         }
         //descriptions
         String xPath2 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[2]";
         List<MobileElement> elements2 = x.createMobileElementsByXpath(xPath2);
-        for(MobileElement element : elements2){
+        for (MobileElement element : elements2) {
             Assert.assertTrue(element.isDisplayed());
         }
         //download icon
         String xPath3 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.view.View";
         List<MobileElement> elements3 = x.createMobileElementsByXpath(xPath3);
-        for(MobileElement element : elements3){
+        for (MobileElement element : elements3) {
             Assert.assertTrue(element.isDisplayed());
             Assert.assertTrue(element.isEnabled());
         }
@@ -5247,7 +5251,7 @@ public class Steps {
         String xPath1 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.widget.TextView";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
-        Assert.assertEquals("Statements" , element1.getText());
+        Assert.assertEquals("Statements", element1.getText());
         //image
         String xPath2 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.view.View[@content-desc='Statements']";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
@@ -5261,42 +5265,42 @@ public class Steps {
 
     @And("Assert list of transactions is displayed correctly in Product")
     public void assertListOfTransactionsIsDisplayedCorrectlyInProduct() {
-        try{
+        try {
             List<MobileElement> mobileElementList = d.createMobileElementsByResourceId("nlb-item-row");
-            if(!mobileElementList.isEmpty()){
+            if (!mobileElementList.isEmpty()) {
                 rh.assertMobileElementsDisplayed(mobileElementList);
             }
             return;
-        } catch (NoSuchElementException e){}
+        } catch (NoSuchElementException e) {
+        }
 
-        try{
+        try {
             String xPath2 = "//android.widget.TextView[@text='No results found. Adjust your values and try again.']";
             MobileElement element2 = x.createMobileElementByXpath(xPath2);
             Assert.assertTrue(element2.isDisplayed());
             return;
-        }
-        catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Assert.fail("Transaction list not displayed correctly.");
         }
     }
 
     @And("Assert list of transactions is displayed correctly in Insurance")
     public void assertListOfTransactionsIsDisplayedCorrectlyInInsurance() {
-        try{
+        try {
             List<MobileElement> mobileElementList = d.createMobileElementsByResourceId("nlb-item-row");
-            if(!mobileElementList.isEmpty()){
+            if (!mobileElementList.isEmpty()) {
                 rh.assertMobileElementsDisplayed(mobileElementList);
             }
             return;
-        } catch (NoSuchElementException e){}
+        } catch (NoSuchElementException e) {
+        }
 
-        try{
+        try {
             String xPath2 = "//android.widget.TextView[@text='Only additional premiums are displayed.']";
             MobileElement element2 = x.createMobileElementByXpath(xPath2);
             Assert.assertTrue(element2.isDisplayed());
             return;
-        }
-        catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Assert.fail("Premiums list not displayed correctly.");
         }
     }
@@ -5425,7 +5429,7 @@ public class Steps {
         String xPath1 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.widget.TextView";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
-        Assert.assertEquals("Details" , element1.getText());
+        Assert.assertEquals("Details", element1.getText());
         //image
         String xPath2 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.view.View[@content-desc='Details']";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
@@ -5443,7 +5447,7 @@ public class Steps {
         String xPath1 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.widget.TextView";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
-        Assert.assertEquals("Funds" , element1.getText());
+        Assert.assertEquals("Funds", element1.getText());
         //image
         String xPath2 = "//android.view.View[@resource-id='nlb-cta-button'][" + index + "]//android.view.View[@content-desc='Funds']";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
@@ -5482,7 +5486,7 @@ public class Steps {
     public void assertThereAreIsNoUnpaidPremiumsCategoryInVitaDetails() throws InterruptedException {
         String xPath = "//android.view.View[@resource-id='nlb-product-details-card']/android.widget.TextView[@text='Unpaid premius']";
         By el = By.xpath(xPath);
-        boolean messageExists = ActionApiHelpers.isElementDisplayedCustom(el,2,500);
+        boolean messageExists = ActionApiHelpers.isElementDisplayedCustom(el, 2, 500);
         Assert.assertFalse(messageExists);
     }
 
@@ -5521,8 +5525,8 @@ public class Steps {
         String xPath = "//*[@text='" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -5532,9 +5536,9 @@ public class Steps {
     @And("Assert that text {string} has first following sibling with text from txt file under key {string}")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromTxtFileUnderKey(String textFirst, String key) {
         String textSecond = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(textSecond,element.getText());
+        Assert.assertEquals(textSecond, element.getText());
     }
 
     @And("Assert currency in second payment screen is {string}")
@@ -5580,24 +5584,24 @@ public class Steps {
     }
 
     @And("Assert that second text {string} has first following sibling that contains text {string}")
-    public void assertThatSecondTextStringHasFirstFollowingSiblingThatContainsText(String textFirst,String expectedText) {
-        String xPath = "//*[@text='"+textFirst+"'][2]//following-sibling::*[1]";
+    public void assertThatSecondTextStringHasFirstFollowingSiblingThatContainsText(String textFirst, String expectedText) {
+        String xPath = "//*[@text='" + textFirst + "'][2]//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.getText().contains(expectedText));
     }
 
     @And("Assert that text {string} has first following sibling that contains text {string}")
     public void assertThatTextHasFirstFollowingSiblingThatContainsText(String textFirst, String textSecond) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.getText().contains(textSecond));
     }
 
     @And("Assert that text {string} has first following sibling with future date {string} in format {string}")
     public void assertThatTextHasFirstFollowingSiblingWithFutureDateInFormat(String textFirst, String daysInFuture, String dateFormat) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.parseInt(daysInFuture),dateFormat);
+        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.parseInt(daysInFuture), dateFormat);
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
         Assert.assertEquals(futureDate, actualDate);
     }
@@ -5607,7 +5611,7 @@ public class Steps {
         By el = d.createElementByResourceId(id);
         WaitHelpers.waitForElement(el);
         MobileElement element = d.createMobileElementByResourceId(id);
-        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.parseInt(daysInFuture),dateFormat);
+        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysInFormat(Integer.parseInt(daysInFuture), dateFormat);
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
         Assert.assertEquals(futureDate, actualDate);
     }
@@ -5621,10 +5625,10 @@ public class Steps {
 
     @And("Store exchange {string} for country {string} under key {string} in txt file")
     public void storeExchangeForCountryUnderKeyInTxtFile(String id, String country, String key) {
-        String xPathForCurrencyExchangeRate = "//*[@text='"+country+"']//following-sibling::*[@resource-id='nlb-exchange-"+id+"'][1]";
+        String xPathForCurrencyExchangeRate = "//*[@text='" + country + "']//following-sibling::*[@resource-id='nlb-exchange-" + id + "'][1]";
         MobileElement elementForCurrencyExchangeRate = x.createMobileElementByXpath(xPathForCurrencyExchangeRate);
         String rateToStore = elementForCurrencyExchangeRate.getText();
-        Utilities.saveTheValueToFile(rateToStore,key);
+        Utilities.saveTheValueToFile(rateToStore, key);
     }
 
     @And("Assert that info message for currency conversion in second step of payment is correct using amount {string} currency {string} and exchange rate {string}")
@@ -5635,62 +5639,62 @@ public class Steps {
         Double amount = Double.parseDouble(amountString);
         Double convertedAmount = amount / exchangeRate;
         Double convertedAmountTwo = Utilities.round(convertedAmount, 2);
-        Utilities.saveTheValueToFile("debitedAmount",convertedAmountTwo.toString());
+        Utilities.saveTheValueToFile("debitedAmount", convertedAmountTwo.toString());
 
         MobileElement elementForCurrencyExchangeInfo = d.createMobileElementByResourceId("nlb-info-link-exchange-rate");
         String actualText = elementForCurrencyExchangeInfo.getText();
-        Assert.assertTrue(actualText.matches("^Amount\\s+in\\s+EUR\\s+"+convertedAmountTwo+" EUR\\s+\\("+exchangeRateString+"\\s+"+currency+"\\s+for\\s+1\\s+EUR\\)$"));
+        Assert.assertTrue(actualText.matches("^Amount\\s+in\\s+EUR\\s+" + convertedAmountTwo + " EUR\\s+\\(" + exchangeRateString + "\\s+" + currency + "\\s+for\\s+1\\s+EUR\\)$"));
     }
 
     @And("Assert that text {string} has first following sibling with text from key {string} from txt file")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromKeyFromTxtFile(String textFirst, String textSecond) {
         String expectedValue = Utilities.getDataFromTxtFileUnderKey(textSecond);
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expectedValue,element.getText());
+        Assert.assertEquals(expectedValue, element.getText());
     }
 
     @And("Click on element by contains text {string}")
     public void clickOnElementByContainsText(String text) throws Throwable {
-        String xPath = "//*[contains(@text,'"+text+"')]";
+        String xPath = "//*[contains(@text,'" + text + "')]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
 
     @And("Assert element by contains text from excel {string} columnName {string}")
     public void assertElementByContainsTextFromExcelColumnName(String rowindex, String columnName) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = x.createMobileElementByContainsText(text);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by text {string} has first following sibling from excel {string} columnName {string}")
     public void assertElementByTextHasFirstFollowingSiblingFromExcelColumnName(String text, String rowindex, String columnName) {
-        String xPath = "(//*[@text='"+text+"']//following-sibling::*)[1]";
-        String expected = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*)[1]";
+        String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getAttribute("text"));
+        Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert element by text {string} has first following sibling {string}")
     public void assertElementByTextHasFirstFollowingSibling(String text, String expected) {
-        String xPath = "(//*[@text='"+text+"']//following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getAttribute("text"));
+        Assert.assertEquals(expected, element.getAttribute("text"));
     }
 
     @And("Assert saved contact has short {string} and name from Excel {string} columnName {string} and iban from Excel {string} columnName {string}")
     public void assertSavedContactHasShortAndNameFromExcelColumnNameAndIbanFromExcelColumnName(String shortName, String rowindex1, String columnName1, String rowindex2, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex1,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex2,columnName2);
-        String xPath = "//*[@text='"+shortName+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex1, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex2, columnName2);
+        String xPath = "//*[@text='" + shortName + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
     }
 
     @And("Assert that text {string} has first following sibling that contains from Excel {string} columnName {string}")
     public void assertThatTextHasFirstFollowingSiblingThatContainsFromExcelColumnName(String textFirst, String rowindex, String columnName) {
-        String textSecond = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String textSecond = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(textSecond);
         System.out.println(element.getText());
@@ -5701,13 +5705,13 @@ public class Steps {
     public void rememberTransactionHeaderSumUnderKey(String key) {
         MobileElement element = d.createMobileElementByResourceId("nlb-transaction-header-sum");
         String input = element.getText();
-        String sanitizedInput = input.replace("−","");
-        sanitizedInput = sanitizedInput.replace(".","");
-        sanitizedInput = sanitizedInput.replace(",",".");
-        sanitizedInput = sanitizedInput.replace(" ","");
-        sanitizedInput = sanitizedInput.replace("EUR","");
+        String sanitizedInput = input.replace("−", "");
+        sanitizedInput = sanitizedInput.replace(".", "");
+        sanitizedInput = sanitizedInput.replace(",", ".");
+        sanitizedInput = sanitizedInput.replace(" ", "");
+        sanitizedInput = sanitizedInput.replace("EUR", "");
         double number = Double.parseDouble(sanitizedInput);
-        DataManager.userObject.put(key,number);
+        DataManager.userObject.put(key, number);
     }
 
     @And("Click on Filter button in my product")
@@ -5722,11 +5726,11 @@ public class Steps {
         List<String> mobileElementList = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
 
         Double sumOfAmount = null;
-        for (String s : mobileElementList){
-            String sanitizedAmount = s.replace(".","");
-            sanitizedAmount = sanitizedAmount.replace(",",".");
+        for (String s : mobileElementList) {
+            String sanitizedAmount = s.replace(".", "");
+            sanitizedAmount = sanitizedAmount.replace(",", ".");
             Double amount = Double.parseDouble(sanitizedAmount);
-            sumOfAmount =+ amount;
+            sumOfAmount = +amount;
         }
         DataManager.userObject.put("incomingSum", sumOfAmount);
     }
@@ -5739,11 +5743,11 @@ public class Steps {
 
 
         Double sumOfAmount = null;
-        for (String s : mobileElementList){
-            String sanitizedAmount = s.replace(".","");
-            sanitizedAmount = sanitizedAmount.replace(",",".");
+        for (String s : mobileElementList) {
+            String sanitizedAmount = s.replace(".", "");
+            sanitizedAmount = sanitizedAmount.replace(",", ".");
             Double amount = Double.parseDouble(sanitizedAmount);
-            sumOfAmount =+ amount;
+            sumOfAmount = +amount;
         }
         DataManager.userObject.put("outgoingSum", sumOfAmount);
     }
@@ -5755,13 +5759,13 @@ public class Steps {
         Double outgoingSum = (Double) DataManager.userObject.get("outgoingSum");
 
         Double expectedSum = Math.abs(incomingSum - outgoingSum);
-        Assert.assertEquals(expectedSum,actualSum);
+        Assert.assertEquals(expectedSum, actualSum);
     }
 
     @And("Assert current month on page")
     public void assertCurrentMonthOnPage() {
         String month = rh.getTodayDateInFormat("MMMM");
-        String xPath = "//*[@text='"+month+"']";
+        String xPath = "//*[@text='" + month + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -5769,14 +5773,14 @@ public class Steps {
     @And("Remember transaction header sum for upcoming payments under key {string}")
     public void rememberTransactionHeaderSumForUpcomingPaymentsUnderKey(String key) {
         String month = rh.getTodayDateInFormat("MMMM");
-        String xPath = "(//*[@text='"+month+"']//following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + month + "']//following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        DataManager.userObject.put(key,element.getText());
+        DataManager.userObject.put(key, element.getText());
     }
 
     @And("Wait for element by text from excel {string} columnName {string}")
     public void waitForElementByTextFromExcelColumnName(String rowindex, String columnName) {
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By element = tx.createElementByText(text);
         WaitHelpers.waitForElement(element, 60);
     }
@@ -5784,11 +5788,11 @@ public class Steps {
     @And("Assert transaction header sum for upcoming payments is different from one under key {string}")
     public void assertTransactionHeaderSumForUpcomingPaymentsIsDifferentFromOneUnderKey(String key) {
         String month = rh.getTodayDateInFormat("MMMM");
-        String xPath = "(//*[@text='"+month+"']//following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + month + "']//following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String amount = element.getText();
         String otherAmount = (String) DataManager.userObject.get(key);
-        Assert.assertNotEquals(amount,otherAmount);
+        Assert.assertNotEquals(amount, otherAmount);
     }
 
     @And("Assert element by id {string} has two decimal places and ends in {string}")
@@ -5801,25 +5805,25 @@ public class Steps {
 
     @And("Swipe currencies to the right until you find currency {string}")
     public void swipeCurrenciesToTheRightUntilYouFindCurrency(String currency) {
-        String xPath = "//*[contains(@text,'"+currency+"')]";
+        String xPath = "//*[contains(@text,'" + currency + "')]";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
-                hp.swipeByCordinates(900,700,400,700);
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
+                hp.swipeByCordinates(900, 700, 400, 700);
             }
         }
     }
 
     @And("Click on element by id {string} and contains text {string}")
     public void clickOnElementByIdAndContainsText(String id, String text) throws Throwable {
-        MobileElement element = x.createMobileElementByIdAndContainsText(id,text);
+        MobileElement element = x.createMobileElementByIdAndContainsText(id, text);
         hp.ClickOnElement(element);
     }
 
     @And("Wait for transactions of {string} currencies to load in my products")
     public void waitForTransactionsOfCurrenciesToLoadInMyProducts(String currency) {
-        String xPath = "//*[contains(@text,'"+currency+"') and not(@resource-id='nlb-product-details-primary-balance')]";
+        String xPath = "//*[contains(@text,'" + currency + "') and not(@resource-id='nlb-product-details-primary-balance')]";
         By element = x.createByXpath(xPath);
         WaitHelpers.waitForElement(element, 100);
     }
@@ -5847,7 +5851,7 @@ public class Steps {
         String xPath = "//*[@text='Split transaction'][2]/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
-        String xPathForCategory = "//*[@text='"+categoryName+"']";
+        String xPathForCategory = "//*[@text='" + categoryName + "']";
         By elWait = x.createByXpath(xPathForCategory);
         WaitHelpers.waitForElement(elWait);
         MobileElement elementForCategory = x.createMobileElementByXpath(xPathForCategory);
@@ -5859,23 +5863,23 @@ public class Steps {
         String xPath = "//*[@text='Remaining amount']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String amount = element.getText();
-        amount = amount.replace("EUR","");
-        amount = amount.replace(" ","");
-        amount = amount.replace(".","");
-        amount = amount.replace(",",".");
-        DataManager.userObject.put(key,amount);
+        amount = amount.replace("EUR", "");
+        amount = amount.replace(" ", "");
+        amount = amount.replace(".", "");
+        amount = amount.replace(",", ".");
+        DataManager.userObject.put(key, amount);
     }
 
     @And("Enter amount from key {string} into {string} split divided by {string}")
     public void enterAmountFromKeyIntoSplitDividedBy(String key, String index, String dividerString) {
-        String xPath = "//*[@resource-id='nlb-amount-with-currency-field']["+index+"]";
+        String xPath = "//*[@resource-id='nlb-amount-with-currency-field'][" + index + "]";
         String amountString = (String) DataManager.userObject.get(key);
         Double amount = Double.parseDouble(amountString);
         Double divider = Double.parseDouble(dividerString);
         Double result = amount / divider;
         String textToEnter = result.toString();
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(textToEnter,element);
+        hp.enterTextToMobileElement(textToEnter, element);
     }
 
     @And("Split second category into {string}")
@@ -5883,7 +5887,7 @@ public class Steps {
         String xPath = "(//*[@text='Select category'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
-        String xPathForCategory = "//*[@text='"+categoryName+"']";
+        String xPathForCategory = "//*[@text='" + categoryName + "']";
         By elWait = x.createByXpath(xPathForCategory);
         WaitHelpers.waitForElement(elWait);
         MobileElement elementForCategory = x.createMobileElementByXpath(xPathForCategory);
@@ -5894,13 +5898,13 @@ public class Steps {
     public void assertRemainingAmountIs(String expected) {
         String xPath = "//*[@text='Remaining amount']/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert list of element by id {string} does not contain {string}")
     public void assertListOfElementByIdDoesNotContain(String id, String value) {
         List<MobileElement> mobileElementList = d.createMobileElementsByResourceId(id);
-        for (MobileElement element : mobileElementList){
+        for (MobileElement element : mobileElementList) {
             Assert.assertFalse(element.getText().contains(value));
         }
     }
@@ -5909,37 +5913,37 @@ public class Steps {
     public void assertCardSMSAlarmIs(String expected) {
         String xPath = "//*[@text='Enable SMS Alarm']/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Enter amount from key {string} into {string} split minus {string}")
     public void enterAmountFromKeyIntoSplitMinus(String key, String index, String minusString) {
-        String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])["+index+"]";
+        String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])[" + index + "]";
         String amountString = (String) DataManager.userObject.get(key);
         Double amount = Double.parseDouble(amountString);
         Double minus = Double.parseDouble(minusString);
         Double result = amount - minus;
         String textToEnter = result.toString();
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(textToEnter,element);
+        hp.enterTextToMobileElement(textToEnter, element);
     }
 
     @And("Enter amount {string} into {string} split")
     public void enterAmountIntoSplit(String amountString, String index) {
-        String xPath = "//*[@resource-id='nlb-amount-with-currency-field']["+index+"]";
+        String xPath = "//*[@resource-id='nlb-amount-with-currency-field'][" + index + "]";
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(amountString,element);
+        hp.enterTextToMobileElement(amountString, element);
     }
 
     @Then("Assert that product card of name {string} and detailed name {string} from Excel {string} for nlb credit card account are shown correctly")
     public void assertThatProductCardOfNameAndDetailedNameFromExcelForNlbCreditCardAccountAreShownCorrectly(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForCardNumber = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForCardNumber = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
         MobileElement accNumber = x.createMobileElementByXpath(xPathForCardNumber);
-        Assert.assertEquals(productIban,accNumber.getText());
+        Assert.assertEquals(productIban, accNumber.getText());
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -5951,12 +5955,12 @@ public class Steps {
 
     @And("Assert that whole product card of credit card account with name {string} and iban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfCreditCardAccountWithNameAndIbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']";
-        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']";
+        String xPathForProductIban = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
 
@@ -6003,41 +6007,41 @@ public class Steps {
 
     @And("Remember {string} currency rate for country {string} under key {string}")
     public void rememberCurrencyRateForCountryUnderKey(String rateType, String country, String key) {
-        if (rateType.equals("sell")){
-            String xPath = "//android.view.View[@content-desc='"+country+"']";
+        if (rateType.equals("sell")) {
+            String xPath = "//android.view.View[@content-desc='" + country + "']";
             By el = By.xpath(xPath);
-            for(int i = 0; i<35; i++){
-                if(hp.isElementNotPresent(el)){
+            for (int i = 0; i < 35; i++) {
+                if (hp.isElementNotPresent(el)) {
                     hp.scrollDown(driver);
                 }
             }
 
-            String xPathForSellRate = "(//android.view.View[@content-desc='"+country+"']/following-sibling::*[@resource-id='nlb-exchange-sell'])[1]";
+            String xPathForSellRate = "(//android.view.View[@content-desc='" + country + "']/following-sibling::*[@resource-id='nlb-exchange-sell'])[1]";
             MobileElement elementForSellRate = x.createMobileElementByXpath(xPathForSellRate);
             String value = elementForSellRate.getText();
-            DataManager.userObject.put(key,value);
+            DataManager.userObject.put(key, value);
         }
 
-        if (rateType.equals("buy")){
-            String xPath = "//android.view.View[@content-desc='"+country+"']";
+        if (rateType.equals("buy")) {
+            String xPath = "//android.view.View[@content-desc='" + country + "']";
             By el = By.xpath(xPath);
-            for(int i = 0; i<35; i++){
-                if(hp.isElementNotPresent(el)){
+            for (int i = 0; i < 35; i++) {
+                if (hp.isElementNotPresent(el)) {
                     hp.scrollDown(driver);
                 }
             }
 
-            String xPathForSellRate = "(//android.view.View[@content-desc='"+country+"']/following-sibling::*[@resource-id='nlb-exchange-buy'])[1]";
+            String xPathForSellRate = "(//android.view.View[@content-desc='" + country + "']/following-sibling::*[@resource-id='nlb-exchange-buy'])[1]";
             MobileElement elementForSellRate = x.createMobileElementByXpath(xPathForSellRate);
             String value = elementForSellRate.getText();
-            DataManager.userObject.put(key,value);
+            DataManager.userObject.put(key, value);
         }
     }
 
     @And("For currency exchange rate {string} and source amount {string} calculate destination amount")
     public void forCurrencyExchangeRateAndSourceAmountCalculateDestinationAmount(String sellKey, String sourceAmountString) {
         String sellExchangeRateString = (String) DataManager.userObject.get(sellKey);
-        sellExchangeRateString = sellExchangeRateString.replace(",",".");
+        sellExchangeRateString = sellExchangeRateString.replace(",", ".");
         Double sourceAmount = Double.parseDouble(sourceAmountString);
         Double sellExchangeRate = Double.parseDouble(sellExchangeRateString);
         Double destinationAmount = sourceAmount * sellExchangeRate;
@@ -6045,8 +6049,8 @@ public class Steps {
         Double roundedValue = Math.round(destinationAmount * 100.0) / 100.0;
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         String expectedValue = decimalFormat.format(roundedValue);
-        expectedValue = expectedValue.replace(".",",");
-        DataManager.userObject.put("destination_amount",expectedValue);
+        expectedValue = expectedValue.replace(".", ",");
+        DataManager.userObject.put("destination_amount", expectedValue);
 
         String xPath = "(//*[@resource-id='nlb-amount-with-currency-flag-field'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -6056,29 +6060,29 @@ public class Steps {
         System.out.println(actualValue);
 
         //assertTrue(actualValue.contains(expectedValue.substring(0,4)));
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @And("Enter text {string} in {string} element by id {string}")
-    public void enterTextInElementById(String text,String occ, String id) {
-        String xPath = "(//*[@resource-id='"+id+"'])["+occ+"]";
+    public void enterTextInElementById(String text, String occ, String id) {
+        String xPath = "(//*[@resource-id='" + id + "'])[" + occ + "]";
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(text,element);
+        hp.enterTextToMobileElement(text, element);
     }
 
     @And("Assert To currency in currency exchange review has value from key {string} and currency {string}")
     public void assertToCurrencyInCurrencyExchangeReviewHasValueFromKeyAndCurrency(String key, String currency) {
         String expectedValue = (String) DataManager.userObject.get(key);
 
-        expectedValue = expectedValue.replace(",",".");
+        expectedValue = expectedValue.replace(",", ".");
         Double expectedValueDouble = Double.parseDouble(expectedValue);
         String expectedValueSecond = String.format("%.2f", expectedValueDouble);
-        expectedValueSecond = expectedValueSecond.replace(".",",");
+        expectedValueSecond = expectedValueSecond.replace(".", ",");
 
         expectedValue = expectedValueSecond + " " + currency;
         MobileElement element = d.createMobileElementByResourceId("currency-exchange-review-exchange-to");
         String actualValue = element.getText();
-        assertTrue(actualValue.startsWith(expectedValue.substring(0,4)));
+        assertTrue(actualValue.startsWith(expectedValue.substring(0, 4)));
         assertTrue(actualValue.endsWith(currency));
     }
 
@@ -6086,7 +6090,7 @@ public class Steps {
     public void assertElementByTextFromExcelColumnNameIsContainedInElementById(String rowindex, String columnName, String id) {
         MobileElement element = d.createMobileElementByResourceId(id);
         String actualValue = element.getText();
-        String expectedValue = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String expectedValue = DataManager.getDataFromHashDatamap(rowindex, columnName);
         Assert.assertTrue(actualValue.contains(expectedValue));
     }
 
@@ -6094,10 +6098,10 @@ public class Steps {
     public void assertThatAmountForOpenedTransactionInProductScreenIsFromKeyAndCurrency(String key, String currency) {
         String destinationAmount = (String) DataManager.userObject.get(key);
 
-        destinationAmount = destinationAmount.replace(",",".");
+        destinationAmount = destinationAmount.replace(",", ".");
         Double expectedValueDouble = Double.parseDouble(destinationAmount);
         String expectedValueSecond = String.format("%.2f", expectedValueDouble);
-        expectedValueSecond = expectedValueSecond.replace(".",",");
+        expectedValueSecond = expectedValueSecond.replace(".", ",");
 
         String xPath = "(//*[@text='Amount']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -6105,7 +6109,7 @@ public class Steps {
         System.out.println(actual);
         System.out.println(expectedValueSecond);
 
-        Assert.assertTrue(actual.startsWith(expectedValueSecond.substring(0,4)));
+        Assert.assertTrue(actual.startsWith(expectedValueSecond.substring(0, 4)));
         Assert.assertTrue(actual.endsWith(currency));
     }
 
@@ -6113,19 +6117,19 @@ public class Steps {
     public void assertThatForeignExchangeRateForOpenedTransactionInProductScreenIsFormedFromKey(String compOne, String compTwo, String key, String compFour) {
         String compThree = (String) DataManager.userObject.get(key);
         //compThree = compThree.replace(",",".");
-        String expected = compOne+" "+compTwo+" = "+compThree+" "+compFour;
+        String expected = compOne + " " + compTwo + " = " + compThree + " " + compFour;
 
         String xPath = "(//*[@text='Foreign Exchange rate']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String actual = element.getText();
 
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("For currency exchange rate {string} and destination amount {string} calculate source amount")
     public void forCurrencyExchangeRateAndDestinationAmountCalculateSourceAmount(String sellKey, String destinationAmountString) {
         String sellExchangeRateString = (String) DataManager.userObject.get(sellKey);
-        sellExchangeRateString = sellExchangeRateString.replace(",",".");
+        sellExchangeRateString = sellExchangeRateString.replace(",", ".");
         Double destinationAmount = Double.parseDouble(destinationAmountString);
         Double sellExchangeRate = Double.parseDouble(sellExchangeRateString);
         Double sourceAmount = destinationAmount / sellExchangeRate;
@@ -6135,39 +6139,39 @@ public class Steps {
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         String expectedValue = decimalFormat.format(roundedValue);
 
-        expectedValue = expectedValue.replace(".",",");
-        DataManager.userObject.put("source_amount",expectedValue);
+        expectedValue = expectedValue.replace(".", ",");
+        DataManager.userObject.put("source_amount", expectedValue);
 
         String xPath = "(//*[@resource-id='nlb-amount-with-currency-flag-field'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String actualValue = element.getText();
         System.out.println(expectedValue);
         System.out.println(actualValue);
-        assertTrue(actualValue.contains(expectedValue.substring(0,4)));
+        assertTrue(actualValue.contains(expectedValue.substring(0, 4)));
     }
 
     @And("Assert I Wish to Exchange in currency exchange review has value from key {string} and currency {string}")
     public void assertIWishToExchangeInCurrencyExchangeReviewHasValueFromKeyAndCurrency(String key, String currency) {
         String expectedValue = (String) DataManager.userObject.get(key);
 
-        expectedValue = expectedValue.replace(",",".");
+        expectedValue = expectedValue.replace(",", ".");
         Double expectedValueDouble = Double.parseDouble(expectedValue);
         String expectedValueSecond = String.format("%.2f", expectedValueDouble);
-        expectedValueSecond = expectedValueSecond.replace(".",",");
+        expectedValueSecond = expectedValueSecond.replace(".", ",");
 
         MobileElement element = d.createMobileElementByResourceId("currency-exchange-review-exchange-from");
         String actualValue = element.getText();
-        assertTrue(actualValue.contains(expectedValueSecond.substring(0,4)));
+        assertTrue(actualValue.contains(expectedValueSecond.substring(0, 4)));
         assertTrue(actualValue.endsWith(currency));
     }
 
     @And("Assert text from key {string} for currency exchange amount in id {string}")
     public void assertTextFromKeyForCurrencyExchangeAmountInId(String key, String id) {
         String amount = (String) DataManager.userObject.get(key);
-        amount = "−"+amount;
+        amount = "−" + amount;
         MobileElement element = d.createMobileElementByResourceId(id);
         String actual = element.getText();
-        Assert.assertEquals(actual,amount);
+        Assert.assertEquals(actual, amount);
     }
 
     @And("Assert that amount for opened transaction in product screen is {string}")
@@ -6176,7 +6180,7 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         String actual = element.getText();
 
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Wait for currency exchange to finish")
@@ -6190,10 +6194,10 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
 
-        String xPathForCurrency = "//*[contains(@text,'"+currency+"')]";
+        String xPathForCurrency = "//*[contains(@text,'" + currency + "')]";
         By el = By.xpath(xPathForCurrency);
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -6224,13 +6228,13 @@ public class Steps {
         MobileElement elementToEnterDebtorSelectionScreen = x.createMobileElementByXpath(xPathForToEnterDebtorSelectionScreen);
         hp.ClickOnElement(elementToEnterDebtorSelectionScreen);
 
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         WaitHelpers.waitForSeconds(3);
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -6248,45 +6252,45 @@ public class Steps {
 
     @And("Assert e invoice debtor is from Excel {string} columnName {string} {string}")
     public void assertEInvoiceDebtorIsFromExcelColumnName(String rowindex, String columnName1, String columnName2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@resource-id='nlb-e-invoice-debtor-card']//*[@text='"+accountName+"']/following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@resource-id='nlb-e-invoice-debtor-card']//*[@text='" + accountName + "']/following-sibling::*[@text='" + accountIban + "']";
         WebElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by text {string} has first following sibling contains text {string}")
     public void assertElementByTextHasFirstFollowingSiblingContainsText(String text, String expected) {
-        String xPath = "(//*[@text='"+text+"']//following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.getText().contains(expected));
     }
 
     @Then("Assert shown accounts for invoice debit accounts are correct")
     public void assertShownAccountsForInvoiceDebitAccountsAreCorrect() {
-        String accountIban = DataManager.getDataFromHashDatamap("1","personal_account_iban");
-        String accountIban2 = DataManager.getDataFromHashDatamap("1","second_personal_account_iban");
-        String xPath = "//*[@text='"+accountIban+"']";
-        String xPath2 = "//*[@text='"+accountIban2+"']";
+        String accountIban = DataManager.getDataFromHashDatamap("1", "personal_account_iban");
+        String accountIban2 = DataManager.getDataFromHashDatamap("1", "second_personal_account_iban");
+        String xPath = "//*[@text='" + accountIban + "']";
+        String xPath2 = "//*[@text='" + accountIban2 + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
         Assert.assertTrue(element.isDisplayed());
         Assert.assertTrue(element2.isDisplayed());
 
         List<MobileElement> mobileElementList = x.createMobileElementsByXpath("//*[@resource-id='nlb-card-container']");
-        Assert.assertEquals(2,mobileElementList.size());
+        Assert.assertEquals(2, mobileElementList.size());
     }
 
     @And("Assert there are five edit icons on my profile screen")
     public void assertThereAreFiveEditIconsOnMyProfileScreen() {
         String xPath = "//android.view.View[@content-desc=\"edit\"]";
         List<MobileElement> mobileElementList = x.createMobileElementsByXpath(xPath);
-        Assert.assertEquals(5,mobileElementList.size());
+        Assert.assertEquals(5, mobileElementList.size());
     }
 
     @Then("Click on edit button for {string} in user profile")
     public void clickOnEditButtonForInUserProfile(String text) throws Throwable {
-        String xPath = "//*[@text='"+text+"']//following-sibling::android.view.View[@content-desc=\"edit\"]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::android.view.View[@content-desc=\"edit\"]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
@@ -6295,12 +6299,12 @@ public class Steps {
     public void enterTextIntoEditTextElement(String text) {
         String xPath = "//android.widget.EditText";
         By element = x.createByXpath(xPath);
-        hp.enterTextToMobileElement(text,element);
+        hp.enterTextToMobileElement(text, element);
     }
 
     @And("Click on country {string} after search")
     public void clickOnCountryAfterSearch(String text) throws Throwable {
-        String xPath = "(//*[@text='"+text+"'])[2]";
+        String xPath = "(//*[@text='" + text + "'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
@@ -6316,57 +6320,57 @@ public class Steps {
     public void enterRandomAmountInElementByIdAndRememberItUnderKeyInTxtFile(String id, String key) {
         String amount = rh.returnRandomAmount();
         By el = d.createElementByResourceId(id);
-        Utilities.saveTheValueToFile(amount,key);
-        hp.enterTextToMobileElement(amount,el);
+        Utilities.saveTheValueToFile(amount, key);
+        hp.enterTextToMobileElement(amount, el);
     }
 
     @And("Assert amount from txt file under key {string} in id {string}")
     public void assertAmountFromTxtFileUnderKeyInId(String key, String id) {
         String amount = Utilities.getDataFromTxtFileUnderKey(key);
-        amount = amount.replace(".",",");
+        amount = amount.replace(".", ",");
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(amount,element.getText());
+        Assert.assertEquals(amount, element.getText());
     }
 
     @And("Assert element by id {string} has following sibling with text {string}")
     public void assertElementByIdHasFollowingSiblingWithText(String id, String expected) {
-        String xPath = "//*[@resource-id='"+id+"']/following-sibling::*[1]";
+        String xPath = "//*[@resource-id='" + id + "']/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert standing order text in second step of payment is correct for date {string} day in the future")
     public void assertStandingOrderTextInSecondStepOfPaymentIsCorrectForDateDayInTheFuture(String day) {
         int i = Integer.parseInt(day);
-        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i,"dd. M. yyyy");
-        date = date.replace(" "," ");
-        String xPath = "//*[@text='Your standing order will be processed monthly, starting with "+date+" and until you cancel it in line with Payments execution schedule .']";
+        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i, "dd. M. yyyy");
+        date = date.replace(" ", " ");
+        String xPath = "//*[@text='Your standing order will be processed monthly, starting with " + date + " and until you cancel it in line with Payments execution schedule .']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert element by id {string} has date {string} day in the future using format {string}")
     public void assertElementByIdHasDateDayInTheFutureUsingFormat(String id, String day, String format) {
-        MobileElement element  = d.createMobileElementByResourceId(id);
+        MobileElement element = d.createMobileElementByResourceId(id);
         int i = Integer.parseInt(day);
-        String expected = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i,format);
-        Assert.assertEquals(expected,element.getAttribute("text").replace(" ",""));
+        String expected = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i, format);
+        Assert.assertEquals(expected, element.getAttribute("text").replace(" ", ""));
     }
 
     @And("Assert that text {string} has first following sibling with text from txt file under key {string} and currency {string}")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromTxtFileUnderKeyAndCurrency(String textFirst, String key, String currency) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         String amount = Utilities.getDataFromTxtFileUnderKey(key);
-        amount = amount.replace(".",",");
+        amount = amount.replace(".", ",");
         String expected = amount + " " + currency;
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert that second text {string} has first following sibling that contains text from Excel {string} columnName {string}")
     public void assertThatSecondTextHasFirstFollowingSiblingThatContainsTextFromExcelColumnName(String textFirst, String rowindex, String columnName) {
-        String textSecond = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPath = "//*[@text='"+textFirst+"'][2]//following-sibling::*[1]";
+        String textSecond = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//*[@text='" + textFirst + "'][2]//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(textSecond);
         System.out.println(element.getText());
@@ -6375,9 +6379,9 @@ public class Steps {
 
     @And("Assert that text {string} has first following sibling that contains from Excel {string} columnName {string} with no space")
     public void assertThatTextHasFirstFollowingSiblingThatContainsFromExcelColumnNameWithNoSpace(String textFirst, String rowindex, String columnName) {
-        String textSecond = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        textSecond = textSecond.replace(" ","");
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String textSecond = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        textSecond = textSecond.replace(" ", "");
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(textSecond);
         System.out.println(element.getText());
@@ -6387,15 +6391,15 @@ public class Steps {
     @And("Assert that amount for opened standing order is from txt file under key {string}")
     public void assertThatAmountForOpenedStandingOrderIsFromTxtFileUnderKey(String key) {
         String amount = Utilities.getDataFromTxtFileUnderKey(key);
-        amount = amount.replace(".",",");
+        amount = amount.replace(".", ",");
         MobileElement element = d.createMobileElementByResourceId("nlb-amount");
-        Assert.assertEquals(amount,element.getText());
+        Assert.assertEquals(amount, element.getText());
     }
 
     @And("Assert that payment date for standing order is {string} day in future with correct format")
     public void assertThatPaymentDateForStandingOrderIsDayInFutureWithCorrectFormat(String day) {
         int i = Integer.parseInt(day);
-        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i,"dd");
+        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i, "dd");
         String xPath = "//*[@text='Payment day']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.getText().contains(date));
@@ -6404,25 +6408,25 @@ public class Steps {
 
     @And("Assert that text {string} has first following sibling with text from txt file under key {string} and currency {string} with nothing else")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromTxtFileUnderKeyAndCurrencyWithNothingElse(String textFirst, String key, String currency) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         String amount = Utilities.getDataFromTxtFileUnderKey(key);
         String expected = amount + " " + currency;
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @Then("Scroll until standing order with text from txt file under key {string} is in view and click")
     public void scrollUntilStandingOrderWithTextFromTxtFileUnderKeyIsInViewAndClick(String key) throws Exception {
         String purpose = Utilities.getDataFromTxtFileUnderKey(key);
-        purpose = purpose.replace(".",",");
+        purpose = purpose.replace(".", ",");
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + purpose +"\"))"));
         //hp.ClickOnElement(element);
         WaitHelpers.waitForSeconds(5);
         String xPath = "//*[@text = '" + purpose + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<20; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 20; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -6433,27 +6437,27 @@ public class Steps {
     @And("Assert default end date for standing order is correct")
     public void assertDefaultEndDateForStandingOrderIsCorrect() {
         MobileElement element = d.createMobileElementByResourceId("nlb-input-standing-order-end-date");
-        String date = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(1,0,1,"dd.M.yyyy");
-        Assert.assertEquals(date,element.getAttribute("text").replace(" ",""));
+        String date = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(1, 0, 1, "dd.M.yyyy");
+        Assert.assertEquals(date, element.getAttribute("text").replace(" ", ""));
     }
 
     @And("Assert standing order text in second step of payment is correct for date {string} day in the future with default end date")
     public void assertStandingOrderTextInSecondStepOfPaymentIsCorrectForDateDayInTheFutureWithDefaultEndDate(String day) {
         int i = Integer.parseInt(day);
-        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i,"dd. M. yyyy");
-        date = date.replace(" "," ");
-        String dateIn = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(1,0,1,"dd. M. yyyy");
-        dateIn = dateIn.replace(" "," ");
-        String xPath = "//*[@text='Your standing order will be processed monthly, starting with "+date+" and until "+dateIn+" in line with Payments execution schedule.']";
+        String date = ActionApiHelpers.getTodayDatePlusXDaysInFormat(i, "dd. M. yyyy");
+        date = date.replace(" ", " ");
+        String dateIn = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(1, 0, 1, "dd. M. yyyy");
+        dateIn = dateIn.replace(" ", " ");
+        String xPath = "//*[@text='Your standing order will be processed monthly, starting with " + date + " and until " + dateIn + " in line with Payments execution schedule.']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert that text {string} has first following sibling with future date {string} and {string} year in format {string}")
-    public void assertThatTextHasFirstFollowingSiblingWithFutureDateAndYearInFormat(String textFirst, String daysInFuture,String yearInFuture, String dateFormat) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+    public void assertThatTextHasFirstFollowingSiblingWithFutureDateAndYearInFormat(String textFirst, String daysInFuture, String yearInFuture, String dateFormat) {
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(Integer.parseInt(daysInFuture),0,Integer.parseInt(yearInFuture),dateFormat);
+        String futureDate = ActionApiHelpers.getTodayDatePlusXDaysYMonthsZYearsInFormat(Integer.parseInt(daysInFuture), 0, Integer.parseInt(yearInFuture), dateFormat);
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
         Assert.assertEquals(futureDate, actualDate);
     }
@@ -6461,7 +6465,7 @@ public class Steps {
     @And("Assert standing order with text from txt file under key {string} is not displayed")
     public void assertStandingOrderWithTextFromTxtFileUnderKeyIsNotDisplayed(String key) throws Throwable {
         String purpose = Utilities.getDataFromTxtFileUnderKey(key);
-        purpose = purpose.replace(".",",");
+        purpose = purpose.replace(".", ",");
         By element = tx.createElementByTextContains(purpose);
         boolean isElementDisplayed = hp.isElementDisplayed(element, 5, 100);
         Assert.assertFalse(isElementDisplayed);
@@ -6483,7 +6487,7 @@ public class Steps {
     @And("Assert there are five payments in last five payments")
     public void assertThereAreFivePaymentsInLastFivePayments() {
         List<MobileElement> mobileElementList = d.createMobileElementsByResourceId("nlb-purpose");
-        Assert.assertEquals(5,mobileElementList.size());
+        Assert.assertEquals(5, mobileElementList.size());
 
         List<String> actualTexts = new ArrayList<>();
         for (MobileElement el : mobileElementList) {
@@ -6500,8 +6504,8 @@ public class Steps {
 
     @Then("Assert category filter is working correctly for category {string}")
     public void assertCategoryFilterIsWorkingCorrectlyForCategory(String category) throws Throwable {
-        for (int i = 1; i <= 3; i++){
-            String xPath = "(//*[@resource-id='nlb-title'])["+i+"]";
+        for (int i = 1; i <= 3; i++) {
+            String xPath = "(//*[@resource-id='nlb-title'])[" + i + "]";
             MobileElement element = x.createMobileElementByXpath(xPath);
             hp.ClickOnElement(element);
             String xPathForCategory1 = "//*[@text='Dom']";
@@ -6527,12 +6531,12 @@ public class Steps {
 
     @And("Assert Debtor in Own Account Transfer has content description {string} and from Excel {string} account name {string} and iban {string} with currency {string}")
     public void assertDebtorInOwnAccountTransferHasContentDescriptionAndFromExcelAccountNameAndIbanWithCurrency(String contentDesc, String rowindex, String columnName1, String columnName2, String currency) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPath = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='"+contentDesc+"']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPath = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='" + contentDesc + "']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
-        String xPathForCurrency = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='Current account']//following-sibling::*[@text='"+accountName+"']//following-sibling::*[@text='"+accountIban+"']//following-sibling::*";
+        String xPathForCurrency = "//*[@text='Debtor']//following-sibling::*[@resource-id='nlb-card-container']//*[@content-desc='Current account']//following-sibling::*[@text='" + accountName + "']//following-sibling::*[@text='" + accountIban + "']//following-sibling::*";
         MobileElement elementForCurrency = x.createMobileElementByXpath(xPathForCurrency);
         String actualCurrency = elementForCurrency.getText();
         Assert.assertTrue(actualCurrency.endsWith(currency));
@@ -6548,18 +6552,18 @@ public class Steps {
         String xPathForDateOfFirstPayment = "(//*[@resource-id='nlb-date'])[1]";
         MobileElement elementForDateOfFirstPayment = x.createMobileElementByXpath(xPathForDateOfFirstPayment);
         String date = elementForDateOfFirstPayment.getText();
-        date = date.replace(" ","");
+        date = date.replace(" ", "");
         String dateNew = rh.returnDateInFormatMMMMyyyyIfGivenddMMyyyy(date);
-        String xPathgroupByMonths = "//*[@text='"+dateNew+"']";
+        String xPathgroupByMonths = "//*[@text='" + dateNew + "']";
         MobileElement elementGroupByMonths = x.createMobileElementByXpath(xPathgroupByMonths);
         Assert.assertTrue(elementGroupByMonths.isDisplayed());
     }
 
     @Then("Assert that text {string} has first following sibling that is filled")
     public void assertThatTextHasFirstFollowingSiblingThatIsFilled(String textFirst) {
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertTrue(element.getText().length()>=3);
+        Assert.assertTrue(element.getText().length() >= 3);
     }
 
     @And("Assert element by exact text {string} is not displayed")
@@ -6573,13 +6577,13 @@ public class Steps {
     public void assertThereAreElementsById(String expectedNumberString, String id) {
         List<MobileElement> mobileElementList = d.createMobileElementsByResourceId(id);
         int expectedNumber = Integer.parseInt(expectedNumberString);
-        Assert.assertEquals(expectedNumber,mobileElementList.size());
+        Assert.assertEquals(expectedNumber, mobileElementList.size());
     }
 
     @And("Remember available balance in currency {string} under key {string}")
     public void rememberAvailableBalanceInCurrencyUnderKey(String currency, String key) throws Exception {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
-            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(650,485,100,485,"nlb-product-details-primary-balance");
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(650, 485, 100, 485, "nlb-product-details-primary-balance");
 
             String result = null;
             for (String amount : listOfBalance) {
@@ -6589,12 +6593,12 @@ public class Steps {
                 }
             }
 
-            result = result.replace(" "+currency+"","");
-            result = result.replace(".","").replace(",",".");
+            result = result.replace(" " + currency + "", "");
+            result = result.replace(".", "").replace(",", ".");
             System.out.println(result);
-            DataManager.userObject.put(key,result);
+            DataManager.userObject.put(key, result);
         } else {
-            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900,650,100,650,"nlb-product-details-primary-balance");
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900, 650, 100, 650, "nlb-product-details-primary-balance");
 
             String result = null;
             for (String amount : listOfBalance) {
@@ -6604,22 +6608,22 @@ public class Steps {
                 }
             }
 
-            result = result.replace(" "+currency+"","");
-            result = result.replace(".","").replace(",",".");
+            result = result.replace(" " + currency + "", "");
+            result = result.replace(".", "").replace(",", ".");
             System.out.println(result);
-            DataManager.userObject.put(key,result);
+            DataManager.userObject.put(key, result);
         }
     }
 
     @And("Check if current balance is lowered by {string} using balance from key {string} for currency {string}")
     public void checkIfCurrentBalanceIsLoweredByUsingBalanceFromKeyForCurrency(String amountString, String key, String currency) throws Exception {
-        if(Base.getDataFromFileConf(Hooks.rowinConfExcel,"DEVICE_NAME").contains("HUAWEI")){
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
             String previousAmountString = (String) DataManager.userObject.get(key);
             Double previousAmount = Double.parseDouble(previousAmountString);
             Double amount = Double.parseDouble(amountString);
             Double expectedAmount = previousAmount - amount;
 
-            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(650,485,100,485,"nlb-product-details-primary-balance");
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(650, 485, 100, 485, "nlb-product-details-primary-balance");
 
             String result = null;
             for (String amountS : listOfBalance) {
@@ -6629,21 +6633,21 @@ public class Steps {
                 }
             }
             System.out.println(result);
-            result = result.replace(" "+currency,"");
-            result = result.replace(".","").replace(",",".");
+            result = result.replace(" " + currency, "");
+            result = result.replace(".", "").replace(",", ".");
 
             Double actualAmount = Double.parseDouble(result);
-            System.out.printf("%.2f%n",expectedAmount);
-            System.out.printf("%.2f%n",actualAmount);
+            System.out.printf("%.2f%n", expectedAmount);
+            System.out.printf("%.2f%n", actualAmount);
 
-            Assert.assertEquals(expectedAmount,actualAmount);
+            Assert.assertEquals(expectedAmount, actualAmount);
         } else {
             String previousAmountString = (String) DataManager.userObject.get(key);
             Double previousAmount = Double.parseDouble(previousAmountString);
             Double amount = Double.parseDouble(amountString);
             Double expectedAmount = previousAmount - amount;
 
-            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900,650,100,650,"nlb-product-details-primary-balance");
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900, 650, 100, 650, "nlb-product-details-primary-balance");
 
             String result = null;
             for (String amountS : listOfBalance) {
@@ -6653,14 +6657,14 @@ public class Steps {
                 }
             }
             System.out.println(result);
-            result = result.replace(" "+currency,"");
-            result = result.replace(".","").replace(",",".");
+            result = result.replace(" " + currency, "");
+            result = result.replace(".", "").replace(",", ".");
 
             Double actualAmount = Double.parseDouble(result);
-            System.out.printf("%.2f%n",expectedAmount);
-            System.out.printf("%.2f%n",actualAmount);
+            System.out.printf("%.2f%n", expectedAmount);
+            System.out.printf("%.2f%n", actualAmount);
 
-            Assert.assertEquals(expectedAmount,actualAmount);
+            Assert.assertEquals(expectedAmount, actualAmount);
         }
 
 
@@ -6673,7 +6677,7 @@ public class Steps {
         Double amount = Double.parseDouble(amountString);
         Double expectedAmount = previousAmount + amount;
 
-        List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900,400,100,400,"nlb-product-details-primary-balance");
+        List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900, 400, 100, 400, "nlb-product-details-primary-balance");
 
         String result = null;
         for (String amountS : listOfBalance) {
@@ -6683,14 +6687,14 @@ public class Steps {
             }
         }
         System.out.println(result);
-        result = result.replace(" "+currency,"");
-        result = result.replace(".","").replace(",",".");
+        result = result.replace(" " + currency, "");
+        result = result.replace(".", "").replace(",", ".");
 
         Double actualAmount = Double.parseDouble(result);
-        System.out.printf("%.2f%n",expectedAmount);
-        System.out.printf("%.2f%n",actualAmount);
+        System.out.printf("%.2f%n", expectedAmount);
+        System.out.printf("%.2f%n", actualAmount);
 
-        Assert.assertEquals(expectedAmount,actualAmount);
+        Assert.assertEquals(expectedAmount, actualAmount);
     }
 
     @And("Click on date filter for NLB Funds")
@@ -6712,7 +6716,7 @@ public class Steps {
         String xPath = "(//*[@resource-id='nlb-value-product-primary-balance'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String amount = element.getText();
-        DataManager.userObject.put(key,amount);
+        DataManager.userObject.put(key, amount);
     }
 
     @And("Remember available balance for favorite account under key {string}")
@@ -6720,23 +6724,23 @@ public class Steps {
         String xPath = "(//*[@resource-id='nlb-value-product-secondary-balance'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String amount = element.getText();
-        DataManager.userObject.put(key,amount);
+        DataManager.userObject.put(key, amount);
     }
 
     @And("Assert active account in dashboard is from Excel {string} with name {string} and iban {string} and balance under keys {string} and {string}")
     public void assertActiveAccountInDashboardIsFromExcelWithNameAndIbanAndBalanceUnderKeysAnd(String rowindex, String columnName1, String columnName2, String key1, String key2) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForName = "//*[@text='"+accountName+"']";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForName = "//*[@text='" + accountName + "']";
         MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
         Assert.assertTrue(elementForName.isDisplayed());
-        String xPathForIban = "//*[@text='"+accountIban+"']";
+        String xPathForIban = "//*[@text='" + accountIban + "']";
         MobileElement elementForIban = x.createMobileElementByXpath(xPathForIban);
         Assert.assertTrue(elementForIban.isDisplayed());
-        String xPathForBalance = "//*[@text='"+DataManager.userObject.get(key1)+"']";
+        String xPathForBalance = "//*[@text='" + DataManager.userObject.get(key1) + "']";
         MobileElement elementForBalance = x.createMobileElementByXpath(xPathForBalance);
         Assert.assertTrue(elementForBalance.isDisplayed());
-        String xPathForAvailableBalance = "//*[@text='"+DataManager.userObject.get(key2)+"']";
+        String xPathForAvailableBalance = "//*[@text='" + DataManager.userObject.get(key2) + "']";
         MobileElement elementForAvailableBalance = x.createMobileElementByXpath(xPathForAvailableBalance);
         Assert.assertTrue(elementForAvailableBalance.isDisplayed());
     }
@@ -6769,7 +6773,7 @@ public class Steps {
         for (int i = 0; i < Integer.parseInt(count); i++) {
             listOfPurposesNew.add(listOfPurposes.get(i).getText());
         }
-        DataManager.userObject.put(key,listOfPurposesNew);
+        DataManager.userObject.put(key, listOfPurposesNew);
     }
 
     @And("Assert transactions shown in dashboard are the same as in key {string}")
@@ -6780,7 +6784,7 @@ public class Steps {
             listOfPurposesNew.add(element.getText());
         }
         List<String> listOfPurposesOld = (List<String>) DataManager.userObject.get(key);
-        Assert.assertEquals(listOfPurposesOld,listOfPurposesNew);
+        Assert.assertEquals(listOfPurposesOld, listOfPurposesNew);
     }
 
     @And("Remember latest transaction purposes from dashboard under key {string}")
@@ -6790,7 +6794,7 @@ public class Steps {
         for (MobileElement element : listOfPurposes) {
             listOfPurposesNew.add(element.getText());
         }
-        DataManager.userObject.put(key,listOfPurposesNew);
+        DataManager.userObject.put(key, listOfPurposesNew);
     }
 
     @And("Assert latest transaction purposes from dashboard are not the same as in key {string}")
@@ -6801,7 +6805,7 @@ public class Steps {
             listOfPurposesNew.add(element.getText());
         }
         List<String> listOfPurposesOld = (List<String>) DataManager.userObject.get(key);
-        Assert.assertNotEquals(listOfPurposesOld,listOfPurposesNew);
+        Assert.assertNotEquals(listOfPurposesOld, listOfPurposesNew);
     }
 
     @And("Click filter button in e-invoice list")
@@ -6818,18 +6822,18 @@ public class Steps {
 
     @And("Remember text of first following sibling of element by text {string} in txt under key {string}")
     public void rememberTextOfFirstFollowingSiblingOfElementByTextInTxtUnderKey(String text, String key) {
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String textToRemember = element.getAttribute("text");
         Utilities.saveTheValueToFile(textToRemember, key);
-        Utilities.saveTheValueToFile(textToRemember.replaceAll("\\s+", ""), key+"_noSpace");
+        Utilities.saveTheValueToFile(textToRemember.replaceAll("\\s+", ""), key + "_noSpace");
     }
 
     @And("Assert SEPA Recipient has account name and iban from keys {string} and {string}")
     public void assertSEPARecipientHasAccountNameAndIbanFromKeysAnd(String key1, String key2) {
         String accountName = Utilities.getDataFromTxtFileUnderKey(key1);
         String accountIban = Utilities.getDataFromTxtFileUnderKey(key2);
-        String xPath = "//*[@text='Recipient']//following-sibling::*[1]//*[@text='"+accountName+"']/following-sibling::*[@text='"+accountIban+"']";
+        String xPath = "//*[@text='Recipient']//following-sibling::*[1]//*[@text='" + accountName + "']/following-sibling::*[@text='" + accountIban + "']";
         MobileElement elementForName = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(elementForName.isDisplayed());
     }
@@ -6844,7 +6848,7 @@ public class Steps {
     @And("Assert text from element by id {string} is contained within text from key {string}")
     public void assertTextFromElementByIdIsContainedWithinTextFromKey(String id, String key) {
         MobileElement element = d.createMobileElementByResourceId(id);
-        String text = element.getText().replaceAll("\\s+", "").replace(":","");
+        String text = element.getText().replaceAll("\\s+", "").replace(":", "");
         String textFromKey = Utilities.getDataFromTxtFileUnderKey(key);
         textFromKey = textFromKey.replaceAll("\\s+", "");
         Assert.assertTrue(textFromKey.contains(text));
@@ -6863,62 +6867,62 @@ public class Steps {
     @And("Assert element by text {string} has first following sibling from key {string}")
     public void assertElementByTextHasFirstFollowingSiblingFromKey(String text, String key) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert that second text {string} has first following sibling with text from key {string}")
     public void assertThatSecondTextHasFirstFollowingSiblingWithTextFromKey(String text, String key) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+text+"'][2]//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "'][2]//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert that second text {string} has first following sibling with text from key {string} with no spaces")
     public void assertThatSecondTextHasFirstFollowingSiblingWithTextFromKeyWithNoSpaces(String text, String key) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+text+"'][2]//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "'][2]//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText().replaceAll("\\s+", ""));
+        Assert.assertEquals(expected, element.getText().replaceAll("\\s+", ""));
     }
 
     @And("Assert that text {string} has first following sibling with text from key {string}")
     public void assertThatTextHasFirstFollowingSiblingWithTextFromKey(String text, String key) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(expected);
         System.out.println(element.getText());
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert element by text {string} has first following sibling from key {string} with currency {string}")
     public void assertElementByTextHasFirstFollowingSiblingFromKeyWithCurrency(String text, String key, String currency) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
         expected = expected + " " + currency;
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert that text {string} has first following sibling that contains text from key {string} with no spaces")
     public void assertThatTextHasFirstFollowingSiblingThatContainsTextFromKeyWithNoSpaces(String text, String key) {
         String expected = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@text='"+text+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(expected);
         System.out.println(element.getText());
-        Assert.assertTrue(element.getText().replaceAll("\\s+","").contains(expected));
+        Assert.assertTrue(element.getText().replaceAll("\\s+", "").contains(expected));
     }
 
     @And("Assert first product shown in my products is favorite account from Excel {string} columnName {string}")
     public void assertFirstProductShownInMyProductsIsFavoriteAccountFromExcelColumnName(String rowindex, String columnName) {
-        String accountName = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String xPath = "(//*[@resource-id='nlb-value-product-account-id'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(accountName,element.getText());
+        Assert.assertEquals(accountName, element.getText());
 
     }
 
@@ -6930,31 +6934,31 @@ public class Steps {
         String currency = DataManager.userObject.get("currency").toString();
         String details = DataManager.userObject.get("details").toString();
 
-        String xPath = "//*[@text='"+date+"']/following-sibling::*[@text='"+purpose+"']/following-sibling::*[@text='"+details+"']/following-sibling::*[@text='"+currency+"']//following-sibling::*[@text='"+amount+"']";
+        String xPath = "//*[@text='" + date + "']/following-sibling::*[@text='" + purpose + "']/following-sibling::*[@text='" + details + "']/following-sibling::*[@text='" + currency + "']//following-sibling::*[@text='" + amount + "']";
         WebElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Assert {string} is selected in complaint type")
     public void assertIsSelectedInComplaintType(String text) {
-        if (text.equals("Inquiry")){
+        if (text.equals("Inquiry")) {
             String xPath = "(//*[@resource-id='nlb-radio-complaint-type'])[1]";
             MobileElement element = x.createMobileElementByXpath(xPath);
-            Assert.assertEquals("true",element.getAttribute("checked"));
-        } else if (text.equals("Complaint")){
+            Assert.assertEquals("true", element.getAttribute("checked"));
+        } else if (text.equals("Complaint")) {
             String xPath = "(//*[@resource-id='nlb-radio-complaint-type'])[2]";
             MobileElement element = x.createMobileElementByXpath(xPath);
-            Assert.assertEquals("true",element.getAttribute("checked"));
+            Assert.assertEquals("true", element.getAttribute("checked"));
         }
     }
 
     @And("Click on {string} type in complaint")
     public void clickOnTypeInComplaint(String text) throws Throwable {
-        if (text.equals("Inquiry")){
+        if (text.equals("Inquiry")) {
             String xPath = "(//*[@resource-id='nlb-radio-complaint-type'])[1]";
             MobileElement element = x.createMobileElementByXpath(xPath);
             hp.ClickOnElement(element);
-        } else if (text.equals("Complaint")){
+        } else if (text.equals("Complaint")) {
             String xPath = "(//*[@resource-id='nlb-radio-complaint-type'])[2]";
             MobileElement element = x.createMobileElementByXpath(xPath);
             hp.ClickOnElement(element);
@@ -6963,7 +6967,7 @@ public class Steps {
 
     @And("Assert that text {string} has first following sibling that matches regex {string}")
     public void assertThatTextHasFirstFollowingSiblingThatMatchesRegex(String text, String regex) {
-        String xPath = "(//*[@text='"+text+"']/following-sibling::*)[1]";
+        String xPath = "(//*[@text='" + text + "']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -6972,9 +6976,9 @@ public class Steps {
     public void assertAmountForRefundRequestIsFromKeysAnd(String key1, String key2) {
         String amount = DataManager.userObject.get(key1).toString();
         String currency = DataManager.userObject.get(key2).toString();
-        String expected = amount+" "+currency;
+        String expected = amount + " " + currency;
         WebElement element = d.createMobileElementByResourceId("amount-text-value");
-        Assert.assertEquals(expected,element.getText());
+        Assert.assertEquals(expected, element.getText());
     }
 
     @And("Assert standing order start date has correct maximum value")
@@ -6985,14 +6989,13 @@ public class Steps {
 
         int amountOfMonths = rh.getHowManyMonthsAreBetweenTodayAndSelectedDate(year, month, day);
 
-        if(amountOfMonths>0){
-            for(int i=0; i<amountOfMonths; i++){
+        if (amountOfMonths > 0) {
+            for (int i = 0; i < amountOfMonths; i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to previous month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
-        }
-        else if (amountOfMonths<0){
-            for(int i=0; i<Math.abs(amountOfMonths); i++){
+        } else if (amountOfMonths < 0) {
+            for (int i = 0; i < Math.abs(amountOfMonths); i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to next month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
@@ -7001,12 +7004,12 @@ public class Steps {
         String date = rh.getDateInFormat(year, month, day, "EEEE, MMMM d, yyyy");
         String xPath = "//*[contains(@text, '" + date + "')]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("enabled"));
+        Assert.assertEquals("true", element.getAttribute("enabled"));
 
-        String date2 = rh.getFormattedDate(year, month, day+1, "EEEE, MMMM d, yyyy");
+        String date2 = rh.getFormattedDate(year, month, day + 1, "EEEE, MMMM d, yyyy");
         String xPath2 = "//*[contains(@text, '" + date2 + "')]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
-        Assert.assertEquals("false",element2.getAttribute("enabled"));
+        Assert.assertEquals("false", element2.getAttribute("enabled"));
     }
 
     @And("Assert standing order start date has correct minimum value")
@@ -7017,14 +7020,13 @@ public class Steps {
 
         int amountOfMonths = rh.getHowManyMonthsAreBetweenTodayAndSelectedDate(year, month, day);
 
-        if(amountOfMonths>0){
-            for(int i=0; i<amountOfMonths; i++){
+        if (amountOfMonths > 0) {
+            for (int i = 0; i < amountOfMonths; i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to previous month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
-        }
-        else if (amountOfMonths<0){
-            for(int i=0; i<Math.abs(amountOfMonths); i++){
+        } else if (amountOfMonths < 0) {
+            for (int i = 0; i < Math.abs(amountOfMonths); i++) {
                 By el = x.createByXpath("//*[@content-desc='Change to next month']/following-sibling::android.widget.Button");
                 hp.clickElement(el);
             }
@@ -7033,17 +7035,17 @@ public class Steps {
         String date = rh.getDateInFormat(year, month, day, "EEEE, MMMM d, yyyy");
         String xPath = "//*[contains(@text, '" + date + "')]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("enabled"));
+        Assert.assertEquals("true", element.getAttribute("enabled"));
 
-        String date2 = rh.getFormattedDate(year, month, day-1, "EEEE, MMMM d, yyyy");
+        String date2 = rh.getFormattedDate(year, month, day - 1, "EEEE, MMMM d, yyyy");
         String xPath2 = "//*[contains(@text, '" + date2 + "')]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
-        Assert.assertEquals("false",element2.getAttribute("enabled"));
+        Assert.assertEquals("false", element2.getAttribute("enabled"));
     }
 
     @And("Assert standing order end date has correct minimum value")
     public void assertStandingOrderEndDateHasCorrectMinimumValue() throws Exception {
-        for(int i=0; i<11; i++){
+        for (int i = 0; i < 11; i++) {
             By el = x.createByXpath("//*[@content-desc='Change to previous month']/following-sibling::android.widget.Button");
             hp.clickElement(el);
         }
@@ -7055,25 +7057,25 @@ public class Steps {
         String date = rh.getDateInFormat(year, month, day, "EEEE, MMMM d, yyyy");
         String xPath = "//*[contains(@text, '" + date + "')]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("enabled"));
+        Assert.assertEquals("true", element.getAttribute("enabled"));
 
         String date2 = rh.getFormattedDate(year, month, day2, "EEEE, MMMM d, yyyy");
         String xPath2 = "//*[contains(@text, '" + date2 + "')]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
-        Assert.assertEquals("false",element2.getAttribute("enabled"));
+        Assert.assertEquals("false", element2.getAttribute("enabled"));
     }
 
     @And("Assert standing order end date has correct maximum value")
     public void assertStandingOrderEndDateHasCorrectMaximumValue() throws Exception {
         //Maximal valid date to select is start date+10 years.
         int currentYear = rh.returnCurrentYear();
-        int futureYear = rh.returnYearInFuture(currentYear,10);
+        int futureYear = rh.returnYearInFuture(currentYear, 10);
 
         String xPathForSwitchingYear = "//android.view.View[@content-desc=\"Switch to selecting a year\"]";
         By elForSwitchYear = x.createByXpath(xPathForSwitchingYear);
         hp.clickElement(elForSwitchYear);
 
-        String xPathForNeededYear = "Navigate to year "+futureYear;
+        String xPathForNeededYear = "Navigate to year " + futureYear;
         By elForNeddedYear = x.createByXpath(xPathForNeededYear);
         hp.clickElement(elForNeddedYear);
 
@@ -7082,13 +7084,13 @@ public class Steps {
         String date = rh.getDateInFormat(futureYear, month, day, "EEEE, MMMM d, yyyy");
         String xPath = "//*[contains(@text, '" + date + "')]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("enabled"));
+        Assert.assertEquals("true", element.getAttribute("enabled"));
 
         int day2 = rh.returnMaximalValidEndDayForStandingOrder();
         String date2 = rh.getFormattedDate(futureYear, month, day2, "EEEE, MMMM d, yyyy");
         String xPath2 = "//*[contains(@text, '" + date2 + "')]";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
-        Assert.assertEquals("false",element2.getAttribute("enabled"));
+        Assert.assertEquals("false", element2.getAttribute("enabled"));
 
         Assert.fail();
 
@@ -7107,10 +7109,10 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
 
-        String xPathForCurrency = "//*[contains(@text,'"+currency+"')]";
+        String xPathForCurrency = "//*[contains(@text,'" + currency + "')]";
         By el = By.xpath(xPathForCurrency);
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7121,7 +7123,7 @@ public class Steps {
     @And("For currency exchange rate {string} and source amount {string} calculate foreign destination amount")
     public void forCurrencyExchangeRateAndSourceAmountCalculateForeignDestinationAmount(String buyKey, String sourceAmountString) {
         String sellExchangeRateString = (String) DataManager.userObject.get(buyKey);
-        sellExchangeRateString = sellExchangeRateString.replace(",",".");
+        sellExchangeRateString = sellExchangeRateString.replace(",", ".");
         Double sourceAmount = Double.parseDouble(sourceAmountString);
         Double sellExchangeRate = Double.parseDouble(sellExchangeRateString);
         Double destinationAmount = sourceAmount / sellExchangeRate;
@@ -7129,8 +7131,8 @@ public class Steps {
         Double roundedValue = Math.round(destinationAmount * 100.0) / 100.0;
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         String expectedValue = decimalFormat.format(roundedValue);
-        expectedValue = expectedValue.replace(".",",");
-        DataManager.userObject.put("destination_amount",expectedValue);
+        expectedValue = expectedValue.replace(".", ",");
+        DataManager.userObject.put("destination_amount", expectedValue);
 
         String xPath = "(//*[@resource-id='nlb-amount-with-currency-flag-field'])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -7138,14 +7140,14 @@ public class Steps {
 
         System.out.println(expectedValue);
         System.out.println(actualValue);
-        assertTrue(actualValue.contains(expectedValue.substring(0,4)));
+        assertTrue(actualValue.contains(expectedValue.substring(0, 4)));
 
     }
 
     @And("Assert there are two filters for e-invoices shown on the screen")
     public void assertThereAreTwoFiltersForEInvoicesShownOnTheScreen() {
         List<MobileElement> mobileElementList = d.createMobileElementsByResourceId("nlb-icon-button");
-        Assert.assertEquals(2,mobileElementList.size());
+        Assert.assertEquals(2, mobileElementList.size());
     }
 
     @And("Assert e-invoices are grouped by month")
@@ -7153,9 +7155,9 @@ public class Steps {
         String xPathForFirstDate = "(//*[@resource-id='nlb-date'])[1]";
         MobileElement elementForFirstDate = x.createMobileElementByXpath(xPathForFirstDate);
         String date = elementForFirstDate.getText();
-        int month = rh.extractMonthFromDateInFormat(date,"d. M. yyyy");
+        int month = rh.extractMonthFromDateInFormat(date, "d. M. yyyy");
         String monthName = rh.getMonthName(month);
-        String xPathForMonth = "//*[@text='"+monthName+"']";
+        String xPathForMonth = "//*[@text='" + monthName + "']";
         MobileElement elementForMonth = x.createMobileElementByXpath(xPathForMonth);
         Assert.assertTrue(elementForMonth.isDisplayed());
 
@@ -7163,15 +7165,15 @@ public class Steps {
 
     @Then("Find E-invoice from Excel {string} columnName {string} and {string} and click on it")
     public void findEInvoiceFromExcelColumnNameAndAndClickOnIt(String rowindex, String columnName1, String columnName2) throws Throwable {
-        String purpose = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String amount = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String purpose = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String amount = DataManager.getDataFromHashDatamap(rowindex, columnName2);
 
-        String xPath = "//*[@text='"+purpose+"']/following-sibling::*[@text='"+amount+"']";
+        String xPath = "//*[@text='" + purpose + "']/following-sibling::*[@text='" + amount + "']";
 
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<50; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 50; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7192,7 +7194,7 @@ public class Steps {
     public void calculateSumOfAllTransactionsInTransactionListAndPutInKey(String key) throws Throwable {
         BigDecimal sum = rh.sumAllTransactionAmountsById("nlb-amount");
         System.out.println(sum);
-        DataManager.userObject.put(key,sum);
+        DataManager.userObject.put(key, sum);
     }
 
     @And("Assert sum of monthly transactions is correct with key {string}")
@@ -7206,7 +7208,7 @@ public class Steps {
         BigDecimal value = new BigDecimal(cleaned);
         System.out.println(expectedSum);
         System.out.println(value);
-        Assert.assertEquals(expectedSum.abs(),value);
+        Assert.assertEquals(expectedSum.abs(), value);
     }
 
     @And("Click search button in e-invoice list")
@@ -7219,9 +7221,9 @@ public class Steps {
     @And("Enter text from text key {string} in element by id {string}")
     public void enterTextFromTextKeyInElementById(String key, String id) throws InterruptedException {
         String purpose = Utilities.getDataFromTxtFileUnderKey(key);
-        String xPath = "//*[@resource-id='"+id+"']";
+        String xPath = "//*[@resource-id='" + id + "']";
         By el = x.createByXpath(xPath);
-        hp.enterTextToElement(purpose,el);
+        hp.enterTextToElement(purpose, el);
     }
 
     @And("Scroll down until element with text from txt key {string} is in view")
@@ -7232,8 +7234,8 @@ public class Steps {
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7247,8 +7249,8 @@ public class Steps {
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7258,7 +7260,7 @@ public class Steps {
     public void rememberElementAttributeByIdUnderKey(String attribute, String id, String key) {
         MobileElement element = d.createMobileElementByResourceId(id);
         String value = element.getAttribute(attribute);
-        DataManager.userObject.put(key,value);
+        DataManager.userObject.put(key, value);
     }
 
     @And("Remember current value for cash flow under key {string}")
@@ -7266,7 +7268,7 @@ public class Steps {
         String xPath = "//*[@resource-id='nlb-pfm-row-cash-flow']/*[@resource-id='nlb-pfm-row-value']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String value = element.getText();
-        DataManager.userObject.put(key,value);
+        DataManager.userObject.put(key, value);
     }
 
     @And("Assert cash flow difference is from key {string}")
@@ -7277,7 +7279,7 @@ public class Steps {
         String actual = element.getText();
         expected = expected.replace('\u00A0', ' ').trim();
         actual = actual.replace('\u00A0', ' ').trim();
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Print these keys {string} {string} {string} {string}")
@@ -7291,7 +7293,7 @@ public class Steps {
     @And("Assert current month on page in format {string}")
     public void assertCurrentMonthOnPageInFormat(String format) {
         String month = rh.getTodayDateInFormat(format);
-        String xPath = "//*[@text='"+month+"']";
+        String xPath = "//*[@text='" + month + "']";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
         MobileElement element = x.createMobileElementByXpath(xPath);
@@ -7304,12 +7306,12 @@ public class Steps {
         String expected = expectedBG.toString();
         String xPath = "(//*[@text='Incoming']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        expected = expected.replace(".",",");
+        expected = expected.replace(".", ",");
         expected = expected + " EUR";
         String actual = element.getText();
-        actual = actual.replace(".","");
+        actual = actual.replace(".", "");
         actual = actual.replace('\u00A0', ' ').trim();
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Assert outgoing in cash flow is from key {string}")
@@ -7318,13 +7320,13 @@ public class Steps {
         String expected = expectedBG.toString();
         String xPath = "(//*[@text='Outgoing']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        expected = expected.replace(".",",");
-        expected = expected.replace("-","");
+        expected = expected.replace(".", ",");
+        expected = expected.replace("-", "");
         expected = expected + " EUR";
         String actual = element.getText();
-        actual = actual.replace(".","");
+        actual = actual.replace(".", "");
         actual = actual.replace('\u00A0', ' ').trim();
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Assert difference in cash flow using keys {string} and {string}")
@@ -7337,15 +7339,15 @@ public class Steps {
         Double outgoing = Double.parseDouble(outgoingString);
         Double expectedDouble = Math.abs(incoming) - Math.abs(outgoing);
         String expected = expectedDouble.toString();
-        expected = String.format("%.2f EUR", expectedDouble).replace(".",",");
+        expected = String.format("%.2f EUR", expectedDouble).replace(".", ",");
         String xPath = "(//*[@text='Difference']/following-sibling::*)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String actual = element.getText();
-        actual = actual.replace(".","");
+        actual = actual.replace(".", "");
         actual = actual.replace('\u00A0', ' ').trim();
         System.out.println(expected);
         System.out.println(actual);
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Click on previous month button for cash flow")
@@ -7359,13 +7361,13 @@ public class Steps {
     public void assertNextMonthButtonForCashFlowIsDisabled() {
         String xPath = "(//*[@resource-id='nlb-chip-button'][2]/following-sibling::android.view.View)[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("false",element.getAttribute("enabled"));
+        Assert.assertEquals("false", element.getAttribute("enabled"));
     }
 
     @And("Assert previous {string} month on page in format {string}")
     public void assertPreviousMonthOnPageInFormat(String numberForPreviousMonth, String format) {
-        String month = rh.getPreviousMonthInFormat(numberForPreviousMonth,format);
-        String xPath = "//*[@text='"+month+"']";
+        String month = rh.getPreviousMonthInFormat(numberForPreviousMonth, format);
+        String xPath = "//*[@text='" + month + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -7374,42 +7376,42 @@ public class Steps {
     public void assertNextMonthButtonForCashFlowIsEnabled() {
         String xPath = "(//*[@resource-id='nlb-chip-button'][2]/following-sibling::android.view.View)[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("true",element.getAttribute("enabled"));
+        Assert.assertEquals("true", element.getAttribute("enabled"));
     }
 
     @And("Assert previous month button for cash flow is disabled")
     public void assertPreviousMonthButtonForCashFlowIsDisabled() {
         String xPath = "(//*[@resource-id='nlb-chip-button'][2]/following-sibling::android.view.View)[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("false",element.getAttribute("enabled"));
+        Assert.assertEquals("false", element.getAttribute("enabled"));
     }
 
     @And("Remember all product ibans under key {string}")
     public void rememberAllProductIbansUnderKey(String key) {
         String listOfAllIbans = rh.returnAllTextByIdSeparatedByComma("nlb-value-product-account-id");
-        DataManager.userObject.put(key,listOfAllIbans);
+        DataManager.userObject.put(key, listOfAllIbans);
     }
 
     @Then("Compare text from Excel {string} columnName {string} and text from key {string}")
     public void compareTextFromExcelColumnNameAndTextFromKey(String rowindex, String columnName, String key) {
-        String textFromExcel = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String textFromExcel = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String textFromKey = (String) DataManager.userObject.get(key);
         System.out.println(textFromExcel);
         //System.out.println(textFromKey);
-        Assert.assertEquals(textFromExcel,textFromKey);
+        Assert.assertEquals(textFromExcel, textFromKey);
     }
 
     @And("Enter text {string} into input field {string} in amount filter")
     public void enterTextIntoInputFieldInAmountFilter(String amount, String text) throws Exception {
-        if (text.equals("From")){
+        if (text.equals("From")) {
             String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])[1]";
             By el = By.xpath(xPath);
-            hp.enterTextToElement(amount,el);
+            hp.enterTextToElement(amount, el);
         }
-        if (text.equals("To")){
+        if (text.equals("To")) {
             String xPath = "(//*[@resource-id='nlb-amount-with-currency-field'])[2]";
             By el = By.xpath(xPath);
-            hp.enterTextToElement(amount,el);
+            hp.enterTextToElement(amount, el);
             hp.clickElement(el);
         }
     }
@@ -7429,20 +7431,20 @@ public class Steps {
 
     @And("Assert that second text {string} has first following sibling that is filled")
     public void assertThatSecondTextHasFirstFollowingSiblingThatIsFilled(String textFirst) {
-        String xPath = "(//*[@text='"+textFirst+"']//following-sibling::*[1])[2]";
+        String xPath = "(//*[@text='" + textFirst + "']//following-sibling::*[1])[2]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertTrue(element.getText().length()>=3);
+        Assert.assertTrue(element.getText().length() >= 3);
     }
 
     @And("Scroll until Booked balance of product card of name {string} and iban {string} from Excel {string} is in view")
     public void scrollUntilBookedBalanceOfProductCardOfNameAndIbanFromExcelIsInView(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Savings Account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
         By el = By.xpath(xPathForAvailableBalance);
 
-        for(int i = 0; i<50; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 50; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7466,11 +7468,11 @@ public class Steps {
     public void scrollDownUntilElementWithIdStringIsInView(String id) {
         WaitHelpers.waitForSeconds(3);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
-        String xPath = "//*[@resource-id='"+id+"']";
+        String xPath = "//*[@resource-id='" + id + "']";
         By el = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7507,7 +7509,7 @@ public class Steps {
         List<MobileElement> mobileElementListConsent = x.createMobileElementsByXpath("//*[@text='Consent']");
         List<MobileElement> mobileElementListRole = x.createMobileElementsByXpath("//*[@text='User role']");
 
-        if (mobileElementListConsent.size() > 0 || mobileElementListRole.size() > 0){
+        if (mobileElementListConsent.size() > 0 || mobileElementListRole.size() > 0) {
             Assert.assertTrue(true);
         } else {
             Assert.assertTrue(false);
@@ -7517,7 +7519,7 @@ public class Steps {
     @And("Assert tpp name from key {string} is displayed")
     public void assertTppNameFromKeyIsDisplayed(String key) {
         String tppName = (String) DataManager.userObject.get(key);
-        String xPath = "//*[@text='"+tppName+"']";
+        String xPath = "//*[@text='" + tppName + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -7528,11 +7530,11 @@ public class Steps {
         MobileElement elementForSelector = x.createMobileElementByXpath(xPathForSelector);
         hp.ClickOnElement(elementForSelector);
         WaitHelpers.waitForElement(x.createByXpath("//*[@text='Please select your role.']"));
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPathForAccount = "//*[@text='"+accountIban+"']";
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPathForAccount = "//*[@text='" + accountIban + "']";
         By el = By.xpath(xPathForAccount);
-        for(int i = 0; i<5; i++){
-            if(hp.isElementNotPresent(el)){
+        for (int i = 0; i < 5; i++) {
+            if (hp.isElementNotPresent(el)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7543,7 +7545,7 @@ public class Steps {
     @And("Assert PSD2 is valid until today date")
     public void assertPSDIsValidUntilTodayDate() {
         String date = rh.getTodayDateInFormat("d. M. yyyy 00:00");
-        String xPath = "//*[@text='Valid until']/following-sibling::*[@text='"+date+"']";
+        String xPath = "//*[@text='Valid until']/following-sibling::*[@text='" + date + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -7551,7 +7553,7 @@ public class Steps {
     @And("Assert Expiry date for PSD2 consent is today date")
     public void assertExpiryDateForPSD2ConsentIsTodayDate() {
         String date = rh.getTodayDateInFormat("d. M. yyyy 00:00");
-        String xPath = "//*[@text='Expiry date: "+date+"']";
+        String xPath = "//*[@text='Expiry date: " + date + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
@@ -7559,53 +7561,53 @@ public class Steps {
     @And("Assert PSD2 consent date is today date")
     public void assertPSD2ConsentDateIsTodayDate() {
         String date = rh.getTodayDateInFormat("d. M. yyyy 00:00");
-        String xPath = "//*[@text='Consent date']/following-sibling::*[@text='"+date+"']";
+        String xPath = "//*[@text='Consent date']/following-sibling::*[@text='" + date + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
     }
 
     @And("Create Payment on Android PSD2 with debtor {string} columnName {string} and expect failure")
     public void createPaymentOnAndroidPSD2WithDebtorColumnNameAndExpectFailure(String rowindex, String columnName) {
-        String debtorIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String debtorIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         PSD2Api.postCreatePaymentAndroidWithDebtorAndExpectError(debtorIban);
     }
 
     @And("Create Payment on Android PSD2 with debtor {string} columnName {string}")
     public void createPaymentOnAndroidPSDWithDebtorColumnName(String rowindex, String columnName) throws JsonProcessingException {
-        String debtorIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String debtorIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         PSD2Api.postCreatePaymentAndroidWithDebtor(debtorIban);
     }
 
     @And("Enter text from excel {string} columnName {string} with random deleted character in element id {string}")
     public void enterTextFromExcelColumnNameWithRandomDeletedCharacterInElementId(String rowindex, String columnName, String id) {
-        String name = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String name = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String partialName = rh.removeRandomLetter(name);
         By element = d.createElementByResourceId(id);
-        hp.enterTextToMobileElement(partialName,element);
+        hp.enterTextToMobileElement(partialName, element);
     }
 
     @And("Enter text from excel {string} columnName {string} with random letters permuted in element id {string}")
     public void enterTextFromExcelColumnNameWithRandomLettersPermutedInElementId(String rowindex, String columnName, String id) {
-        String name = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String name = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String partialName = rh.swapTwoRandomLettersInSameWord(name);
         By element = d.createElementByResourceId(id);
-        hp.enterTextToMobileElement(partialName,element);
+        hp.enterTextToMobileElement(partialName, element);
     }
 
     @And("Enter text from excel {string} columnName {string} with random letters changed to A in element id {string}")
     public void enterTextFromExcelColumnNameWithRandomLettersChangedToAInElementId(String rowindex, String columnName, String id) {
-        String name = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String name = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String partialName = rh.replaceRandomNonAWithA(name);
         By element = d.createElementByResourceId(id);
-        hp.enterTextToMobileElement(partialName,element);
+        hp.enterTextToMobileElement(partialName, element);
     }
 
     @And("Enter text from excel {string} columnName {string} with last letter changed in element id {string}")
     public void enterTextFromExcelColumnNameWithLastLetterChangedInElementId(String rowindex, String columnName, String id) {
-        String name = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String name = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String partialName = rh.replaceLastLetterAorS(name);
         By element = d.createElementByResourceId(id);
-        hp.enterTextToMobileElement(partialName,element);
+        hp.enterTextToMobileElement(partialName, element);
     }
 
     @And("Click on info button for Payment limit amount")
@@ -7617,7 +7619,7 @@ public class Steps {
 
     @And("Click on element by id {string} with descendant text {string}")
     public void clickOnElementByIdWithDescendantText(String id, String text) throws Throwable {
-        String xPath = "//*[@resource-id='"+id+"']/*[@text='"+text+"']";
+        String xPath = "//*[@resource-id='" + id + "']/*[@text='" + text + "']";
         MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
     }
@@ -7628,29 +7630,29 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         String expected = "no limit";
         String actual = element.getText();
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Assert text {string} is not displayed")
     public void assertTextIsNotDisplayed(String text) {
-        String xPath = "//*[@text='"+text+"']";
+        String xPath = "//*[@text='" + text + "']";
         List<MobileElement> mobileElementList = x.createMobileElementsByXpath(xPath);
-        Assert.assertEquals(0,mobileElementList.size());
+        Assert.assertEquals(0, mobileElementList.size());
     }
 
     @And("Enter text from excel {string} columnName {string} in element id {string} using android typer")
     public void enterTextFromExcelColumnNameInElementIdUsingAndroidTyper(String rowindex, String columnName, String id) {
         MobileElement element = d.createMobileElementByResourceId(id);
-        String text = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        hp.typeWithKeyEvents((AndroidDriver<?>) driver,element,text,1);
+        String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        hp.typeWithKeyEvents((AndroidDriver<?>) driver, element, text, 1);
     }
 
     @And("Assert that confirmation is created for payment")
     public void assertThatConfirmationIsCreatedForPayment() throws Throwable {
         String xPath = "//*[@resource-id='com.google.android.apps.docs:id/projector_toolbar']";
         By elWait = x.createByXpath(xPath);
-        boolean doesElementExist = hp.isElementDisplayed(elWait,30,1000);
-        if (doesElementExist){
+        boolean doesElementExist = hp.isElementDisplayed(elWait, 30, 1000);
+        if (doesElementExist) {
             MobileElement element = x.createMobileElementByXpath(xPath);
             Assert.assertTrue(element.isDisplayed());
         } else {
@@ -7662,7 +7664,7 @@ public class Steps {
             hp.clickElement(elConfirmation);
             String xPath2 = "//*[@resource-id='com.google.android.apps.docs:id/projector_toolbar']";
             By elWait2 = x.createByXpath(xPath2);
-            boolean doesElementExist2 = hp.isElementDisplayed(elWait2,30,1000);
+            boolean doesElementExist2 = hp.isElementDisplayed(elWait2, 30, 1000);
             Assert.assertTrue(doesElementExist2);
         }
         //Need to check if element is displayed
@@ -7672,31 +7674,31 @@ public class Steps {
 
     @And("Set flag {string} in framework")
     public void setFlagInFramework(String flag) {
-        DataManager.userObject.put("flag",flag);
+        DataManager.userObject.put("flag", flag);
     }
 
     @And("Change language to english")
-    public void changeLanguageToEnglish() throws  Throwable{
-        String xPathDflt ="//android.widget.Button[@content-desc='Default Icon']";
+    public void changeLanguageToEnglish() throws Throwable {
+        String xPathDflt = "//android.widget.Button[@content-desc='Default Icon']";
         ////I0.o0/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View
         MobileElement element = x.createMobileElementByXpath(xPathDflt);
         hp.ClickOnElement(element);
 
-        MobileElement odjavaElement=x.createMobileElementByText("Odjava");
+        MobileElement odjavaElement = x.createMobileElementByText("Odjava");
         if (odjavaElement.isDisplayed()) {
 
             // Klikni na "Jezik"
             //String xPathJezik="//android.widget.TextView[@text='Jezik']";
-            MobileElement jezikElement=x.createMobileElementByText("Jezik");
+            MobileElement jezikElement = x.createMobileElementByText("Jezik");
             hp.ClickOnElement(jezikElement);
             // Sačekaj da se pojavi "Engleski"
-            String xPathEng="(//android.view.View[@resource-id='nlb-radio-button'])[2]";
-            MobileElement engElement=x.createMobileElementByXpath(xPathEng);
+            String xPathEng = "(//android.view.View[@resource-id='nlb-radio-button'])[2]";
+            MobileElement engElement = x.createMobileElementByXpath(xPathEng);
             hp.ClickOnElement(engElement);
 
             WaitHelpers.waitForElement(x.createByXpath("//android.widget.TextView[@text='Language']"));
             // Vrati se dva puta nazad
-            String xPathBack="//android.view.View[@content-desc='Back']";
+            String xPathBack = "//android.view.View[@content-desc='Back']";
             hp.ClickOnElement(x.createMobileElementByXpath(xPathBack));
 
             hp.ClickOnElement(x.createMobileElementByText("Ok"));
@@ -7708,19 +7710,17 @@ public class Steps {
 
         } else {
             // Samo jedan back
-            String xPathBack="//android.view.View[@content-desc='Back']";
+            String xPathBack = "//android.view.View[@content-desc='Back']";
             hp.ClickOnElement(x.createMobileElementByXpath(xPathBack));
         }
-
 
 
     }
 
     @When("Click {string}")
     public void click(String text) throws Throwable {
-        String xPath="//android.widget.TextView[@text='" + text + "']";
+        String xPath = "//android.widget.TextView[@text='" + text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
-
 
 
     }
@@ -7728,15 +7728,15 @@ public class Steps {
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
         //WaitHelpers.waitForSeconds(10);
-        String xPath="//*[@content-desc='"+ text + "']";
+        String xPath = "//*[@content-desc='" + text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
     }
 
     @And("Assert that whole product card of loan account with name {string} and bban {string} from Excel {string} is clickable")
     public void assertThatWholeProductCardOfLoanAccountWithNameAndIbanFromExcelIsClickable(String columnName1, String columnName2, String rowindex) {
 
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
 
         String xPathLoanCard = "//*[@resource-id='nlb-product-summary-card' and .//*[@text='" + productName + "'] and .//*[@text='" + productIban + "']]";
 
@@ -7751,13 +7751,12 @@ public class Steps {
 
     @And("Click on element by text from excel {string} columnName {string} and assert the correct page opens")
     public void clickOnElementByTextFromExcelColumnNameAndAssertTheCorrectPageOpens(String rowindex, String column) throws Exception {
-        String text = DataManager.getDataFromHashDatamap(rowindex,column);
+        String text = DataManager.getDataFromHashDatamap(rowindex, column);
         rh.clickOnElementByText(text);
 
         MobileElement element = x.createMobileElementByText("My loan");
         Assert.assertTrue(element.isDisplayed());
     }
-
 
 
     @Then("Verify product ordering in My Products")
@@ -7792,7 +7791,7 @@ public class Steps {
                 // CARDS
                 if (type == null) {
                     List<MobileElement> nameText = card.findElements(By.xpath(".//*[@resource-id='nlb-value-product-account-name']"));
-                    if (!nameText.isEmpty() && (nameText.get(0).getText().toLowerCase().contains("card") || nameText.get(0).getText().toLowerCase().contains("visa")) ){
+                    if (!nameText.isEmpty() && (nameText.get(0).getText().toLowerCase().contains("card") || nameText.get(0).getText().toLowerCase().contains("visa"))) {
                         key = nameText.get(0).getText();
                         type = "card";
                     }
@@ -7806,7 +7805,8 @@ public class Steps {
                             MobileElement ibanEl = card.findElement(By.xpath(".//*[@resource-id='nlb-value-product-account-id']"));
                             key = ibanEl.getText();
                             type = "savings";
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
 
@@ -7859,13 +7859,13 @@ public class Steps {
 
 
     @And("Change the name od product from Excel {string} column {string} with invalid {string}")
-    public void changeTheNameOdProductFromExcelColumnWithInvalid(String rowindex, String column,String newName) throws Throwable{
-        String iban = DataManager.getDataFromHashDatamap(rowindex,column);
+    public void changeTheNameOdProductFromExcelColumnWithInvalid(String rowindex, String column, String newName) throws Throwable {
+        String iban = DataManager.getDataFromHashDatamap(rowindex, column);
         ////android.widget.TextView[@text='205-9031004419532-81']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']
         String xPathPencil = "//android.widget.TextView[@text='" + iban + "']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']";
         By waitPencil = x.createByXpath(xPathPencil);
-        for(int i = 0; i<5; i++){
-            if(hp.isElementNotPresent(waitPencil)){
+        for (int i = 0; i < 5; i++) {
+            if (hp.isElementNotPresent(waitPencil)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7894,10 +7894,7 @@ public class Steps {
         Assert.assertTrue(elementForWarningMessage.isDisplayed());
         MobileElement elementForEditText = x.createMobileElementByXpath("//android.widget.EditText");
         String contentOfEditText = elementForEditText.getText();
-        Assert.assertEquals(50,contentOfEditText.length());
-
-
-
+        Assert.assertEquals(50, contentOfEditText.length());
 
 
     }
@@ -7907,8 +7904,8 @@ public class Steps {
 
         String xPathPencil = "//android.widget.TextView[@text='" + name + "']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']";
         By waitPencil = x.createByXpath(xPathPencil);
-        for(int i = 0; i<5; i++){
-            if(hp.isElementNotPresent(waitPencil)){
+        for (int i = 0; i < 5; i++) {
+            if (hp.isElementNotPresent(waitPencil)) {
                 hp.scrollDown(driver);
             }
         }
@@ -7928,8 +7925,8 @@ public class Steps {
 
     @And("Assert product from Excel {string} has name {string}")
     public void assertProductFromExcelHasName(String rowindex, String column1) {
-       // String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
-        String expectedName = DataManager.getDataFromHashDatamap(rowindex,column1);
+        // String accountIban = DataManager.getDataFromHashDatamap(rowindex,column1);
+        String expectedName = DataManager.getDataFromHashDatamap(rowindex, column1);
 
         //String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
         String xPathForName = "//android.view.View[.//android.widget.TextView[@text='" + expectedName + "']]";
@@ -7949,9 +7946,9 @@ public class Steps {
 
         };
 
-        for(String id : ids){
+        for (String id : ids) {
             MobileElement element = x.createMobileElementById(id);
-            data.put(id,element.getText());
+            data.put(id, element.getText());
         }
 
         String[] labels = {
@@ -7967,19 +7964,19 @@ public class Steps {
             data.put(label, valueElement.getText());
         }
 
-        DataManager.userObject.put("TransactionDetails",data);
-        System.out.println("Remembered: "+ data);
+        DataManager.userObject.put("TransactionDetails", data);
+        System.out.println("Remembered: " + data);
 
     }
 
     @And("Assert transaction details by remembered values")
     public void assertTransactionDetailsByRememberedValues() {
 
-        Map<String,String> expected = (Map<String,String>) DataManager.userObject.get("TransactionDetails");
+        Map<String, String> expected = (Map<String, String>) DataManager.userObject.get("TransactionDetails");
         System.out.println("Expected: " + expected);
 
         MobileElement contentElement = x.createMobileElementByXpath("//android.view.ViewGroup[@resource-id=\"com.google.android.apps.docs:id/pdf_view\"]//android.view.ViewGroup[@content-desc]");
-        String contentRaw =contentElement.getAttribute("contentDescription");
+        String contentRaw = contentElement.getAttribute("contentDescription");
         String content = contentRaw.replaceAll("\\s+", " ").trim();
         System.out.println("Content: " + content);
         assertTrue(content.contains("Potvrda o izvršenoj transakciji važi bez potpisa i pečata"));
@@ -8012,7 +8009,7 @@ public class Steps {
 
     @And("Search transactions by detail from excel {string} columnName {string}")
     public void searchTransactionsByDetailFromExcelColumnName(String rowindex, String columnName) throws Throwable {
-        String detail = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String detail = DataManager.getDataFromHashDatamap(rowindex, columnName);
         System.out.println("Detail: " + detail);
         String searchFieldxPath = "//android.widget.EditText//android.widget.TextView[@text='Search...']";
         MobileElement searchFieldElement = x.createMobileElementByXpath(searchFieldxPath);
@@ -8030,7 +8027,7 @@ public class Steps {
 
 
     @And("Remember default number of transactions")
-    public void rememberDefaultNumberOfTransactions() throws Throwable{
+    public void rememberDefaultNumberOfTransactions() throws Throwable {
 
         List<Pair<String, String>> transactions = new ArrayList<>();
 
@@ -8235,67 +8232,67 @@ public class Steps {
     }
 
     @And("Assert transactions are filtered by searchValue from column {string}")
-public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) {
+    public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) {
 
-    String searchValue = driver.findElement(By.xpath("//android.widget.EditText"))
-            .getText()
-            .trim()
-            .toLowerCase();
+        String searchValue = driver.findElement(By.xpath("//android.widget.EditText"))
+                .getText()
+                .trim()
+                .toLowerCase();
 
-    System.out.println("Search box value: " + searchValue);
+        System.out.println("Search box value: " + searchValue);
 
-    String xPathFilter;
-    switch (column) {
-        case "search_purpose":
-            xPathFilter = ".//*[@resource-id='nlb-title']";
-            break;
-        default:
-            throw new RuntimeException("Excel filter type not supported: " + column);
-    }
-
-    MobileElement lastVisibleCard = null;
-
-    while (true) {
-
-        List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
-
-        if (visibleCards.isEmpty()) {
-            break;
+        String xPathFilter;
+        switch (column) {
+            case "search_purpose":
+                xPathFilter = ".//*[@resource-id='nlb-title']";
+                break;
+            default:
+                throw new RuntimeException("Excel filter type not supported: " + column);
         }
 
-        MobileElement currentLastCard =
-                visibleCards.get(visibleCards.size() - 1);
+        MobileElement lastVisibleCard = null;
 
-        if (lastVisibleCard != null &&
-                currentLastCard.getLocation().getY() ==
-                        lastVisibleCard.getLocation().getY()) {
-            break;
-        }
+        while (true) {
 
-        for (MobileElement card : visibleCards) {
-            try {
-                String currentDetail = card.findElement(By.xpath(xPathFilter))
-                        .getText()
-                        .trim()
-                        .toLowerCase();
+            List<MobileElement> visibleCards = driver.findElements(By.xpath("//*[@resource-id='nlb-card-container']"));
 
-                System.out.println("Current detail: " + currentDetail);
-                assertTrue(currentDetail.contains(searchValue));
-
-            } catch (NoSuchElementException e) {
+            if (visibleCards.isEmpty()) {
+                break;
             }
+
+            MobileElement currentLastCard =
+                    visibleCards.get(visibleCards.size() - 1);
+
+            if (lastVisibleCard != null &&
+                    currentLastCard.getLocation().getY() ==
+                            lastVisibleCard.getLocation().getY()) {
+                break;
+            }
+
+            for (MobileElement card : visibleCards) {
+                try {
+                    String currentDetail = card.findElement(By.xpath(xPathFilter))
+                            .getText()
+                            .trim()
+                            .toLowerCase();
+
+                    System.out.println("Current detail: " + currentDetail);
+                    assertTrue(currentDetail.contains(searchValue));
+
+                } catch (NoSuchElementException e) {
+                }
+            }
+
+            lastVisibleCard = currentLastCard;
+
+            hp.scrollDown(driver);
         }
-
-        lastVisibleCard = currentLastCard;
-
-        hp.scrollDown(driver);
     }
-}
 
     @And("Click on Clear search")
     public void clickOnClearSearch() throws Throwable {
         String xPath = "//android.widget.ImageView[@content-desc=\"Clear search input\"]";
-        MobileElement element=x.createMobileElementByXpath(xPath);
+        MobileElement element = x.createMobileElementByXpath(xPath);
         hp.ClickOnElement(element);
 
     }
@@ -8319,13 +8316,13 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert error message for invalid search")
     public void assertErrorMessageForInvalidSearch() {
-       String xPath = "//android.widget.TextView[@text=\"No results found. Adjust your values and try again.\"]";
+        String xPath = "//android.widget.TextView[@text=\"No results found. Adjust your values and try again.\"]";
         int maxScrolls = 2;
         boolean found = false;
         WaitHelpers.waitForSeconds(7);
         for (int i = 1; i <= maxScrolls; i++) {
             try {
-                MobileElement element =(MobileElement) driver.findElement(By.xpath(xPath));
+                MobileElement element = (MobileElement) driver.findElement(By.xpath(xPath));
                 if (element.isDisplayed()) {
                     found = true;
                     break;
@@ -8339,7 +8336,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         }
 
         // Ako nije pronađen, fail
-        assertTrue("Element se nije pojavio ni posle skrolovanja",found);
+        assertTrue("Element se nije pojavio ni posle skrolovanja", found);
     }
 
 
@@ -8352,60 +8349,59 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
 
     }
+
     @And("Assert transaction list is sorted by amount from {string} to {string}")
-    public void assertTransactionListIsSortedToMatchConditions(String amountTo, String amountFrom) throws Exception {{
+    public void assertTransactionListIsSortedToMatchConditions(String amountTo, String amountFrom) throws Exception {
+        {
 
-        Double amountTO=Double.valueOf(amountTo);
-        Double amountFROM=Double.valueOf(amountFrom);
+            Double amountTO = Double.valueOf(amountTo);
+            Double amountFROM = Double.valueOf(amountFrom);
 
-        List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
+            List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
 
-        int size = listAmount.size();
-        for (int i = 0; i < size; i++) {
-            String amountStr = listAmount.get(i);
-            // Normalizacija amount-a
-            String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
-            Float amount = Float.valueOf(normalized);
+            int size = listAmount.size();
+            for (int i = 0; i < size; i++) {
+                String amountStr = listAmount.get(i);
+                // Normalizacija amount-a
+                String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
+                Float amount = Float.valueOf(normalized);
 
-            if (amount < amountTO || amount > amountFROM) {
-                System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
-                Assert.fail();
+                if (amount < amountTO || amount > amountFROM) {
+                    System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
+                    Assert.fail();
+                }
+
+
             }
-
-
-
-
         }
-    }
     }
 
 
     @And("Hide account from Excel {string} columnName {string} V")
     public void hideAccountFromExcelColumnNameV(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
         hp.ClickOnElement(elementForEdit);
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Hide Account\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForHideAccount = "//*[@text='"+accountIban+"']//following-sibling::android.view.View[2]";
+        String xPathForHideAccount = "//*[@text='" + accountIban + "']//following-sibling::android.view.View[2]";
         By elForHideAccount = x.createByXpath(xPathForHideAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForHideAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForHideAccount)) {
                 hp.scrollDown(driver);
             }
         }
         MobileElement elementToHide = x.createMobileElementByXpath(xPathForHideAccount);
         hp.ClickOnElement(elementToHide);
         //String xPath = "//android.view.View[@content-desc=\"Back\"]";
-        String xPath="//android.view.View[@content-desc='"+ "Back" + "']";
+        String xPath = "//android.view.View[@content-desc='" + "Back" + "']";
         By element = x.createByXpath(xPath);
         WaitHelpers.waitForElement(element); // DODATO
         WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         //By element = x.createByXpath(xPath);
-
 
 
         //WaitHelpers.waitForSeconds(3); // DODATO
@@ -8417,17 +8413,16 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Unhide account from Excel {string} columnName {string} if needed V")
     public void unhideAccountFromExcelColumnNameIfNeededV(String rowindex, String columnName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String text = "Edit list";
         String xPathEditList = "//*[@content-desc='" + text + "']";
         By el = x.createByXpath("//*[@text='" + text + "']");
         WaitHelpers.waitForElement(el);
         MobileElement elementForEdit = x.createMobileElementByXpath("//android.widget.Button[@content-desc=\"Edit list\"]");
         //x.createMobileElementByText("Edit list");
-        try{
+        try {
             hp.ClickOnElement(elementForEdit);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("EXCP");
             System.out.println(e.getMessage());
         }
@@ -8436,15 +8431,15 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         WaitHelpers.waitForElement(elForEye);
         String xPathForHideAccount = "//android.view.View[@content-desc='Alt=\"Show Account\"']";
         By elForHideAccount = x.createByXpath(xPathForHideAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForHideAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForHideAccount)) {
                 hp.scrollDown(driver);
             }
         }
         MobileElement elementToHide = x.createMobileElementByXpath(xPathForHideAccount);
         hp.ClickOnElement(elementToHide);
         String xPath = "//android.view.View[@content-desc=\"Back\"]";
-       // String xPath = "//I0.o0/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View";
+        // String xPath = "//I0.o0/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View";
         By element = x.createByXpath(xPath);
         hp.clickElement(element);
         By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
@@ -8455,12 +8450,12 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert that product card of name {string} and iban {string} from Excel {string} for personal account are shown correctly V")
     public void assertThatProductCardOfNameAndIbanFromExcelForPersonalAccountAreShownCorrectlyV(String columnName1, String columnName2, String rowindex) {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productIban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Current balance']";
-        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@text='Available balance']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
-        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productIban+"']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productIban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Current balance']";
+        String xPathForProductCard2 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@text='Available balance']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForAvailableBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Current account\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productIban + "']//following-sibling::*[@resource-id='nlb-value-product-secondary-balance']";
 
         MobileElement elementForProductCard1 = x.createMobileElementByXpath(xPathForProductCard1);
         Assert.assertTrue(elementForProductCard1.isDisplayed());
@@ -8473,6 +8468,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         String stringForAvailableBalance = elementForAvailableBalance.getAttribute("text");
         Assert.assertTrue(stringForAvailableBalance.matches("(?:−)?(?:(?:0|[1-9]\\d{0,2})(?:.\\d{3})*),\\d{2}(.{1})EUR"));
     }
+
     @And("Change name of product {string} into {string}")
     public void changeNameOfProductInto(String oldName, String newName) throws Throwable {
         String accountIban = oldName;
@@ -8488,8 +8484,8 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                         "//android.view.View[@content-desc='Edit product card']";
 
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -8498,7 +8494,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         hp.ClickOnElement(elementToEdit);
         By elForEditText = x.createByXpath("//android.widget.EditText");
         WaitHelpers.waitForElement(elForEditText);
-        hp.enterTextToMobileElement(newName,elForEditText);
+        hp.enterTextToMobileElement(newName, elForEditText);
         MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
         hp.ClickOnElement(elementForApply);
 
@@ -8513,6 +8509,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         By elForLoad = x.createByXpath("//*[@resource-id='nlb-value-product-primary-balance']");
         WaitHelpers.waitForElement(elForLoad);
     }
+
     @And("Assert Currency transaction filter is displayed correctly")
     public void assertCurrencyTransactionFilterIsDisplayedCorrectly() {
         //filter name
@@ -8530,6 +8527,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         MobileElement element3 = x.createMobileElementByXpath(xPath3);
         Assert.assertTrue(element3.isDisplayed());*/
     }
+
     @And("Click on calendar icon with index {string}")
     public void clickOnCalendarIconWithIndex(String index) throws Exception {
         By element = x.createByXpath("(//android.view.View[@content-desc=\"Select date\"])" + "[" + index + "]");
@@ -8538,57 +8536,58 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
 
     @And("Assert transaction list is sorted to match conditions {string} {string} {string} {string} {double} {double}")
-    public void assertTransactionListIsSortedToMatchConditions(String date1, String date2, String transfer, String currencyToDisable, Double minAmount, Double maxAmount) throws Exception {{
+    public void assertTransactionListIsSortedToMatchConditions(String date1, String date2, String transfer, String currencyToDisable, Double minAmount, Double maxAmount) throws Exception {
+        {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
-        LocalDate startDate = LocalDate.parse(date1, formatter);
-        LocalDate endDate = LocalDate.parse(date2, formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
+            LocalDate startDate = LocalDate.parse(date1, formatter);
+            LocalDate endDate = LocalDate.parse(date2, formatter);
 
-        List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
-        List<String> listCurrency = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-currency");
-        List<String> listDate = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-date");
+            List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
+            List<String> listCurrency = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-currency");
+            List<String> listDate = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-date");
 
-        int size = listAmount.size();
-        for (int i = 0; i < size; i++) {
-            String amountStr = listAmount.get(i);
-            String currency = listCurrency.get(i);
-            String dateStr = listDate.get(i);
-            dateStr = normalizeDate2(dateStr);
-            // Normalizacija amount-a
-            String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
-            Float amount = Float.valueOf(normalized);
+            int size = listAmount.size();
+            for (int i = 0; i < size; i++) {
+                String amountStr = listAmount.get(i);
+                String currency = listCurrency.get(i);
+                String dateStr = listDate.get(i);
+                dateStr = normalizeDate2(dateStr);
+                // Normalizacija amount-a
+                String normalized = amountStr.replace(".", "").replace(",", ".").replace("−", "-");
+                Float amount = Float.valueOf(normalized);
 
-            if (amount < minAmount || amount > maxAmount) {
-                System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
-                Assert.fail();
-            }
-
-            if (Objects.equals(currency, currencyToDisable)) {
-                System.out.println("GRESKA, FILTER ZA CURRENCY NE RADI: " + amount);
-                Assert.fail();
-            }
-
-            if ((Objects.equals(transfer, "Incoming") && normalized.startsWith("-")) ||
-                    (Objects.equals(transfer, "Outgoing") && !normalized.startsWith("-"))) {
-                System.out.println("GRESKA, FILTER ZA TRANSFER(OUTGOING/INCOMING) NE RADI: " + amount);
-                Assert.fail();
-            }
-
-            // Provera datuma
-            try {
-                LocalDate transactionDate = LocalDate.parse(dateStr, formatter);
-                if (transactionDate.isBefore(startDate) || transactionDate.isAfter(endDate)) {
-                    System.out.println("GRESKA, FILTER ZA DATE NE RADI: " + dateStr);
+                if (amount < minAmount || amount > maxAmount) {
+                    System.out.println("GRESKA, FILTER ZA AMOUNT NE RADI: " + amount);
                     Assert.fail();
                 }
-            } catch (DateTimeParseException e) {
-                System.out.println("GRESKA, NEVALIDAN FORMAT DATUMA: " + dateStr);
-                Assert.fail();
-            }
 
-            System.out.println("Iznos transakcije: " + amount + " " + currency + " " + dateStr);
+                if (Objects.equals(currency, currencyToDisable)) {
+                    System.out.println("GRESKA, FILTER ZA CURRENCY NE RADI: " + amount);
+                    Assert.fail();
+                }
+
+                if ((Objects.equals(transfer, "Incoming") && normalized.startsWith("-")) ||
+                        (Objects.equals(transfer, "Outgoing") && !normalized.startsWith("-"))) {
+                    System.out.println("GRESKA, FILTER ZA TRANSFER(OUTGOING/INCOMING) NE RADI: " + amount);
+                    Assert.fail();
+                }
+
+                // Provera datuma
+                try {
+                    LocalDate transactionDate = LocalDate.parse(dateStr, formatter);
+                    if (transactionDate.isBefore(startDate) || transactionDate.isAfter(endDate)) {
+                        System.out.println("GRESKA, FILTER ZA DATE NE RADI: " + dateStr);
+                        Assert.fail();
+                    }
+                } catch (DateTimeParseException e) {
+                    System.out.println("GRESKA, NEVALIDAN FORMAT DATUMA: " + dateStr);
+                    Assert.fail();
+                }
+
+                System.out.println("Iznos transakcije: " + amount + " " + currency + " " + dateStr);
+            }
         }
-    }
     }
 
     private String normalizeDate2(String raw) {
@@ -8608,15 +8607,15 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert product from Excel {string} with bban {string} has name {string} V")
     public void assertProductFromExcelWithIbanHasNameV(String rowindex, String columnName, String expectedName) {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
-        String xPathForName = "//*[@text='"+accountIban+"']//preceding-sibling::*[@text='"+expectedName+"']";
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPathForName = "//*[@text='" + accountIban + "']//preceding-sibling::*[@text='" + expectedName + "']";
         MobileElement elementForName = x.createMobileElementByXpath(xPathForName);
         Assert.assertTrue(elementForName.isDisplayed());
     }
 
     @Then("Change name of product from Excel {string} columnName {string} into {string} V")
     public void changeNameOfProductFromExcelColumnNameIntoV(String rowindex, String columnName, String newName) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
@@ -8629,8 +8628,8 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                         "//android.view.View[@content-desc='Edit product card']";
 
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -8646,7 +8645,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         WaitHelpers.waitForSeconds(2);
 
         //DODATO
-        hp.enterTextToMobileElement(newName,elForEditText);
+        hp.enterTextToMobileElement(newName, elForEditText);
         MobileElement elementForApply = x.createMobileElementByXpath("//*[@text='Apply']");
         hp.ClickOnElement(elementForApply);
 
@@ -8663,10 +8662,9 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
     }
 
 
-
     @And("Change name of {string} from Excel {string} to previous name")
     public void changeNameOfFromExcelToPreviousName(String columnName, String rowindex) throws Throwable {
-        String accountIban = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String accountIban = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By elForEdit = x.createByXpath("//*[@resource-id='nlb-button-edit-products']");
         WaitHelpers.waitForElement(elForEdit);
         MobileElement elementForEdit = d.createMobileElementByResourceId("nlb-button-edit-products");
@@ -8679,8 +8677,8 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
                         "//android.view.View[@content-desc='Edit product card']";
 
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -8707,10 +8705,10 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         WaitHelpers.waitForElement(productXpath);
 
         String xPath = "//android.widget.TextView[@text=\"Term deposit amount\"]";
-        By lastProductLabel  = By.xpath(xPath);
+        By lastProductLabel = By.xpath(xPath);
 
-        for(int i = 0; i<35; i++){
-            if(hp.isElementNotPresent(lastProductLabel )){
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(lastProductLabel)) {
                 hp.scrollDown(driver);
             }
         }
@@ -8744,12 +8742,12 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert that whole product card of term deposit account with name {string} and bban {string} from Excel {string} acts as a clickable button")
     public void assertThatWholeProductCardOfTermDepositAccountWithNameAndBbanFromExcelActsAsAClickableButton(String columnName1, String columnName2, String rowindex) throws Throwable {
-        String productName = DataManager.getDataFromHashDatamap(rowindex,columnName1);
-        String productBban = DataManager.getDataFromHashDatamap(rowindex,columnName2);
+        String productName = DataManager.getDataFromHashDatamap(rowindex, columnName1);
+        String productBban = DataManager.getDataFromHashDatamap(rowindex, columnName2);
         String xPathForProductName = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc='Deposit']//following-sibling::*[@text='Oročeni depozit']";
-        String xPathForProductBban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']";
-        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@text='Term deposit amount']";
-        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='"+productName+"']//following-sibling::*[@text='"+productBban+"']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
+        String xPathForProductBban = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productBban + "']";
+        String xPathForProductCard1 = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productBban + "']//following-sibling::*[@text='Term deposit amount']";
+        String xPathForCurrentBalance = "//*[@resource-id='nlb-product-summary-card']//android.view.View[@content-desc=\"Deposit\"]//following-sibling::*[@text='" + productName + "']//following-sibling::*[@text='" + productBban + "']//following-sibling::*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForAssert = "//*[@resource-id='nlb-header-card']";
         String xPathForLoad = "//*[@resource-id='nlb-value-product-primary-balance']";
         String xPathForWholeCard = "(//android.view.View[@resource-id=\"nlb-product-summary-card\"])[4]/android.widget.Button";
@@ -8845,14 +8843,14 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         hp.ClickOnElement(elementForEdit);
         //By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Edit product card\"]");
         //WaitHelpers.waitForElement(elForEye);
-        String xPathForEditAccount = "//android.widget.TextView[@text=\"" +name + "\"]\n" +
+        String xPathForEditAccount = "//android.widget.TextView[@text=\"" + name + "\"]\n" +
                 "/following-sibling::android.view.View\n" +
                 "//android.view.View[@content-desc=\"Edit product card\"]\n";
 
 
         By elForEditAccount = x.createByXpath(xPathForEditAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForEditAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForEditAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -8990,7 +8988,11 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
     }
 
     private String safeGetAttribute(WebElement el, String attr) {
-        try { return el.getAttribute(attr); } catch (Exception e) { return null; }
+        try {
+            return el.getAttribute(attr);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @And("Assert description are displayed on the transaction")
@@ -9095,12 +9097,12 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert Credit Card from excel {string} columnname {string} is displayed correctly")
     public void assertCreditCardFromExcelColumnnameIsDisplayedCorrectly(String rowindex, String columnName) {
-        String cardName = DataManager.getDataFromHashDatamap(rowindex,columnName);
+        String cardName = DataManager.getDataFromHashDatamap(rowindex, columnName);
         String xPath = "//android.widget.TextView[@text='" + cardName + "']";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals("Naziv kartice nije ispisan korektno",cardName, element.getText());
+        Assert.assertEquals("Naziv kartice nije ispisan korektno", cardName, element.getText());
         String xPathAvailableBalance = "//android.view.View[@resource-id=\"nlb-header-card\"]";
         MobileElement element2 = x.createMobileElementByXpath(xPathAvailableBalance);
         MobileElement label = element2.findElement(
@@ -9109,7 +9111,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
         MobileElement balance = element2.findElement(By.xpath(".//android.widget.TextView[@resource-id='nlb-product-details-primary-balance']"));
 
-        Assert.assertEquals("Available balance kartice nije prikazan","Available balance", label.getText());
+        Assert.assertEquals("Available balance kartice nije prikazan", "Available balance", label.getText());
         String balanceText = balance.getText();
         Assert.assertTrue(
                 "Balance nije u ispravnom formatu (brojevi + RSD/EUR): " + balanceText,
@@ -9133,7 +9135,6 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         Assert.assertEquals("Detalji Finansija nisu ispravno prikazni", "Financial details", firstChildFinDetails.getText());
         Assert.assertEquals("Detalji Racuna nisu ispravno prikazni", "Account details", firstChildAccDetails.getText());
     }
-
 
 
     @And("Assert element by content desc {string}")
@@ -9163,12 +9164,12 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         By accountType = By.xpath("//android.widget.TextView[@text='Account type']");
         By accountOwner = By.xpath("//android.widget.TextView[@text='Account owner']");
         By accountNumber = By.xpath("//android.widget.TextView[@text='Account number']");
-       // By bban = By.xpath("//android.widget.TextView[@text='BBAN']");
+        // By bban = By.xpath("//android.widget.TextView[@text='BBAN']");
 
         Assert.assertTrue(
                 "Account details section is not displayed",
                 hp.isElementDisplayed(accountDetailsCard)
-                );
+        );
 
         Assert.assertTrue(hp.isElementDisplayed(accountType));
         Assert.assertTrue(hp.isElementDisplayed(accountOwner));
@@ -9238,7 +9239,6 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
     }
 
 
-
     @And("Hide product card from Excel {string} columnName {string}")
     public void hideProductCardFromExcelColumnName(String rowindex, String columnName) throws Throwable {
 
@@ -9246,10 +9246,10 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Hide Account\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForHideAccount = "//*[@text='"+bban+"']//following-sibling::android.view.View[2]";
+        String xPathForHideAccount = "//*[@text='" + bban + "']//following-sibling::android.view.View[2]";
         By elForHideAccount = x.createByXpath(xPathForHideAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForHideAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForHideAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -9257,8 +9257,6 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         hp.ClickOnElement(elementToHide);
 
     }
-
-
 
 
     @And("Assert that product card from Excel {string} columnName {string} is hidden")
@@ -9277,7 +9275,7 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
         //Assert.assertFalse("Eye icon should be disabled", eyeIcon.isEnabled());
         Assert.assertTrue(eyeIcon.isDisplayed());
-       // Assert.assertFalse("Card should be disabled", card.isEnabled());
+        // Assert.assertFalse("Card should be disabled", card.isEnabled());
     }
 
     @And("Assert that product card with BBAN from Excel {string} columnName {string} is not shown")
@@ -9313,10 +9311,10 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
         By elForEye = x.createByXpath("//android.view.View[@content-desc=\"Alt=\"Show Account\"\"]");
         WaitHelpers.waitForElement(elForEye);
-        String xPathForShowAccount = "//*[@text='"+bban+"']//following-sibling::android.view.View[2]";
+        String xPathForShowAccount = "//*[@text='" + bban + "']//following-sibling::android.view.View[2]";
         By elForShowAccount = x.createByXpath(xPathForShowAccount);
-        for(int i = 0; i<10; i++){
-            if(hp.isElementNotPresent(elForShowAccount)){
+        for (int i = 0; i < 10; i++) {
+            if (hp.isElementNotPresent(elForShowAccount)) {
                 hp.scrollDown(driver);
             }
         }
@@ -9371,11 +9369,11 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
 
     @And("Assert that text {string} has first following sibling from excel {string} columnName {string}")
     public void assertThatTextHasFirstFollowingSiblingFromExcelColumnName(String textFirst, String rowindex, String column) {
-        String accNumber =  DataManager.getDataFromHashDatamap(rowindex,column);
+        String accNumber = DataManager.getDataFromHashDatamap(rowindex, column);
         accNumber = accNumber.replace("-", "");
-        String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
+        String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertEquals(accNumber,element.getText());
+        Assert.assertEquals(accNumber, element.getText());
     }
 
     @And("Click on element by desc {string} and index {string}")
@@ -9383,5 +9381,112 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         WaitHelpers.waitForSeconds(10);
         String xPath = "(//*[@content-desc='" + desc + "'])[" + index + "]";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
+    }
+
+    @And("Assert that all transactions are type {string}")
+    public void assertThatAllTransactionsAreType(String expectedType) {
+
+        boolean expectIncoming = false;
+        if (expectedType.toLowerCase().contains("incoming")) {
+            expectIncoming = true;
+        }
+
+        List<MobileElement> transactions = driver.findElements(
+                By.id("nlb-item-row")
+        );
+
+        //if (transactions.isEmpty()) {
+        //    throw new AssertionError("No transactions found after filter!");
+        //}
+
+        for(int i=0;i<5;i++) {
+            for (MobileElement transaction : transactions) {
+
+                String type = transaction.findElement(
+                        By.xpath(".//android.view.View[@content-desc]")
+                ).getAttribute("content-desc");
+
+                if (expectIncoming && !"Credit".equalsIgnoreCase(type)) {
+                    throw new AssertionError("Expected Credit but found: " + type);
+                }
+
+                if (!expectIncoming && !"Debit".equalsIgnoreCase(type)) {
+                    throw new AssertionError("Expected Debit but found: " + type);
+                }
+
+            }
+            hp.scrollDown(driver);
+        }
+
+    }
+
+
+    @And("Assert that all transactions are between {string} and {string}")
+    public void assertThatAllTransactionsAreType(String min, String max) {
+
+        double minAmount = Double.parseDouble(min);
+        double maxAmount = Double.parseDouble(max);
+
+        List<MobileElement> transactions = driver.findElements(
+                By.id("nlb-item-row")
+        );
+
+        if (transactions.isEmpty()) {
+            throw new AssertionError("No transactions found after filter!");
+        }
+
+        for (MobileElement transaction : transactions) {
+
+            String rawAmount = transaction.findElement(
+                    By.id("nlb-amount")
+            ).getText();
+
+            double amount = parseAmount(rawAmount);
+
+            if (amount < minAmount || amount > maxAmount) {
+                throw new AssertionError(
+                        "Transaction amount out of range: " + amount +
+                                " (expected between " + minAmount + " and " + maxAmount + ")"
+                );
+            }
+        }
+
+
+    }
+    private double parseAmount(String rawAmount) {
+
+        rawAmount = rawAmount.replace(" ", "");
+
+        rawAmount = rawAmount.replace(".", "");
+
+        rawAmount = rawAmount.replace(",", ".");
+
+        return Double.parseDouble(rawAmount);
+    }
+
+    @And("Enter amount from {string} to {string}")
+    public void enterAmountFromTo(String fromValue, String toValue) {
+
+            List<MobileElement> amountFields = driver.findElements(
+                    By.id("nlb-amount-with-currency-field")
+            );
+
+            if (amountFields.size() != 2) {
+                throw new AssertionError("Expected 2 amount fields (From/To), but found: "
+                        + amountFields.size());
+            }
+
+            MobileElement fromField = amountFields.get(0);
+            fromField.click();
+            fromField.clear();
+            fromField.sendKeys(fromValue);
+
+            MobileElement toField = amountFields.get(1);
+            toField.click();
+            toField.clear();
+            toField.sendKeys(toValue);
+
+
+
     }
 }
