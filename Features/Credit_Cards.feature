@@ -11,6 +11,8 @@ Feature: Credit_Cards
     When Click "My Products"
     And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Assert element by content desc "Filters"
+    And Assert element by text "Search..."
     And Click on element by id "nlb-icon-button"
     And Click on element by text "Date"
     And Assert element by text "Last 7 days"
@@ -55,6 +57,8 @@ Feature: Credit_Cards
     When Click "My Products"
     And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Assert element by content desc "Filters"
+    And Assert element by text "Search..."
     And Click on element by id "nlb-icon-button"
     And Click on element by text "Date"
     And Assert element by text "Last 7 days"
@@ -69,20 +73,8 @@ Feature: Credit_Cards
     And Assert To field in Date transactions filter has date year 2025 month 5 day 8
 
     And Click on element by desc "Select date" and index "1"
-    And Click on date in Calendar with year 2025 month 11 day 8 and assert that it is shown correctly
-    And Assert button Cancel in Calendar is enabled
-    And Assert button Apply in Calendar is enabled
-    And Click on button Apply in Calendar
-    And Assert From field in Date transactions filter has date year 2025 month 11 day 8
-
-    And Assert that From field is empty
-
-#    And Click on element by text "Apply"
-#    And Assert "Apply" button primary is enabled
-#    And Assert "Clear filters" button alternate is enabled
-#    And Click on element by text "Apply"
-#    And Wait for first transaction to load after filter
-
+    And Check if element by text "Wednesday, May 7, 2025" is enabled
+    And Check if element by text "Friday, May 9, 2025" is not enabled
 
 
     Examples:

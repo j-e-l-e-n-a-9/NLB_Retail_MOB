@@ -710,7 +710,6 @@ public class Steps {
         String actualDate = element.getAttribute("text").replaceAll("\u00A0", "");
         Assert.assertEquals(currentDate, actualDate);
     }
-
     @And("Assert element {string} by id has current date in format {string} uppercase")
     public void assertElementByIdHasCurrentDateInFormatUpperCase(String id, String dateFormat) {
         MobileElement element = d.createMobileElementByResourceId(id);
@@ -9381,6 +9380,34 @@ public class Steps {
         WaitHelpers.waitForSeconds(10);
         String xPath = "(//*[@content-desc='" + desc + "'])[" + index + "]";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
+    }
+
+    @And("Assert element by text {string} is clickable")
+    public void assertElementByTextIsClickable(String text) throws Throwable {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("clickable");
+        Assert.assertEquals("true", clickableAttr);
+    }
+
+    @And("Assert element by text {string} is not clickable")
+    public void assertElementByTextIsNotClickable(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("clickable");
+        Assert.assertEquals("false", clickableAttr);
+    }
+
+    @And("Check if element by text {string} is enabled")
+    public void checkIfElementByTextIsEnabled(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("enabled");
+        Assert.assertEquals("true", clickableAttr);
+    }
+
+    @And("Check if element by text {string} is not enabled")
+    public void checkIfElementByTextIsNotEnabled(String text) {
+        MobileElement loanCard = x.createMobileElementByText(text);
+        String clickableAttr = loanCard.getAttribute("enabled");
+        Assert.assertEquals("false", clickableAttr);
     }
 
     @And("Assert that all transactions are type {string}")
