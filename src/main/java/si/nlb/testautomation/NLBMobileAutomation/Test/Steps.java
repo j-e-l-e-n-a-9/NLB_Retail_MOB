@@ -7727,7 +7727,7 @@ public class Steps {
 
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
-        WaitHelpers.waitForSeconds(10);
+        //WaitHelpers.waitForSeconds(10);
         String xPath="//*[@content-desc='"+ text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
     }
@@ -9376,5 +9376,12 @@ public void assertTransactionsAreFilteredBySearchValueFromColumn(String column) 
         String xPath = "//*[@text='"+textFirst+"']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertEquals(accNumber,element.getText());
+    }
+
+    @And("Click on element by desc {string} and index {string}")
+    public void clickOnElementByDescAndIndex(String desc, String index) throws Throwable {
+        WaitHelpers.waitForSeconds(10);
+        String xPath = "(//*[@content-desc='" + desc + "'])[" + index + "]";
+        hp.ClickOnElement(x.createMobileElementByXpath(xPath));
     }
 }
