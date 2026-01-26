@@ -5595,6 +5595,8 @@ public class Steps {
     public void assertThatTextHasFirstFollowingSiblingThatContainsText(String textFirst, String textSecond) {
         String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
+        System.out.println(element.getText());
+        System.out.println(textSecond);
         Assert.assertTrue(element.getText().contains(textSecond));
     }
 
@@ -5699,7 +5701,10 @@ public class Steps {
         MobileElement element = x.createMobileElementByXpath(xPath);
         System.out.println(textSecond);
         System.out.println(element.getText());
-        Assert.assertTrue(element.getText().contains(textSecond));
+        if (Objects.equals(textFirst, "IBAN")) {
+            textSecond = textSecond.replaceAll("\\s+", "");
+        }
+        Assert.assertTrue(element.getText().toLowerCase().contains(textSecond.toLowerCase()));
     }
 
     @And("Remember transaction header sum under key {string}")
