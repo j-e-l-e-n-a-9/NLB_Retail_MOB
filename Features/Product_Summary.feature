@@ -349,7 +349,7 @@ Feature: Product_Summary
 
     And Scroll until element with text from excel "<rowindex>" columnName "saving_account_2_bban" is in view
     #And Swipe vertical short
-    And Assert that saving accounts are sorted correctly
+    And Assert that "Savings Account" are sorted correctly
     And Assert that whole product card of gradual savings account with name "saving_account_name" and iban "saving_account_bban" from Excel "<rowindex>" acts as a clickable button
     And Click on element by text from excel "<rowindex>" columnName "saving_account_name"
     And Assert element by text "Details"
@@ -410,8 +410,6 @@ Feature: Product_Summary
     And Assert element by text "Search..."
     And Click on element by text "Details"
     #TODO: Dodati proveru Financial Details kada se pojavi user koji ima Financial Details
-
-
 
     Examples:
       | rowindex |
@@ -495,7 +493,7 @@ Feature: Product_Summary
 
 @Product_Summary-Credit_Card_List_[MOB_ANDROID]
 Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
-
+  #TODO: DODATI PROVERU SORTIRANOSTI KARTICE KADA SE UTVRDI KOJI JE NACIN SORTIRANJA
   Given Open Application
   And Select User from Excel "<rowindex>" columnName "username" and login
   And Wait for element by resource id "nlb-bottom-nav-button" to appear
@@ -509,17 +507,8 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
   And Assert that whole product card of credit card account with name "credit_card_name" and iban "credit_card_number" from Excel "<rowindex>" acts as a clickable button
   And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
   #And Assert that credit cards account numbers are sorted correctly
-
-
-
-
-
-
-
   #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
   #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
-
-
 
   Examples:
     | rowindex |
@@ -531,6 +520,8 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     #C70786
     #BUG On android 16 1.700,00 is 1700,00
     #Only happens on 4 digit numbers
+      #TODO: TESTIRATI KADA SE POJAVI USER KOJI IMA VISE DEPOZITA
+      #TODO: TAKODJE KADA SE POJAVE AUTORIZOVANU DEPOSIT RACUNI TESTIRATI SORTIRANJE
       Given Open Application
       And Select User from Excel "<rowindex>" columnName "username" and login
       And Wait for element by resource id "nlb-bottom-nav-button" to appear
@@ -538,8 +529,15 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
 
       And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
       And Swipe vertical short
+      And Assert that "Deposit" are sorted correctly
 
+      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
+      And Wait "3" seconds
       And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+      When Click "My Products"
+      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
+      And Wait "10" seconds
       And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
 
     Examples:
