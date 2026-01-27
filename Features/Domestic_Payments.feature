@@ -49,3 +49,70 @@ Feature: Domestic_Payments
     Examples:
       | rowindex |
       | 1        |
+
+  @Payments_Own_Account_Transfer-Flow_Disruption_Cancel/Back_[MOB_ANDROID]
+  Scenario Outline: Payments_Own_Account_Transfer-Flow_Disruption_Cancel/Back_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #And Change language to english
+    And Click on Bottom navigation button "Pay"
+    And Click on element by contains text "Own account Transfer"
+
+
+    #input step
+    And Enter text "100" in element id "nlb-amount-with-currency-field"
+    And Wait "5" seconds
+    And Click on element by desc "Back"
+    And Click on element by contains text "Yes"
+    And Assert element by contains text "Payments"
+
+    And Click on element by contains text "Own account Transfer"
+    And Enter text "100" in element id "nlb-amount-with-currency-field"
+    And Scroll down until element with text "Cancel" is in view
+    And Click on element by contains text "Cancel"
+    And Assert element by contains text "Cancelling now will terminate the payment process."
+    And Assert element by contains text "Yes"
+    And Assert element by contains text "No"
+    And Click on element by contains text "No"
+    And Assert element by contains text "Own account Transfer"
+    And Scroll down until element with text "Cancel" is in view
+    And Click on element by contains text "Cancel"
+    And Assert element by contains text "Cancelling now will terminate the payment process."
+    And Assert element by contains text "Yes"
+    And Assert element by contains text "No"
+    And Click on element by contains text "Yes"
+    And Assert element by contains text "Payments"
+
+    #review step -isti koraci, kad proradi payment otkomentarisati i dodati provjeru da su podaci ostali isti nakon Cancel
+
+    #    And Click on element by contains text "Own account Transfer"
+    #    And Enter text "100" in element id "nlb-amount-with-currency-field"
+    #    And Click on element by contains text "Next"
+    #    And Click on element by desc "Back"
+    #    And Click on element by contains text "Yes"
+    #    And Assert element by contains text "Payments"
+    #
+          #promijeniti assert na koju stranicu se vraca
+    #    And Click on element by contains text "Own account Transfer"
+    #    And Enter text "100" in element id "nlb-amount-with-currency-field"
+    #    And Scroll down until element with text "Cancel" is in view
+    #    And Click on element by contains text "Cancel"
+    #    And Assert element by contains text "Cancelling now will terminate the payment process."
+    #    And Assert element by contains text "Yes"
+    #    And Assert element by contains text "No"
+    #    And Click on element by contains text "No"
+    #    And Assert element by contains text "Own account Transfer"
+    #    And Scroll down until element with text "Cancel" is in view
+    #    And Click on element by contains text "Cancel"
+    #    And Assert element by contains text "Cancelling now will terminate the payment process."
+    #    And Assert element by contains text "Yes"
+    #    And Assert element by contains text "No"
+    #    And Click on element by contains text "Yes"
+    #    And Assert element by contains text "Payments"
+
+
+    Examples:
+      | rowindex |
+      | 1        |

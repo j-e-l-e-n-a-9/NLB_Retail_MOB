@@ -167,9 +167,8 @@ Feature: Credit_Cards
     And Assert element by text "Amount"
 
     And Click on element by text "Amount"
-    #And Enter amount from "10000" to "20000"
-    And Click on element by text "Apply"
-    And Click on element by text "Apply"
+    And Enter amount from "10000" to "5000"
+    And Assert element by contains text "From amount must be less than To amount"
 
 
 

@@ -9501,21 +9501,20 @@ public class Steps {
     @And("Enter amount from {string} to {string}")
     public void enterAmountFromTo(String fromValue, String toValue) {
 
+            //WaitHelpers.waitForSeconds(5);
             List<MobileElement> amountFields = driver.findElements(
                     By.id("nlb-amount-with-currency-field")
             );
 
-            if (amountFields.size() != 2) {
-                throw new AssertionError("Expected 2 amount fields (From/To), but found: "
-                        + amountFields.size());
-            }
+            String amountFromXPath = "(//android.widget.EditText[@resource-id=\"nlb-amount-with-currency-field\"])[1]";
+            MobileElement fromField = x.createMobileElementByXpath(amountFromXPath);
 
-            MobileElement fromField = amountFields.get(0);
             fromField.click();
             fromField.clear();
             fromField.sendKeys(fromValue);
 
-            MobileElement toField = amountFields.get(1);
+            String amountToXPath = "(//android.widget.EditText[@resource-id=\"nlb-amount-with-currency-field\"])[2]";
+            MobileElement toField = x.createMobileElementByXpath(amountToXPath);
             toField.click();
             toField.clear();
             toField.sendKeys(toValue);
