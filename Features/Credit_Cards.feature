@@ -176,3 +176,54 @@ Feature: Credit_Cards
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Credit_cards-Transactions-Filter_Multiple_Filter_Invalid_[MOB_ANDROID]
+  Scenario Outline: Credit_cards-Transactions-Filter_Multiple_Filter_Invalid_[MOB_ANDROID]
+
+    Given Open Application
+    #And Wait "100" seconds
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    #Open My products page
+    When Click "My Products"
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_name" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Assert element by text "Details"
+    And Assert element by text "Statements"
+    #And Assert element by text "Settings"
+    And Assert element by text "Transactions"
+    And Assert element by content desc "Filters"
+    And Assert element by text "Search..."
+    And Click on element by id "nlb-icon-button"
+    And Assert element by text "Date"
+    And Assert element by text "Status"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+
+    And Click on element by text "Amount"
+    And Enter amount from "10000" to "5000"
+    And Assert element by contains text "From amount must be less than To amount"
+   # And Click on element by desc "Back"
+    And Click "Back" content description from view tag "View"
+    And Wait for element by text "Type"
+
+    And Click on element by text "Date"
+    And Click on element by desc "Select date" and index "2"
+    And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    And Assert button Cancel in Calendar is enabled
+    And Assert button Apply in Calendar is enabled
+    And Click on button Apply in Calendar
+    And Assert To field in Date transactions filter has date year 2025 month 5 day 8
+
+    And Click on element by desc "Select date" and index "1"
+    And Check if element by text "Wednesday, May 7, 2025" is enabled
+    And Check if element by text "Friday, May 9, 2025" is not enabled
+
+
+
+
+    Examples:
+      | rowindex |
+      |        1 |

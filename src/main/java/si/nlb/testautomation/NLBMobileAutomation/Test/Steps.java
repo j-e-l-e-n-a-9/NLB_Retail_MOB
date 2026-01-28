@@ -4654,9 +4654,12 @@ public class Steps {
 
     @And("Assert To field in Date transactions filter has date year {int} month {int} day {int}")
     public void assertToFieldInDateTransactionsFilterHasDateYearMonthDay(int year, int month, int day) {
-        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace(".", ".\u00A0");
+        String expected = rh.getDateInFormat(year, month, day, "dd.MM.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-to");
-        Assert.assertEquals(expected, element.getAttribute("text"));
+        String actual = element.getAttribute("text");
+        expected = expected.replaceAll("[\\s\\u00A0]", "");
+        actual   = actual.replaceAll("[\\s\\u00A0]", "");
+        Assert.assertEquals(expected, actual);
     }
 
     @And("Assert subtitle of Transaction filter Date is correct for dates year {int} month {int} day {int} and year {int} month {int} day {int}")
