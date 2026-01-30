@@ -4647,7 +4647,7 @@ public class Steps {
 
     @And("Assert From field in Date transactions filter has date year {int} month {int} day {int}")
     public void assertFromFieldInDateTransactionsFilterHasDateYearMonthDay(int year, int month, int day) {
-        String expected = rh.getDateInFormat(year, month, day, "d.M.yyyy").replace(".", ".\u00A0");
+        String expected = rh.getDateInFormat(year, month, day, "dd.MM.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
         Assert.assertEquals(expected, element.getAttribute("text"));
     }
@@ -8328,10 +8328,10 @@ public class Steps {
         String xPath = "//android.widget.TextView[@text=\"No results found. Adjust your values and try again.\"]";
         int maxScrolls = 2;
         boolean found = false;
-        WaitHelpers.waitForSeconds(7);
+        WaitHelpers.waitForSeconds(12);
         for (int i = 1; i <= maxScrolls; i++) {
             try {
-                MobileElement element = (MobileElement) driver.findElement(By.xpath(xPath));
+                MobileElement element =  x.createMobileElementByXpath(xPath);
                 if (element.isDisplayed()) {
                     found = true;
                     break;

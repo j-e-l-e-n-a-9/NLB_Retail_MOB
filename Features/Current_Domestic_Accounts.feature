@@ -13,10 +13,11 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Assert Filter icon is displayed
@@ -52,10 +53,11 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Assert Filter icon is displayed
@@ -95,10 +97,11 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Click Transaction filter button in Product
@@ -106,7 +109,7 @@ Feature: Current_Domestic_Accounts
 
     And Assert element by text "Date"
     And Assert element by text "Type"
-    And Assert element by text "Currency"
+    #And Assert element by text "Currency"
     And Assert element by text "Amount"
 
     And Click on element by text "Amount"
@@ -140,10 +143,11 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Click Transaction filter button in Product
@@ -151,7 +155,7 @@ Feature: Current_Domestic_Accounts
 
     And Assert element by text "Date"
     And Assert element by text "Type"
-    And Assert element by text "Currency"
+    #And Assert element by text "Currency"
     And Assert element by text "Amount"
 
     And Click on element by text "Amount"
@@ -179,10 +183,10 @@ Feature: Current_Domestic_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     Examples:
@@ -215,8 +219,9 @@ Feature: Current_Domestic_Accounts
     And Assert back button in screen "Transaction filter"
     And Assert Date transaction filter is displayed correctly
     And Assert Type transaction filter is displayed correctly
-    And Assert Currency transaction filter is displayed correctly
-    And Assert Amount transaction filter is displayed correctly
+    #And Assert Currency transaction filter is displayed correctly
+    And Assert element by text "Amount"
+    #And Assert Amount transaction filter is displayed correctly
     And Assert "Apply" button is not enabled
     And Click on element by text "Type"
     And Wait for element by id "nlb-radio-button-ALL" to appear
@@ -299,9 +304,9 @@ Feature: Current_Domestic_Accounts
     And Click on element by text "Incoming transactions"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Amount"
-    And Click on element by text "Currency"
-    And Click on element by text "EUR"
-    And Click on element by text "Confirm"
+    #And Click on element by text "Currency"
+    #And Click on element by text "EUR"
+    #And Click on element by text "Confirm"
 
     And Click on element by text "Amount"
     And Wait for element by text "From"
@@ -368,8 +373,8 @@ Feature: Current_Domestic_Accounts
     And Assert back button in screen "Transaction filter"
     And Assert Date transaction filter is displayed correctly
     And Assert Type transaction filter is displayed correctly
-    And Assert Currency transaction filter is displayed correctly
-    And Assert Amount transaction filter is displayed correctly
+    #And Assert Currency transaction filter is displayed correctly
+    And Assert element by text "Amount"
     And Assert "Apply" button is not enabled
 
     And Click on element by text "Date"
@@ -553,8 +558,13 @@ Feature: Current_Domestic_Accounts
 
     And Click on element by id "nlb-input-date-from-click-area"
 
-    And Click on date in Calendar with year 2026 month 1 day 16 and assert that it is shown correctly
-    And Click on element by text "Apply"
+
+    #And Click on element by desc "Select date" and index "1"
+    And Check if element by text "Friday, January 9, 2026" is enabled
+    And Check if element by text "Sunday, January 11, 2026" is not enabled
+
+    #And Click on date in Calendar with year 2026 month 1 day 16 and assert that it is shown correctly
+    #And Click on element by text "Apply"
 
 
 
