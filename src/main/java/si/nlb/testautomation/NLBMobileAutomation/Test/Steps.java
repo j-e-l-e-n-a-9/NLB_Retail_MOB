@@ -5,6 +5,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.messages.Messages;
 import javafx.util.Pair;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -9523,6 +9525,47 @@ public class Steps {
             toField.sendKeys(toValue);
 
 
+
+    }
+
+    @When("Click on element in bottom menu by text {string}")
+    public void clickOnElementInBottomMenuByText(String text) throws Throwable {
+        String xPath ="//*[@resource-id=\"nlb-bottom-nav-button\"]//*[@text=\"" + text + "\"]";
+        hp.ClickOnElement(x.createMobileElementByXpath(xPath));
+
+    }
+
+    @And("Under prompt {string} there are options:")
+    public void underPromptThereAreOptions(String promptName, DataTable dataTable) {
+        List<String> expectedOptions = dataTable.asList();
+
+        String promptXpath = "//android.widget.TextView[@text='" + promptName + "']/ancestor::android.view.View[1]";
+
+        MobileElement promptElement = (MobileElement) driver.findElement(By.xpath(promptXpath));
+      //  MobileElement container = (MobileElement) promptElement.findElement(By.xpath("ancestor::android.view.View[1]"));
+
+        for (String option : expectedOptions) {
+            String optionXpath = ".//android.widget.TextView[@text=\"" + option + "\"]";
+
+            String buttonXpath = optionXpath + "/following-sibling::android.widget.Button";
+            MobileElement optionFound = promptElement.findElement(By.xpath(optionXpath));
+            MobileElement buttonFound = promptElement.findElement(By.xpath(buttonXpath));
+
+
+            Assert.assertTrue("Option '" + option + "' is NOT displayed under prompt '" + promptName + "'",optionFound.isDisplayed());
+            Assert.assertTrue("Option '" + option + "' is NOT a button",buttonFound.isDisplayed());
+
+        }
+    }
+
+    @And("Under prompt {string} choose option {string}")
+    public void underPromptChooseOption(String promptName, String optionName) throws Throwable {
+        String promptXpath = "//android.widget.TextView[@text='" + promptName + "']/ancestor::android.view.View[1]";
+        MobileElement promptElement = (MobileElement) driver.findElement(By.xpath(promptXpath));
+        String optionXpath = ".//android.widget.TextView[@text=\"" + optionName + "\"]";
+        //MobileElement optionFound = promptElement.findElement(By.xpath(optionXpath));
+
+        hp.ClickOnElement(x.createMobileElementByXpath(optionXpath));
 
     }
 }
