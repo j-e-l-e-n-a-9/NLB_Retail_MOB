@@ -32,7 +32,7 @@ Feature: Current_Domestic_Accounts
     And Wait for first transaction to load
     And Assert there are default number of transactions
 
-    #TO-DO Ostale opcije za search filtete - mogu se koristiti svi isti koraci, samo promijeniti columnName
+    #TODO Ostale opcije za search filtete - mogu se koristiti svi isti koraci, samo promijeniti columnName
 
 
 
@@ -68,7 +68,7 @@ Feature: Current_Domestic_Accounts
     And Assert error message for invalid search
     And Click on Clear search
 
-    #TO-DO tj otkomentarisati kad bude radilo u app
+    #TODO tj otkomentarisati kad bude radilo u app
 
     #invalid input - empty field
     #And Search invalid filter ""
@@ -127,6 +127,32 @@ Feature: Current_Domestic_Accounts
     And Wait for element by id "nlb-title" to appear
 
     Then Assert filtered amounts have values between "100000" and "150000"
+
+
+   #new example
+    And Click Transaction filter button in Product
+    And Wait for element by text "Transaction filter"
+
+    And Assert element by text "Date"
+    And Assert element by text "Type"
+    #And Assert element by text "Currency"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Amount"
+    And Wait for element by text "From"
+    And Assert element by text "From"
+    And Assert element by text "To"
+
+    And Enter text "5150,11" into input field "From" in amount filter
+    And Enter text "10322,15" into input field "To" in amount filter
+
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Transaction filter"
+    And Click on element by id "nlb-button-primary"
+
+    And Wait for element by id "nlb-title" to appear
+
+    Then Assert filtered amounts have values between "5150.11" and "10322.15"
 
     Examples:
       | rowindex |
@@ -203,10 +229,10 @@ Feature: Current_Domestic_Accounts
     #And Change language to english
     When Click "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     When Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "second_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
     And Assert list of element by id "nlb-item-row" is displayed
     And Assert Transaction filter button in Product
@@ -284,7 +310,7 @@ Feature: Current_Domestic_Accounts
     And Wait for My NLB screen to load
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     When Wait for first transaction to load
     And Click Transaction filter button in Product
@@ -331,7 +357,7 @@ Feature: Current_Domestic_Accounts
     And Wait for My NLB screen to load
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_bban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     When Wait for first transaction to load
     And Click Transaction filter button in Product
@@ -349,6 +375,8 @@ Feature: Current_Domestic_Accounts
     And Click on element by text "Clear filters"
     And Assert element by text "1,00 - 5,00" is not displayed
     And Assert element by text "Incoming transactions" is not displayed
+    #TODO -filter jedan po jedan clear, pa onda sva tri pa clear
+
     Examples:
       | rowindex |
       | 4        |
@@ -509,7 +537,7 @@ Feature: Current_Domestic_Accounts
     And Click on element by text "Details"
     And Assert Account details card is displayed correctly
     And Click on element by desc "Copy account details"
-    And Assert content in clipboard is correct
+    And Assert content in clipboard is correct excel "<rowindex>" account "currentDomesticAccountBBAN"
 
 
 

@@ -13,10 +13,10 @@ Feature: Current_Accounts
     When Click "My Products"
     And Wait for element by text "Edit list"
     #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "third_personal_account_bban" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
 
     And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "third_personal_account_bban"
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
     When Click on first transaction
 

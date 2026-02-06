@@ -86,7 +86,7 @@ Feature: Domestic_Payments
     And Click on element by contains text "Yes"
     And Assert element by contains text "Payments"
 
-    #review step -isti koraci, kad proradi payment otkomentarisati i dodati provjeru da su podaci ostali isti nakon Cancel
+    #TODO review step -isti koraci, kad proradi payment otkomentarisati i dodati provjeru da su podaci ostali isti nakon Cancel
 
     #    And Click on element by contains text "Own account Transfer"
     #    And Enter text "100" in element id "nlb-amount-with-currency-field"

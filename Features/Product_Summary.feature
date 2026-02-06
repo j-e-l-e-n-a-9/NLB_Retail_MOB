@@ -15,12 +15,12 @@ Feature: Product_Summary
     And Click on element by text "Set favorite account"
     And Wait for element by text "Apply"
     And Assert element by text "Default sorting"
-    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_iban"
     And Click on element by text "Apply"
     And Wait for element by text "Edit products view"
     And Click on element by desc "Back"
     And Wait for element by text "My Products"
-    Then Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "second_personal_account_bban"
+    Then Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "second_personal_account_iban"
 
     Examples:
       | rowindex |
@@ -99,7 +99,7 @@ Feature: Product_Summary
 
     #@Products - Current account
 
-    And Change the name od product from Excel "<rowindex>" column "second_personal_account_bban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    And Change the name od product from Excel "<rowindex>" column "second_personal_account_iban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     And Click on element by text "Apply"
     And Scroll down until element with text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" is in view
     And Assert element by contains text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -107,8 +107,8 @@ Feature: Product_Summary
     And Delete name of product "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     And Click on element by text "Apply"
 
-    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
-    And Assert product from Excel "<rowindex>" with bban "second_personal_account_bban" has name "second_personal_account_name"
+    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
+    And Assert product from Excel "<rowindex>" with bban "second_personal_account_iban" has name "second_personal_account_name"
 
 
     Examples:
@@ -217,40 +217,40 @@ Feature: Product_Summary
     Examples:
       | rowindex |
       |        1 |
-
-  @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
-  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_5
-  #Loan
-
-
-    Given Open Application
-    #And Wait "100" seconds
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    #Open My products page
-    When Click "My Products"
-    And Wait for element by text "Edit list"
-    When Click on element by desc "Edit list"
-    And Wait for element by text "Edit products view"
-
-    #@Products - Loan
-
-    And Change the name od product from Excel "<rowindex>" column "loan_account_bban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    And Click on element by text "Apply"
-    And Scroll down until element with text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" is in view
-    And Assert element by contains text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    #Name of the product is reset to the original one
-    And Delete name of product "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    And Click on element by text "Apply"
-
-    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_bban" is in view
-    And Assert product from Excel "<rowindex>" with bban "loan_account_bban" has name "loan_account_name"
-
-
-
-    Examples:
-      | rowindex |
-      |        5 |
+#BUG - TRENUTNO NE RADI LOAN (NEMA NIKO LOAN)
+#  @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]
+#  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_5
+#  #Loan
+#
+#
+#    Given Open Application
+#    #And Wait "100" seconds
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    #Open My products page
+#    When Click "My Products"
+#    And Wait for element by text "Edit list"
+#    When Click on element by desc "Edit list"
+#    And Wait for element by text "Edit products view"
+#
+#    #@Products - Loan
+#
+#    And Change the name od product from Excel "<rowindex>" column "loan_account_bban" with invalid "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#    And Click on element by text "Apply"
+#    And Scroll down until element with text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" is in view
+#    And Assert element by contains text "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#    #Name of the product is reset to the original one
+#    And Delete name of product "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#    And Click on element by text "Apply"
+#
+#    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_bban" is in view
+#    And Assert product from Excel "<rowindex>" with bban "loan_account_bban" has name "loan_account_name"
+#
+#
+#
+#    Examples:
+#      | rowindex |
+#      |        5 |
 
   @Product_Summary_Edit_Product_View[MOB_ANDROID]
   Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
@@ -261,12 +261,12 @@ Feature: Product_Summary
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
   #And Change language to english
     When Click "My Products"
-    And Hide account from Excel "<rowindex>" columnName "second_personal_account_bban" V
-    Then Assert that product card of name "second_personal_account_name" and bban "second_personal_account_bban" from Excel "<rowindex>" is not displayed
+    And Hide account from Excel "<rowindex>" columnName "second_personal_account_iban" V
+    Then Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" is not displayed
     When Click "My NLB"
     When Click "My Products"
-    And Unhide account from Excel "<rowindex>" columnName "second_personal_account_name" if needed V
-    #TODO: Radi i ovaj assert, pada ako se manjaju imena racuna And Assert that product card of name "second_personal_account_name" and bban "second_personal_account_bban" from Excel "<rowindex>" for personal account are shown correctly V
+    And Unhide account from Excel "<rowindex>" columnName "second_personal_account_iban" if needed V
+    #TODO: Radi i ovaj assert, pada ako se manjaju imena racuna And Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
 
     Examples:
       | rowindex |
@@ -281,10 +281,10 @@ Feature: Product_Summary
 
     When Click "My Products"
 
-    Then Change name of product from Excel "<rowindex>" columnName "second_personal_account_bban" into "NLB Klasicni racun2" V
-    And Assert product from Excel "<rowindex>" with bban "second_personal_account_bban" has name "NLB Klasicni racun2" V
-    #And Change name of product from Excel "<rowindex>" columnName "second_personal_account_bban" into "Devizni platni račun" V
-    And Change name of "second_personal_account_bban" from Excel "<rowindex>" to previous name
+    Then Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "NLB Klasicni racun2" V
+    And Assert product from Excel "<rowindex>" with bban "second_personal_account_iban" has name "NLB Klasicni racun2" V
+    #And Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "Devizni platni račun" V
+    And Change name of "second_personal_account_iban" from Excel "<rowindex>" to previous name
 
     Examples:
       | rowindex |

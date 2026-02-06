@@ -11,6 +11,7 @@ Feature: Current_Foreign_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
+    And Scroll until element with IBAN from Excel "<rowindex>" columnName "second_personal_account_bban" is in the view
     When Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
@@ -22,7 +23,7 @@ Feature: Current_Foreign_Accounts
 
     Examples:
       | rowindex |
-      |        2 |
+      |        1 |
 
    @Current_Foreign_Accounts_Product_Details_Acccount_Details_[MOB_ANDROID]
    Scenario Outline: Current_Foreign_Accounts_Product_Details_Acccount_Details_[MOB_ANDROID]
@@ -32,6 +33,7 @@ Feature: Current_Foreign_Accounts
      And Click on Bottom navigation button "My Products"
      And Wait for element by id "nlb-button-edit-products" to appear
 
+     And Scroll until element with IBAN from Excel "<rowindex>" columnName "second_personal_account_bban" is in the view
      When Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert element by contains text "Details"
      And Click on element by text "Details"
@@ -43,6 +45,7 @@ Feature: Current_Foreign_Accounts
      And Assert that text "Account number" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "BIC" has first following sibling that contains text "KOBBRSBG"
+
    Examples:
      | rowindex |
      |        1 |

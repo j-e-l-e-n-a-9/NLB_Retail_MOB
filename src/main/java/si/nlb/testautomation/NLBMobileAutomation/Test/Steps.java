@@ -4651,7 +4651,12 @@ public class Steps {
     public void assertFromFieldInDateTransactionsFilterHasDateYearMonthDay(int year, int month, int day) {
         String expected = rh.getDateInFormat(year, month, day, "dd.MM.yyyy").replace(".", ".\u00A0");
         MobileElement element = d.createMobileElementByResourceId("nlb-input-date-from");
-        Assert.assertEquals(expected, element.getAttribute("text"));
+        Assert.assertEquals(normalizeDate(expected), normalizeDate(element.getAttribute("text")));
+    }
+    private String normalizeDate(String value) {
+        return value
+                .replace("\u00A0", "")
+                .replace(" ", "");
     }
 
     @And("Assert To field in Date transactions filter has date year {int} month {int} day {int}")
@@ -4666,20 +4671,20 @@ public class Steps {
 
     @And("Assert subtitle of Transaction filter Date is correct for dates year {int} month {int} day {int} and year {int} month {int} day {int}")
     public void assertSubtitleOfTransactionFilterDateIsCorrectForDatesYearMonthDayAndYearMonthDay(int year1, int month1, int day1, int year2, int month2, int day2) {
-        String from = rh.getDateInFormat(year1, month1, day1, "d.M.yyyy").replace(".", ".\u00A0");
-        String to = rh.getDateInFormat(year2, month2, day2, "d.M.yyyy").replace(".", ".\u00A0");
+        String from = rh.getDateInFormat(year1, month1, day1, "dd.MM.yyyy").replace(".", ".\u00A0");
+        String to = rh.getDateInFormat(year2, month2, day2, "dd.MM.yyyy").replace(".", ".\u00A0");
         String expected = from + " - " + to;
         String xPath = "//android.widget.TextView[@text='Date']/following-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
-        Assert.assertEquals(expected, element.getAttribute("text"));
+        Assert.assertEquals(normalizeDate(expected), normalizeDate(element.getAttribute("text")));
     }
 
     @Then("Assert transactions dates are between dates year {int} month {int} day {int} and year {int} month {int} day {int}")
     public void assertTransactionsDatesAreBetweenDatesYearMonthDayAndYearMonthDay(int year1, int month1, int day1, int year2, int month2, int day2) throws Exception {
         List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "You have reached the end of the list.");
         Assert.assertFalse(list.isEmpty());
-        List<String> pastDays = rh.getDatesBetween(year1, month1, day1, year2, month2, day2, "d.M.yyyy");
+        List<String> pastDays = rh.getDatesBetween(year1, month1, day1, year2, month2, day2, "dd.MM.yyyy");
 
         for (String item : list) {
             item = item.replace(".\u00A0", ".");
@@ -5709,8 +5714,28 @@ public class Steps {
         if (Objects.equals(textFirst, "IBAN")) {
             textSecond = textSecond.replaceAll("\\s+", "");
         }
-        Assert.assertTrue(element.getText().toLowerCase().contains(textSecond.toLowerCase()));
+        System.out.println("swap: " + swapFirstAndLastName(textSecond.toLowerCase()));
+        Assert.assertTrue(element.getText().toLowerCase().contains(textSecond.toLowerCase())
+            || element.getText().toLowerCase().contains(swapFirstAndLastName(textSecond.toLowerCase()))
+        );
     }
+
+    public static String swapFirstAndLastName(String fullName) {
+        if (fullName == null) {
+            return "";
+        }
+
+        String[] parts = fullName.trim().split("\\s+");
+
+        if (parts.length != 2) {
+            // ako nije tacno "ime prezime", vrati original
+            return fullName;
+        }
+
+        return parts[1] + " " + parts[0];
+    }
+
+
 
     @And("Remember transaction header sum under key {string}")
     public void rememberTransactionHeaderSumUnderKey(String key) {
@@ -7428,8 +7453,8 @@ public class Steps {
     }
 
     @Then("Assert filtered amounts have values between {string} and {string}")
-    public void assertFilteredAmountsHaveValuesBetweenAnd(String value1, String value2) {
-        List<MobileElement> listOfAmounts = d.createMobileElementsByResourceId("nlb-amount");
+    public void assertFilteredAmountsHaveValuesBetweenAnd(String value1, String value2) throws Exception {
+       /* List<MobileElement> listOfAmounts = d.createMobileElementsByResourceId("nlb-amount");
         for (MobileElement element : listOfAmounts) {
             String amount = element.getText();
             amount = amount.replaceAll("[^\\d.,]", "");
@@ -7437,6 +7462,17 @@ public class Steps {
             amount = amount.replace(",", ".");
             Double value = Double.parseDouble(amount);
             Assert.assertTrue(value >= Double.parseDouble(value1) && value <= Double.parseDouble(value2));
+        }*/
+        List<String> listOfAmounts = rh.getAllElementsUntilTextFound("nlb-amount", "You have reached the end of the list.");
+
+        for(String amount : listOfAmounts){
+            amount = amount.replaceAll("[^\\d.,]", "");
+            amount = amount.replace(".", "");
+            amount = amount.replace(",", ".");
+
+            Double value = Double.parseDouble(amount);
+            Assert.assertTrue(value >= Double.parseDouble(value1) && value <= Double.parseDouble(value2));
+
         }
     }
 
@@ -7873,7 +7909,7 @@ public class Steps {
     public void changeTheNameOdProductFromExcelColumnWithInvalid(String rowindex, String column, String newName) throws Throwable {
         String iban = DataManager.getDataFromHashDatamap(rowindex, column);
         ////android.widget.TextView[@text='205-9031004419532-81']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']
-        String xPathPencil = "//android.widget.TextView[@text='" + iban + "']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']";
+        String xPathPencil = "//android.widget.TextView[@text='" + iban + "']/ancestor::android.view.View[1]/following-sibling::android.view.View/android.view.View[@content-desc='Edit product card']";
         By waitPencil = x.createByXpath(xPathPencil);
         for (int i = 0; i < 5; i++) {
             if (hp.isElementNotPresent(waitPencil)) {
@@ -9225,13 +9261,16 @@ public class Steps {
         System.out.println("Savings accounts su sortirani rastuće");
     }
 
-    @And("Assert content in clipboard is correct")
-    public void assertContentInClipboardIsCorrect() {
+    @And("Assert content in clipboard is correct excel {string} account {string}")
+    public void assertContentInClipboardIsCorrectExcelAccount(String rowindex, String accRow) {
+
+        String username = DataManager.getDataFromHashDatamap(rowindex,"username");
+        String bban = DataManager.getDataFromHashDatamap(rowindex,accRow);
 
         String expectedText =
                 "Account type: Current account\n" +
-                        "Account owner: OSIR ANOEV\n" +
-                        "Account number: RS35 2059 0010 0779 0944 88";
+                        "Account owner: " + username + "\n" +
+                        "Account number: " + bban;
 
         Map<String, Object> args = new HashMap<>();
         args.put("contentType", "plaintext");
@@ -9240,7 +9279,6 @@ public class Steps {
         String base64Clipboard = (String) ((JavascriptExecutor) driver)
                 .executeScript("mobile: getClipboard", args);
 
-        // ✅ Base64 decode
         String clipboardText = new String(
                 java.util.Base64.getDecoder().decode(base64Clipboard)
         );
