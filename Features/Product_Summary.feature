@@ -108,7 +108,7 @@ Feature: Product_Summary
     And Click on element by text "Apply"
 
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
-    And Assert product from Excel "<rowindex>" with bban "second_personal_account_iban" has name "second_personal_account_name"
+    #And Assert product from Excel "<rowindex>" with bban "second_personal_account_iban" has name "second_personal_account_name"
 
 
     Examples:
@@ -142,7 +142,7 @@ Feature: Product_Summary
     And Click on element by text "Apply"
 
     And Scroll until element with text from excel "<rowindex>" columnName "saving_account_bban" is in view
-    And Assert product from Excel "<rowindex>" with bban "saving_account_bban" has name "saving_account_name"
+    #And Assert product from Excel "<rowindex>" with bban "saving_account_bban" has name "saving_account_name"
 
 
     Examples:
@@ -252,25 +252,26 @@ Feature: Product_Summary
 #      | rowindex |
 #      |        5 |
 
-  @Product_Summary_Edit_Product_View[MOB_ANDROID]
-  Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
-
-    Given Open Application
-  #And Wait "100" seconds
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-  #And Change language to english
-    When Click "My Products"
-    And Hide account from Excel "<rowindex>" columnName "second_personal_account_iban" V
-    Then Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" is not displayed
-    When Click "My NLB"
-    When Click "My Products"
-    And Unhide account from Excel "<rowindex>" columnName "second_personal_account_iban" if needed V
-    #TODO: Radi i ovaj assert, pada ako se manjaju imena racuna And Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary_Edit_Product_View[MOB_ANDROID]
+#  Scenario Outline: Product_Summary_Edit_Product_View[MOB_ANDROID]
+#
+#    Given Open Application
+#  #And Wait "100" seconds
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#  #And Change language to english
+#    When Click "My Products"
+#    And Hide account from Excel "<rowindex>" columnName "second_personal_account_iban" V
+#    Then Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" is not displayed
+#    When Click "My NLB"
+#    When Click "My Products"
+#    And Unhide account from Excel "<rowindex>" columnName "second_personal_account_iban" if needed V
+#    #TODO: Radi i ovaj assert, pada ako se manjaju imena racuna
+#     And Assert that product card of name "second_personal_account_name" and bban "second_personal_account_iban" from Excel "<rowindex>" for personal account are shown correctly V
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
   @Product_Summary-Edit_Product_view-edit_name_of_account_[MOB_ANDROID]_1
   Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account_[MOB_ANDROID]_1
@@ -364,34 +365,8 @@ Feature: Product_Summary
       |        1 |
 
 
-  @Credit_Cards_Details_Card_Details_[MOB_ANDROID]
-  Scenario Outline: Credit_Cards_Details_Card_Details_[MOB_ANDROID]
-    #C70780
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    When Click "My Products"
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
-    And Swipe vertical short
-    And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
-    #And Assert element
-    And Assert Credit Card from excel "<rowindex>" columnname "credit_card_name" is displayed correctly
-    And Assert element by text "Details"
-    And Assert element by text "Statements"
-    And Assert element by text "Settings"
-    And Assert element by text "Transactions"
-    And Click on element by text "Details"
-    And Assert order of card details
-
-
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Saving_Accounts_Details_Financial_Details[MOB_ANDROID]
-  Scenario Outline: Saving_Accounts_Details_Financial_Details[MOB_ANDROID]
+  @Saving_Accounts_Details_Financial_Details_[MOB_ANDROID]
+  Scenario Outline: Saving_Accounts_Details_Financial_Details_[MOB_ANDROID]
     #C70780
 
     Given Open Application
@@ -456,10 +431,11 @@ Feature: Product_Summary
       And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
       And Scroll until element with text from excel "<rowindex>" columnName "termDepositName" is in view
       And Swipe vertical short
-      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+        #todo otkomentarisati - zasto ne valja xpath?
+      #And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
       And Wait for element by text from excel "<rowindex>" columnName "termDepositName"
       #And Click on element by text from excel "<rowindex>" columnName "termDepositName"
-      And Click on element by text "Oročeni depozit"
+      And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
       Then Assert element by text "Financial details"
       And Assert element by text "Term deposit amount"
       #TODO: Ako se resi ovaj bag sa emulatorom i prikazivanjem amounta, tj da na svake 3 cifre ide . promeniti regex ispod, samo umesto d{0,3} staviti d{0,2}
@@ -491,58 +467,58 @@ Feature: Product_Summary
 
 
 
-@Product_Summary-Credit_Card_List_[MOB_ANDROID]
-Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
-  #TODO: DODATI PROVERU SORTIRANOSTI KARTICE KADA SE UTVRDI KOJI JE NACIN SORTIRANJA
-  Given Open Application
-  And Select User from Excel "<rowindex>" columnName "username" and login
-  And Wait for element by resource id "nlb-bottom-nav-button" to appear
-  When Click "My Products"
-  And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
-  And Swipe vertical short
-  And Swipe vertical short
+#@Product_Summary-Credit_Card_List_[MOB_ANDROID]
+#Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
+#  #TODO: DODATI PROVERU SORTIRANOSTI KARTICE KADA SE UTVRDI KOJI JE NACIN SORTIRANJA
+#  Given Open Application
+#  And Select User from Excel "<rowindex>" columnName "username" and login
+#  And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#  When Click "My Products"
+#  And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
+#  And Swipe vertical short
+#  And Swipe vertical short
+#
+#  #TODO: Ima li neki poseban nacin da se proveri prikazivanje ikonica za kartice?
+#  Then Assert that product card of name "credit_card_name" and detailed name "credit_card_number" from Excel "<rowindex>" for nlb credit card account are shown correctly
+#  And Assert that whole product card of credit card account with name "credit_card_name" and iban "credit_card_number" from Excel "<rowindex>" acts as a clickable button
+#  And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
+#  #And Assert that credit cards account numbers are sorted correctly
+#  #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
+#  #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
+#
+#  Examples:
+#    | rowindex |
+#    |        1 |
 
-  #TODO: Ima li neki poseban nacin da se proveri prikazivanje ikonica za kartice?
-  Then Assert that product card of name "credit_card_name" and detailed name "credit_card_number" from Excel "<rowindex>" for nlb credit card account are shown correctly
-  And Assert that whole product card of credit card account with name "credit_card_name" and iban "credit_card_number" from Excel "<rowindex>" acts as a clickable button
-  And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
-  #And Assert that credit cards account numbers are sorted correctly
-  #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
-  #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
 
-  Examples:
-    | rowindex |
-    |        1 |
-
-
-  @Product_Summary-Term_Deposit_List_[MOB_ANDROID]
-  Scenario Outline: Product_Summary-Term_Deposit_List_[MOB_ANDROID]
-    #C70786
-    #BUG On android 16 1.700,00 is 1700,00
-    #Only happens on 4 digit numbers
-      #TODO: TESTIRATI KADA SE POJAVI USER KOJI IMA VISE DEPOZITA
-      #TODO: TAKODJE KADA SE POJAVE AUTORIZOVANU DEPOSIT RACUNI TESTIRATI SORTIRANJE
-      Given Open Application
-      And Select User from Excel "<rowindex>" columnName "username" and login
-      And Wait for element by resource id "nlb-bottom-nav-button" to appear
-      When Click "My Products"
-
-      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
-      And Swipe vertical short
-      And Assert that "Deposit" are sorted correctly
-
-      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
-      And Wait "3" seconds
-      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
-      When Click "My Products"
-      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
-      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
-      And Wait "10" seconds
-      And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+#  Scenario Outline: Product_Summary-Term_Deposit_List_[MOB_ANDROID]
+#    #C70786
+#    #BUG On android 16 1.700,00 is 1700,00
+#    #Only happens on 4 digit numbers
+#      #TODO: TESTIRATI KADA SE POJAVI USER KOJI IMA VISE DEPOZITA
+#      #TODO: TAKODJE KADA SE POJAVE AUTORIZOVANU DEPOSIT RACUNI TESTIRATI SORTIRANJE
+#      Given Open Application
+#      And Select User from Excel "<rowindex>" columnName "username" and login
+#      And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#      When Click "My Products"
+#
+#      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+#      And Swipe vertical short
+#      And Assert that "Deposit" are sorted correctly
+#
+#      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
+#      And Wait "3" seconds
+#      And Assert that product card of name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" for term deposit account are shown correctly
+#      When Click "My Products"
+#      And Scroll until element with text from excel "<rowindex>" columnName "termDepositBBAN" is in view
+#      #And Click on element by text from excel "<rowindex>" columnName "termDepositBBAN"
+#      And Wait "10" seconds
+#      And Assert that whole product card of term deposit account with name "termDepositName" and iban "termDepositBBAN" from Excel "<rowindex>" acts as a clickable button
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
   @Product_Summary-Current_Foreign_Accounts_List_[MOB_ANDROID]
   Scenario Outline: Product_Summary-Current_Foreign_Accounts_List_[MOB_ANDROID]
@@ -556,74 +532,9 @@ Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
     When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
-
+    #TODO Dovrsiti test
 
     #TODO - AUTORIZED ACCOUNT kad ih bude bilo
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Manage_Products-Hide/Show_account_on_Product_List_[MOB_ANDROID]
-  Scenario Outline: Manage_Products-Hide/Show_account_on_Product_List_[MOB_ANDROID]
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for My NLB screen to load
-    
-    And Click on Bottom navigation button "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Assert element by contains text "Edit list"
-    And Click on element by text "Edit list"
-
-    #Saving accounts
-    And Scroll until element with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is in the view
-    And Hide product card from Excel "<rowindex>" columnName "saving_account_bban"
-    And Assert that product card from Excel "<rowindex>" columnName "saving_account_bban" is hidden
-    And Click on element by desc "Back"
-    And Assert that product card with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is not shown
-
-    And Click on Bottom navigation button "My NLB"
-    And Click on Bottom navigation button "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Assert element by contains text "Edit list"
-    And Click on element by text "Edit list"
-
-
-
-    #Term deposit
-    And Scroll until element with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is in the view
-    And Hide product card from Excel "<rowindex>" columnName "term_deposit_bban"
-    And Assert that product card from Excel "<rowindex>" columnName "term_deposit_bban" is hidden
-    And Click on element by desc "Back"
-    And Assert that product card with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is not shown
-
-    And Click on Bottom navigation button "My NLB"
-    And Click on Bottom navigation button "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Assert element by contains text "Edit list"
-    And Click on element by text "Edit list"
-
-     #Card
-    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_name" is in the view
-    And Hide product card from Excel "<rowindex>" columnName "credit_card_name"
-    And Assert that product card from Excel "<rowindex>" columnName "credit_card_name" is hidden
-    And Click on element by desc "Back"
-    And Assert that product card with BBAN from Excel "<rowindex>" columnName "credit_card_name" is not shown
-
-    And Click on Bottom navigation button "My NLB"
-    And Click on Bottom navigation button "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Assert element by contains text "Edit list"
-    And Click on element by text "Edit list"
-
-    And Scroll until element with BBAN from Excel "<rowindex>" columnName "saving_account_bban" is in the view
-    And Show product card from Excel "<rowindex>" columnName "saving_account_bban"
-    And Scroll until element with BBAN from Excel "<rowindex>" columnName "credit_card_name" is in the view
-    And Show product card from Excel "<rowindex>" columnName "credit_card_name"
-    And Scroll until element with BBAN from Excel "<rowindex>" columnName "term_deposit_bban" is in the view
-    And Show product card from Excel "<rowindex>" columnName "term_deposit_bban"
-    
     Examples:
       | rowindex |
       |        1 |

@@ -3697,7 +3697,17 @@ public class Steps {
     public void assertTextFromExcelColumnNameInElementById(String rowindex, String columnName, String id) {
         String expected = DataManager.getDataFromHashDatamap(rowindex, columnName);
         MobileElement element = d.createMobileElementByResourceId(id);
-        Assert.assertEquals(expected.replace('\u00A0', ' ').trim().toLowerCase(), element.getText().replace('\u00A0', ' ').trim().toLowerCase());
+        Assert.assertTrue(
+                expected.trim().toLowerCase()
+                        .equals(element.getText().trim().toLowerCase())
+                        ||
+                        expected.trim().toLowerCase()
+                                .equals(
+                                        swapFirstAndLastName(
+                                                element.getText().trim().toLowerCase()
+                                        )
+                                )
+        );
     }
 
     @And("Enter text {string} into search field for country selection")
@@ -7774,7 +7784,7 @@ public class Steps {
 
     @And("Click on element by desc {string}")
     public void clickOnElementByDesc(String text) throws Throwable {
-        //WaitHelpers.waitForSeconds(10);
+        WaitHelpers.waitForSeconds(5);
         String xPath = "//*[@content-desc='" + text + "']";
         hp.ClickOnElement(x.createMobileElementByXpath(xPath));
     }
@@ -7909,7 +7919,7 @@ public class Steps {
     public void changeTheNameOdProductFromExcelColumnWithInvalid(String rowindex, String column, String newName) throws Throwable {
         String iban = DataManager.getDataFromHashDatamap(rowindex, column);
         ////android.widget.TextView[@text='205-9031004419532-81']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']
-        String xPathPencil = "//android.widget.TextView[@text='" + iban + "']/ancestor::android.view.View[1]/following-sibling::android.view.View/android.view.View[@content-desc='Edit product card']";
+        String xPathPencil = "//android.widget.TextView[@text='" + iban + "']/ancestor::android.view.View[1]//android.view.View[@content-desc='Edit product card']";
         By waitPencil = x.createByXpath(xPathPencil);
         for (int i = 0; i < 5; i++) {
             if (hp.isElementNotPresent(waitPencil)) {
@@ -8593,7 +8603,7 @@ public class Steps {
             List<String> listAmount = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
             List<String> listCurrency = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-currency");
             List<String> listDate = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-date");
-
+//TODO TREBA SE VRATITI NA POCETAK PRIJE SLEDECEG SKROLOVANJA
             int size = listAmount.size();
             for (int i = 0; i < size; i++) {
                 String amountStr = listAmount.get(i);

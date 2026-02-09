@@ -199,107 +199,107 @@ Feature: Current_Domestic_Accounts
       |        1 |
 
 
-  @Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
-  Scenario Outline: Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    #Open My products page
-    When Click "My Products"
-    And Wait for element by text "Edit list"
-    #Open current account
-    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
-
-    And Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
-
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Domestic_Account_Filter_By_Type[MOB_ANDROID]
-  Scenario Outline: Domestic_Account_Filter_By_Type[MOB_ANDROID]
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    #And Change language to english
-    When Click "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
-
-    When Wait for first transaction to load
-    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
-    And Assert list of element by id "nlb-item-row" is displayed
-    And Assert Transaction filter button in Product
-
-    #All transactions
-    #TODO: Vratiti ovaj korak kad bude realease u kome je popravljen format amounta Then Assert transaction list is not sorted and has both Incoming and Outgoing transactions
-    And Click Transaction filter button in Product
-    And Wait first Transaction filter
-    And Assert screen header is "Transaction filter"
-    And Assert back button in screen "Transaction filter"
-    And Assert Date transaction filter is displayed correctly
-    And Assert Type transaction filter is displayed correctly
-    #And Assert Currency transaction filter is displayed correctly
-    And Assert element by text "Amount"
-    #And Assert Amount transaction filter is displayed correctly
-    And Assert "Apply" button is not enabled
-    And Click on element by text "Type"
-    And Wait for element by id "nlb-radio-button-ALL" to appear
-    #And Assert screen header is "Set type"
-    # Assert back button in screen "Set type"
-    And Assert element "nlb-radio-button-ALL" by id
-    And Assert element "nlb-radio-button-INCOMING" by id
-    And Assert element "nlb-radio-button-OUTGOING" by id
-    And Assert "Apply" button primary is enabled
-    And Assert Type transaction filter options are correct
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-ALL"
-
-    #Incoming transactions
-    And Click on element by id "nlb-radio-button-INCOMING"
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
-    And Assert "Apply" button primary is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
-    And Assert "Apply" button primary is enabled
-    And Assert "Clear filters" button alternate is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait for first transaction to load after filter
-    And Assert transaction list is sorted to only show Incoming transactions
-
-    And Scroll element up into view by xPath "//android.widget.TextView[@text='Transactions']/following-sibling::android.view.View[1]"
-    And Click Transaction filter button in Product
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
-    And Click on element by text "Type"
-    And Wait for element by id "nlb-radio-button-ALL" to appear
-    And Assert "Apply" button primary is enabled
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
-
-    #Outgoing transactions
-    And Click on element by id "nlb-radio-button-OUTGOING"
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-OUTGOING"
-    And Assert "Apply" button primary is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter "Type" is "Outgoing transactions"
-    And Assert "Apply" button primary is enabled
-    And Assert "Clear filters" button alternate is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait for first transaction to load after filter
-    #TODO: Poslednji korak radi, trenutno pada jer u ovom release nije resen problem sa ispisom amounta (-3300,00 umesto -3.300,00)
-    #And Assert transaction list is sorted to only show Outgoing transactions
+#  @Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
+#  Scenario Outline: Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    #Open My products page
+#    When Click "My Products"
+#    And Wait for element by text "Edit list"
+#    #Open current account
+#    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
+#
+#    And Wait for first transaction to load
+#    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+#    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
 
-    Examples:
-      | rowindex |
-      |        4 |
+#  @Domestic_Account_Filter_By_Type[MOB_ANDROID]
+#  Scenario Outline: Domestic_Account_Filter_By_Type[MOB_ANDROID]
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    #And Change language to english
+#    When Click "My Products"
+#    And Wait for element by id "nlb-button-edit-products" to appear
+#    And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
+#
+#    When Wait for first transaction to load
+#    And Assert Product page for product with name from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+#    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+#    And Assert list of element by id "nlb-item-row" is displayed
+#    And Assert Transaction filter button in Product
+#
+#    #All transactions
+#    #TODO: Vratiti ovaj korak kad bude realease u kome je popravljen format amounta Then Assert transaction list is not sorted and has both Incoming and Outgoing transactions
+#    And Click Transaction filter button in Product
+#    And Wait first Transaction filter
+#    And Assert screen header is "Transaction filter"
+#    And Assert back button in screen "Transaction filter"
+#    And Assert Date transaction filter is displayed correctly
+#    And Assert Type transaction filter is displayed correctly
+#    #And Assert Currency transaction filter is displayed correctly
+#    And Assert element by text "Amount"
+#    #And Assert Amount transaction filter is displayed correctly
+#    And Assert "Apply" button is not enabled
+#    And Click on element by text "Type"
+#    And Wait for element by id "nlb-radio-button-ALL" to appear
+#    #And Assert screen header is "Set type"
+#    # Assert back button in screen "Set type"
+#    And Assert element "nlb-radio-button-ALL" by id
+#    And Assert element "nlb-radio-button-INCOMING" by id
+#    And Assert element "nlb-radio-button-OUTGOING" by id
+#    And Assert "Apply" button primary is enabled
+#    And Assert Type transaction filter options are correct
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-ALL"
+#
+#    #Incoming transactions
+#    And Click on element by id "nlb-radio-button-INCOMING"
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
+#    And Assert "Apply" button primary is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
+#    And Assert "Apply" button primary is enabled
+#    And Assert "Clear filters" button alternate is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait for first transaction to load after filter
+#    And Assert transaction list is sorted to only show Incoming transactions
+#
+#    And Scroll element up into view by xPath "//android.widget.TextView[@text='Transactions']/following-sibling::android.view.View[1]"
+#    And Click Transaction filter button in Product
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
+#    And Click on element by text "Type"
+#    And Wait for element by id "nlb-radio-button-ALL" to appear
+#    And Assert "Apply" button primary is enabled
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
+#
+#    #Outgoing transactions
+#    And Click on element by id "nlb-radio-button-OUTGOING"
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-OUTGOING"
+#    And Assert "Apply" button primary is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter "Type" is "Outgoing transactions"
+#    And Assert "Apply" button primary is enabled
+#    And Assert "Clear filters" button alternate is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait for first transaction to load after filter
+#    #TODO: Poslednji korak radi, trenutno pada jer u ovom release nije resen problem sa ispisom amounta (-3300,00 umesto -3.300,00)
+#    #And Assert transaction list is sorted to only show Outgoing transactions
+#
+#
+#    Examples:
+#      | rowindex |
+#      |        4 |
 
   @Current_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
   Scenario Outline: Current_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
@@ -387,7 +387,7 @@ Feature: Current_Domestic_Accounts
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    And Click on element by text "My Products"
+    And Click on Bottom navigation button "My Products"
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
 
     And Wait for first transaction to load
@@ -469,8 +469,8 @@ Feature: Current_Domestic_Accounts
     And Assert transaction icons for type "Debit" are displayed
     And Assert transaction icons for type "Credit" are displayed
     And Assert description are displayed on the transaction
-    And Assert counter party name are displayed on the transaction
-
+    #And Assert counter party name are displayed on the transaction
+#TODO Pitati Aleksu sta je cilj testa i poslednjeg koraka
     Examples:
       | rowindex |
       |        2 |

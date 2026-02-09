@@ -1,7 +1,5 @@
 Feature: Payments
 
-
-
   @Payments-Scan_And_Pay-Camera_Permission_Reject_[MOB_ANDROID]
   Scenario Outline: Payments-Scan_And_Pay-Camera_Permission_Reject_[MOB_ANDROID]
 
@@ -19,18 +17,22 @@ Feature: Payments
       |Import from gallery|
 
     And Under prompt "Photo pay" choose option "Take photo"
+#Kad se prvi put pusta ima ovih opcija, sledeci put ne, jer je vec odabrano DONT ALLOW
 
-    #TODO
-    #promt za dozvolu
-    #biranje opcije Dont allow
-
+    #And Click on element by contains text "OK"
+    And Assert element by text "Allow KB TST to take pictures and record video?"
+    And Assert button by text "While using the app"
+    And Assert button by text "Only this time"
+    And Assert button by text "Don’t allow"
+    And Click on element by contains text "Don’t allow"
+    And Wait "3" seconds
     And Under prompt "Permission denied" there are options:
       |Close|
       |Settings|
     And Under prompt "Permission denied" choose option "Close"
 
-    #TODO Klikne se Ok, ali nema te opcije sad
+
 
     Examples:
       | rowindex |
-      |        1 |
+      |        2 |

@@ -34,6 +34,7 @@ Feature: Credit_Cards
     And Assert To field in Date transactions filter has date year 2025 month 11 day 8
     
     And Click on element by text "Apply"
+    And Wait "3" seconds
     And Assert "Apply" button primary is enabled
     And Assert "Clear filters" button alternate is enabled
     And Click on element by text "Apply"
@@ -139,9 +140,11 @@ Feature: Credit_Cards
 
 
 
-    And Wait "10" seconds
+    And Wait "15" seconds
     And Wait for first Transaction
-    And Assert that all transactions are between "10000" and "20000"
+    #And Assert that all transactions are between "10000" and "20000"
+    And Assert filtered amounts have values between "10000" and "20000"
+
 
 
     Examples:
@@ -227,3 +230,29 @@ Feature: Credit_Cards
     Examples:
       | rowindex |
       |        1 |
+
+
+#  @Credit_Cards_Details_Card_Details_[MOB_ANDROID]
+#  Scenario Outline: Credit_Cards_Details_Card_Details_[MOB_ANDROID]
+#    #C70780
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    When Click "My Products"
+#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
+#    And Swipe vertical short
+#    And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
+#    #And Assert element
+#    And Assert Credit Card from excel "<rowindex>" columnname "credit_card_name" is displayed correctly
+#    And Assert element by text "Details"
+#    And Assert element by text "Statements"
+#    And Assert element by text "Settings"
+#    And Assert element by text "Transactions"
+#    And Click on element by text "Details"
+#    And Assert order of card details
+#
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
