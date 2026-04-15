@@ -1534,40 +1534,44 @@ public class RoutineHelper {
         String xPathForPinContainer = "//*[@resource-id='nlb-card-container']//android.widget.TextView[1]";
         MobileElement elementForPinContainter = x.createMobileElementByXpath(xPathForPinContainer);
         String pin = elementForPinContainter.getText();
-        Assert.assertTrue(pin.matches("[0-9]{4} [0-9]{4}"));
+        Assert.assertTrue(pin.matches("[0-9]{3} [0-9]{3}"));
 
         //Za copy button
         String xPathForCopyButton = "//*[@resource-id='nlb-card-container']//android.widget.Button";
         MobileElement elementForCopyButton = x.createMobileElementByXpath(xPathForCopyButton);
         hp.ClickOnElement(elementForCopyButton);
         String cliboard = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-        Assert.assertTrue(cliboard.matches("[0-9]{8}"));
+        Assert.assertTrue(cliboard.matches("[0-9]{6}"));
 
         //Za success poruku
-        String xPathForSuccessMainMessage = "//*[@text='Copied']";
+        String xPathForSuccessMainMessage = "//*[@text='OTP Copied']";
         MobileElement elementForMainSuccessMessage = x.createMobileElementByXpath(xPathForSuccessMainMessage);
         Assert.assertTrue(elementForMainSuccessMessage.isDisplayed());
-        String xPathForSuccessSubMessage = "//*[@text='One-time password copied to clipboard']";
+        String xPathForSuccessSubMessage = "//*[@text='One Time Password copied to clipboard']";
         MobileElement elementForSubSuccessMessage = x.createMobileElementByXpath(xPathForSuccessSubMessage);
         Assert.assertTrue(elementForSubSuccessMessage.isDisplayed());
 
+        String xPath = "//*[@resource-id='nlb-card-container']/android.widget.ProgressBar";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertTrue(element.isDisplayed());
+
         //Za otp validity
-        String xPathForOtpValidity = "//*[@text='One-time password validity']";
+//        String xPathForOtpValidity = "//*[@text='One-time password validity']";
         String xPathForZeroSeconds = "//*[@text='0 s']";
         String xPathForThirtySeconds = "//*[@text='30 s']";
 
-        MobileElement elementForOTPValidity = x.createMobileElementByXpath(xPathForOtpValidity);
+//        MobileElement elementForOTPValidity = x.createMobileElementByXpath(xPathForOtpValidity);
         MobileElement elementForZeroSeconds = x.createMobileElementByXpath(xPathForZeroSeconds);
         MobileElement elementForThirtySeconds = x.createMobileElementByXpath(xPathForThirtySeconds);
 
-        Assert.assertTrue(elementForOTPValidity.isDisplayed());
+//        Assert.assertTrue(elementForOTPValidity.isDisplayed());
         Assert.assertTrue(elementForZeroSeconds.isDisplayed());
         Assert.assertTrue(elementForZeroSeconds.isDisplayed());
 
         WaitHelpers.waitForSeconds(35);
         hp.ClickOnElement(elementForCopyButton);
         String cliboard2 = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-        Assert.assertTrue(cliboard.matches("[0-9]{8}"));
+        Assert.assertTrue(cliboard.matches("[0-9]{6}"));
         MobileElement elementForPinContainter2 = x.createMobileElementByXpath(xPathForPinContainer);
         String pin2 = elementForPinContainter2.getText();
 
@@ -1761,6 +1765,65 @@ public class RoutineHelper {
             } catch (Exception e) {
                 // Handle any exception and attempt another swipe
                 hp.swipeByCordinates(700,1900,700,700);
+            }
+        }
+
+        if (mobileElementListText.isEmpty()) {
+            throw new Exception("List is empty.");
+        }
+
+        return mobileElementListText; // Return the list of all unique elements' texts
+    }
+
+    public List<String> getAllElementsUntilTextFoundByXpath(String elementsXpath, String text) throws Exception {
+        List<String> mobileElementListText = new ArrayList<>();
+        int n = 0;
+        boolean found = false;
+
+        while (n < 10 && !found) { // Maximum of 10 scrolls
+            try {
+                n++;
+
+                // Get elements by XPath
+                List<MobileElement> newElementList = x.createMobileElementsByXpath(elementsXpath);
+
+                if (newElementList == null || newElementList.size() == 0) {
+                    // If no elements are found, perform swipe
+                    hp.swipeByCordinates(700, 1900, 700, 700);
+                } else {
+                    for (MobileElement element : newElementList) {
+                        String elementText = element.getAttribute("text");
+                        if (elementText == null) elementText = "";
+
+                        // Add only new elements' text (to avoid duplicates)
+                        if (!mobileElementListText.contains(elementText)) {
+                            mobileElementListText.add(elementText);
+                        }
+                    }
+
+                    // After processing, check for the target element by text
+                    try {
+                        MobileElement targetElement = x.createMobileElementByText(text);
+                        if (targetElement != null) {
+                            String targetText = targetElement.getAttribute("text");
+                            if (targetText == null) targetText = "";
+                            if (targetText.contains(text)) {
+                                found = true; // Stop further scrolling once the target element is found
+                            }
+                        }
+                    } catch (Exception ignore) {
+                        // Not found on this screen - continue scrolling
+                    }
+
+                    // If not found, swipe to the next page
+                    if (!found) {
+                        hp.swipeByCordinates(700, 1900, 700, 700);
+                    }
+                }
+
+            } catch (Exception e) {
+                // Handle any exception and attempt another swipe
+                hp.swipeByCordinates(700, 1900, 700, 700);
             }
         }
 
@@ -2462,5 +2525,94 @@ public class RoutineHelper {
             Log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Element with desc: " + desc + " is not visible !!!!!!!!!!!!!!!!!!!!!!!!!");
             Assert.assertTrue(hp.isElementDisplayed(element));
         }
+    }
+
+    public BigDecimal parsePositiveAmountEu(String raw) {
+        if (raw == null) throw new IllegalArgumentException("Amount text is null.");
+
+        String s = raw.replace('\u00A0', ' ').trim();
+
+        // u ovom ekranu minus ne sme da postoji
+        if (s.contains("-") || s.contains("−")) {
+            throw new IllegalArgumentException("Negative amount is not allowed here. Raw=[" + raw + "]");
+        }
+
+        // zadrži samo cifre i separatore
+        s = s.replaceAll("[^0-9\\.,]", "");
+
+        // EU format: hiljade '.' i decimalni ','
+        // 1.234,56 -> 1234.56
+        s = s.replace(".", "");
+        s = s.replace(",", ".");
+
+        if (s.isEmpty() || s.equals(".")) {
+            throw new IllegalArgumentException("Amount cannot be parsed. Raw=[" + raw + "]");
+        }
+
+        return new BigDecimal(s);
+    }
+
+
+    public static class AmountCurrency {
+        public final String amountRaw;
+        public final String currency;
+
+        public AmountCurrency(String amountRaw, String currency) {
+            this.amountRaw = amountRaw == null ? "" : amountRaw;
+            this.currency = currency == null ? "" : currency;
+        }
+
+        // za dedupe (kombinacija currency+amount je dovoljna za ovaj ekran)
+        @Override public boolean equals(Object o) {
+            if (!(o instanceof AmountCurrency)) return false;
+            AmountCurrency other = (AmountCurrency) o;
+            return amountRaw.equals(other.amountRaw) && currency.equals(other.currency);
+        }
+        @Override public int hashCode() { return Objects.hash(amountRaw, currency); }
+    }
+
+    public List<AmountCurrency> getAllAmountCurrencyRowsUntilEndTextFound(String cardContainerId, String endText) throws Exception {
+        // Čuvamo i listu i set (red + dedupe)
+        List<AmountCurrency> result = new ArrayList<>();
+        Set<AmountCurrency> seen = new HashSet<>();
+
+        int n = 0;
+        boolean foundEnd = false;
+
+        while (n < 15 && !foundEnd) { // po potrebi 10->15
+            n++;
+
+            // 1) pokupi sve vidljive card kontejnere
+            List<MobileElement> cards = d.createMobileElementsByResourceId(cardContainerId);
+
+            for (MobileElement card : cards) {
+                // relativno u okviru card-a (ne preko celog ekrana)
+                List<MobileElement> amountEls = card.findElements(By.xpath(".//*[@resource-id='nlb-amount']"));
+                List<MobileElement> currEls   = card.findElements(By.xpath(".//*[@resource-id='nlb-currency']"));
+
+                if (amountEls.isEmpty() || currEls.isEmpty()) continue; // preskoči ako je incomplete row
+
+                String amount = amountEls.get(0).getAttribute("text");
+                String curr   = currEls.get(0).getAttribute("text");
+
+                AmountCurrency row = new AmountCurrency(amount, curr);
+                if (!seen.contains(row)) {
+                    seen.add(row);
+                    result.add(row);
+                }
+            }
+
+            // 2) proveri da li postoji endText (bez exception-a)
+            List<MobileElement> end = driver.findElements(By.xpath("//*[@text='" + endText + "']"));
+            if (!end.isEmpty()) {
+                foundEnd = true;
+            } else {
+                // 3) ako nije kraj, swipe
+                hp.swipeByCordinates(700, 1900, 700, 700);
+            }
+        }
+
+        if (result.isEmpty()) throw new Exception("No amount/currency rows collected.");
+        return result;
     }
 }

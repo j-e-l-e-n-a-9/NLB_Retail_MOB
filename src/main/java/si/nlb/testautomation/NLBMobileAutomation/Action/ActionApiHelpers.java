@@ -1396,4 +1396,61 @@ public class ActionApiHelpers {
 
         js.executeScript("mobile: clickGesture", params);
     }
+
+    public static void defocusIfNeeded() {
+        try {
+            if (driver instanceof io.appium.java_client.android.AndroidDriver) {
+                // 1) probaj da sakriješ tastaturu (ako je otvorena)
+//                try { driver.hideKeyboard(); } catch (Exception ignored) {}
+
+                // 2) tap na vrh ekrana (obično header / prazno)
+                org.openqa.selenium.Dimension size = driver.manage().window().getSize();
+                int x = size.width / 2;
+                int y = (int)(size.height * 0.10); // 10% od vrha
+                new io.appium.java_client.TouchAction<>(driver)
+                        .tap(io.appium.java_client.touch.offset.PointOption.point(x, y))
+                        .perform();
+            }
+        } catch (Exception ignored) {}
+    }
+
+    public void defocusIfInputFocused(AppiumDriver driver) {
+        try {
+            if (!(driver instanceof AndroidDriver)) return;
+
+            WebElement active = driver.switchTo().activeElement();
+            if (active == null) return;
+
+            String resId = "";
+            try { resId = active.getAttribute("resource-id"); } catch (Exception ignored) {}
+            if (resId == null) resId = "";
+
+            // Ako je fokus u tvojem inputu, izađi iz input moda (zatvori tastaturu / selekciju)
+            if (resId.startsWith("nlb-input-creditor-")) {
+                ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.BACK));
+                // dodatno: neki UI ostane u "selection" modu, pa još jedan back ume da pomogne
+                // ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.BACK));
+            }
+        } catch (Exception ignored) {}
+    }
+
+    public void scrollDownSafe(AppiumDriver driver) {
+        Dimension size = driver.manage().window().getSize();
+
+        // Sigurna zona: desnih ~20% ekrana, izbegava textbox u sredini
+        int left   = (int) (size.width  * 0.80);
+        int top    = (int) (size.height * 0.15);
+        int width  = (int) (size.width  * 0.18);
+        int height = (int) (size.height * 0.70);
+
+        Map<String, Object> args = new HashMap<>();
+        args.put("left", left);
+        args.put("top", top);
+        args.put("width", width);
+        args.put("height", height);
+        args.put("direction", "up");   // prst ide gore -> sadržaj ide dole
+        args.put("percent", 0.75);     // koliko “dug” scroll je
+
+        ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", args);
+    }
 }

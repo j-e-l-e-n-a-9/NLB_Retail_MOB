@@ -183,8 +183,6 @@ Feature: Credit_Cards
 
   @Credit_Cards-Tranasctions-Details_[MOB_ANDROID]
   Scenario Outline: Credit_Cards-Tranasctions-Details_[MOB_ANDROID]
-    #C71171
-    #Test ce pasti zbog postojanja Number of installments polja
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login

@@ -262,7 +262,7 @@ public class SelectByXpath {
         return createByXpath(xPath);
     }
 
-    public MobileElement createMobileElementById(String s) {
+    public MobileElement createMobileElementByIdDate(String s) {
         MobileElement element = null;
         String xPath = "//*[@resource-id=\"nlb-date\"]";
         if (Base.testPlatform.equals("iOS")){
@@ -275,7 +275,16 @@ public class SelectByXpath {
 
     }
 
+    public MobileElement createMobileElementById(String id) {
+        MobileElement element = null;
+        String xPath = "//*[@resource-id='" + id + "']";
+        if (Base.testPlatform.equals("iOS")){
+            element = (MobileElement) driver.findElementByXPath(xPath);
+        }
+        if (Base.testPlatform.equals("Android")){
+            element = (MobileElement) driver.findElementByXPath(xPath);
+        }
+        return element;
 
-    //endregion - iOS text -
-
+    }
 }

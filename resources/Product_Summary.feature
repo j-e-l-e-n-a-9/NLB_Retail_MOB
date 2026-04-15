@@ -369,7 +369,7 @@ Feature: Product_Summary
     When Click "My Products" content description from view tag "View"
 
     Then Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "NLB Klasicni racun2"
-    And Assert product from Excel "<rowindex>" with iban "second_personal_account_iban" has name "NLB Klasicni racun2"
+    And Assert product from Excel "<rowindex>" with bban "second_personal_account_iban" has name "NLB Klasicni racun2"
     And Change name of product from Excel "<rowindex>" columnName "second_personal_account_iban" into "NLB Klasicni racun"
 
     Examples:

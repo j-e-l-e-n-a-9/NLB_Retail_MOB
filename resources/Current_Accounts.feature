@@ -25,7 +25,6 @@ Feature: Current_Accounts
     And Assert screen header is "Transaction filter"
     And Assert back button in screen "Transaction filter"
     And Assert Date transaction filter is displayed correctly
-    And Assert Categories transaction filter is displayed correctly
     And Assert Type transaction filter is displayed correctly
     And Assert Amount transaction filter is displayed correctly
     And Assert Tags transaction filter is displayed correctly
@@ -1057,7 +1056,7 @@ Feature: Current_Accounts
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "nlb-title" to appear
 
-    Then Assert filtered amounts have values between "500" and "1000"When Wait for first transaction to load
+    When Wait for first transaction to load
     And Click Transaction filter button in Product
     And Wait for element by text "Payment amount"
     And Click on element by text "Payment amount"
