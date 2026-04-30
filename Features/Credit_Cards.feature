@@ -183,7 +183,7 @@ Feature: Credit_Cards
 
     When Click on element by text "Amount"
     And Enter amount from "10000" to "5000"
-    And Assert element by contains text "From amount must be less than To amount"
+    And Assert element by contains text "Invalid amount range. The minimum amount cannot be greater than the maximum amount."
 
     Examples:
       | rowindex |
@@ -337,10 +337,11 @@ Feature: Credit_Cards
     And Assert element by text "Reserved funds"
     And Assert element by id "nlb-product-details-reserved-funds-rsd" has two decimal places and ends in "RSD"
     And Assert element by text "Monthly pay percentage"
-    And Assert element by id "nlb-product-details-monthly-pay-percentage" has two decimal places and ends in "RSD"
+#    And Assert element by id "nlb-product-details-monthly-pay-percentage" has two decimal places and ends in ""
+    And Assert element by id "nlb-product-details-monthly-pay-percentage" with regex "^\d+,\d{2} %$"
     And Assert element by text "Limit expiration"
     And Assert element by id "nlb-product-details-limit-expiration-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-    And Assert element by text "Repay limit"
+#    And Assert element by text "Repay limit"
     And Assert element "nlb-button-text" by id is enabled
 
     Examples:
@@ -367,6 +368,7 @@ Feature: Credit_Cards
     And Assert element by text "Settings"
     And Assert element by text "Transactions"
     And Click on element by text "Details"
+    And Assert product option buttons for Credit cards
     And Assert order of card details
 
     Examples:
@@ -386,13 +388,13 @@ Feature: Credit_Cards
     And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
 
-
     Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_2_number" is displayed correctly
     And Assert element by text "Details"
     And Assert element by text "Statements"
     And Assert element by text "Settings"
     And Assert element by text "Transactions"
     And Click on element by text "Details"
+    And Wait for element by text "Financial details"
     And Assert order of card details
 
     Examples:

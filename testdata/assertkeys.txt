@@ -7,6 +7,7 @@ FP_006:CBOUTSJRME
 e_invoice_creditor_reference_noSpace:NRC
 e_invoice_purpose_code_noSpace:CMDT
 e_invoice_creditor_address:MOTNICA 3
+keyPurpose:FISMMFYGTL
 e_invoice_issuer_name_noSpace:SIMPS'SD.O.O.
 e_invoice_creditor_bic:LJBASI20XXX
 e_invoice_purpose_code:CMDT

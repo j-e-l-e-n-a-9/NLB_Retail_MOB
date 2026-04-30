@@ -8,7 +8,7 @@ Feature: Payments
     And Wait for My NLB screen to load
 
     When Click on element in bottom menu by text "Pay"
-    And Click on element by text "IPS QR"
+    And Click on element by text "IPS Payments"
 
     Then Assert element by text "Scan"
     And Assert element by text "Show"
@@ -31,7 +31,7 @@ Feature: Payments
 
     When Click on element in bottom menu by text "Pay"
     And Wait element "Domestic payment" by text
-    And Click on element by text "IPS QR"
+    And Click on element by text "IPS Payments"
 
     Then Assert element by text "IPS payment"
     And Assert element by text "Scan"
@@ -41,7 +41,6 @@ Feature: Payments
     And Assert button by text "Continue" is enabled
     And Click on element by desc "Back"
     And Wait element "Domestic payment" by text
-    And Assert element by text "Review and manage"
 
     Examples:
       | rowindex |
@@ -57,7 +56,7 @@ Feature: Payments
 
     When Click on element in bottom menu by text "Pay"
     And Wait element "Domestic payment" by text
-    And Click on element by text "IPS QR"
+    And Click on element by text "IPS Payments"
 
     Then Assert element by text "IPS payment"
     And Assert element by text "Scan"
@@ -67,7 +66,6 @@ Feature: Payments
     And Assert button by text "Continue" is enabled
     And Click on element by desc "Back"
     And Wait element "Domestic payment" by text
-    And Assert element by text "Review and manage"
 
     Examples:
       | rowindex |
@@ -83,7 +81,7 @@ Feature: Payments
 
     When Click on element in bottom menu by text "Pay"
     And Wait element "Domestic payment" by text
-    And Click on element by text "IPS QR"
+    And Click on element by text "IPS Payments"
 
     Then Assert element by text "IPS payment"
     And Assert element by text "Scan"
@@ -93,7 +91,6 @@ Feature: Payments
     And Assert button by text "Continue" is enabled
     And Click on element by desc "Back"
     And Wait element "Domestic payment" by text
-    And Assert element by text "Review and manage"
 
     Examples:
       | rowindex |

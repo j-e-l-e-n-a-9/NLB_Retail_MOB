@@ -90,13 +90,13 @@ Feature: Product_Summary
     And Wait for first product in My products page
 #    And Assert that products in My products page is loaded
 
-    Then Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
+    Then Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number" is in view
     And Assert Term deposits icons is displayed
     And Assert Term deposits product names is displayed
     And Assert Term deposits account numbers is displayed
     #TO DO: Odkomentarisi korak ispod kada se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
     And Assert Term deposits current loan balance is displayed
-    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number"
     And Wait element "Financial details" by text
     And Assert element by text "Financial details"
     And Assert element by text "Account details"
@@ -305,6 +305,7 @@ Feature: Product_Summary
     Then Change name of product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" into "automatizacija domestic account android"
     And Assert product from Excel "<rowindex>" with bban "currentDomesticAccountBBAN" has name "automatizacija domestic account android"
     And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
     And Click on element by desc "Back"
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
@@ -316,6 +317,10 @@ Feature: Product_Summary
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountName"
+    And Click "Back" content description
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountName"
 
     Examples:
@@ -336,6 +341,7 @@ Feature: Product_Summary
     Then Change name of product from Excel "<rowindex>" columnName "personal_account_iban" into "automatizacija foreign account android"
     And Assert product from Excel "<rowindex>" with bban "personal_account_iban" has name "automatizacija foreign account android"
     And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
     And Click on element by desc "Back"
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
@@ -347,38 +353,11 @@ Feature: Product_Summary
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
     And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
-    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
-
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
-  Scenario Outline: Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-
-    When Click "My Products"
-    And Wait element "Edit list" by text
-
-    Then Change name of product from Excel "<rowindex>" columnName "credit_card_2_number" into "automatizacija kreditne kartice android"
-    And Assert product from Excel "<rowindex>" with bban "credit_card_2_number" has name "automatizacija kreditne kartice android"
-    And Wait "4" seconds
-    And Click on element by desc "Back"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_name"
+    And Click "Back" content description
     And Wait for first product in My products page
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Assert element by text "automatizacija kreditne kartice android"
-    And Scroll up until element with text "Edit list" is in view
-    And Click on element by text "Edit list"
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
-    And Click on element by desc 'Alt="Clear field"'
-    And Click on element by text "Apply"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_name"
 
     Examples:
       | rowindex |
@@ -398,6 +377,7 @@ Feature: Product_Summary
     Then Change name of product from Excel "<rowindex>" columnName "saving_account_number" into "automatizacija savings account android"
     And Assert product from Excel "<rowindex>" with bban "saving_account_number" has name "automatizacija savings account android"
     And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
     And Click on element by desc "Back"
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
@@ -412,7 +392,11 @@ Feature: Product_Summary
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
     And Assert element by text from excel "<rowindex>" columnName "saving_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Assert element by text from excel "<rowindex>" columnName "saving_account_name"
+    And Click "Back" content description
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
+    And Assert element by text from excel "<rowindex>" columnName "saving_account_name"
 
     Examples:
       | rowindex |
@@ -432,22 +416,23 @@ Feature: Product_Summary
     Then Change name of product from Excel "<rowindex>" columnName "term_deposit_number2" into "automatizacija orocena stednja android"
     And Assert product from Excel "<rowindex>" with bban "term_deposit_number2" has name "automatizacija orocena stednja android"
     And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
     And Click on element by desc "Back"
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
     And Assert element by text "automatizacija orocena stednja android"
     And Scroll up until element with text "Edit list" is in view
-    And Click on element by text "My NLB"
-    And Wait for My NLB screen to load
-    And Click on element by text "My Products"
-    And Wait for first product in My products page
     And Click on element by text "Edit list"
     And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
     And Click on Edit button for account with text from Excel "<rowindex>" columnName "term_deposit_number2"
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
     And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
-    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Assert element by text from excel "<rowindex>" columnName "term_deposit_name"
+    And Click "Back" content description
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
+    And Assert element by text from excel "<rowindex>" columnName "term_deposit_name"
 
     Examples:
       | rowindex |
@@ -467,22 +452,24 @@ Feature: Product_Summary
     Then Change name of product from Excel "<rowindex>" columnName "loan_account_number" into "automatizacija kredita android"
     And Assert product from Excel "<rowindex>" with bban "loan_account_number" has name "automatizacija kredita android"
     And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
     And Click on element by desc "Back"
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert element by text "automatizacija kredita android"
     And Scroll up until element with text "Edit list" is in view
-    And Click on element by text "My NLB"
-    And Wait for My NLB screen to load
-    And Click on element by text "My Products"
-    And Wait for first product in My products page
     And Click on element by text "Edit list"
+    And Swipe vertical
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Click on Edit button for account with text from Excel "<rowindex>" columnName "loan_account_number"
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Click "Back" content description
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
 
     Examples:
       | rowindex |
@@ -587,6 +574,38 @@ Feature: Product_Summary
     Examples:
       | rowindex |
       |        2 |
+
+
+  @Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
+  Scenario Outline: Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait element "Edit list" by text
+
+    Then Change name of product from Excel "<rowindex>" columnName "credit_card_2_number" into "automatizacija kreditne kartice android"
+    And Assert product from Excel "<rowindex>" with bban "credit_card_2_number" has name "automatizacija kreditne kartice android"
+    And Wait "4" seconds
+    And Wait for element with "Back" content description from view tag "View"
+    And Click on element by desc "Back"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+    And Assert element by text "automatizacija kreditne kartice android"
+    And Scroll up until element with text "Edit list" is in view
+    And Click on element by text "Edit list"
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
+    And Click on element by desc 'Alt="Clear field"'
+    And Click on element by text "Apply"
+    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+
+    Examples:
+      | rowindex |
+      |        1 |
 
 
   @Product_Summary_Edit_Product_View_[MOB_ANDROID]

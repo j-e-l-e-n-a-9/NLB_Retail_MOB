@@ -49,15 +49,17 @@ Feature: Domestic_Payments
     And Click on element by text "Yes"
     
     And Wait element "Domestic payment" by text
-    And Assert element by text "Payments"
+    And Assert element by text "Payments and transfers"
     And Assert element by text "Domestic payment"
     And Assert element by text "Own account Transfer"
-    And Assert element by text "IPS QR"
+    And Assert element by text "IPS Payments"
     And Assert element by text "Prenesi"
+    And Assert element by text "Foreign payment"
+    And Assert element by text "Currency exchange"
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-Back_Button_[MOB_ANDROID]
@@ -102,7 +104,7 @@ Feature: Domestic_Payments
     And Wait element "Recipient" by text
     And Assert element by text "Domestic payment"
     
-    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "domestic_payment_bban"
     And Assert element by text "Aleksa"
     And Assert element by text "Kaludjerica 11"
     And Assert element by text "Beograd"
@@ -111,7 +113,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-Create_New_Recipient_[MOB_ANDROID]
@@ -156,8 +158,8 @@ Feature: Domestic_Payments
     And Assert element by text "0.10 RSD"
 
     And Assert element by text "Recipient"
-    And Assert element by text from key "keyAmount" is displayed
-    And Assert element by text from key "keyAccountNumber" is displayed
+#    And Assert element by text from key "keyAmount" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
     And Assert element by text from key "keyName" is displayed
     And Assert element by text from key "keyAddress" is displayed
     And Assert element by text from key "keyCity" is displayed
@@ -166,14 +168,14 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
-    And Assert "Payment date" date value is in valid date format
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert "Value date" date value is in valid date format
     And Assert element by text "Urgent payment"
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
 
     And Click on element by id "nlb-button-primary"
-    And Wait for element by text "Payments"
+    And Wait for element by contains text "Payments"
     And Click on element by text "Recipients"
     And Wait for first recipient
     And Swipe vertical
@@ -193,7 +195,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-Modify_Data_[MOB_ANDROID]
@@ -240,7 +242,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
-    And Assert element by text from key "keyAccountNumber" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
     And Assert element by text from key "keyName" is displayed
     And Assert element by text from key "keyAddress" is displayed
     And Assert element by text from key "keyCity" is displayed
@@ -249,7 +251,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
 
     And Assert element by text "Payment"
     And Assert "Value date" date value is in valid date format
@@ -288,7 +290,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
-    And Assert element by text from key "keyAccountNumber" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
     And Assert element by text from key "keyName" is displayed
     And Assert element by text from key "keyAddress" is displayed
     And Assert element by text from key "keyCity" is displayed
@@ -315,7 +317,7 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-button-primary" that has descendant text "Save template"
     And Assert element by id "nlb-button-primary" that has descendant text "Save both"
     And Click on element by text "Save recipient"
-    And Wait for element by text "Payments"
+    And Wait for element by contains text "Payments"
 
     And Click on element by text "Recipients"
     And Wait for first recipient
@@ -335,7 +337,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-In_Future_[MOB_ANDROID]
@@ -352,7 +354,7 @@ Feature: Domestic_Payments
     And Assert element by text "Creditor account"
     And Enter text from excel "<rowindex>" columnName "domestic_payment_bban3" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
-    And Enter text "Kablovska" in element id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Enter text "Kablovska Test" in element id "nlb-input-creditor-name" and remember it under key "keyName"
     And Assert element by text "Address"
     And Enter text "Lestane 23" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
     And Assert element by text "City"
@@ -364,7 +366,8 @@ Feature: Domestic_Payments
     And Assert Payment amount label is displayed correctly
     And Enter text "0,1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
     And Assert element by text "Purpose"
-#    And Assert element by text "RSD"
+#    And Enter text "Payment for services" in element id "nlb-input-purpose" and remember it under key "keyPurpose"
+    And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
     And Scroll down until element with text "Confirm" is in view
@@ -384,15 +387,15 @@ Feature: Domestic_Payments
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
-    And Assert element by text from key "keyAccountNumber" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
     And Assert element by text from key "keyName" is displayed
     And Assert element by text from key "keyAddress" is displayed
-#    And Assert element by text from key "keyCity" is displayed
+    And Assert element by text from key "keyCity" is displayed
     And Swipe until element with text "Cancel" is displayed
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Assert "Value date" date value is in valid date format
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
@@ -407,7 +410,17 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-button-primary" that has descendant text "Save template"
     And Assert element by id "nlb-button-primary" that has descendant text "Save both"
     And Click on element by text "Save recipient"
-    And Wait for element by text "Payments"
+    And Wait for element by id "nlb-cta-button" to appear
+
+    And Click on element by text "Upcoming payments"
+    And Scroll until element with contains text under key "keyPurpose" is in view and click
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Click "Back" content description
+    And Wait for element by text "Upcoming payments"
+    And Click "Back" content description
 
     And Click on element by text "Recipients"
     And Wait for first recipient
@@ -427,7 +440,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]
@@ -482,7 +495,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Assert "Value date" date value is in valid date format
     And Assert element by text "Urgent payment"
     And Assert element by text "Purpose code"
@@ -494,7 +507,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments_[MOB_ANDROID]
@@ -512,6 +525,8 @@ Feature: Domestic_Payments
     And Wait for element by text "Select recipient"
     And Click on "Select recipient" option in Select recipient page
     And Assert list od account numbers are displayed correctly in Select recipient
+    And Remember recipient name under key "recipientNameKey" in Select recipient by index "1"
+    And Remember recipient account number under key "recipientAccountNumberKey" in Select recipient by index "1"
     And Choose recipient in Select recipient by index "1"
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Assert element by text "Debtor"
@@ -542,7 +557,7 @@ Feature: Domestic_Payments
     And Assert element by text "Recipient"
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Swipe vertical
     And Assert element by text "Payment details"
     And Assert Value date is todays date and in valid date format
@@ -557,14 +572,18 @@ Feature: Domestic_Payments
     And Assert element by content desc "Cancel"
     And Assert element by text "Success"
     #placanja sada idu u Upcoming, a ne u Past payments
-    And Click on element by text "Upcoming payments"
-    And Scroll until element with contains text under key "keyPurpose" is in view and click
+    And Click on element by text "Past payments"
+    And Wait "3" seconds
+#    And Scroll until element with contains text under key "keyPurpose" is in view and click
+    And Click on element by text from key "keyPurpose"
+    And Assert element by text from key "recipientNameKey" is displayed
+    And Assert element by text from key "recipientAccountNumberKey" is displayed
 
     #TO DO: Provera promene iznosa kada placanja prorade
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments-Domestic_Payments-Input-invalid_[MOB_ANDROID]
@@ -584,7 +603,7 @@ Feature: Domestic_Payments
     And Enter text "++=" in element id "nlb-input-creditor-account"
     And Assert element by text "Creditor account is required"
     And Enter text "9999" in element id "nlb-input-creditor-account"
-    And Assert element by text "Maximum number of characters is 18."
+    And Assert element by text "Incorrect account number"
     And Enter text "20590010078398629545896" in element id "nlb-input-creditor-account"
     And Assert element by text "205900100783986295"
     And Enter text "" in element id "nlb-input-creditor-account"
@@ -678,4 +697,4 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |

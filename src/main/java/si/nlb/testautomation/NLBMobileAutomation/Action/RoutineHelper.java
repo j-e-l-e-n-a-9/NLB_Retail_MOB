@@ -1566,7 +1566,7 @@ public class RoutineHelper {
 
 //        Assert.assertTrue(elementForOTPValidity.isDisplayed());
         Assert.assertTrue(elementForZeroSeconds.isDisplayed());
-        Assert.assertTrue(elementForZeroSeconds.isDisplayed());
+        Assert.assertTrue(elementForThirtySeconds.isDisplayed());
 
         WaitHelpers.waitForSeconds(35);
         hp.ClickOnElement(elementForCopyButton);
@@ -2551,7 +2551,6 @@ public class RoutineHelper {
 
         return new BigDecimal(s);
     }
-
 
     public static class AmountCurrency {
         public final String amountRaw;

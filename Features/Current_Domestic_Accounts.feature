@@ -19,8 +19,9 @@ Feature: Current_Domestic_Accounts
     And Assert Search field is displayed
 
 #    Then Remember default number of transactions
-    Then Search transactions by detail from excel "<rowindex>" columnName "search_purpose"
-    And Hide keyboard
+#    Then Search transactions by detail from excel "<rowindex>" columnName "search_purpose"
+    And Enter text "internal" into EditText element and remember it under key "search_purpose"
+#    And Hide keyboard
 #    And Wait "5" seconds
     And Wait for first transaction to load
     And Assert transactions are filtered by searchValue from column "search_purpose"
@@ -32,7 +33,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
   @Current_Domestic_Accounts-Transactions-Search_Invalid_[MOB_ANDROID]
   Scenario Outline: Current_Domestic_Accounts-Transactions-Search_Invalid_[MOB_ANDROID]
@@ -71,7 +72,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
   @Current_Domestic_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]
   Scenario Outline: Current_Domestic_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]
@@ -101,15 +102,15 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "To"
     And Assert currencies in From and To input field is RSD
 
-    And Enter text "100000" into input field "From" in amount filter
-    And Enter text "150000" into input field "To" in amount filter
+    And Enter text "8" into input field "From" in amount filter
+    And Enter text "101" into input field "To" in amount filter
 
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Transaction filter"
     And Click on element by id "nlb-button-primary"
 
     And Wait for element by id "nlb-title" to appear
-    And Assert filtered amounts have values between "100000" and "150000"
+    And Assert filtered amounts have values between "8" and "101"
 
    #new example
     Then Click Transaction filter button in Product
@@ -137,7 +138,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Current_Domestic_Accounts-Transactions-Filter_By_Amount_Invalid_[MOB_ANDROID]
@@ -175,7 +176,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Current_Domestic_Accounts-Transactions-List_[MOB_ANDROID]
@@ -198,11 +199,11 @@ Feature: Current_Domestic_Accounts
     And Assert list of element by id "nlb-currency" is displayed
     And Assert list of element by id "nlb-title" is displayed
     And Assert list of element by id "nlb-amount" is displayed
-#    And Assert list of element by id "nlb-details" is displayed
+    And Assert list of element by id "nlb-details" is displayed
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Current_Domestic_Account-Transactions-Filter_By_Type_[MOB_ANDROID]
@@ -274,12 +275,12 @@ Feature: Current_Domestic_Accounts
     And Assert "Clear filters" button alternate is enabled
     And Click on element by id "nlb-button-primary"
     And Wait for first transaction to load after filter
-    #TODO: Poslednji korak radi, trenutno pada jer u ovom release nije resen problem sa ispisom amounta (-3300,00 umesto -3.300,00)
+    And Wait "2" seconds
     And Assert transaction list is sorted to only show Outgoing transactions
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
   @Current_Domestic_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
   Scenario Outline: Current_Domestic_Accounts-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
@@ -310,18 +311,18 @@ Feature: Current_Domestic_Accounts
 
     Then Click on element by text "Amount"
     And Wait for element by text "From"
-    And Enter text "450" into input field "From" in amount filter
-    And Enter text "1700" into input field "To" in amount filter
+    And Enter text "2300" into input field "From" in amount filter
+    And Enter text "15000" into input field "To" in amount filter
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Date"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "nlb-title" to appear
 #    And Assert transaction list is sorted to match conditions "3.2.2025" "3.5.2025" "Incoming" "RSD" 100 100000
-    And Assert transactions amounts are between "450" and "1700" and transactions dates are between "10.06.2025" and "05.12.2025" and transactions types are "outgoing"
+    And Assert transactions amounts are between "2300" and "15000" and transactions dates are between "10.06.2025" and "05.12.2025" and transactions types are "outgoing"
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Current_Domestic_Accounts-Transactions-Filter-Clear_Filter_[MOB_ANDROID]
@@ -355,7 +356,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Current_Domestic_Accounts_Transactions_Filter_By_Date_CustomDateRange_[MOB_ANDROID]
@@ -403,17 +404,17 @@ Feature: Current_Domestic_Accounts
     When Click on element by id "nlb-input-date-from-click-area"
     And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-    And Assert button Apply in Calendar is enabled
-    And Click on button Apply in Calendar
-#    And Click on element by text "Add filter"
+#    And Assert button Apply in Calendar is enabled
+#    And Click on button Apply in Calendar
+    And Click on element by text "Add filter"
     And Assert From field in Date transactions filter has date year 2025 month 5 day 8
 
     And Click on element by id "nlb-input-date-to-click-area"
     And Click on date in Calendar with year 2025 month 7 day 8 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-    And Assert button Apply in Calendar is enabled
-    And Click on button Apply in Calendar
-#    And Click on element by text "Add filter"
+#    And Assert button Apply in Calendar is enabled
+#    And Click on button Apply in Calendar
+    And Click on element by text "Add filter"
     And Assert To field in Date transactions filter has date year 2025 month 7 day 8
 
     And Click on element by id "nlb-button-primary"
@@ -427,7 +428,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        3 |
+      |        4 |
 
 
   @Current_Domestic_Accounts-Transactions-Filter_By_Date-Predefined_Date_Range_[MOB_ANDROID]
@@ -468,7 +469,7 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
 
@@ -499,7 +500,7 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "Account type" has first following sibling "Current account"
     And Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     And Assert element by text "Account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text "Cheques" has first following sibling from key "numberOfCheques"
+    And Assert element by text "Number of unrealized cheques" has first following sibling from key "numberOfCheques"
     And Assert element by content desc "Copy account details"
 
     Examples:
@@ -546,4 +547,4 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |

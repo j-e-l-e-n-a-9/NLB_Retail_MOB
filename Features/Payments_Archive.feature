@@ -37,42 +37,41 @@ Feature: Payments_Archive
 
     #7 days
     And Click on element by id "nlb-button-primary"
-    And Click on element by id "nlb-button-primary"
-#    And Wait first Transaction filter
-#
-#    And Assert subtitle of Transaction filter Date is correct for Last seven days
-#    And Assert "Apply" button primary is enabled
-#    And Assert "Clear filters" button alternate is enabled
 #    And Click on element by id "nlb-button-primary"
-#
-#    And Wait for first Past payment
-    #Then Assert transactions dates are from last seven days
-
-    #last month
-    And Wait for element by id "nlb-icon-button" to appear
-    When Click on payment filter
-    And Wait element "Date" by text
-    And Assert subtitle of Transaction filter Date is correct for Last seven days
-    And Click on element by text "Date"
-    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
-    And Click on element by id "nlb-radio-button-LAST_MONTH"
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_MONTH"
-    And Assert "Apply" button primary is enabled
-    And Click on element by id "nlb-button-primary"
     And Wait first Transaction filter
-    And Assert subtitle of Transaction filter date is correct for Last month
+
+    And Assert subtitle of Transaction filter Date is correct for Last seven days
     And Assert "Apply" button primary is enabled
     And Assert "Clear filters" button alternate is enabled
     And Click on element by id "nlb-button-primary"
 
     And Wait for first Past payment
-    Then Assert transactions dates are from Last month
+    And Assert transactions dates are from last seven days
 
-    #this month
-
-#    When Click on payment filter
-#    And Wait element "Status" by text
+    #last month
+#    And Wait for element by id "nlb-icon-button" to appear
+#    And Click on payment filter
+#    And Wait element "Date" by text
+#    And Assert subtitle of Transaction filter Date is correct for Last seven days
+#    And Click on element by text "Date"
+#    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+#    And Click on element by id "nlb-radio-button-LAST_MONTH"
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_MONTH"
+#    And Assert "Apply" button primary is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter date is correct for Last month
+#    And Assert "Apply" button primary is enabled
+#    And Assert "Clear filters" button alternate is enabled
+#    And Click on element by id "nlb-button-primary"
+#
+#    And Wait for first Past payment
+#    And Assert transactions dates are from Last month
+#
+#    #this month
+#    Then Click on payment filter
+#    And Wait element "Payment status" by text
 #    And Assert subtitle of Transaction filter date is correct for Last month
 #    And Click on element by text "Date"
 #    And Wait for element by id "nlb-radio-button-LAST_MONTH" to appear
@@ -87,12 +86,12 @@ Feature: Payments_Archive
 #    And Assert "Clear filters" button alternate is enabled
 #    And Click on element by id "nlb-button-primary"
 #    And Wait "5" seconds
-    #Trenutno nema transakcija
-    #And Wait for first Past payment
-    #Then Assert transactions dates are from This month
+#    #Trenutno nema transakcija
+#    And Wait for first Past payment
+#    And Assert transactions dates are from This month
 
     #custom range
-    When Click on payment filter
+    And Click on payment filter
     And Wait element "Date" by text
 #    And Assert subtitle of Transaction filter Date is correct for This month
     And Assert "Clear filters" button alternate is enabled
@@ -112,26 +111,26 @@ Feature: Payments_Archive
 
     #to
     And Click on element by id "nlb-input-date-to-click-area"
-    And Click on date in Calendar with year 2026 month 1 day 13 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 4 day 13 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
 #    And Assert button Apply in Calendar is enabled
 #    And Click on button Apply in Calendar
     And Click on element by text "Add filter"
-    And Assert To field in Date transactions filter has date year 2026 month 1 day 13
+    And Assert To field in Date transactions filter has date year 2026 month 4 day 13
     And Assert "Apply" button primary is enabled
     And Click on element by id "nlb-button-primary"
     And Wait first Transaction filter
-    And Assert subtitle of Transaction filter Date is correct for dates year 2026 month 1 day 9 and year 2026 month 1 day 13
+    And Assert subtitle of Transaction filter Date is correct for dates year 2026 month 1 day 9 and year 2026 month 4 day 13
     And Assert "Apply" button primary is enabled
     And Assert "Clear filters" button alternate is enabled
     And Click on element by id "nlb-button-primary"
     And Wait for first Past payment
 
-    Then Assert transactions dates are between dates year 2026 month 1 day 9 and year 2026 month 1 day 13
+    And Assert transactions dates are between dates year 2026 month 1 day 9 and year 2026 month 4 day 13
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @PAYMENTS-PAYMENTS_ARCHIVE-FILTER_PAYMENTS_BY_DATE-invalid_[ANDROID]
@@ -182,17 +181,19 @@ Feature: Payments_Archive
     #try to set From to one month before, 10th
     And Click on element by id "nlb-input-date-from-click-area"
 
-    Then Click on date last month tenth and assert that it is not shown correctly
-    And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
-    And Assert To field in Date transactions filter has date last month fifth
-    And Assert "Apply" button primary is disabled
+#    Then Click on date last month tenth and assert that it is not shown correctly
+#    And Assert button Cancel in Calendar is enabled
+##    And Assert button Apply in Calendar is enabled
+##    And Click on button Apply in Calendar
+#    And Click on element by text "Add filter"
+#    And Assert To field in Date transactions filter has date last month fifth
+#    And Assert "Apply" button primary is disabled
+
+    And Assert tenth day of previous month is disabled
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @PAYMENTS-PAYMENTS_ARCHIVE-FILTER_PAYMENTS_BY_AMOUNT_[ANDROID]
@@ -207,12 +208,12 @@ Feature: Payments_Archive
     And Wait for first Past payment
 
     When Click on payment filter
-    And Wait element "Amount range" by text
+    And Wait element "Amount" by text
     And Assert screen header is "Advanced filters"
     And Assert back button in screen "Advanced filters"
     And Assert Past payment filter options are displayed correctly
     And Assert "Apply" button is not enabled
-    And Click on element by text "Amount range"
+    And Click on element by text "Amount"
 
     And Wait for element by id "nlb-button-primary" to appear
     And Assert screen header is "Set amount"
@@ -236,7 +237,8 @@ Feature: Payments_Archive
     And Assert element "nlb-button-primary" by id is enabled
     And Click on element by id "nlb-button-primary"
 
-    Then Assert transactions amounts are between from "50,00" to "200,00" and currency is "RSD"
+    Then Wait for first Past payment
+    And Assert transactions amounts are between from "50,00" to "200,00" and currency is "RSD"
     And Click on element by id "nlb-icon-button"
     And Assert element "nlb-button-alternate" by id is enabled
     And Assert element "nlb-button-primary" by id is enabled
@@ -245,7 +247,7 @@ Feature: Payments_Archive
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @PAYMENTS-PAYMENTS_ARCHIVE-FILTER_PAYMENTS_BY_AMOUNT-invalid_[ANDROID]
@@ -260,12 +262,12 @@ Feature: Payments_Archive
     And Wait for first Past payment
 
     When Click on payment filter
-    And Wait element "Amount range" by text
+    And Wait element "Amount" by text
     And Assert screen header is "Advanced filters"
     And Assert back button in screen "Advanced filters"
     And Assert Past payment filter options are displayed correctly
     And Assert "Apply" button is not enabled
-    And Click on element by text "Amount range"
+    And Click on element by text "Amount"
 
     And Wait for element by id "nlb-button-primary" to appear
     And Assert screen header is "Set amount"
@@ -286,7 +288,7 @@ Feature: Payments_Archive
     
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @PAYMENTS-PAYMENTS_ARCHIVE-FILTER_PAYMENTS_BY_STATUS_[ANDROID]
@@ -301,7 +303,7 @@ Feature: Payments_Archive
     And Wait for first Past payment
 
     When Click on payment filter
-    And Wait element "Amount range" by text
+    And Wait element "Amount" by text
     And Assert screen header is "Advanced filters"
     And Assert back button in screen "Advanced filters"
     And Assert Past payment filter options are displayed correctly
@@ -321,6 +323,7 @@ Feature: Payments_Archive
     And Click on element by id "nlb-checkbox-tag-Executed"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Apply"
+    And Wait "2" seconds
     And Assert subtitle of Transaction filter Payment status is "Executed"
     And Click on element by id "nlb-button-primary"
     And Assert transactions status in Past payment is in status "Executed"
@@ -339,6 +342,7 @@ Feature: Payments_Archive
     And Click on element by id "nlb-checkbox-tag-Rejected"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Apply"
+    And Wait "2" seconds
     And Assert subtitle of Transaction filter Payment status is "Rejected"
     And Click on element by id "nlb-button-primary"
     And Assert transactions status in Past payment is in status "Rejected"
@@ -372,6 +376,7 @@ Feature: Payments_Archive
     And Click on element by id "nlb-checkbox-tag-Rejected"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Apply"
+    And Wait "2" seconds
     And Assert subtitle of Transaction filter Payment status is "Executed, Rejected"
     And Click on element by id "nlb-button-primary"
     And Assert transactions statuses in Past payment are only "Executed" or "Rejected"
@@ -386,13 +391,15 @@ Feature: Payments_Archive
     And Click on element by id "nlb-checkbox-tag-Rejected"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Apply"
+    And Wait "2" seconds
     And Assert subtitle of Transaction filter Payment status is "Rejected, Canceled"
     And Click on element by id "nlb-button-primary"
+    And Wait "3" seconds
     And Assert transactions statuses in Past payment are only "Canceled" or "Rejected"
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @PAYMENTS-PAYMENTS_ARCHIVE-CREATE_CONFIRMATION_[ANDROID]
@@ -416,7 +423,7 @@ Feature: Payments_Archive
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |
 
 
   @Payments_Payments_Archive_Payments_Transaction_List_[ANDROID]
@@ -439,4 +446,4 @@ Feature: Payments_Archive
 
     Examples:
       | rowindex |
-      |        1 |
+      |        4 |

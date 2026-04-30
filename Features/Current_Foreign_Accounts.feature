@@ -61,7 +61,7 @@ Feature: Current_Foreign_Accounts
      And Assert element by text "Account details"
      And Assert that text "Account type" has first following sibling that contains text "Current account"
      And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner"
-     And Assert that text "Account number" has first following sibling that contains from Excel "<rowindex>" columnName "personal_account_iban"
+     And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "personal_account_iban"
 #     And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "BIC" has first following sibling that contains text "KOBBRSBG"
 
@@ -91,11 +91,11 @@ Feature: Current_Foreign_Accounts
     And Wait for first transaction to load
     And Assert transactions in Product details are in currency "EUR"
 
-    And Click on currency filter "JPY"
-    And Wait for first transaction with "JPY" currency
+    And Click on currency filter "USD"
+    And Wait for first transaction with "USD" currency
 
-    Then Assert currency card with currency "JPY" in product has correct "Current balance" and "Available balance"
-    And Assert transactions in Product details are in currency "JPY"
+    Then Assert currency card with currency "USD" in product has correct "Current balance" and "Available balance"
+    And Assert transactions in Product details are in currency "USD"
 
     Examples:
       | rowindex |
@@ -208,15 +208,15 @@ Feature: Current_Foreign_Accounts
     And Assert element by text "To"
     And Assert currencies in From and To input field is "EUR"
 
-    And Enter text "3700" into input field "From" in amount filter
-    And Enter text "4100" into input field "To" in amount filter
+    And Enter text "117000" into input field "From" in amount filter
+    And Enter text "300000" into input field "To" in amount filter
 
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Transaction filter"
     And Click on element by id "nlb-button-primary"
 
     And Wait for element by id "nlb-title" to appear
-    And Assert filtered amounts have values between "3700" and "4100"
+    And Assert filtered amounts have values between "117000" and "300000"
 
    #new example
     Then Click Transaction filter button in Product
@@ -227,25 +227,25 @@ Feature: Current_Foreign_Accounts
     And Assert Amount transaction filter for Current account is displayed correctly
 #    And Assert Currency transaction filter is displayed correctly
 
-#    And Assert element by text "Date"
-#    And Assert element by text "Type"
-#    And Assert element by text "Amount"
-#
-#    And Click on element by text "Amount"
-#    And Wait for element by text "From"
-#    And Assert element by text "From"
-#    And Assert element by text "To"
-#    And Assert currencies in From and To input field is EUR
-#
-#    And Enter text "5150,11" into input field "From" in amount filter
-#    And Enter text "10322,15" into input field "To" in amount filter
-#
-#    And Click on element by id "nlb-button-primary"
-#    And Wait for element by text "Transaction filter"
-#    And Click on element by id "nlb-button-primary"
-#
-#    And Wait for element by id "nlb-title" to appear
-#    And Assert filtered amounts have values between "5150.11" and "10322.15"
+    And Assert element by text "Date"
+    And Assert element by text "Type"
+    And Assert element by text "Amount"
+
+    And Click on element by text "Amount"
+    And Wait for element by text "From"
+    And Assert element by text "From"
+    And Assert element by text "To"
+    And Assert currencies in From and To input field is EUR
+
+    And Enter text "116,11" into input field "From" in amount filter
+    And Enter text "10322,15" into input field "To" in amount filter
+
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Transaction filter"
+    And Click on element by id "nlb-button-primary"
+
+    And Wait for element by id "nlb-title" to appear
+    And Assert filtered amounts have values between "116.11" and "10322.15"
 
     Examples:
       | rowindex |
@@ -282,14 +282,14 @@ Feature: Current_Foreign_Accounts
 
     Then Click on element by text "Amount"
     And Wait for element by text "From"
-    And Enter text "3700" into input field "From" in amount filter
-    And Enter text "4100" into input field "To" in amount filter
+    And Enter text "117000" into input field "From" in amount filter
+    And Enter text "300000" into input field "To" in amount filter
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Date"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "nlb-title" to appear
 #    And Assert transaction list is sorted to match conditions "3.2.2025" "3.5.2025" "Incoming" "RSD" 100 100000
-    And Assert transactions amounts are between "3700" and "4100" and transactions dates are between "08.06.2025" and "14.06.2025" and transactions types are "outgoing"
+    And Assert transactions amounts are between "117000" and "300000" and transactions dates are between "08.06.2025" and "14.06.2025" and transactions types are "outgoing"
 
     Examples:
       | rowindex |

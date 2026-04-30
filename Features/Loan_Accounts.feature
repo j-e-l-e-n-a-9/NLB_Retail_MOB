@@ -43,6 +43,7 @@ Feature: Loan_Accounts
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
     And Assert labels are displayed in the following order:
@@ -74,12 +75,13 @@ Feature: Loan_Accounts
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
     And Assert element by text "Financial details"
     And Assert element by text "Account details"
     And Assert element by id "nlb-product-details-primary-balance" has text in format "^\d{1,3}(\.\d{3})*,\d{2}\s*[A-Z]{3}$"
-    And Click on element by text "Annuities"
+    And Click on element by text "Annuity plan"
     
     And Wait for element by contains text "Installments found"
     And Assert element by text "From"
@@ -117,6 +119,7 @@ Feature: Loan_Accounts
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
     And Assert element by text "Financial details"
@@ -172,6 +175,7 @@ Feature: Loan_Accounts
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
     And Assert element by text "Financial details"
@@ -220,11 +224,13 @@ Feature: Loan_Accounts
 #    And Assert Loan accounts current loan balance is displayed
 
     And Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number2"
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
-    And Assert button by text "Annuity plan"
-    And Assert button by text "Payments"
+    And Swipe vertical
+    And Assert element by text "Annuity plan"
+    And Assert element by text "Payments"
     And Assert element by text "Financial details"
     And Assert element by text "Account details"
     And Assert element by id "nlb-product-details-primary-balance" has text in format "^\d{1,3}(\.\d{3})*,\d{2}\s*[A-Z]{3}$"
@@ -265,6 +271,7 @@ Feature: Loan_Accounts
     And Wait for element by text "Financial details"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
     And Assert element by text "Financial details"

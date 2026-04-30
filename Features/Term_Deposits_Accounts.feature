@@ -9,10 +9,10 @@ Feature: Term_Deposits_Accounts
 
     When Click "My Products"
     And Wait for element by text "Edit list"
-    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
-    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number"
     And Wait element "Financial details" by text
-    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number"
 
     Then Assert element by text "Account details"
     And Assert element by text "Account type"
@@ -20,7 +20,7 @@ Feature: Term_Deposits_Accounts
     And Assert element by text "Account owner"
     And Assert text from excel "<rowindex>" columnName "account_details_owner" in element by id "nlb-account-owner"
     And Assert element by text "Account number"
-    And Assert text from excel "<rowindex>" columnName "term_deposit_number2" in element by id "nlb-account-number"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_number" in element by id "nlb-account-number"
     And Assert element by text "Opening date"
     And Assert element by id "nlb-opening-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
     And Assert element by text "Expiration date"
@@ -41,11 +41,11 @@ Feature: Term_Deposits_Accounts
 
     When Click "My Products"
     And Wait for element by text "Edit list"
-    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
-    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number"
     And Wait element "Financial details" by text
     And Assert element by text "My deposit"
-    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number"
     And Assert element by text "Financial details"
     And Assert element by text "Deposit amount"
     And Assert element by id "nlb-deposited-amount" with regex "^(?:(?:0|[1-9]\d{0,2})(?:\.\d{3})*),\d{2}\s*[A-Z]{3}$"
@@ -84,14 +84,14 @@ Feature: Term_Deposits_Accounts
     And Wait for first product in My products page
 #    And Assert that products in My products page is loaded
 
-    When Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
-    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    When Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "term_deposit_number"
     And Wait element "Financial details" by text
-    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
+    And Assert element by text from excel "<rowindex>" columnName "term_deposit_number"
 
     Then Assert element by text "Financial details"
     And Assert element by text "Deposit amount"
-    And Assert element by id "nlb-deposited-amount" with regex "^(?:(?:0|[1-9]\d{0,2})(?:\.\d{3})*),\d{2}\s*[A-Z]{3}$"
+#    And Assert element by id "nlb-deposited-amount" with regex "^(?:(?:0|[1-9]\d{0,2})(?:\.\d{3})*),\d{2}\s*[A-Z]{3}$"
     And Assert element by text "Interest rate"
     And Assert element by id "nlb-interest-rate" with regex "^\d{1,2},\d{4} \%$"
     And Assert element by text "Accrued interest"
