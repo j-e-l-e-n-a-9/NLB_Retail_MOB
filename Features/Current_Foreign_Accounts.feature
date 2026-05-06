@@ -176,7 +176,7 @@ Feature: Current_Foreign_Accounts
 
     Examples:
       | rowindex |
-      |        1 |
+      |        2 |
 
 
   @Current_Foreign_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]

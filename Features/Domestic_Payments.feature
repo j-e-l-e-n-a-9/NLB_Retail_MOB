@@ -192,7 +192,6 @@ Feature: Domestic_Payments
     And Scroll down until element with text from key "keyName" is in view
     And Assert element by text from key "keyName" is displayed
 
-
     Examples:
       | rowindex |
       |        4 |
@@ -258,11 +257,12 @@ Feature: Domestic_Payments
     And Assert element by text "Urgent payment"
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
-    
+
     And Click on element by desc "Back"
-    And Enter text from excel "<rowindex>" columnName "domestic_payment_bban2" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+    And Wait for element by text "Debtor"
+    And Enter text "205-9001007668260-25" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
-    And Enter text "A Jedan" in element id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Enter text "Jail" in element id "nlb-input-creditor-name" and remember it under key "keyName"
     And Assert element by text "Address"
     And Enter text "Vinca" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
     And Assert element by text "City"
@@ -299,7 +299,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "bad_current_domestic_account_number"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
 
     And Assert element by text "Payment"
     And Assert "Value date" date value is in valid date format

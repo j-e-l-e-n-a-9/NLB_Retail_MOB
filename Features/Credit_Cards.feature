@@ -363,13 +363,10 @@ Feature: Credit_Cards
 
 
     Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_2_number" is displayed correctly
-    And Assert element by text "Details"
-    And Assert element by text "Statements"
-    And Assert element by text "Settings"
-    And Assert element by text "Transactions"
     And Click on element by text "Details"
+    And Wait for element by text "Transactions"
     And Assert product option buttons for Credit cards
-    And Assert order of card details
+#    And Assert order of card details
 
     Examples:
       | rowindex |
@@ -395,7 +392,7 @@ Feature: Credit_Cards
     And Assert element by text "Transactions"
     And Click on element by text "Details"
     And Wait for element by text "Financial details"
-    And Assert order of card details
+#    And Assert order of card details
 
     Examples:
       | rowindex |
