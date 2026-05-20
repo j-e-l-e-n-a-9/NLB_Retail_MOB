@@ -22,8 +22,8 @@ Feature: Own_Account_Transfer
     And Wait for element by id "nlb-value-product-primary-balance" to appear
 
     When Click on element by text "Pay"
-    And Wait for element by text "Own account Transfer" to appear for "30" seconds
-    And Click on element by text "Own account Transfer"
+    And Wait for element by text "Internal transfer" to appear for "30" seconds
+    And Click on element by text "Internal transfer"
     And Wait for element by text "Debtor"
     And Click on "Debtor" container for current account picker in Own account Transfer
     And Wait for element by text "Select account"
@@ -138,7 +138,7 @@ Feature: Own_Account_Transfer
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
     And Click on Bottom navigation button "Pay"
-    And Click on element by contains text "Own account Transfer"
+    And Click on element by contains text "Internal transfer"
 
     And Wait element "Debtor" by text
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
@@ -153,7 +153,7 @@ Feature: Own_Account_Transfer
     And Click on element by contains text "Yes"
     And Assert element by text "Payments"
 
-    When Click on element by text "Own account Transfer"
+    When Click on element by text "Internal transfer"
     And Wait element "Debtor" by text
     And Enter text "1" in element id "nlb-amount-with-currency-field"
     And Assert element by text "Payment"
@@ -168,7 +168,7 @@ Feature: Own_Account_Transfer
     And Assert element by text "Yes"
     And Assert element by text "No"
     And Click on element by text "No"
-    And Assert element by text "Own account Transfer"
+    And Assert element by text "Internal transfer"
     And Swipe vertical
     And Click on element by contains text "Cancel"
     And Wait "1" seconds
@@ -177,7 +177,7 @@ Feature: Own_Account_Transfer
     And Assert element by contains text "No"
     And Click on element by contains text "Yes"
     And Assert element by contains text "Payments"
-    And Click on element by text "Own account Transfer"
+    And Click on element by text "Internal transfer"
     And Enter text "1" in element id "nlb-amount-with-currency-field"
     And Swipe vertical
     And Assert element by text "Cancel"
@@ -199,6 +199,80 @@ Feature: Own_Account_Transfer
     And Wait element "Domestic payment" by text
     And Assert element by text "Domestic payment"
     And Assert element by text "Payments"
+
+    Examples:
+      | rowindex |
+      |        4 |
+
+
+  @Payments-Own_Account_Transfer-Invalid_Account_Combination_[MOB_ANDROID]
+  Scenario Outline: Payments-Own_Account_Transfer-Invalid_Account_Combination_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on Bottom navigation button "Pay"
+
+    When Click on element by text "Internal transfer"
+    And Wait element "Debtor" by text
+
+    #current domestic accounts
+    And Click on Debtor selector for payment
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait element "Debtor" by text
+    And Click on Recipient selector for payment
+    And Wait "2" seconds
+    And Assert account name "Devizni platni račun" is not displayed
+    And Assert account number containing "RS" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is not displayed
+    And Swipe vertical
+    And Assert account name "Devizni platni račun" is not displayed
+    And Assert account number containing "RS" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is not displayed
+    And Click "Back" content description
+    And Wait element "Debtor" by text
+
+    #saving accounts
+    And Click on Debtor selector for payment
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait element "Debtor" by text
+    And Click on Recipient selector for payment
+    And Wait "2" seconds
+    And Assert account name "Devizni platni račun" is not displayed
+    And Assert account number containing "RS" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "saving_account_number" is not displayed
+    And Swipe vertical
+    And Assert account name "Devizni platni račun" is not displayed
+    And Assert account number containing "RS" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "saving_account_number" is not displayed
+    And Click "Back" content description
+
+    #current foreign accounts
+    Then Click on Debtor selector for payment
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait element "Debtor" by text
+    And Click on Recipient selector for payment
+    And Wait "2" seconds
+    And Assert account name "Tekući račun" is not displayed
+    And Assert account number containing "205-" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "personal_account_iban" is not displayed
+    And Assert account name "A vista" is not displayed
+    And Assert account number containing "9011" is not displayed
+    And Assert account name "Visa" is not displayed
+    And Assert account number containing "****" is not displayed
+    And Assert account name "kredit" is not displayed
+    And Assert account number containing "00490" is not displayed
+    And Swipe vertical
+    And Assert account name "Tekući račun" is not displayed
+    And Assert account number containing "205-" is not displayed
+    And Assert account number from Excel "<rowindex>" columnName "personal_account_iban" is not displayed
+    And Assert account name "A vista" is not displayed
+    And Assert account number containing "9011" is not displayed
+    And Assert account name "Visa" is not displayed
+    And Assert account number containing "****" is not displayed
+    And Assert account name "kredit" is not displayed
+    And Assert account number containing "00490" is not displayed
+    And Click "Back" content description
 
     Examples:
       | rowindex |

@@ -15,7 +15,7 @@ Feature: Payments
     And Assert element by text "Import from gallery"
     And Click on element by text "Show"
     And Assert button by text "Continue" is enabled
-    And Assert element by contains text "The payment will be completed only after your confirmation. Do you want to continue?"
+    And Assert element by contains text "The payment will be completed only after your confirmation."
 
     Examples:
       | rowindex |
@@ -33,7 +33,7 @@ Feature: Payments
     And Wait element "Domestic payment" by text
     And Click on element by text "IPS Payments"
 
-    Then Assert element by text "IPS payment"
+    Then Assert element by text "IPS QR"
     And Assert element by text "Scan"
     And Assert element by text "Show"
     And Assert element by text "Import from gallery"
@@ -58,7 +58,7 @@ Feature: Payments
     And Wait element "Domestic payment" by text
     And Click on element by text "IPS Payments"
 
-    Then Assert element by text "IPS payment"
+    Then Assert element by text "IPS QR"
     And Assert element by text "Scan"
     And Assert element by text "Show"
     And Assert element by text "Import from gallery"
@@ -83,7 +83,32 @@ Feature: Payments
     And Wait element "Domestic payment" by text
     And Click on element by text "IPS Payments"
 
-    Then Assert element by text "IPS payment"
+    Then Assert element by text "IPS QR"
+    And Assert element by text "Scan"
+    And Assert element by text "Show"
+    And Assert element by text "Import from gallery"
+    And Click on element by text "Show"
+    And Assert button by text "Continue" is enabled
+    And Click on element by desc "Back"
+    And Wait element "Domestic payment" by text
+
+    Examples:
+      | rowindex |
+      |        4 |
+
+
+  @Payments-Scan_And_Pay-Domestic_Payment_Page_[MOB_ANDROID]
+  Scenario Outline: Payments-Scan_And_Pay-Domestic_Payment_Page_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on element in bottom menu by text "Pay"
+    And Wait element "Domestic payment" by text
+    And Click on element by text "IPS Payments"
+
+    Then Assert element by text "IPS QR"
     And Assert element by text "Scan"
     And Assert element by text "Show"
     And Assert element by text "Import from gallery"

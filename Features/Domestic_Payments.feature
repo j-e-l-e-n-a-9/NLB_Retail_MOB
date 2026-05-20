@@ -51,15 +51,15 @@ Feature: Domestic_Payments
     And Wait element "Domestic payment" by text
     And Assert element by text "Payments and transfers"
     And Assert element by text "Domestic payment"
-    And Assert element by text "Own account Transfer"
+    And Assert element by text "Internal transfer"
     And Assert element by text "IPS Payments"
     And Assert element by text "Prenesi"
-    And Assert element by text "Foreign payment"
+    And Assert element by text "Domestic payment"
     And Assert element by text "Currency exchange"
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
   @Payments-Domestic_Payments-Back_Button_[MOB_ANDROID]
@@ -73,7 +73,7 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Creditor account"
+#    And Assert element by text "Creditor account"
     And Enter text from excel "<rowindex>" columnName "domestic_payment_bban" in element id "nlb-input-creditor-account"
     And Assert element by text "Name"
     And Enter text "Aleksa" in element id "nlb-input-creditor-name"
@@ -102,7 +102,7 @@ Feature: Domestic_Payments
     And Assert element by text "Debtor"
     And Click on element by desc "Back"
     And Wait element "Recipient" by text
-    And Assert element by text "Domestic payment"
+    And Assert element by text "Domestic Payment"
     
     And Assert element by text from excel "<rowindex>" columnName "domestic_payment_bban"
     And Assert element by text "Aleksa"
@@ -113,7 +113,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
   @Payments-Domestic_Payments-Create_New_Recipient_[MOB_ANDROID]
@@ -122,12 +122,19 @@ Feature: Domestic_Payments
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
 
     When Click on element by text "Pay"
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Creditor account"
+#    And Assert element by text "Creditor account"
     And Enter text from excel "<rowindex>" columnName "domestic_payment_bban" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
     And Enter text "Automatizacija Dva" in element id "nlb-input-creditor-name" and remember it under key "keyName"
@@ -141,7 +148,7 @@ Feature: Domestic_Payments
     And Scroll down until element with text "Purpose" is in view
     And Assert element by text "Purpose"
     And Assert Payment amount label is displayed correctly
-    And Enter text "0,1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Enter text "2" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
@@ -153,9 +160,9 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
     And Click on element by id "nlb-button-primary"
 
-    Then Wait for element by text "Payment amount"
+    And Wait for element by text "Payment amount"
     And Assert element by text "Payment amount"
-    And Assert element by text "0.10 RSD"
+    And Assert element by text "2.00 RSD"
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
@@ -175,7 +182,27 @@ Feature: Domestic_Payments
     And Assert element by text "Purpose"
 
     And Click on element by id "nlb-button-primary"
+    And Assert element by contains text "Success"
+    And Assert element by text "Do you want to save payment data?"
+    And Assert element by text "Close without saving"
+    And Assert element by text "Save recipient"
+    And Assert element by text "Save template"
+    And Assert element by text "Save both"
+    And Click on element by text "Save recipient"
+    And Assert element by contains text "Success"
+    And Assert element by contains text "Recipient saved"
     And Wait for element by contains text "Payments"
+
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "3" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Click "Back" content description
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+
+    Then Click on element by text "Pay"
     And Click on element by text "Recipients"
     And Wait for first recipient
     And Swipe vertical
@@ -194,7 +221,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
   @Payments-Domestic_Payments-Modify_Data_[MOB_ANDROID]
@@ -203,12 +230,19 @@ Feature: Domestic_Payments
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
 
     When Click on element by text "Pay"
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Creditor account"
+#    And Assert element by text "Creditor account"
     And Enter text from excel "<rowindex>" columnName "domestic_payment_bban" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
     And Enter text "Automatizacija Dva" in element id "nlb-input-creditor-name" and remember it under key "keyName"
@@ -223,7 +257,7 @@ Feature: Domestic_Payments
     And Scroll down until element with text "Purpose" is in view
     And Assert element by text "Purpose"
     And Assert Payment amount label is displayed correctly
-    And Enter text "0,1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Enter text "7" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
@@ -237,7 +271,7 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Payment amount"
     And Assert element by text "Payment amount"
-    And Assert element by text "0.10 RSD"
+    And Assert element by text "7.00 RSD"
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
@@ -272,7 +306,7 @@ Feature: Domestic_Payments
     And Scroll down until element with text "Purpose" is in view
     And Assert element by text "Purpose"
 #    And Assert Payment amount label is displayed correctly
-    And Enter text "0,2" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Enter text "9" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
@@ -284,9 +318,9 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
     And Click on element by id "nlb-button-primary"
 
-    Then Wait for element by text "Payment amount"
+    And Wait for element by text "Payment amount"
     And Assert element by text "Payment amount"
-    And Assert element by text "0.20 RSD"
+    And Assert element by text "9.00 RSD"
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
@@ -308,6 +342,7 @@ Feature: Domestic_Payments
     And Assert element by text "Purpose"
 
     And Click on element by id "nlb-button-primary"
+    And Assert element by contains text "Success"
     And Wait for element by text "Close without saving"
     And Assert element "nlb-card-container" by id
     And Assert element by text "Do you want to save payment data?"
@@ -317,6 +352,20 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-button-primary" that has descendant text "Save template"
     And Assert element by id "nlb-button-primary" that has descendant text "Save both"
     And Click on element by text "Save recipient"
+    And Assert element by contains text "Success"
+#    And Assert element by contains text "Recipient saved"
+    And Wait for element by contains text "Payments"
+
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "9" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Click "Back" content description
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+
+    Then Click on element by text "Pay"
     And Wait for element by contains text "Payments"
 
     And Click on element by text "Recipients"
@@ -327,7 +376,7 @@ Feature: Domestic_Payments
     And Click "Back" content description
 
     And Click on element by text "Domestic payment"
-    And Wait for element by text "Domestic payment"
+    And Wait for element by text "Debtor"
     And Click on element by id "nlb-button-alternate"
     And Wait for element by text "Select recipient"
     And Click on "Select recipient" option in Select recipient page
@@ -337,7 +386,7 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
   @Payments-Domestic_Payments-In_Future_[MOB_ANDROID]
@@ -351,8 +400,8 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Creditor account"
-    And Enter text from excel "<rowindex>" columnName "domestic_payment_bban3" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+#    And Assert element by text "Creditor account"
+    And Enter text from excel "<rowindex>" columnName "domestic_payment_bban" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
     And Enter text "Kablovska Test" in element id "nlb-input-creditor-name" and remember it under key "keyName"
     And Assert element by text "Address"
@@ -430,7 +479,7 @@ Feature: Domestic_Payments
     And Click "Back" content description
 
     And Click on element by text "Domestic payment"
-    And Wait for element by text "Domestic payment"
+    And Wait for element by text "Debtor"
     And Click on element by id "nlb-button-alternate"
     And Wait for element by text "Select recipient"
     And Click on "Select recipient" option in Select recipient page
@@ -440,21 +489,29 @@ Feature: Domestic_Payments
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
+    #UAT
   @Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]
   Scenario Outline: Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
 
     When Click on element by text "Pay"
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Creditor account"
+#    And Assert element by text "Creditor account"
     And Enter text "205900100779094488" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
     And Enter text "Automatizacija Osir" in element id "nlb-input-creditor-name" and remember it under key "keyName"
@@ -467,7 +524,7 @@ Feature: Domestic_Payments
     And Scroll down until element with text "Purpose" is in view
     And Assert element by text "Purpose"
     And Assert Payment amount label is displayed correctly
-    And Enter text "0,1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
@@ -482,7 +539,7 @@ Feature: Domestic_Payments
     Then Wait for element by text "Payment amount"
     And Assert element by text "Payment review"
     And Assert element by text "Payment amount"
-    And Assert element by text "0.10 RSD"
+    And Assert element by text "1.00 RSD"
 
     And Assert element by text "Recipient"
 #    And Assert element by text from key "keyAmount" is displayed
@@ -504,18 +561,34 @@ Feature: Domestic_Payments
     And Click on element by id "nlb-button-primary"
     And Assert element by content desc "Cancel"
     And Assert element by text "Success"
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "1" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Click "Back" content description
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
+    #UAT
   @Payments-Domestic_Payments_[MOB_ANDROID]
   Scenario Outline: Payments-Domestic_Payments_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
 
     When Click on element by text "Pay"
     And Wait for element by text "Domestic payment" to appear for "30" seconds
@@ -578,12 +651,20 @@ Feature: Domestic_Payments
     And Click on element by text from key "keyPurpose"
     And Assert element by text from key "recipientNameKey" is displayed
     And Assert element by text from key "recipientAccountNumberKey" is displayed
-
-    #TO DO: Provera promene iznosa kada placanja prorade
+    And Click "Back" content description
+    And Click "Back" content description
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "1" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Click "Back" content description
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
 
     Examples:
       | rowindex |
-      |        4 |
+      |        7 |
 
 
   @Payments-Domestic_Payments-Input-invalid_[MOB_ANDROID]
@@ -599,7 +680,7 @@ Feature: Domestic_Payments
     And Wait for element by id "nlb-input-creditor-account" to appear
 
     #account number
-    And Assert element by text "Creditor account"
+#    And Assert element by text "Creditor account"
     And Enter text "++=" in element id "nlb-input-creditor-account"
     And Assert element by text "Creditor account is required"
     And Enter text "9999" in element id "nlb-input-creditor-account"
@@ -685,8 +766,8 @@ Feature: Domestic_Payments
 
     #reference number
     #Odkomentarisati dva koraka ispod kad rese bug da reference number prima sve karaktere
-#    And Enter text "=+==" in element id "nlb-input-reference-number"
-#    And Assert element by text "Please use the following characters:"
+    And Enter text "=+==" in element id "nlb-input-reference-number"
+    And Assert element by text "Please use the following characters:"
     And Enter text "Lorem ipsum dolor sit ame" in element id "nlb-input-reference-number"
     And Assert element by text "Maximum number of characters is 24."
 

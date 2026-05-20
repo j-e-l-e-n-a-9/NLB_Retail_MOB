@@ -13,7 +13,7 @@ Feature: Current_Foreign_Accounts
     When Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait element "Transactions" by text
-#    And Assert product option buttons for Current foreign accounts
+    And Assert product option buttons for Current foreign accounts
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
     And Click on element by text "Details"
@@ -70,6 +70,7 @@ Feature: Current_Foreign_Accounts
        |        1 |
 
 
+     #UAT
   @CURRENT_FOREIGN_ACCOUNTS-TRANSACTIONS-OVERVIEW_BY_DIFFERENT_CURRENCIES_[MOB_ANDROID]
   Scenario Outline: CURRENT_FOREIGN_ACCOUNTS-TRANSACTIONS-OVERVIEW_BY_DIFFERENT_CURRENCIES_[MOB_ANDROID]
 
@@ -102,6 +103,7 @@ Feature: Current_Foreign_Accounts
       |        1 |
 
 
+    #UAT
   @Current_Foreign_Account-Transactions-Filter_By_Type_[MOB_ANDROID]
   Scenario Outline: Current_Foreign_Account-Transactions-Filter_By_Type_[MOB_ANDROID]
 
@@ -179,6 +181,7 @@ Feature: Current_Foreign_Accounts
       |        2 |
 
 
+    #UAT
   @Current_Foreign_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]
   Scenario Outline: Current_Foreign_Accounts-Transactions-Filter_By_Amount_[MOB_ANDROID]
 
@@ -252,6 +255,7 @@ Feature: Current_Foreign_Accounts
       |        1 |
 
 
+    #UAT
   @Current_Foreign-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
   Scenario Outline: Current_Foreign-Transactions-Filter-Multiple_Filter_[MOB_ANDROID]
 
@@ -296,6 +300,7 @@ Feature: Current_Foreign_Accounts
       |        1 |
 
 
+    #UAT
   @Current_Foreign_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
   Scenario Outline: Current_Foreign_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
 
@@ -340,6 +345,7 @@ Feature: Current_Foreign_Accounts
       |        1 |
 
 
+    #UAT
   @Current_Foreign_Accounts-Transactions-Filter-Clear_Filter_[MOB_ANDROID]
   Scenario Outline: Current_Foreign_Accounts-Transactions-Filter-Clear_Filter_[MOB_ANDROID]
 
@@ -379,6 +385,7 @@ Feature: Current_Foreign_Accounts
       |        1 |
 
 
+    #UAT
   @Current_Foreign_Accounts-Transactions-Search_Invalid_[MOB_ANDROID]
   Scenario Outline: Current_Foreign_Accounts-Transactions-Search_Invalid_[MOB_ANDROID]
 
@@ -418,3 +425,41 @@ Feature: Current_Foreign_Accounts
     Examples:
       | rowindex |
       |        1 |
+
+
+  @CURRENT_FOREIGN_ACCOUNTS-STATEMANTS-FILTER_[MOB_ANDROID]
+  Scenario Outline: CURRENT_FOREIGN_ACCOUNTS-STATEMANTS-FILTER_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Click on Product from Excel "<rowindex>" columnName "second_personal_account_iban" in My Products
+
+    And Wait for first transaction to load
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "second_personal_account_iban"
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    #And Assert list of element by id "nlb-item-row" is displayed
+    And Assert list of transactions is displayed correctly in Product
+    And Assert Transaction filter button in Product
+#    And Assert product option buttons for Current foreign accounts
+    And Assert Statement button in Product details
+    And Click on button in Product details "Statements"
+#    And Wait for Statements screen to load
+    And Wait for first statement to appear
+
+#    And Wait "10" seconds
+    When Assert screen header is "Statements"
+    And Assert back button in screen "Statements"
+    And Assert Year filter for statements
+    And Assert Year filter for statements has expected options
+    And Select Year "2021" in statements filter
+    And Wait for first statement to appear
+
+    Then Assert first statement in list is from year "2021"
+    And Assert statements in list are displayed correctly
+
+    Examples:
+      | rowindex |
+      |        2 |

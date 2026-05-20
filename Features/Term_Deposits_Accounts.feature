@@ -32,8 +32,8 @@ Feature: Term_Deposits_Accounts
     |        1 |
 
 
-  @Term_Deposits_Accounts_Details_[MOB_ANDROID]
-  Scenario Outline: Term_Deposits_Accounts_Details_[MOB_ANDROID]
+  @Term_Deposits_Accounts-Details_[MOB_ANDROID]
+  Scenario Outline: Term_Deposits_Accounts-Details_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
@@ -74,6 +74,7 @@ Feature: Term_Deposits_Accounts
       |        2 |
 
 
+    #UAT
   @Term_Deposit_Accounts_Details_Financial_Details_[MOB_ANDROID]
   Scenario Outline: Term_Deposit_Accounts_Details_Financial_Details_[MOB_ANDROID]
 

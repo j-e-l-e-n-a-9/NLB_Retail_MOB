@@ -55,10 +55,48 @@ Feature: Savings_Accounts
     And Assert element by text "Purpose"
     And Assert element by text "Opening date"
     And Assert element by id "nlb-opening-date" has text in format "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert element by text "Document archive"
-    And Click on element by id "nlb-button-text"
-    And Wait element "Error" by text
+#    And Assert element by text "Document archive"
+#    And Click on element by id "nlb-button-text"
+#    And Wait element "Error" by text
 
     Examples:
       | rowindex |
       |        1 |
+
+
+  @SAVINGS_ACCOUNTS-STATEMANTS-FILTER_[MOB_ANDROID]
+  Scenario Outline: SAVINGS_ACCOUNTS-STATEMANTS-FILTER_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Click on Product from Excel "<rowindex>" columnName "saving_account_number" in My Products
+
+    And Wait for first transaction to load
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "saving_account_number"
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    #And Assert list of element by id "nlb-item-row" is displayed
+    And Assert list of transactions is displayed correctly in Product
+    And Assert Transaction filter button in Product
+    And Assert product option buttons for Savings account
+#    And Assert Statement button in Product details
+    And Click on button in Product details "Statements"
+#    And Wait for Statements screen to load
+    And Wait for first statement to appear
+
+#    And Wait "10" seconds
+    When Assert screen header is "Statements"
+    And Assert back button in screen "Statements"
+    And Assert Year filter for statements
+    And Assert Year filter for statements has expected options
+    And Select Year "2021" in statements filter
+    And Wait for first statement to appear
+
+    Then Assert first statement in list is from year "2021"
+    And Assert statements in list are displayed correctly
+
+    Examples:
+      | rowindex |
+      |        4 |

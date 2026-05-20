@@ -301,7 +301,53 @@ Feature: Loan_Accounts
 
     And Assert Loans payments dates are between dates year 2025 month 4 day 30 and year 2025 month 6 day 30
 
-
     Examples:
       | rowindex |
       |        5 |
+
+
+  @Loan_Accounts-Payments-Filter-invalid_[MOB_ANDROID]
+  Scenario Outline: Loan_Accounts-Payments-Filter-invalid_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Assert Loan accounts icons is displayed
+    And Assert Loan accounts product names is displayed
+    And Assert Loan accounts account numbers is displayed
+    #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
+#    And Assert Loan accounts current loan balance is displayed
+
+    And Wait "3" seconds
+#    And Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for element by text "Financial details"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Swipe vertical
+    And Assert button by text "Annuity plan"
+    And Assert button by text "Payments"
+    And Assert element by text "Financial details"
+    And Assert element by text "Account details"
+    And Assert element by id "nlb-product-details-primary-balance" has text in format "^\d{1,3}(\.\d{3})*,\d{2}\s*[A-Z]{3}$"
+
+    Then Click on element by text "Payments"
+    And Wait for element by contains text "Payments found"
+
+    And Click on calendar icon with index "1"
+    And Click on date in Calendar with year 2025 month 10 day 6 and assert that it is shown correctly
+#    And Click on button Apply in Calendar
+    And Click on element by text "Add filter"
+
+    And Click on calendar icon with index "2"
+    And Assert date in Calendar with year 2025 month 10 day 5 is not clickable
+    And Assert date in Calendar with year 2025 month 10 day 3 is not clickable
+    And Assert date in Calendar with year 2025 month 10 day 2 is not clickable
+
+    Examples:
+      | rowindex |
+      |        4 |

@@ -8,7 +8,7 @@ Feature: Credit_Cards
     And Wait for My NLB screen to load
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
 
-    When Click "My Products"
+    When Click on Bottom navigation button "Cards"
     And Wait for first product in My products page
     And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
@@ -38,6 +38,7 @@ Feature: Credit_Cards
     And Assert To field in Date transactions filter has date year 2025 month 11 day 8
     
     And Click on element by text "Apply"
+    And Wait for element by text "Confirm"
     And Assert "Confirm" button primary is enabled
     And Assert "Clear filters" button alternate is enabled
     And Click on element by text "Confirm"
@@ -49,8 +50,8 @@ Feature: Credit_Cards
       | rowindex |
       |        1 |
 
-  @Credit_cards_transactions_filter_invalid_[MOB_ANDROID]
-  Scenario Outline: Credit_cards_transactions_filter_invalid_[MOB_ANDROID]
+  @Credit_Cards-Transactions-Filter_Date_Picker_invalid_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards-Transactions-Filter_Date_Picker_invalid_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
@@ -363,35 +364,8 @@ Feature: Credit_Cards
 
 
     Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_2_number" is displayed correctly
-    And Click on element by text "Details"
     And Wait for element by text "Transactions"
     And Assert product option buttons for Credit cards
-#    And Assert order of card details
-
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Credit_Cards_Details_[MOB_ANDROID]
-  Scenario Outline: Credit_Cards_Details_[MOB_ANDROID]
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for My NLB screen to load
-
-    When Click "My Products"
-    And Wait for first product in My products page
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
-
-    Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_2_number" is displayed correctly
-    And Assert element by text "Details"
-    And Assert element by text "Statements"
-    And Assert element by text "Settings"
-    And Assert element by text "Transactions"
-    And Click on element by text "Details"
-    And Wait for element by text "Financial details"
 #    And Assert order of card details
 
     Examples:

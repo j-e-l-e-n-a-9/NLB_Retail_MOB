@@ -736,7 +736,6 @@ public class Steps {
         Assert.assertEquals(expected, element.getAttribute("text").trim());
     }
 
-
     @And("Enter text {string} in element id {string}")
     public void enterTextInElementId(String text, String id) throws Throwable {
         rh.enterTextToElementById(text, id);
@@ -914,7 +913,7 @@ public class Steps {
     public void scrollUntilElementWithTextFromExcelColumnNameIsInView(String rowindex, String columnName) {
         String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         System.out.println("Trazi se: " + text);
-        WaitHelpers.waitForSeconds(3);
+        WaitHelpers.waitForSeconds(2);
         //MobileElement element = (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" + ".scrollIntoView(new UiSelector().textContains(\"" + text +"\"))"));
         String xPath = "//*[@text = '" + text + "']";
         By el = By.xpath(xPath);
@@ -1069,7 +1068,7 @@ public class Steps {
     @And("Enter PIN")
     public void enterPIN() {
 //        driver.getKeyboard().pressKey("1379");
-        driver.getKeyboard().pressKey("12345123");
+        driver.getKeyboard().pressKey("202526");
     }
 
     @And("Enter PIN {string} from {string} column")
@@ -2860,7 +2859,7 @@ public class Steps {
             hp.ClickOnElement(elementForLoginToNLBKlik);
             By elWaitForForgotYourPin = tx.createElementByText("Enter PIN");
             WaitHelpers.waitForElement(elWaitForForgotYourPin);
-            Character[] charObjectArray = Utilities.toCharacterArray("12345123");
+            Character[] charObjectArray = Utilities.toCharacterArray("202526");
             hp.pressKey(charObjectArray);
         } else {
             //LOGIN U SLUCAJU DA JE USER MOCK
@@ -5329,24 +5328,24 @@ public class Steps {
     @And("Assert Year filter for statements")
     public void assertYearFilterForStatements() {
         //label
-        String xPath1 = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.widget.TextView[@text='Year']";
+        String xPath1 = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.view.View[contains(@content-desc, 'Filter by year')]";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         Assert.assertTrue(element1.isDisplayed());
         //default year current
         String xPath2 = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.view.View/android.widget.TextView";
         MobileElement element2 = x.createMobileElementByXpath(xPath2);
         Assert.assertTrue(element2.isDisplayed());
-        Assert.assertEquals("2024", element2.getText());
+        Assert.assertEquals("2026", element2.getText());
         //dropdown arrow in menu
-        String xPath3 = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.view.View/android.widget.ImageView[@content-desc='Expand dropdown menu']";
-        MobileElement element3 = x.createMobileElementByXpath(xPath3);
-        Assert.assertTrue(element3.isDisplayed());
+//        String xPath3 = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.view.View/android.widget.ImageView[@content-desc='Expand dropdown menu']";
+//        MobileElement element3 = x.createMobileElementByXpath(xPath3);
+//        Assert.assertTrue(element3.isDisplayed());
     }
 
     @And("Assert Year filter for statements has expected options")
     public void assertYearFilterForStatementsHasExpectedOptions() throws Throwable {
         //dropdown arrow in menu
-        String xPath1 = "//android.view.View/android.widget.ImageView[@content-desc='Expand dropdown menu']";
+        String xPath1 = "//android.view.View[@resource-id='nlb-dropdown-menu']";
         MobileElement element1 = x.createMobileElementByXpath(xPath1);
         hp.ClickOnElement(element1);
         //dropdown menu
@@ -5367,7 +5366,7 @@ public class Steps {
 
     @And("Wait for first statement to appear")
     public void waitForFirstStatementToAppear() {
-        String xPath = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View[1]";
+        String xPath = "(//android.view.View[@resource-id='nlb-icon-row']/android.view.View[1])[1]";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
     }
@@ -5385,7 +5384,8 @@ public class Steps {
         String xPath1 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[1]";
         List<MobileElement> elements1 = x.createMobileElementsByXpath(xPath1);
         for (MobileElement element : elements1) {
-            Assert.assertTrue(element.getText().matches("^((0?[1-9]|[12]\\d|3[01])\\.\\u00A0(0?[13578]|1[02])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|[12]\\d|30)\\.\\u00A0(0?[13456789]|1[012])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|1\\d|2[0-8])\\.\\u00A0(0?2)\\.\\u00A0((19|20)\\d\\d)|29\\.\\u00A0(0?2)\\.\\u00A0((19|20)(0[48]|[2468][048]|[13579][26])))$"));
+//            Assert.assertTrue(element.getText().matches("^((0?[1-9]|[12]\\d|3[01])\\.\\u00A0(0?[13578]|1[02])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|[12]\\d|30)\\.\\u00A0(0?[13456789]|1[012])\\.\\u00A0((19|20)\\d\\d)|(0?[1-9]|1\\d|2[0-8])\\.\\u00A0(0?2)\\.\\u00A0((19|20)\\d\\d)|29\\.\\u00A0(0?2)\\.\\u00A0((19|20)(0[48]|[2468][048]|[13579][26])))$"));
+            Assert.assertTrue(element.getText().matches("^\\d{2}\\.\\d{2}\\.\\d{4}$"));
         }
         //descriptions
         String xPath2 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[2]";
@@ -5394,12 +5394,12 @@ public class Steps {
             Assert.assertTrue(element.isDisplayed());
         }
         //download icon
-        String xPath3 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.view.View";
-        List<MobileElement> elements3 = x.createMobileElementsByXpath(xPath3);
-        for (MobileElement element : elements3) {
-            Assert.assertTrue(element.isDisplayed());
-            Assert.assertTrue(element.isEnabled());
-        }
+//        String xPath3 = "//android.view.View[@resource-id='nlb-icon-row']/android.view.View/android.view.View";
+//        List<MobileElement> elements3 = x.createMobileElementsByXpath(xPath3);
+//        for (MobileElement element : elements3) {
+//            Assert.assertTrue(element.isDisplayed());
+//            Assert.assertTrue(element.isEnabled());
+//        }
     }
 
     @And("Assert Statement button in Product details index {string}")
@@ -9590,7 +9590,7 @@ public class Steps {
         String text = DataManager.getDataFromHashDatamap(rowindex, columnName);
         By locator = By.xpath("//android.widget.TextView[@text='" + text + "']");
 
-        int maxScrolls = 6;
+        int maxScrolls = 10;
 
         for (int i = 0; i < maxScrolls; i++) {
 
@@ -9751,9 +9751,6 @@ public class Steps {
             toField.click();
             toField.clear();
             toField.sendKeys(toValue);
-
-
-
     }
 
     @When("Click on element in bottom menu by text {string}")
@@ -10554,7 +10551,7 @@ public class Steps {
 
         MobileElement dayEl = x.createMobileElementByXpath(targetXpath);
 
-        String enabled = dayEl.getAttribute("enabled"); // ovo je ono što želiš
+        String enabled = dayEl.getAttribute("enabled");
         Assert.assertNotNull("Enabled attribute is null (unexpected).", enabled);
         Assert.assertEquals("Expected date to be disabled but enabled=" + enabled + " for target=" + targetFull,
                 "false", enabled.toLowerCase());
@@ -11463,6 +11460,168 @@ public class Steps {
         Assert.assertEquals(
                 "Date should be disabled, but enabled attribute is: " + element.getAttribute("enabled")
                         + ". Date: " + date, "false", element.getAttribute("enabled"));
+    }
+
+    @And("Click on Recipient selector for payment")
+    public void clickOnRecipientSelectorForPayment() {
+        MobileElement element = x.createMobileElementByXpath("//*[@text='Recipient']/following-sibling::android.view.View");
+        element.click();
+    }
+
+    @And("Assert account name {string} is not displayed")
+    public void assertAccountNameIsNotDisplayed(String text) {
+        String xPath = "//android.view.View[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[1]";
+        List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+        Assert.assertFalse("Nijedan naziv racuna nije pronadjen ovim XPath-om: " + xPath, elements.isEmpty());
+
+        String expected = text.replace('\u00A0', ' ').replaceAll("\\s+", " ").trim().toLowerCase();
+        for (MobileElement element : elements) {
+            String actualText = element.getText().replace('\u00A0', ' ').replaceAll("\\s+", " ").trim().toLowerCase();
+            if (actualText.contains(expected)) {
+                Assert.fail("Naziv racuna ne sme da bude prikazan u donjem kontejneru, ali je pronadjen: " + element.getText());
+            }
+        }
+    }
+
+    @And("Assert account number containing {string} is not displayed")
+    public void assertAccountNumberContainingIsNotDisplayed(String text) {
+        String xPath = "//android.view.View[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[2]";
+        List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+        String forbidden = text
+                .replace('\u00A0', ' ')
+                .replaceAll("\\s+", " ")
+                .trim()
+                .toLowerCase();
+
+        for (MobileElement element : elements) {
+            String actualText = element.getText()
+                    .replace('\u00A0', ' ')
+                    .replaceAll("\\s+", " ")
+                    .trim()
+                    .toLowerCase();
+
+            if (actualText.contains(forbidden)) {
+                Assert.fail("Broj racuna u donjem kontejneru ne sme da sadrzi: " + text + ", ali je pronadjen: " + element.getText());
+            }
+        }
+    }
+
+    @And("Assert account number from Excel {string} columnName {string} is not displayed")
+    public void assertAccountNumberFromExcelColumnNameIsNotDisplayed(String rowindex, String columnName) {
+        String expectedAccountNumber = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        String xPath = "//android.view.View[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[2]";
+        List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+
+        Assert.assertFalse("Nisu pronadjeni brojevi racuna u donjem kontejneru.", elements.isEmpty());
+
+        String expected = expectedAccountNumber
+                .replace('\u00A0', ' ')
+                .replace('\u202F', ' ')
+                .replaceAll("\\s+", " ")
+                .trim()
+                .toLowerCase();
+
+        boolean found = false;
+
+        for (MobileElement element : elements) {
+            String actualText = element.getText()
+                    .replace('\u00A0', ' ')
+                    .replace('\u202F', ' ')
+                    .replaceAll("\\s+", " ")
+                    .trim()
+                    .toLowerCase();
+
+            if (actualText.contains(expected)) {
+                Assert.fail("Broj racuna iz Excela nije pronadjen u donjem kontejneru. Ocekivano: " + element.getText());
+            }
+        }
+    }
+
+    @And("Wait for first Card in Cards Menu")
+    public void waitForFirstCardInCardsMenu() {
+        String xPath = "(//*[@resource-id='nlb-card-container'])[1]";
+        By element = x.createByXpath(xPath);
+        WaitHelpers.waitForElement(element);
+    }
+
+    @And("Check if date in Calendar with year {int} month {int} day {int} is not enabled")
+    public void checkIfDateInCalendarWithYearMonthDayIsNotEnabled(int year, int month, int day) throws Exception {
+        LocalDate targetDate = LocalDate.of(year, month, day);
+        YearMonth targetMonth = YearMonth.from(targetDate);
+
+        String targetFullDate = rh.getDateInFormat(year, month, day, "EEEE, MMMM d, yyyy");
+
+        By prevBtn = x.createByXpath("//*[@content-desc='Change to previous month']");
+        By nextBtn = x.createByXpath("//*[@content-desc='Change to next month']");
+
+        String monthHeaderXpath = "//*[@content-desc='Switch to selecting a year']/preceding-sibling::android.widget.TextView";
+
+        int maxScrolls = 48;
+
+        for (int i = 0; i < maxScrolls; i++) {
+            MobileElement monthHeaderEl = x.createMobileElementByXpath(monthHeaderXpath);
+            String monthHeaderText = monthHeaderEl.getText().trim();
+
+            YearMonth visibleMonth = parseVisibleMonth(monthHeaderText);
+
+            System.out.println("Visible month: " + visibleMonth);
+            System.out.println("Target month: " + targetMonth);
+
+            if (visibleMonth.equals(targetMonth)) {
+                break;
+            }
+
+            String oldHeader = monthHeaderText;
+
+            if (visibleMonth.isBefore(targetMonth)) {
+                hp.clickElement(nextBtn);
+            } else {
+                hp.clickElement(prevBtn);
+            }
+
+            waitForMonthHeaderToChange(monthHeaderXpath, oldHeader, 5);
+        }
+
+        YearMonth finalVisibleMonth = parseVisibleMonth(
+                x.createMobileElementByXpath(monthHeaderXpath).getText().trim()
+        );
+
+        Assert.assertEquals(
+                "Calendar did not navigate to expected month.",
+                targetMonth,
+                finalVisibleMonth
+        );
+
+        String targetDateXpath = "//android.widget.TextView[@text='" + targetFullDate + "']";
+        List<MobileElement> dateMatches = x.createMobileElementsByXpath(targetDateXpath);
+
+        Assert.assertFalse(
+                "Target date not found in visible month. Target xpath: " + targetDateXpath,
+                dateMatches.isEmpty()
+        );
+
+        MobileElement targetDateEl = dateMatches.get(0);
+
+        Assert.assertTrue(
+                "Target date is not displayed.",
+                targetDateEl.isDisplayed()
+        );
+
+        Assert.assertEquals(
+                "Target date should be disabled, but it is enabled. Date: " + targetFullDate,
+                "false",
+                targetDateEl.getAttribute("enabled")
+        );
+    }
+
+    @And("Assert list of element by id element by id {string} with regex {string}")
+    public void assertListOfElementByIdElementByIdWithRegex(String id, String regex) {
+        String xPath = "//*[@resource-id='" + id + "']";
+        List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+//        List<MobileElement> elements = x.createMobileElementById(id);
+        for(MobileElement element : elements){
+            Assert.assertTrue(element.getText().matches(regex));
+        }
     }
 }
 

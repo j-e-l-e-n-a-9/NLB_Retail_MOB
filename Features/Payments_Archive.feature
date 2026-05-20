@@ -415,8 +415,8 @@ Feature: Payments_Archive
 
     When Scroll until element with content-desc "Executed" is in view
     And Click on first "Executed" past payment
-    And Wait for element by text "Confirmation"
-    And Click on element by text "Confirmation"
+    And Wait for element by text "Payment confirmation"
+    And Click on element by text "Payment confirmation"
 
     Then Assert element by complete id "com.google.android.apps.docs:id/zoomed_view"
     And Go Back
@@ -437,11 +437,18 @@ Feature: Payments_Archive
 
     When Click on Review and edit button "Past payments" in Pay screen
     And Wait for first Past payment
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+    And Assert list of element by id "nlb-details" is displayed
+    And Assert list of element by id element by id "nlb-details" with regex "^.+$"
 
-    Then Assert list of element by id "nlb-date" is displayed
-    And Assert list of element by id "nlb-currency" is displayed
-    And Assert list of element by id "nlb-title" is displayed
-    And Assert list of element by id "nlb-amount" is displayed
+    Then Swipe vertical
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
     And Assert list of element by id "nlb-details" is displayed
 
     Examples:
