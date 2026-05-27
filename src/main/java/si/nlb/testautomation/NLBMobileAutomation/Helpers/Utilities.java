@@ -604,7 +604,7 @@ public class Utilities {
         XSSFWorkbook wb = null;
         FileOutputStream out = null;
         try{
-            file = new FileInputStream(new File("C:\\Users\\Jovan Jacov\\IdeaProjects\\NLBMobile\\results\\failedExecutionList.xlsx"));
+            file = new FileInputStream(new File("C:\\Users\\Aleksa Vojnovic\\Desktop\\DBP SRB Mob\\NLB_Retail_MOB\\results\\failedExecutionList.xlsx"));
 
             wb = new XSSFWorkbook(file);
             XSSFSheet sheet = wb.getSheetAt(0);
@@ -613,7 +613,7 @@ public class Utilities {
                 sheet.removeRow(sheet.getRow(i));
             }
 
-            out = new FileOutputStream(new File("C:\\Users\\Jovan Jacov\\IdeaProjects\\NLBMobile\\results\\failedExecutionList.xlsx"));
+            out = new FileOutputStream(new File("C:\\Users\\Aleksa Vojnovic\\Desktop\\DBP SRB Mob\\NLB_Retail_MOB\\results\\failedExecutionList.xlsx"));
             wb.write(out);
 
 

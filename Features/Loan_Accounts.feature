@@ -140,13 +140,15 @@ Feature: Loan_Accounts
     
     And Click on calendar icon with index "1"
     And Click on date in Calendar with year 2027 month 1 day 2 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Click on calendar icon with index "2"
     And Click on date in Calendar with year 2027 month 8 day 15 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Assert Loans payments dates are between dates year 2027 month 1 day 2 and year 2027 month 8 day 15
 
@@ -196,8 +198,9 @@ Feature: Loan_Accounts
 
     And Click on calendar icon with index "1"
     And Click on date in Calendar with year 2027 month 6 day 6 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Click on calendar icon with index "2"
     And Assert date in Calendar with year 2027 month 4 day 15 is not clickable
@@ -291,13 +294,15 @@ Feature: Loan_Accounts
 
     And Click on calendar icon with index "1"
     And Click on date in Calendar with year 2025 month 4 day 30 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Click on calendar icon with index "2"
     And Click on date in Calendar with year 2025 month 6 day 30 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Assert Loans payments dates are between dates year 2025 month 4 day 30 and year 2025 month 6 day 30
 
@@ -340,8 +345,9 @@ Feature: Loan_Accounts
 
     And Click on calendar icon with index "1"
     And Click on date in Calendar with year 2025 month 10 day 6 and assert that it is shown correctly
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Click on calendar icon with index "2"
     And Assert date in Calendar with year 2025 month 10 day 5 is not clickable

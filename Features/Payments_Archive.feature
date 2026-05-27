@@ -104,18 +104,19 @@ Feature: Payments_Archive
     And Click on element by id "nlb-input-date-from-click-area"
     And Click on date in Calendar with year 2026 month 1 day 9 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+    And Assert button Confirm in Calendar is enabled
+    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
     And Assert From field in Date transactions filter has date year 2026 month 1 day 9
 
     #to
     And Click on element by id "nlb-input-date-to-click-area"
     And Click on date in Calendar with year 2026 month 4 day 13 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+    And Assert button Confirm in Calendar is enabled
+    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
     And Assert To field in Date transactions filter has date year 2026 month 4 day 13
     And Assert "Apply" button primary is enabled
     And Click on element by id "nlb-button-primary"
@@ -172,9 +173,10 @@ Feature: Payments_Archive
     Then Click on element by id "nlb-input-date-to-click-area"
     And Click on date last month fifth and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+#    And Assert button Confirm in Calendar is enabled
+#    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
     And Assert To field in Date transactions filter has date last month fifth
     And Assert "Apply" button primary is disabled
 
@@ -183,9 +185,10 @@ Feature: Payments_Archive
 
 #    Then Click on date last month tenth and assert that it is not shown correctly
 #    And Assert button Cancel in Calendar is enabled
-##    And Assert button Apply in Calendar is enabled
-##    And Click on button Apply in Calendar
+##    And Assert button Confirm in Calendar is enabled
+##    And Click on button Confirm in Calendar
 #    And Click on element by text "Add filter"
+#    And Click on button Confirm in Calendar
 #    And Assert To field in Date transactions filter has date last month fifth
 #    And Assert "Apply" button primary is disabled
 
@@ -443,6 +446,36 @@ Feature: Payments_Archive
     And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
     And Assert list of element by id "nlb-details" is displayed
     And Assert list of element by id element by id "nlb-details" with regex "^.+$"
+
+    Then Swipe vertical
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+    And Assert list of element by id "nlb-details" is displayed
+
+    Examples:
+      | rowindex |
+      |        4 |
+
+
+  @PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_LIST_[ANDROID]
+  Scenario Outline: PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_LIST_[ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "Pay"
+    And Wait for Past payments button in Pay screen
+    And Click on Review and edit button "Past payments" in Pay screen
+    And Wait for first Past payment
+
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
 
     Then Swipe vertical
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"

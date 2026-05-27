@@ -272,10 +272,12 @@ Feature: Current_Foreign_Accounts
     And Click on element by text "Date"
     And Click on calendar icon with index "1"
     And Click on date in Calendar with year 2025 month 6 day 8 and assert that it is shown correctly
-    And Click on element by text "Add filter"
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
     And Click on calendar icon with index "2"
     And Click on date in Calendar with year 2025 month 7 day 14 and assert that it is shown correctly
-    And Click on element by text "Add filter"
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Type"
     And Click on element by text "Type"
@@ -334,7 +336,8 @@ Feature: Current_Foreign_Accounts
     Then Click on element by id "nlb-input-date-to-click-area"
     And Click on date in Calendar with year 2026 month 1 day 10 and assert that it is shown correctly
 #    And Click on element by text "Apply"
-    And Click on element by text "Add filter"
+#    And Click on element by text "Add filter"
+    And Click on button Confirm in Calendar
 
     And Click on element by id "nlb-input-date-from-click-area"
     And Check if element by text "Friday, January 9, 2026" is enabled
@@ -463,3 +466,29 @@ Feature: Current_Foreign_Accounts
     Examples:
       | rowindex |
       |        2 |
+
+
+  @Current_Foreign_Accounts-Transactions_List_[MOB_ANDROID]
+  Scenario Outline: Current_Foreign_Accounts-Transactions_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait element "Transactions" by text
+    And Assert element by content desc "Filters"
+    And Assert element by text "Search..."
+
+    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+
+    Examples:
+      | rowindex |
+      |        1 |

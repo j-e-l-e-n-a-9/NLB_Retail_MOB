@@ -32,9 +32,9 @@ Feature: Cards
     And Click on element by desc "Set date" and index "2"
     And Click on date in Calendar with year 2026 month 4 day 18 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+    And Assert button Confirm in Calendar is enabled
+    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
     And Assert To field in Date transactions filter has date year 2026 month 4 day 18
 
     And Click on element by desc "Set date" and index "1"
@@ -89,9 +89,9 @@ Feature: Cards
     And Click on element by desc "Set date" and index "2"
     And Click on date in Calendar with year 2026 month 3 day 5 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
-#    And Assert button Apply in Calendar is enabled
-#    And Click on button Apply in Calendar
-    And Click on element by text "Add filter"
+    And Assert button Confirm in Calendar is enabled
+    And Click on button Confirm in Calendar
+#    And Click on element by text "Add filter"
     And Assert To field in Date transactions filter has date year 2026 month 3 day 5
 
     And Click on element by desc "Set date" and index "1"
@@ -112,3 +112,57 @@ Feature: Cards
     Examples:
       | rowindex |
       |        4 |
+
+
+#  @Cards-Transactions_Details_[MOB_ANDROID]-Debit_Cards
+#  Scenario Outline: Cards-Transactions_Details_[MOB_ANDROID]-Debit_Cards
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for My NLB screen to load
+#
+#    When Click on Bottom navigation button "Cards"
+#    And Wait for first Card in Cards Menu
+#    And Scroll until element with text from Excel "<rowindex>" columnName "cards_item_debit_card_number" is in the view
+#    And Click on element by text from excel "<rowindex>" columnName "cards_item_debit_card_number"
+#    And Wait for first transaction to load
+#    And Assert element by text from excel "<rowindex>" columnName "cards_item_debit_card_name"
+#    And Assert element by text from excel "<rowindex>" columnName "cards_item_debit_card_number"
+#    And Assert Filter icon is displayed
+#
+#    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+#    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+#
+#    Examples:
+#      | rowindex |
+#      |        4 |
+#
+#
+#  @Cards-Transactions_Details_[MOB_ANDROID]-Credit_Cards
+#  Scenario Outline: Cards-Transactions_Details_[MOB_ANDROID]-Credit_Cards
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for My NLB screen to load
+#
+#    When Click on Bottom navigation button "Cards"
+#    And Wait for first Card in Cards Menu
+#    And Scroll until element with text from Excel "<rowindex>" columnName "cards_item_credit_card_number" is in the view
+#    And Click on element by text from excel "<rowindex>" columnName "cards_item_credit_card_number"
+#    And Wait for first transaction to load
+#    And Assert element by text from excel "<rowindex>" columnName "cards_item_credit_card_name"
+#    And Assert element by text from excel "<rowindex>" columnName "cards_item_credit_card_number"
+#    And Assert Filter icon is displayed
+#
+#    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+#    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+#
+#    Examples:
+#      | rowindex |
+#      |        4 |

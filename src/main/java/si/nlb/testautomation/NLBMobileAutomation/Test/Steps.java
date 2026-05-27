@@ -43,10 +43,7 @@ import java.io.IOException;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -4488,7 +4485,7 @@ public class Steps {
 
     @And("Assert transactions dates are from last seven days")
     public void assertTransactionsDatesAreFromLastSevenDays() throws Exception {
-        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "You have reached the end of list.");
+        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "End of list");
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getLast7DaysDatesInFormat("dd.MM.yyyy");
 
@@ -4512,7 +4509,7 @@ public class Steps {
 
     @And("Assert transactions dates are from This month")
     public void assertTransactionsDatesAreFromThisMonth() throws Exception {
-        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "You have reached the end of list.");
+        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "End of list");
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getDatesThisMonthUntilToday("dd.MM.yyyy");
 
@@ -4536,7 +4533,7 @@ public class Steps {
 
     @And("Assert transactions dates are from Last month")
     public void assertTransactionsDatesAreFromLastMonth() throws Exception {
-        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "You have reached the end of list.");
+        List<String> list = rh.getAllElementsUntilTextFound("nlb-date", "End of list");
         Assert.assertFalse(list.isEmpty());
         List<String> last7Days = rh.getDatesLastMonth("dd.MM.yyyy");
 
@@ -4591,13 +4588,13 @@ public class Steps {
         Assert.assertTrue(element.isEnabled());
     }
 
-    @And("Assert button Confirm in Calendar is enabled")
-    public void assertButtonConfirmInCalendarIsEnabled() {
-        String xPath = "//android.widget.TextView[@text='Confirm']/following-sibling::android.widget.Button";
-        MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertTrue(element.isDisplayed());
-        Assert.assertTrue(element.isEnabled());
-    }
+//    @And("Assert button Confirm in Calendar is enabled")
+//    public void assertButtonConfirmInCalendarIsEnabled() {
+//        String xPath = "//android.widget.TextView[@text='Confirm']/following-sibling::android.widget.Button";
+//        MobileElement element = x.createMobileElementByXpath(xPath);
+//        Assert.assertTrue(element.isDisplayed());
+//        Assert.assertTrue(element.isEnabled());
+//    }
 
     @And("Click on button Confirm in Calendar")
     public void clickOnButtonConfirmInCalendar() throws Exception {
@@ -6834,8 +6831,71 @@ public class Steps {
 
             Assert.assertEquals(expectedAmount, actualAmount);
         }
+    }
 
+    @And("Check if current balance is lowered by {string} from Amount and {string} from Fee using balance from key {string} for currency {string}")
+    public void checkIfCurrentBalanceIsLoweredByFromAmountAndFromFeeUsingBalanceFromKeyForCurrency(String amountString, String feeString, String key, String currency) throws Exception {
+        if (Base.getDataFromFileConf(Hooks.rowinConfExcel, "DEVICE_NAME").contains("HUAWEI")) {
+            String previousAmountString = (String) DataManager.userObject.get(key);
+            Double previousAmount = Double.parseDouble(previousAmountString);
+            Double amount = Double.parseDouble(amountString);
+            Double fee = Double.parseDouble(feeString);
+            Double expectedAmount = previousAmount - amount - fee;
 
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(650, 485, 100, 485, "nlb-product-details-primary-balance");
+
+            String result = null;
+            for (String amountS : listOfBalance) {
+                if (amountS.endsWith(" " + currency)) {
+                    result = amountS;
+                    break; // Stop searching after the first match
+                }
+            }
+
+            System.out.println(result);
+            Assert.assertNotNull("Nije pronadjen balans za valutu: " + currency, result);
+            result = result.replace(" " + currency, "");
+            result = result.replace(".", "").replace(",", ".");
+
+            Double actualAmount = Double.parseDouble(result);
+
+            System.out.printf("Previous amount: %.2f%n", previousAmount);
+            System.out.printf("Amount: %.2f%n", amount);
+            System.out.printf("Fee: %.2f%n", fee);
+            System.out.printf("Expected amount: %.2f%n", expectedAmount);
+            System.out.printf("Actual amount: %.2f%n", actualAmount);
+
+            Assert.assertEquals(expectedAmount, actualAmount);
+        } else {
+            String previousAmountString = (String) DataManager.userObject.get(key);
+            Double previousAmount = Double.parseDouble(previousAmountString);
+            Double amount = Double.parseDouble(amountString);
+            Double fee = Double.parseDouble(feeString);
+            Double expectedAmount = previousAmount - amount - fee;
+
+            List<String> listOfBalance = rh.scrollWithCordinatesAndPutEveryElementWithIdIntoList(900, 650, 100, 650, "nlb-product-details-primary-balance");
+
+            String result = null;
+            for (String amountS : listOfBalance) {
+                if (amountS.endsWith(" " + currency)) {
+                    result = amountS;
+                    break; // Stop searching after the first match
+                }
+            }
+            System.out.println(result);
+            Assert.assertNotNull("Nije pronadjen balans za valutu: " + currency, result);
+            result = result.replace(" " + currency, "");
+            result = result.replace(".", "").replace(",", ".");
+
+            Double actualAmount = Double.parseDouble(result);
+            System.out.printf("Previous amount: %.2f%n", previousAmount);
+            System.out.printf("Amount: %.2f%n", amount);
+            System.out.printf("Fee: %.2f%n", fee);
+            System.out.printf("Expected amount: %.2f%n", expectedAmount);
+            System.out.printf("Actual amount: %.2f%n", actualAmount);
+
+            Assert.assertEquals(expectedAmount, actualAmount);
+        }
     }
 
     @And("Check if current balance is increased by {string} using balance from key {string} for currency {string}")
@@ -7038,6 +7098,9 @@ public class Steps {
         String expected = DataManager.userObject.get(key).toString();
         String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
+        System.out.println("Expected: " + expected);
+        System.out.println("Tekst elementa: " + element.getText());
+        System.out.println("Element bez teksta: " + element);
         Assert.assertEquals(expected, element.getText());
     }
 
@@ -9075,20 +9138,20 @@ public class Steps {
 //        WaitHelpers.waitForElement(elForLoad5);
     }
 
-    @And("Assert button Apply in Calendar is enabled")
+    @And("Assert button Confirm in Calendar is enabled")
     public void assertButtonApplyInCalendarIsEnabled() {
-        String xPath = "//android.widget.TextView[@text='Apply']/following-sibling::android.widget.Button";
+        String xPath = "//android.widget.TextView[@text='Confirm']/following-sibling::android.widget.Button";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
         Assert.assertTrue(element.isEnabled());
     }
 
-    @And("Click on button Apply in Calendar")
-    public void clickOnButtonApplyInCalendar() throws Exception {
-        String xPath = "//android.widget.TextView[@text='Apply']/following-sibling::android.widget.Button";
-        By element = x.createByXpath(xPath);
-        hp.clickElement(element);
-    }
+//    @And("Click on button Confirm in Calendar")
+//    public void clickOnButtonApplyInCalendar() throws Exception {
+//        String xPath = "//android.widget.TextView[@text='Confirm']/following-sibling::android.widget.Button";
+//        By element = x.createByXpath(xPath);
+//        hp.clickElement(element);
+//    }
 
     @And("Assert account number is displayed in BBAN format by xPath {string}")
     public void assertAccountNumberIsDisplayedInBBANFormatByXPath(String xPath) {
@@ -9609,7 +9672,7 @@ public class Steps {
     @And("Assert that text {string} has first following sibling from excel {string} columnName {string}")
     public void assertThatTextHasFirstFollowingSiblingFromExcelColumnName(String textFirst, String rowindex, String column) {
         String accNumber = DataManager.getDataFromHashDatamap(rowindex, column);
-        accNumber = accNumber.replace("-", "");
+//        accNumber = accNumber.replace("-", "");
         String xPath = "//*[@text='" + textFirst + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertEquals(accNumber, element.getText());
@@ -10113,7 +10176,7 @@ public class Steps {
                         inRange);
             }
 
-            endFound = !driver.findElements(By.xpath("//*[@text='You have reached the end of list.']")).isEmpty();
+            endFound = !driver.findElements(By.xpath("//*[@text='End of list']")).isEmpty();
 
             if (!endFound) {
                 hp.swipeByCordinates(700, 1900, 700, 700);
@@ -10165,7 +10228,7 @@ public class Steps {
         Assert.assertTrue("Invalid status: " + status, s.equals("Executed") || s.equals("Rejected") || s.equals("Canceled"));
 
         By empty = By.xpath("//android.widget.TextView[@text='No past payments']");
-        By end   = By.xpath("//*[@text='You have reached the end of list.']");
+        By end   = By.xpath("//*[@text='End of list']");
 
         Set<String> seen = new HashSet<>();
         int validated = 0;
@@ -10222,7 +10285,7 @@ public class Steps {
         Assert.assertFalse("Statuses must be different.", s1.equals(s2));
 
         By empty = By.xpath("//android.widget.TextView[@text='No past payments']");
-        By end   = By.xpath("//*[@text='You have reached the end of list.']");
+        By end   = By.xpath("//*[@text='End of list']");
 
         Set<String> seen = new HashSet<>();
         int validated = 0;
@@ -10492,7 +10555,7 @@ public class Steps {
                 "  and translate(@text,'0123456789.','')=''\n" +
                 "]";
 
-        List<String> list = rh.getAllElementsUntilTextFoundByXpath(xPath, "You have reached the end of list.");
+        List<String> list = rh.getAllElementsUntilTextFoundByXpath(xPath, "End of list");
         Assert.assertFalse(list.isEmpty());
         List<String> pastDays = rh.getDatesBetween(year1, month1, day1, year2, month2, day2, "dd.MM.yyyy");
 
@@ -11622,6 +11685,105 @@ public class Steps {
         for(MobileElement element : elements){
             Assert.assertTrue(element.getText().matches(regex));
         }
+    }
+
+    @And("Assert first transaction have Purpose under key {string}")
+    public void assertFirstTransactionHavePurposeUnderKey(String key) {
+        String expectedPurpose = (String) DataManager.userObject.get(key);
+        String xPath = "(//*[@resource-id='nlb-title'])[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        System.out.println("Element: " + element.getText());
+        System.out.println("Expected from key: " + expectedPurpose);
+        Assert.assertEquals(expectedPurpose, element.getText());
+    }
+
+    @And("Assert first transaction have Creditor name under key {string}")
+    public void assertFirstTransactionHaveCreditorNameUnderKey(String key) {
+        String expectedPurpose = (String) DataManager.userObject.get(key);
+        String xPath = "(//*[@resource-id='nlb-details'])[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+
+        System.out.println("Element: " + element.getText());
+        System.out.println("Expected from key: " + expectedPurpose);
+        Assert.assertEquals(expectedPurpose, element.getText());
+    }
+
+    @And("Assert first transaction have Amount under key {string}")
+    public void assertFirstTransactionHaveAmountUnderKey(String key) {
+        String amountFromKey = (String) DataManager.userObject.get(key);
+
+        Assert.assertNotNull("Amount under key '" + key + "' is null.", amountFromKey);
+
+        int amount = Integer.parseInt(amountFromKey.trim());
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+
+        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
+
+        String expectedAmount = "-" + formatter.format(amount);
+
+        String xPath = "(//*[@resource-id='nlb-amount'])[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+
+        String actualAmount = element.getText().trim();
+
+        // Unicode minus pretvaramo u običan minus
+        actualAmount = actualAmount.replace("−", "-");
+
+        System.out.println("Actual amount: " + actualAmount);
+        System.out.println("Expected amount: " + expectedAmount);
+
+        Assert.assertEquals(expectedAmount, actualAmount);
+    }
+
+    @And("Assert Recipient account number in Payment details in Past payments is from key {string}")
+    public void assertRecipientAccountNumberInPaymentDetailsInPastPaymentsIsFromKey(String key) {
+        String expected = DataManager.userObject.get(key).toString().trim();
+        String xPath = "//*[@text='Recipient account']/following-sibling::*[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+
+        String actual = element.getText().trim();
+
+        Assert.assertTrue("Account number format is not valid: " + actual, actual.matches("^\\d{3}-\\d{13}-\\d{2}$"));
+        String actualWithoutDashes = actual.replace("-", "");
+        Assert.assertEquals(expected, actualWithoutDashes);
+    }
+
+    @And("Assert element by id {string} has value under key {string}")
+    public void assertElementByIdHasValueUnderKey(String id, String key) {
+        String expected = DataManager.userObject.get(key).toString();
+        String xPath = "//*[@resource-id='" + id + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+
+        Assert.assertTrue(element.getText().equals(expected));
+    }
+
+    @And("Assert account number in Transactions details has value under key {string}")
+    public void assertAccountNumberInTransactionsDetailsHasValueUnderKey(String key) {
+        String expected = DataManager.userObject.get(key).toString().trim();
+        String xPath = "//*[@text='Account number']/following-sibling::android.widget.TextView[1]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+
+        String actual = element.getText().trim();
+
+        Assert.assertTrue("Account number format is not valid: " + actual, actual.matches("^\\d{3}-\\d{13}-\\d{2}$"));
+        String actualWithoutDashes = actual.replace("-", "");
+        Assert.assertEquals(expected, actualWithoutDashes);
+    }
+
+    @Then("Click on first transaction in product details")
+    public void clickOnFirstTransactionInProductDetails() {
+        MobileElement element = x.createMobileElementById("nlb-item-row");
+        element.click();
+    }
+
+    @And("Click on element by id {string} with index {string}")
+    public void clickOnElementByIdWithIndex(String id, String index) {
+        String xPath = "(//*[@resource-id='" + id + "'])[" + index + "]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        element.click();
     }
 }
 

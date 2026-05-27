@@ -46,8 +46,8 @@ public class RunTest {
 
         DataManager.tryCallTestrail();
         //Added for running failed tests again
-        //Utilities.replaceExecutionListWithFailedExecutionList();
-        //Utilities.savePreviousTestResults();
+        Utilities.replaceExecutionListWithFailedExecutionList();
+        Utilities.savePreviousTestResults();
 
         try {
             Utilities.archiveStatusFile();

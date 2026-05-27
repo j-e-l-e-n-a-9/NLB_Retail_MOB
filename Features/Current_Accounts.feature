@@ -114,7 +114,7 @@ Feature: Current_Accounts
     And Assert element by text "Realization date"
     And Click on element by desc "Set date"
     And Click on date in Calendar with year 2025 month 12 day 24 and assert that it is shown correctly
-    And Click on element by text "Add filter"
+    And Click on element by text "Confirm"
 
     And Assert element by text "Amount"
     And Enter amount "100" into amount textbox
