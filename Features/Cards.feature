@@ -114,6 +114,8 @@ Feature: Cards
       |        4 |
 
 
+  #KADA DODJE OVAJ TEST NA AUTOMATIZACIJU, PROVERI DA LI JE OVO AUTOMATIZOVAN TEST ZA LIST ILI DETAILS TEST.
+  #GRESKOM AUTOMATIZOVAN
 #  @Cards-Transactions_Details_[MOB_ANDROID]-Debit_Cards
 #  Scenario Outline: Cards-Transactions_Details_[MOB_ANDROID]-Debit_Cards
 #

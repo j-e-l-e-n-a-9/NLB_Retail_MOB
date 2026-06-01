@@ -116,7 +116,6 @@ Feature: Payments_Archive
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
 #    And Click on element by text "Add filter"
-    And Click on button Confirm in Calendar
     And Assert To field in Date transactions filter has date year 2026 month 4 day 13
     And Assert "Apply" button primary is enabled
     And Click on element by id "nlb-button-primary"

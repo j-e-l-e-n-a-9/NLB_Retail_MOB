@@ -421,12 +421,16 @@ Feature: Product_Summary
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
     And Assert element by text "automatizacija orocena stednja android"
-    And Scroll up until element with text "Edit list" is in view
+    And Click on element by text "My NLB"
+    And Wait for My NLB screen to load
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
     And Click on element by text "Edit list"
     And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
     And Click on Edit button for account with text from Excel "<rowindex>" columnName "term_deposit_number2"
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
+    And Scroll until element with text from excel "<rowindex>" columnName "term_deposit_number2" is in view
     And Assert element by text from excel "<rowindex>" columnName "term_deposit_number2"
     And Assert element by text from excel "<rowindex>" columnName "term_deposit_name"
     And Click "Back" content description
@@ -457,13 +461,17 @@ Feature: Product_Summary
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert element by text "automatizacija kredita android"
-    And Scroll up until element with text "Edit list" is in view
+    And Click on element by text "My NLB"
+    And Wait for My NLB screen to load
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
     And Click on element by text "Edit list"
     And Swipe vertical
     And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Click on Edit button for account with text from Excel "<rowindex>" columnName "loan_account_number"
     And Click on element by desc 'Alt="Clear field"'
     And Click on element by text "Apply"
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
     And Click "Back" content description

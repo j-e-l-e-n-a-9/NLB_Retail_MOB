@@ -11711,27 +11711,21 @@ public class Steps {
     @And("Assert first transaction have Amount under key {string}")
     public void assertFirstTransactionHaveAmountUnderKey(String key) {
         String amountFromKey = (String) DataManager.userObject.get(key);
-
         Assert.assertNotNull("Amount under key '" + key + "' is null.", amountFromKey);
 
         int amount = Integer.parseInt(amountFromKey.trim());
-
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
         symbols.setDecimalSeparator(',');
 
         DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
-
         String expectedAmount = "-" + formatter.format(amount);
 
         String xPath = "(//*[@resource-id='nlb-amount'])[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
 
         String actualAmount = element.getText().trim();
-
-        // Unicode minus pretvaramo u običan minus
         actualAmount = actualAmount.replace("−", "-");
-
         System.out.println("Actual amount: " + actualAmount);
         System.out.println("Expected amount: " + expectedAmount);
 

@@ -400,7 +400,6 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-#    And Assert element by text "Creditor account"
     And Enter text from excel "<rowindex>" columnName "domestic_payment_bban" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
     And Enter text "Kablovska Test" in element id "nlb-input-creditor-name" and remember it under key "keyName"
@@ -451,8 +450,12 @@ Feature: Domestic_Payments
     And Assert element by text "Purpose"
 
     And Click on element by id "nlb-button-primary"
+    And Enter PIN
+    And Click on element by id "nlb-button-primary"
     And Wait for element by text "Close without saving"
     And Assert element "nlb-card-container" by id
+    And Wait for element by id "transactions-web-close-popup-nlb-button" to appear
+    And Click on button by id "transactions-web-close-popup-nlb-button"
     And Assert element by text "Do you want to save payment data?"
     And Assert element by text "After saving payment data you can reuse it for future payment."
     And Assert element by id "nlb-button-text" that has descendant text "Close without saving"
@@ -506,15 +509,15 @@ Feature: Domestic_Payments
     And Wait for element by id "nlb-input-creditor-account" to appear
 
     #account number
-#    And Assert element by text "Creditor account"
+    And Assert element by text "Account number"
     And Enter text "++=" in element id "nlb-input-creditor-account"
-    And Assert element by text "Creditor account is required"
+    And Assert element by text "Account number is required"
     And Enter text "9999" in element id "nlb-input-creditor-account"
     And Assert element by text "Incorrect account number"
     And Enter text "20590010078398629545896" in element id "nlb-input-creditor-account"
     And Assert element by text "205900100783986295"
     And Enter text "" in element id "nlb-input-creditor-account"
-    And Assert element by text "Creditor account is required"
+    And Assert element by text "Account number is required"
 
     #name
     And Assert element by text "Name"

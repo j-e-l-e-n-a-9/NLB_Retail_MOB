@@ -49,7 +49,7 @@ Feature: Savings_Accounts
     And Assert element by text "Account type"
     And Assert element by id "nlb-account-type" has text "Savings Account"
     And Assert element by text "Account owner"
-    And Assert that text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert that text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
     And Assert element by text "Account number"
     And Assert element by id "nlb-account-number" has text from Exel "<rowindex>" columnName "saving_account_number"
     And Assert element by text "Purpose"

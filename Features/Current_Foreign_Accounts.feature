@@ -60,7 +60,7 @@ Feature: Current_Foreign_Accounts
      Then Assert element by content desc "Copy account details"
      And Assert element by text "Account details"
      And Assert that text "Account type" has first following sibling that contains text "Current account"
-     And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner"
+     And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner2"
      And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "personal_account_iban"
 #     And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "BIC" has first following sibling that contains text "KOBBRSBG"
