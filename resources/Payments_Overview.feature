@@ -29,7 +29,6 @@ Feature: Payments_Overview
     And Assert element by text "Standing orders"
     And Assert element by text "Recipients"
 
-
     Examples:
       | rowindex |
       | 1        |

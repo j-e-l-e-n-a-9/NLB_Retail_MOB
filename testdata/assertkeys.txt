@@ -30,8 +30,10 @@ e_invoice_just_purpose:PLAČILO PREDRAČUNA ŠTP7
 int_06:HNVEDCKRBI
 SP_004:YLSOBUCWXH
 SO_001:33.27
+keySell_noSpace:117,6578
 e_invoice_creditor_account_noSpace:SI56023090014140137
 e_invoice_creditor_reference:NRC
+keySell:117,6578
 FP_003:FMNPLCSBPK
 FP_004:DPQAXMXGYE
 SP_001:EUGPRWCHAO

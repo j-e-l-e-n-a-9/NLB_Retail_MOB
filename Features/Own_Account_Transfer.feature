@@ -276,4 +276,4 @@ Feature: Own_Account_Transfer
 
     Examples:
       | rowindex |
-      |        4 |
+      |        1 |

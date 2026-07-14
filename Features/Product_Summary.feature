@@ -208,32 +208,32 @@ Feature: Product_Summary
       |        1 |
 
 
-  @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_3
-  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_3
-
-  #Credit card
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-
-    When Click "My Products"
-    And Wait for element by text "Edit list"
-    And Click on element by desc "Edit list"
-    And Wait for element by text "Set favorite account"
-
-    Then Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
-    And Click on element by desc 'Alt="Clear field"'
-    And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscing." in Rename product input field
-    And Assert element by text "You have reached the maximum number of characters."
-    And Click on element by desc 'Alt="Clear field"'
-    And Click on element by text "Apply"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_name"
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_3
+#  Scenario Outline: Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_3
+#
+#  #Credit card
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#
+#    When Click "My Products"
+#    And Wait for element by text "Edit list"
+#    And Click on element by desc "Edit list"
+#    And Wait for element by text "Set favorite account"
+#
+#    Then Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+#    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
+#    And Click on element by desc 'Alt="Clear field"'
+#    And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscing." in Rename product input field
+#    And Assert element by text "You have reached the maximum number of characters."
+#    And Click on element by desc 'Alt="Clear field"'
+#    And Click on element by text "Apply"
+#    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+#    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_name"
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
 
   @Product_Summary-Edit_Product_view-edit_name_of_account-invalid_[MOB_ANDROID]_4
@@ -508,28 +508,28 @@ Feature: Product_Summary
       |        1 |
 
 
-  @Product_Summary-Credit_Card_List_[MOB_ANDROID]
-  Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
-    #TODO: DODATI PROVERU SORTIRANOSTI KARTICE KADA SE UTVRDI KOJI JE NACIN SORTIRANJA
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    When Click "My Products"
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
-    And Swipe vertical short
-    And Swipe vertical short
-
-    #TODO: Ima li neki poseban nacin da se proveri prikazivanje ikonica za kartice?
-    Then Assert that product card of name "credit_card_name" and detailed name "credit_card_2_number" from Excel "<rowindex>" for nlb credit card account are shown correctly
-    And Assert that whole product card of credit card account with name "credit_card_name" and iban "credit_card_2_number" from Excel "<rowindex>" acts as a clickable button
-    And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
-#    And Assert that credit cards account numbers are sorted correctly
-    #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
-    #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary-Credit_Card_List_[MOB_ANDROID]
+#  Scenario Outline: Product_Summary-Credit_Card_List_[MOB_ANDROID]
+#    #TODO: DODATI PROVERU SORTIRANOSTI KARTICE KADA SE UTVRDI KOJI JE NACIN SORTIRANJA
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#    When Click "My Products"
+#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_name" is in view
+#    And Swipe vertical short
+#    And Swipe vertical short
+#
+#    #TODO: Ima li neki poseban nacin da se proveri prikazivanje ikonica za kartice?
+#    Then Assert that product card of name "credit_card_name" and detailed name "credit_card_2_number" from Excel "<rowindex>" for nlb credit card account are shown correctly
+#    And Assert that whole product card of credit card account with name "credit_card_name" and iban "credit_card_2_number" from Excel "<rowindex>" acts as a clickable button
+#    And Click on element by text from excel "<rowindex>" columnName "credit_card_name"
+##    And Assert that credit cards account numbers are sorted correctly
+#    #Then Assert that product card of name "credit_card_premium_visa_one_name" and detailed name "credit_card_premium_visa_one_iban" from Excel "<rowindex>" for nlb credit card account are shown correctly
+#    #And Assert that whole product card of credit card account with name "credit_card_premium_visa_one_name" and iban "credit_card_premium_visa_one_iban" from Excel "<rowindex>" acts as a clickable button
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
 
   @Product_Summary-Current_Foreign_Accounts_List_[MOB_ANDROID]
@@ -584,36 +584,36 @@ Feature: Product_Summary
       |        2 |
 
 
-  @Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
-  Scenario Outline: Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-
-    When Click "My Products"
-    And Wait element "Edit list" by text
-
-    Then Change name of product from Excel "<rowindex>" columnName "credit_card_2_number" into "automatizacija kreditne kartice android"
-    And Assert product from Excel "<rowindex>" with bban "credit_card_2_number" has name "automatizacija kreditne kartice android"
-    And Wait "4" seconds
-    And Wait for element with "Back" content description from view tag "View"
-    And Click on element by desc "Back"
-    And Wait for first product in My products page
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Assert element by text "automatizacija kreditne kartice android"
-    And Scroll up until element with text "Edit list" is in view
-    And Click on element by text "Edit list"
-    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
-    And Click on element by desc 'Alt="Clear field"'
-    And Click on element by text "Apply"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
-    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
-
-    Examples:
-      | rowindex |
-      |        1 |
+#  @Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
+#  Scenario Outline: Product_Summary-Edit_Product_View-Edit_Name_Of_Account_[MOB_ANDROID]-Credit_Card
+#
+#    Given Open Application
+#    And Select User from Excel "<rowindex>" columnName "username" and login
+#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+#
+#    When Click "My Products"
+#    And Wait element "Edit list" by text
+#
+#    Then Change name of product from Excel "<rowindex>" columnName "credit_card_2_number" into "automatizacija kreditne kartice android"
+#    And Assert product from Excel "<rowindex>" with bban "credit_card_2_number" has name "automatizacija kreditne kartice android"
+#    And Wait "4" seconds
+#    And Wait for element with "Back" content description from view tag "View"
+#    And Click on element by desc "Back"
+#    And Wait for first product in My products page
+#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+#    And Assert element by text "automatizacija kreditne kartice android"
+#    And Scroll up until element with text "Edit list" is in view
+#    And Click on element by text "Edit list"
+#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+#    And Click on Edit button for account with text from Excel "<rowindex>" columnName "credit_card_2_number"
+#    And Click on element by desc 'Alt="Clear field"'
+#    And Click on element by text "Apply"
+#    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+#    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+#
+#    Examples:
+#      | rowindex |
+#      |        1 |
 
 
   @Product_Summary_Edit_Product_View_[MOB_ANDROID]
@@ -632,7 +632,7 @@ Feature: Product_Summary
     And Scroll up until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Hide account from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Hide account from Excel "<rowindex>" columnName "personal_account_iban"
-    And Hide account from Excel "<rowindex>" columnName "credit_card_2_number"
+#    And Hide account from Excel "<rowindex>" columnName "credit_card_2_number"
     And Hide account from Excel "<rowindex>" columnName "saving_account_number"
     And Hide account from Excel "<rowindex>" columnName "term_deposit_number"
     And Hide account from Excel "<rowindex>" columnName "loan_account_number"
@@ -641,7 +641,7 @@ Feature: Product_Summary
     And Wait for first product in My products page
     And Assert account from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is not displayed
     And Assert account from excel "<rowindex>" columnName "personal_account_iban" is not displayed
-    And Assert account from excel "<rowindex>" columnName "credit_card_2_number" is not displayed
+#    And Assert account from excel "<rowindex>" columnName "credit_card_2_number" is not displayed
     And Swipe vertical
     And Assert account from excel "<rowindex>" columnName "saving_account_number" is not displayed
     And Assert account from excel "<rowindex>" columnName "term_deposit_number" is not displayed

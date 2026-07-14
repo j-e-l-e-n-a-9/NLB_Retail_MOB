@@ -472,6 +472,40 @@ Feature: Current_Domestic_Accounts
       |        4 |
 
 
+  @Current_Domestic_Accounts-Details_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first transaction to load
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+    And Assert account name from excel "<rowindex>" column name "currentDomesticAccountName" is displayed
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by id "nlb-product-details-primary-balance" with regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
+    And Assert element by id "nlb-product-details-primary-balance" with regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
+    And Assert product option buttons for Current domestic accounts
+
+#    And Click on element by text "Details"
+#    And Wait element "Financial details" by text
+#    And Swipe vertical
+#
+#    Then Assert element by text "Account details"
+#    And Assert that text "Overdraft" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
+#    And Assert that text "Overdraft expiration date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert that text "Overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+#    And Assert that text "Unauthorized overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+
+    Examples:
+      | rowindex |
+      |        2 |
+
 
   @Current_Domestic_Accounts-Details-Account_Details_[MOB_ANDROID]
   Scenario Outline: Current_Domestic_Accounts-Details-Account_Details_[MOB_ANDROID]
@@ -488,6 +522,7 @@ Feature: Current_Domestic_Accounts
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
     And Click on element by text "Cheques"
+    And Wait for element by contains text "Cheques found"
     And Remember number of cheques under key "numberOfCheques"
     And Click on element by desc "Back"
     And Wait element "Transactions" by text
@@ -505,7 +540,38 @@ Feature: Current_Domestic_Accounts
 
     Examples:
       | rowindex |
-      |        2 |
+      |        8 |
+
+
+  @Current_Domestic_Accounts-Details-Financial_Details_[MOB_ANDROID]
+  Scenario Outline: Current_Domestic_Accounts-Details-Financial_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first transaction to load
+    And Assert element by contains text "Transactions"
+    And Assert element "nlb-icon-button" by id
+
+    And Click on element by text "Details"
+    And Wait element "Financial details" by text
+    And Swipe vertical
+
+    Then Assert element by text "Account details"
+    And Assert that text "Overdraft" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
+    And Assert that text "Overdraft expiration date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+    And Assert that text "Unauthorized overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+
+    Examples:
+      | rowindex |
+      |        5 |
+
 
   @Current_Domestic_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
   Scenario Outline: Current_Domestic_Accounts-Transactions-Filter-Invalid_[MOB_ANDROID]
@@ -572,7 +638,6 @@ Feature: Current_Domestic_Accounts
 #    And Wait for Statements screen to load
     And Wait for first statement to appear
 
-#    And Wait "10" seconds
     When Assert screen header is "Statements"
     And Assert back button in screen "Statements"
     And Assert Year filter for statements

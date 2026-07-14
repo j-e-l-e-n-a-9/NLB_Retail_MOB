@@ -60,7 +60,7 @@ Feature: Current_Foreign_Accounts
      Then Assert element by content desc "Copy account details"
      And Assert element by text "Account details"
      And Assert that text "Account type" has first following sibling that contains text "Current account"
-     And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner2"
+     And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner"
      And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "personal_account_iban"
 #     And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "BIC" has first following sibling that contains text "KOBBRSBG"
@@ -195,7 +195,7 @@ Feature: Current_Foreign_Accounts
 
     When Wait for first transaction to load
     And Assert Product page for product with name from Excel "<rowindex>" columnName "personal_account_iban"
-#    And Assert product option buttons for Current foreign accounts
+    And Assert product option buttons for Current foreign accounts
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
 
     And Click Transaction filter button in Product
@@ -447,7 +447,7 @@ Feature: Current_Foreign_Accounts
     And Assert list of transactions is displayed correctly in Product
     And Assert Transaction filter button in Product
 #    And Assert product option buttons for Current foreign accounts
-    And Assert Statement button in Product details
+    And Assert Statement button in Product details for Current Foreign Account
     And Click on button in Product details "Statements"
 #    And Wait for Statements screen to load
     And Wait for first statement to appear
@@ -465,7 +465,7 @@ Feature: Current_Foreign_Accounts
 
     Examples:
       | rowindex |
-      |        2 |
+      |        5 |
 
 
   @Current_Foreign_Accounts-Transactions_List_[MOB_ANDROID]

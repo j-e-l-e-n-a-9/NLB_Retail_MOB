@@ -1,5 +1,6 @@
 package si.nlb.testautomation.NLBMobileAutomation.Action;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -1544,10 +1545,10 @@ public class RoutineHelper {
         Assert.assertTrue(cliboard.matches("[0-9]{6}"));
 
         //Za success poruku
-        String xPathForSuccessMainMessage = "//*[@text='OTP Copied']";
+        String xPathForSuccessMainMessage = "//*[@text='Copied']";
         MobileElement elementForMainSuccessMessage = x.createMobileElementByXpath(xPathForSuccessMainMessage);
         Assert.assertTrue(elementForMainSuccessMessage.isDisplayed());
-        String xPathForSuccessSubMessage = "//*[@text='One Time Password copied to clipboard']";
+        String xPathForSuccessSubMessage = "//*[@text='One-time password copied to clipboard']";
         MobileElement elementForSubSuccessMessage = x.createMobileElementByXpath(xPathForSuccessSubMessage);
         Assert.assertTrue(elementForSubSuccessMessage.isDisplayed());
 
@@ -1568,7 +1569,7 @@ public class RoutineHelper {
         Assert.assertTrue(elementForZeroSeconds.isDisplayed());
         Assert.assertTrue(elementForThirtySeconds.isDisplayed());
 
-        WaitHelpers.waitForSeconds(35);
+        WaitHelpers.waitForSeconds(30);
         hp.ClickOnElement(elementForCopyButton);
         String cliboard2 = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
         Assert.assertTrue(cliboard.matches("[0-9]{6}"));
@@ -2613,5 +2614,69 @@ public class RoutineHelper {
 
         if (result.isEmpty()) throw new Exception("No amount/currency rows collected.");
         return result;
+    }
+
+    public BigDecimal getBigDecimalValueFromUserObject(String key) {
+        Object value = DataManager.userObject.get(key);
+
+        Assert.assertNotNull(
+                "Ne postoji vrednost u DataManager.userObject za key: " + key,
+                value
+        );
+
+        return parseAmountToBigDecimal(value.toString());
+    }
+
+    public BigDecimal parseAmountToBigDecimal(String amount) {
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount ne sme biti null.");
+        }
+
+        String normalized = amount
+                .replace('\u00A0', ' ')
+                .trim()
+                .replaceAll("[^0-9,.-]", "");
+
+        if (normalized.isEmpty()) {
+            throw new IllegalArgumentException("Amount nema validnu numeričku vrednost: " + amount);
+        }
+
+        if (normalized.contains(",")) {
+            normalized = normalized
+                    .replace(".", "")
+                    .replace(",", ".");
+        }
+
+        return new BigDecimal(normalized);
+    }
+
+    public BigDecimal multiplyLocalizedNumbers(String firstValue, String secondValue) {
+        BigDecimal firstNumber = parseLocalizedBigDecimal(firstValue);
+        BigDecimal secondNumber = parseLocalizedBigDecimal(secondValue);
+
+        return firstNumber.multiply(secondNumber);
+    }
+
+    public BigDecimal parseLocalizedBigDecimal(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Prosleđena vrednost je null.");
+        }
+
+        String normalized = value
+                .replace("\u00A0", " ")
+                .trim()
+                .replaceAll("[^0-9,.-]", "");
+
+        if (normalized.isEmpty()) {
+            throw new IllegalArgumentException("Nije moguće parsirati broj iz vrednosti: " + value);
+        }
+
+        if (normalized.contains(",") && normalized.contains(".")) {
+            normalized = normalized.replace(".", "").replace(",", ".");
+        } else if (normalized.contains(",")) {
+            normalized = normalized.replace(",", ".");
+        }
+
+        return new BigDecimal(normalized);
     }
 }

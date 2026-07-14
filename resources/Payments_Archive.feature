@@ -220,8 +220,6 @@ Feature: Payments_Archive
     And Assert list of element by id "nlb-amount" is displayed
     And Assert list of element by id "nlb-details" is displayed
 
-
-
     Examples:
       | rowindex |
       | 3        |

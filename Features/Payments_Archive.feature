@@ -476,7 +476,43 @@ Feature: Payments_Archive
     And Assert list of element by id element by id "nlb-title" with regex "^.*$"
     And Assert list of element by id element by id "nlb-details" with regex "^.*$"
 
-    Then Swipe vertical
+    And Swipe vertical
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+    And Assert list of element by id "nlb-details" is displayed
+
+    And Swipe vertical up
+    And Swipe vertical up
+    And Click on Account selector in Payment list
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    And Wait for first Past payment
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+
+    And Swipe vertical
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+    And Assert list of element by id "nlb-details" is displayed
+
+    Then Swipe vertical up
+    And Swipe vertical up
+    And Click on Account selector in Payment list
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait for first Past payment
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+
+    And Swipe vertical
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
     And Assert list of element by id element by id "nlb-title" with regex "^.+$"
@@ -485,4 +521,43 @@ Feature: Payments_Archive
 
     Examples:
       | rowindex |
-      |        4 |
+      |        5 |
+
+
+  @PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_DETAILS_[ANDROID]
+  Scenario Outline: PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_DETAILS_[ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "Pay"
+    And Wait for Past payments button in Pay screen
+    And Click on Review and edit button "Past payments" in Pay screen
+    And Wait for first Past payment
+
+    And Click on first "Executed" past payment
+    And Wait element "Payment confirmation" by text
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element "nlb-title" by id
+    And Assert element "nlb-details" by id
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+
+    And Assert element by text "Recipient name" has first following sibling with regex "^.+$"
+    And Assert element by text "Recipient address" has first following sibling with regex "(?s)^.+$"
+    And Assert element by text "Recipient account" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
+    And Assert element by text "Urgent payment" has first following sibling with regex "^(Yes|No)$"
+    And Assert element by text "Purpose code" has first following sibling with regex "^\d{3}$"
+    And Assert element by text "Purpose" has first following sibling with regex "^.+$"
+    And Swipe vertical
+    And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Debtor address" has first following sibling with regex "(?s)^.+$"
+    And Assert element by text "Fee" has first following sibling with regex "^\d+,\d{2}[\s\u00A0]*RSD$"
+    And Assert element by text "Payment status" has first following sibling contains text "Executed"
+    And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
+
+    Examples:
+      | rowindex |
+      |        5 |

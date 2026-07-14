@@ -61,27 +61,27 @@ private int currentStepDefIndex = 0;
     LocalDateTime t;
     LocalDateTime stepT;
 
-    @BeforeStep
-    public void beforeStepFunction(Scenario scenario){
-        stepT = Utilities.now();
-        currentStepDefIndex++;
-    }
+//    @BeforeStep
+//    public void beforeStepFunction(Scenario scenario){
+//        stepT = Utilities.now();
+//        currentStepDefIndex++;
+//    }
 
-    @AfterStep
-    public void afterStepFunction(Scenario scenario) throws IOException, SQLException {
-        //System.out.println(StepDetails.stepName);
-        if (dbWriteResults.equals("ON")){
-            String strDate = new SimpleDateFormat("dd_MM_yyyy_HH_mm").format(Calendar.getInstance().getTime());
-            String stepName = StepDetails.stepName;
-            String stepCode = Utilities.getMethodCode(stepName).toString();
-            String stepEndTime = Utilities.now().toString();
-            String stepDuration = Utilities.timeBetween(Utilities.now(), stepT);
-            File file = ((TakesScreenshot) Base.driver).getScreenshotAs(OutputType.FILE);
-            String screenshotName = scenario.getName() + "_" + strDate + ".jpg";
-            FileUtils.copyFile(file, new File("results/" + screenshotName));
-            Queries.writeToTestStepTable(currentStepDefIndex,stepCode,stepName,screenshotName,stepT.toString(),stepEndTime,stepDuration,t.toString());
-        }
-    }
+//    @AfterStep
+//    public void afterStepFunction(Scenario scenario) throws IOException, SQLException {
+//        //System.out.println(StepDetails.stepName);
+//        if (dbWriteResults.equals("ON")){
+//            String strDate = new SimpleDateFormat("dd_MM_yyyy_HH_mm").format(Calendar.getInstance().getTime());
+//            String stepName = StepDetails.stepName;
+//            String stepCode = Utilities.getMethodCode(stepName).toString();
+//            String stepEndTime = Utilities.now().toString();
+//            String stepDuration = Utilities.timeBetween(Utilities.now(), stepT);
+//            File file = ((TakesScreenshot) Base.driver).getScreenshotAs(OutputType.FILE);
+//            String screenshotName = scenario.getName() + "_" + strDate + ".jpg";
+//            FileUtils.copyFile(file, new File("results/" + screenshotName));
+//            Queries.writeToTestStepTable(currentStepDefIndex,stepCode,stepName,screenshotName,stepT.toString(),stepEndTime,stepDuration,t.toString());
+//        }
+//    }
 
 
     /**

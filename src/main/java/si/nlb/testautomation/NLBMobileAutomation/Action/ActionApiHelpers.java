@@ -1453,4 +1453,25 @@ public class ActionApiHelpers {
 
         ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", args);
     }
+
+    public String normalizeAmountForCurrency(String amount) {
+        amount = amount.trim();
+
+        // Ako je već u formatu 1,50
+        if (amount.matches("^\\d+,\\d{2}$")) {
+            return amount;
+        }
+
+        // Ako je u formatu 3,5 -> 3,50
+        if (amount.matches("^\\d+,\\d$")) {
+            return amount + "0";
+        }
+
+        // Ako je samo ceo broj 3 -> 3,00
+        if (amount.matches("^\\d+$")) {
+            return amount + ",00";
+        }
+
+        throw new IllegalArgumentException("Nepodržan format iznosa iz key-a: " + amount);
+    }
 }

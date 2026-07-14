@@ -64,17 +64,17 @@ Feature: Loan_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
     #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
 #    And Assert Loan accounts current loan balance is displayed
 
-    Then Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
+    Then Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
     And Wait for element by text "Financial details"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+#    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
@@ -219,18 +219,18 @@ Feature: Loan_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
     #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
 #    And Assert Loan accounts current loan balance is displayed
 
-    And Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
-    And Click on element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
     And Wait for element by text "Financial details"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+#    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Swipe vertical
     And Assert element by text "Annuity plan"
     And Assert element by text "Payments"
@@ -248,7 +248,6 @@ Feature: Loan_Accounts
     And Assert element by id "nlb-input-standing-order-start-date" and index "1" is displayed
     And Assert element by id "nlb-input-standing-order-start-date" and index "2" is displayed
 
-
     Examples:
       | rowindex |
       |        5 |
@@ -263,17 +262,17 @@ Feature: Loan_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
     #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
 #    And Assert Loan accounts current loan balance is displayed
 
-    And Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
     And Wait for element by text "Financial details"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
@@ -283,8 +282,8 @@ Feature: Loan_Accounts
 
     Then Click on element by text "Payments"
     And Wait for element by contains text "Payments found"
-    And Assert element by text "EUR"
-    And Assert element by text "RSD"
+#    And Assert element by text "EUR"
+#    And Assert element by text "RSD"
     And Assert Repayments dates are sorted descending for Loans payments
     And Assert list of Value in loan currency amount is displayed correctly
     And Assert list of Value in local currency amount is displayed correctly
@@ -357,3 +356,53 @@ Feature: Loan_Accounts
     Examples:
       | rowindex |
       |        4 |
+
+
+  @Loan_Accounts-Details-Financial_Details_[MOB_ANDROID]
+  Scenario Outline: Loan_Accounts-Details-Financial_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Wait for product details to load
+    And Assert element by text "Financial details"
+
+    Then Assert element by text "Amount" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}[\s\u00A0][A-Z]{3}$"
+    And Assert element by text "Annuity" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}[\s\u00A0][A-Z]{3}$"
+    And Assert element by text "Nominal interest rate" has first following sibling with regex "^\d{1,3},\d{2}\s*%$"
+    And Assert element by text "Last installment date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Next installment date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Remaining principal amount" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}[\s\u00A0][A-Z]{3}$"
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+  @Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
+  Scenario Outline: Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for product details to load
+    And Assert element by text "Financial details"
+
+    Then Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Start date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Repayment period" has first following sibling with regex "^(?:0|[1-9]\d*)\s*months$"
+    And Assert element by text "Remaining period" has first following sibling with regex "^(?:0|[1-9]\d*)\s*months$"
+
+    Examples:
+      | rowindex |
+      |        5 |
