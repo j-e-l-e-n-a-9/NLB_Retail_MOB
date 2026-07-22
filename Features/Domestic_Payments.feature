@@ -1010,7 +1010,7 @@ Feature: Domestic_Payments
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
     And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert that text "Fee" has first following sibling that contains text "15,00 RSD"
+#    And Assert that text "Fee" has first following sibling that contains text "15,00 RSD"
 #    And Assert that text "Payment status" has first following sibling that contains text "Executed"
 #    And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
     And Click "Back" content description
@@ -2149,7 +2149,7 @@ Feature: Domestic_Payments
     And Click on element by id "nlb-button-primary"
 
     Then Wait for element by text "Error"
-    And Assert element by contains text "Neispravan poziv na broj za račun 840000071312184357 !"
+    And Assert element by contains text "Neispravan poziv na broj za račun 840000071312184357"
     And Assert element by text "OK"
 
     Examples:

@@ -58,8 +58,7 @@ import java.util.stream.Stream;
 import org.openqa.selenium.interactions.Actions;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static si.nlb.testautomation.NLBMobileAutomation.Core.Base.driver;
 
 public class Steps {
@@ -12321,6 +12320,103 @@ public class Steps {
         MobileElement element3 = x.createMobileElementByXpath(xPath3);
         Assert.assertTrue(element3.isDisplayed());
         Assert.assertTrue(element3.isEnabled());
+    }
+
+    @And("Assert statemant year filter has current year")
+    public void assertStatemantYearFilterHasCurrentYear() {
+        String xPath = "//android.view.View[@resource-id='nlb-dropdown-menu']/android.view.View/android.widget.TextView";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String yearFromUI = element.getText().trim();
+        System.out.println("YEAR FROM UI " + yearFromUI);
+        int actualYear = LocalDate.now().getYear();
+        System.out.println("ACTUAL " + actualYear);
+        Assert.assertEquals(yearFromUI, String.valueOf(actualYear));
+    }
+
+    @And("Remember number of Statemants under key {string}")
+    public void rememeberNumberOfStatemantsUnderKey(String key) {
+        String xpathStatementDate = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[1]";
+        String xpathBottomElement = "//android.widget.TextView[@text='You have reached the end of the list.']";
+        boolean scroll = true;
+        int maxScrolls = 10;
+        int index = 0;
+        Set<String> setFinal = new HashSet<>();
+        while(scroll && index<maxScrolls){
+            List<MobileElement> list = x.createElementsByXpath(xpathStatementDate);
+            list.forEach(element -> setFinal.add(element.getText()));
+            if(x.createElementsByXpath(xpathBottomElement).size()>0){
+                scroll = false;
+                break;
+            }
+            int startX = 500;
+            int startY = 1500;
+            int endX = 500;
+            int endY = 700;
+            hp.swipeByCordinates(startX, startY, endX, endY);
+            index++;
+        }
+        System.out.println("FOUNDED NUMBER " + setFinal.size());
+        setFinal.forEach(e -> System.out.println(e));
+        DataManager.userObject.put(key, setFinal.size());
+    }
+
+    @And("Assert the statements counter displays the expected number of items from key {string}")
+    public void assertStatementsFoundDisplayAmountOfStatemantsFromKey(String key) {
+        String amountFromKey = DataManager.userObject.get(key).toString();
+        String xpath = "//android.widget.TextView[@text='"+amountFromKey+" statements found']";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        System.out.println(element.getText());
+        Assert.assertTrue(element.isDisplayed());
+    }
+
+    @And("Assert all statements from list has year {string} and they are sorted properly")
+    public void assertAllStatementsFromListHasYearAndTheyAreSortedProperly(String year) {
+        String xpathStatementCard = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[1]";
+        String xpathBottomElement = "//android.widget.TextView[@text='You have reached the end of the list.']";
+        boolean scroll = true;
+        int maxScrolls = 10;
+        int index = 0;
+        List<String> helperList = new ArrayList<>();
+        while(scroll && index<maxScrolls){
+            List<MobileElement> list = x.createElementsByXpath(xpathStatementCard);
+            list.forEach(element -> helperList.add(element.getText()));
+            if(x.createElementsByXpath(xpathBottomElement).size()>0){
+                scroll = false;
+                break;
+            }
+            int startX = 500;
+            int startY = 1500;
+            int endX = 500;
+            int endY = 700;
+            hp.swipeByCordinates(startX, startY, endX, endY);
+            index++;
+        }
+        List<String>finalList = helperList.stream().distinct().collect(Collectors.toList());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        List<LocalDate> dates = new ArrayList<>();
+        for (String textElement : finalList) {
+            LocalDate parsedDate = LocalDate.parse(textElement, formatter);
+            dates.add(parsedDate);
+        }
+        System.out.println(dates);
+        if (dates.isEmpty()) {
+            System.out.println("LISTA JE PRAZNA!");
+            fail();
+        }
+        int expectedYear = Integer.parseInt(year);
+        for (LocalDate date : dates) {
+            Assert.assertEquals(String.format("Datum %s ne pripada godini %d!", date.format(formatter), expectedYear),
+                    expectedYear,
+                    date.getYear());
+        }
+        for (int i = 0; i < dates.size() - 1; i++) {
+            LocalDate current = dates.get(i);
+            LocalDate next = dates.get(i + 1);
+            Assert.assertTrue(String.format("Datumi nisu dobro sortirani (očekivano od decembra ka januaru)! '%s' je preuranjem u odnosu na '%s'.",
+                            current.format(formatter), next.format(formatter)),
+                    current.isAfter(next) || current.isEqual(next));
+
+        }
     }
 }
 
