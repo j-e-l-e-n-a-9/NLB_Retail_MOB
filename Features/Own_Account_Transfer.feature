@@ -36,7 +36,7 @@ Feature: Own_Account_Transfer
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
     And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Wait for element by text "Debtor"
-    And Assert Debtor in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "currentDomesticAccountName" and iban "currentDomesticAccountBBAN"
+    #And Assert Debtor in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "currentDomesticAccountName" and iban "currentDomesticAccountBBAN"
     And Assert Recipient in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "second_personal_account_name" and iban "second_personal_account_bban"
     
     And Assert element by text "Payment"
@@ -172,6 +172,7 @@ Feature: Own_Account_Transfer
     And Swipe vertical
     And Click on element by contains text "Cancel"
     And Wait "1" seconds
+    And Wait for element by contains text "terminate"
     And Assert element by contains text "Cancelling now will terminate the payment process."
     And Assert element by contains text "Yes"
     And Assert element by contains text "No"

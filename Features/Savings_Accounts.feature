@@ -285,3 +285,44 @@ Feature: Savings_Accounts
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Savings_Accounts_Statemants_List_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Statemants_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
+    And Wait for first transaction to load
+
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Assert list of transactions is displayed correctly in Product
+    And Assert Transaction filter button in Product
+    And Click on button in Product details "Statements"
+    And Wait for first statement to appear
+
+    And Assert screen header is "Statements"
+    And Assert back button in screen "Statements"
+    And Assert Year filter for statements
+    And Assert statemant year filter has current year
+    And Assert Year filter for statements has expected options
+    And Click on element by text "2021"
+    And Wait for first statement to appear
+    And Remember number of Statemants under key "keyStatemantsNumber"
+    And Swipe vertical up
+    And Assert the statements counter displays the expected number of items from key "keyStatemantsNumber"
+    And Assert all statements from list has year "2021" and they are sorted properly
+
+    Then Click on element by id "nlb-icon-row" with index "1"
+    And Wait for element by contains text "Izvod_"
+    And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
+    And Go Back
+    And Assert screen header is "Statements"
+
+    Examples:
+      | rowindex |
+      |        1 |

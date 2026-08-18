@@ -424,7 +424,9 @@ Feature: Domestic_Payments
     And Assert element by content desc "Set date"
     And Assert payment date is todays date and in valid date format
     And Click on element by desc "Set date"
-    And Click on date in Calendar 30 days in future and assert that it is shown correctly
+    #And Click on date in Calendar 30 days in future and assert that it is shown correctly
+    And Click on date in Calendar 30 days in future and assert that it is displayed correctly
+
 #    And Click on element by text "Add filter"
     And Click on button Confirm in Calendar
     And Assert element by id "nlb-checkbox-urgent-payment" is checked "false"
@@ -510,55 +512,75 @@ Feature: Domestic_Payments
 
     #account number
     And Assert element by text "Account number"
+    And Clear input box by element id "nlb-input-creditor-account"
     And Enter text "++=" in element id "nlb-input-creditor-account"
     And Assert element by text "Account number is required"
+    And Clear input box by element id "nlb-input-creditor-account"
     And Enter text "9999" in element id "nlb-input-creditor-account"
     And Assert element by text "Incorrect account number"
+    And Clear input box by element id "nlb-input-creditor-account"
     And Enter text "20590010078398629545896" in element id "nlb-input-creditor-account"
     And Assert element by text "205900100783986295"
+    And Clear input box by element id "nlb-input-creditor-account"
     And Enter text "" in element id "nlb-input-creditor-account"
     And Assert element by text "Account number is required"
 
     #name
     And Assert element by text "Name"
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text "=+=" in element id "nlb-input-creditor-name"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text ";-D" in element id "nlb-input-creditor-name"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text "G" in element id "nlb-input-creditor-name"
     And Assert element by text "Minimum length is 2."
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text "" in element id "nlb-input-creditor-name"
     And Assert element by text "Name is required"
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscin" in element id "nlb-input-creditor-name"
     And Assert element by text "Maximum number of characters is 40."
+    And Clear input box by element id "nlb-input-creditor-name"
     And Enter text "Ime" in element id "nlb-input-creditor-name"
 
     #address
     And Assert element by text "Address"
     And Enter text "=+=" in element id "nlb-input-creditor-address"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-address"
     And Enter text ";-D" in element id "nlb-input-creditor-address"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-address"
     And Enter text "G" in element id "nlb-input-creditor-address"
     And Assert element by text "Minimum length is 2."
+    And Clear input box by element id "nlb-input-creditor-address"
     And Enter text "" in element id "nlb-input-creditor-address"
     And Assert element by text "Address is required"
+    And Clear input box by element id "nlb-input-creditor-address"
     And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscin" in element id "nlb-input-creditor-address"
     And Assert element by text "Maximum number of characters is 35."
+    And Clear input box by element id "nlb-input-creditor-address"
     And Enter text "Adresa" in element id "nlb-input-creditor-address"
 
     #city
     And Assert element by text "City"
     And Enter text "=+==" in element id "nlb-input-creditor-city"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-city"
     And Enter text ";-D" in element id "nlb-input-creditor-city"
     And Assert element by contains text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-creditor-city"
     And Enter text "G" in element id "nlb-input-creditor-city"
     And Assert element by text "Minimum length is 2."
+    And Clear input box by element id "nlb-input-creditor-city"
     And Enter text "" in element id "nlb-input-creditor-city"
     And Assert element by text "City is required"
+    And Clear input box by element id "nlb-input-creditor-city"
     And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscin" in element id "nlb-input-creditor-city"
     And Assert element by text "Maximum number of characters is 35."
+    And Clear input box by element id "nlb-input-creditor-city"
     And Enter text "Grad" in element id "nlb-input-creditor-city"
 
     And Assert element by id "nlb-checkbox-save-recipient" is checked "false"
@@ -567,14 +589,19 @@ Feature: Domestic_Payments
     #amount
     Then Enter text "9999999999999" in element id "nlb-amount-with-currency-field"
     And Assert element by text "Maximum amount is 999.999.999,99 RSD."
+    And Clear input box by element id "nlb-amount-with-currency-field"
     And Enter text "" in element id "nlb-amount-with-currency-field"
     And Assert element by text "Payment amount is required"
+    And Clear input box by element id "nlb-amount-with-currency-field"
     And Enter text "0,00" in element id "nlb-amount-with-currency-field"
     And Assert element by text "Minimum amount is 0,01 RSD"
+    And Clear input box by element id "nlb-amount-with-currency-field"
     And Enter text "0" in element id "nlb-amount-with-currency-field"
     And Assert element by text "Minimum amount is 0,01 RSD"
+    And Clear input box by element id "nlb-amount-with-currency-field"
     And Enter text "100.54" in element id "nlb-amount-with-currency-field"
     And Assert element by text "100,54"
+    And Clear input box by element id "nlb-amount-with-currency-field"
     And Enter text "Amount" in element id "nlb-amount-with-currency-field"
     And Assert element by text "0,00"
     And Assert element by text "Payment amount is required"
@@ -582,8 +609,10 @@ Feature: Domestic_Payments
     #purpose
     And Enter text "=+==" in element id "nlb-input-purpose"
     And Assert element by text "Please use the following characters:"
+    And Clear input box by element id "nlb-input-purpose"
     And Enter text "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis." in element id "nlb-input-purpose"
     And Assert element by text "Maximum number of characters is 140."
+    And Clear input box by element id "nlb-input-purpose"
     And Enter text "" in element id "nlb-input-purpose"
     And Assert element by text "Purpose is required"
     And Swipe vertical
@@ -595,7 +624,8 @@ Feature: Domestic_Payments
 
     #reference number
     And Enter text "=+==" in element id "nlb-input-reference-number"
-    And Assert element by text "Please use the following characters:"
+    And Assert element by text "Please use only letters A–Z and numbers 0–9, without spaces or special characters. Maximum input length is 24 characters."
+    And Clear input box by element id "nlb-input-reference-number"
     And Enter text "Lorem ipsum dolor sit ame" in element id "nlb-input-reference-number"
     And Assert element by text "Maximum number of characters is 24."
 

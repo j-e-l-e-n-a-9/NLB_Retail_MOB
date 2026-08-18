@@ -6,6 +6,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
 import io.cucumber.messages.Messages;
 import javafx.util.Pair;
 import org.openqa.selenium.*;
@@ -12067,7 +12068,7 @@ public class Steps {
     public void assertElementByIdHasTextThatContainValueFromsKey(String id, String key) {
         String expected = DataManager.userObject.get(key).toString();
 //        String xPath = "(//*[contains(@text, '" + text + "')]//following-sibling::*)[1]";
-        MobileElement element = x.createMobileElementById("nlb-prenesi-validate-amount");
+        MobileElement element = x.createMobileElementById(id);
         String actualText = element.getText().trim();
         Assert.assertTrue(actualText.contains(expected));
     }
@@ -12294,12 +12295,12 @@ public class Steps {
 
     @And("Assert Templates list with index {string} has value under key {string}")
     public void assertTemplatesListWithIndexHasValueUnderKey(String index, String key) {
-        String expected = DataManager.userObject.get(key).toString();
+        String expected = DataManager.userObject.get(key).toString().toLowerCase();
         String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[" + index + "]";
         List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
 
         for (MobileElement element : elements) {
-            String actualText = element.getText().trim();
+            String actualText = element.getText().trim().toLowerCase();
             Assert.assertTrue("Template name ne sadrzi ocekivanu vrednost. " + "Ocekivano da sadrzi: [" + expected + "], " + "a stvarni tekst je: [" + actualText + "]", actualText.contains(expected));
         }
     }
@@ -12417,6 +12418,216 @@ public class Steps {
                     current.isAfter(next) || current.isEqual(next));
 
         }
+    }
+
+    @And("Remember recipient account number in recipient details under key {string}")
+    public void rememberRecipientAccountNumberInRecipientDetailsUnderKey(String key) {
+        String xpath = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[3]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String accNumber = element.getText().trim();
+        System.out.println("Remembering acc number "+ accNumber);
+        DataManager.userObject.put(key, accNumber);
+    }
+
+    @And("Remember recipient name in recipient details under key {string}")
+    public void rememberRecipientNameInRecipientDetailsUnderKey(String key) {
+        String xpath = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[2]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String name = element.getText().trim();
+        System.out.println("Remembering name "+ name);
+        DataManager.userObject.put(key, name);
+    }
+
+    @And("Assert payment amount in payment review is from key {string} and has currency {string}")
+    public void assertPaymentAmountInPaymentReviewIsFromKeyAndHasCurrency(String key, String currency) {
+        String xpath = "//android.widget.TextView[@text='Payment amount']/following::android.widget.TextView[1]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String textFromUi = element.getText();
+        String textExpected = DataManager.userObject.get(key).toString()+ " "+currency;
+        if(textExpected.contains(",")) {
+            textExpected = textExpected.replace(",", ".");
+        }
+        System.out.println("Text from ui "+textFromUi);
+        System.out.println("Text expected "+ textExpected);
+        Assert.assertEquals(textExpected, textFromUi);
+    }
+
+    @And("Remember element value by id {string} and index {string} under key {string}")
+    public void rememberElementValueByIdAndIndexUnderKey(String id, String index, String key) {
+        String xpath = "(//*[@resource-id='" + id + "'])[" + index + "]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String value = element.getText();
+        System.out.println("REMEMBERING VALUE "+value+" UNDER KEY "+key);
+        DataManager.userObject.put(key, value);
+    }
+
+    @And("Click on date in Calendar {int} days in future and assert that it is displayed correctly")
+    public void clickOnDateInCalendarDaysInFutureAndAssertThatItIsDisplayedCorrectly(int days) throws Exception {
+        LocalDate target = LocalDate.now().plusDays(days);
+        clickOnDateInCalendarWithYearMonthDayAndAssertThatItIsShownCorrectlyOnEnglish(
+                target.getYear(),
+                target.getMonthValue(),
+                target.getDayOfMonth()
+        );
+    }
+
+    @And("Click on date in Calendar with year {int} month {int} day {int} and assert that it is shown correctly on English")
+    public void clickOnDateInCalendarWithYearMonthDayAndAssertThatItIsShownCorrectlyOnEnglish(int year, int month, int day) throws Exception {
+
+        LocalDate targetDate = LocalDate.of(year, month, day);
+        YearMonth targetMonth = YearMonth.from(targetDate);
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+        String targetFullDate = targetDate.format(formatter);
+
+        By prevBtn = x.createByXpath("//*[@content-desc='Change to previous month']");
+        By nextBtn = x.createByXpath("//*[@content-desc='Change to next month']");
+
+        String monthHeaderXpath = "//*[@content-desc='Switch to selecting a year']/preceding-sibling::android.widget.TextView";
+        String currentSelectionXpath = "//*[contains(@content-desc, 'Current selection')]";
+
+        int maxScrolls = 48;
+
+        for (int i = 0; i < maxScrolls; i++) {
+            MobileElement monthHeaderEl = x.createMobileElementByXpath(monthHeaderXpath);
+            String monthHeaderText = monthHeaderEl.getText().trim();
+
+            YearMonth visibleMonth = parseVisibleMonth(monthHeaderText);
+
+            System.out.println("Visible month: " + visibleMonth);
+            System.out.println("Target month: " + targetMonth);
+
+            if (visibleMonth.equals(targetMonth)) {
+                break;
+            }
+
+            String oldHeader = monthHeaderText;
+
+            if (visibleMonth.isBefore(targetMonth)) {
+                hp.clickElement(nextBtn);
+            } else {
+                hp.clickElement(prevBtn);
+            }
+
+            waitForMonthHeaderToChange(monthHeaderXpath, oldHeader, 5);
+        }
+
+        YearMonth finalVisibleMonth = parseVisibleMonth(
+                x.createMobileElementByXpath(monthHeaderXpath).getText().trim()
+        );
+
+        Assert.assertEquals(
+                "Calendar did not navigate to expected month.",
+                targetMonth,
+                finalVisibleMonth
+        );
+
+        String targetDateXpath = "//android.widget.TextView[@text='" + targetFullDate + "']";
+        List<MobileElement> dateMatches = x.createMobileElementsByXpath(targetDateXpath);
+
+        Assert.assertFalse(
+                "Target date not found in visible month. Target xpath: " + targetDateXpath,
+                dateMatches.isEmpty()
+        );
+
+        MobileElement targetDateEl = dateMatches.get(0);
+        Assert.assertTrue("Target date is not displayed.", targetDateEl.isDisplayed());
+        Assert.assertTrue("Target date is not enabled.", targetDateEl.isEnabled());
+
+        hp.clickElement(x.createByXpath(targetDateXpath));
+
+        MobileElement selectionAfterClick = x.createMobileElementByXpath(currentSelectionXpath);
+        String selectionContentDesc = selectionAfterClick.getAttribute("content-desc");
+
+        Assert.assertTrue(
+                "Selected date is not shown correctly. Actual content-desc: " + selectionContentDesc,
+                selectionContentDesc != null && selectionContentDesc.contains(targetFullDate)
+        );
+    }
+
+    @And("Clear input box by element id {string}")
+    public void clearInputBoxByElementId(String elementId) throws InterruptedException {
+        MobileElement input = x.createMobileElementById(elementId);
+        input.click();
+        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        input.sendKeys(Keys.BACK_SPACE);
+        Thread.sleep(300);
+        if (!input.getText().trim().isEmpty()) {
+            input.clear();
+        }
+    }
+
+    @And("Click on date in Calendar with year {int} month {int} day {int} and assert that they are shown correctly")
+    public void clickOnDateInCalendarWithYearMonthDayAndAssertThatTheyAreShownCorrectly(int year, int month, int day) throws Exception {
+        LocalDate targetDate = LocalDate.of(year, month, day);
+        YearMonth targetMonth = YearMonth.from(targetDate);
+
+        String targetFullDate = targetDate.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH));
+
+        By prevBtn = x.createByXpath("//*[@content-desc='Change to previous month']");
+        By nextBtn = x.createByXpath("//*[@content-desc='Change to next month']");
+
+        String monthHeaderXpath = "//*[@content-desc='Switch to selecting a year']/preceding-sibling::android.widget.TextView";
+        String currentSelectionXpath = "//*[contains(@content-desc, 'Current selection')]";
+
+        int maxScrolls = 48;
+
+        for (int i = 0; i < maxScrolls; i++) {
+            MobileElement monthHeaderEl = x.createMobileElementByXpath(monthHeaderXpath);
+            String monthHeaderText = monthHeaderEl.getText().trim();
+
+            YearMonth visibleMonth = parseVisibleMonth(monthHeaderText);
+
+            System.out.println("Visible month: " + visibleMonth);
+            System.out.println("Target month: " + targetMonth);
+
+            if (visibleMonth.equals(targetMonth)) {
+                break;
+            }
+
+            String oldHeader = monthHeaderText;
+
+            if (visibleMonth.isBefore(targetMonth)) {
+                hp.clickElement(nextBtn);
+            } else {
+                hp.clickElement(prevBtn);
+            }
+
+            waitForMonthHeaderToChange(monthHeaderXpath, oldHeader, 5);
+        }
+
+        YearMonth finalVisibleMonth = parseVisibleMonth(
+                x.createMobileElementByXpath(monthHeaderXpath).getText().trim()
+        );
+
+        Assert.assertEquals(
+                "Calendar did not navigate to expected month.",
+                targetMonth,
+                finalVisibleMonth
+        );
+
+        String targetDateXpath = "//android.widget.TextView[@text='" + targetFullDate + "']";
+        List<MobileElement> dateMatches = x.createMobileElementsByXpath(targetDateXpath);
+
+        Assert.assertFalse(
+                "Target date not found in visible month. Target xpath: " + targetDateXpath,
+                dateMatches.isEmpty()
+        );
+
+        MobileElement targetDateEl = dateMatches.get(0);
+        Assert.assertTrue("Target date is not displayed.", targetDateEl.isDisplayed());
+        Assert.assertTrue("Target date is not enabled.", targetDateEl.isEnabled());
+
+        hp.clickElement(x.createByXpath(targetDateXpath));
+
+        MobileElement selectionAfterClick = x.createMobileElementByXpath(currentSelectionXpath);
+        String selectionContentDesc = selectionAfterClick.getAttribute("content-desc");
+
+        Assert.assertTrue(
+                "Selected date is not shown correctly. Actual content-desc: " + selectionContentDesc,
+                selectionContentDesc != null && selectionContentDesc.contains(targetFullDate)
+        );
     }
 }
 

@@ -113,7 +113,8 @@ Feature: Current_Accounts
 
     And Assert element by text "Realization date"
     And Click on element by desc "Set date"
-    And Click on date in Calendar with year 2025 month 12 day 24 and assert that it is shown correctly
+    #And Click on date in Calendar with year 2025 month 12 day 24 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 02 day 11 and assert that they are shown correctly
     And Click on element by text "Confirm"
 
     And Assert element by text "Amount"
@@ -129,7 +130,7 @@ Feature: Current_Accounts
     And Click on element by text "Save"
 
     And Assert element by text "Realization date"
-    And Assert element by text "24.12.2025"
+    And Assert element by text "11.02.2026"
     And Assert element by text "Amount"
     And Assert element by text "100,00 RSD"
     And Assert element by text "Description"

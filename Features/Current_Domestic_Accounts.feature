@@ -481,26 +481,26 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
-    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    When Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Wait for first transaction to load
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
     And Assert account name from excel "<rowindex>" column name "currentDomesticAccountName" is displayed
-    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "second_personal_account_name"
     And Assert element by id "nlb-product-details-primary-balance" with regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
     And Assert element by id "nlb-product-details-primary-balance" with regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
     And Assert product option buttons for Current domestic accounts
 
-#    And Click on element by text "Details"
-#    And Wait element "Financial details" by text
-#    And Swipe vertical
-#
-#    Then Assert element by text "Account details"
-#    And Assert that text "Overdraft" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
+    And Click on element by text "Details"
+    And Wait element "Financial details" by text
+    And Swipe vertical
+
+    Then Assert element by text "Account details"
+    And Assert that text "Overdraft" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
 #    And Assert that text "Overdraft expiration date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
-#    And Assert that text "Overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
-#    And Assert that text "Unauthorized overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+    And Assert that text "Overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
+    And Assert that text "Unauthorized overdraft Interest rate" has first following sibling that matches regex "^\d{1,3},\d{2}\s%$"
 
     Examples:
       | rowindex |
@@ -516,8 +516,8 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
-    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    When Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Wait for first transaction to load
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
@@ -534,7 +534,7 @@ Feature: Current_Domestic_Accounts
     Then Assert element by text "Account details"
     And Assert element by text "Account type" has first following sibling "Current account"
     And Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_bban"
     And Assert element by text "Number of unrealized cheques" has first following sibling from key "numberOfCheques"
     And Assert element by content desc "Copy account details"
 
@@ -685,6 +685,49 @@ Feature: Current_Domestic_Accounts
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Current_Accounts_RSD_Statemants_List_[MOB_ANDROID]
+  Scenario Outline: Current_Accounts_RSD_Statemants_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" and click on it
+    And Wait for first transaction to load
+
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Assert list of transactions is displayed correctly in Product
+    And Assert Transaction filter button in Product
+    And Assert product option buttons for Current domestic accounts
+    And Assert Statement button in Product details
+    And Click on button in Product details "Statements"
+    And Wait for first statement to appear
+
+    And Assert screen header is "Statements"
+    And Assert back button in screen "Statements"
+    And Assert Year filter for statements
+    And Assert statemant year filter has current year
+    And Assert Year filter for statements has expected options
+    And Click on element by text "2022"
+    And Wait for first statement to appear
+    And Remember number of Statemants under key "keyStatemantsNumber"
+    And Swipe vertical up
+    And Assert the statements counter displays the expected number of items from key "keyStatemantsNumber"
+    And Assert all statements from list has year "2022" and they are sorted properly
+
+    Then Click on element by id "nlb-icon-row" with index "1"
+    And Wait for element by contains text "Izvod_"
+    And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
+    And Go Back
+    And Assert screen header is "Statements"
+
+    Examples:
+      | rowindex |
+      |        5 |
 
 
   @Current_Accounts_RSD_Statemants_List_[MOB_ANDROID]

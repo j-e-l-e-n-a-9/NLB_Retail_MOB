@@ -55,4 +55,4 @@ Feature: Templates
 
     Examples:
       | rowindex |
-      |        7 |
+      |        9 |
