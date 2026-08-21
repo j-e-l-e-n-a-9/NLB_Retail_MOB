@@ -13,8 +13,12 @@ Feature: Templates
     And Wait for element by id "nlb_search_text_field" to appear
     And Assert screen header is "Templates"
     And Assert back button in screen "Templates"
+    And Wait for element by id "nlb-card-container" to appear
     And Remember number of templates under key "keyNumberOfTemplates"
-
+    And Remember total number of templates in templates menu under key "keyNumberOfTemplatesTotal"
+    And Scroll up until element contains text "Total number of saved" is in view
+    And Assert templates indicator has value from key "keyNumberOfTemplatesTotal"
+    
     And Assert number of Template icons is same number as number of Templates under key "keyNumberOfTemplates"
     And Assert number of Template names is same number as number of Templates under key "keyNumberOfTemplates"
     And Assert number of Template account numbers is same number as number of Templates under key "keyNumberOfTemplates"
@@ -24,8 +28,10 @@ Feature: Templates
     And Assert number of Template account numbers is same number as number of Templates under key "keyNumberOfTemplates"
     And Remember part of random template name and remember it under key "keySearchNamePrefix"
     And Remember part of random template account number and remember it under key "keyAccountNumberPrefix"
+    And Clear input box by element id "nlb_search_text_field"
     And Enter text from text key "keySearchNamePrefix" in element by id "nlb_search_text_field"
     And Assert Templates list with index "2" has value under key "keySearchNamePrefix"
+    And Clear input box by element id "nlb_search_text_field"
     And Enter text from text key "keyAccountNumberPrefix" in element by id "nlb_search_text_field"
     And Assert Templates list with index "3" has value under key "keyAccountNumberPrefix"
     And Click on element by id "nlb_search_row_close_button"
@@ -36,18 +42,24 @@ Feature: Templates
     And Wait for element by text "Debtor"
     And Click on element by id "nlb-button-alternate"
     And Wait for element by id "nlb_search_text_field" to appear
+    And Wait for element by contains text "Total number of saved"
+    And Wait "1" seconds
+    And Assert templates indicator has value from key "keyNumberOfTemplatesTotal"
 
     Then Assert number of Template icons is same number as number of Templates under key "keyNumberOfTemplates"
     And Assert number of Template names is same number as number of Templates under key "keyNumberOfTemplates"
     And Assert number of Template account numbers is same number as number of Templates under key "keyNumberOfTemplates"
     And Assert section letters are sorted by alphabetical order in Templates
+    And Clear input box by element id "nlb_search_text_field"
     And Enter text "C" in element id "nlb_search_text_field"
     And Assert element "nlb_search_row_close_button" by id
     And Assert number of Template account numbers is same number as number of Templates under key "keyNumberOfTemplates"
     And Remember part of random template name and remember it under key "keySearchNamePrefix"
     And Remember part of random template account number and remember it under key "keyAccountNumberPrefix"
+    And Clear input box by element id "nlb_search_text_field"
     And Enter text from text key "keySearchNamePrefix" in element by id "nlb_search_text_field"
     And Assert Templates list with index "2" has value under key "keySearchNamePrefix"
+    And Clear input box by element id "nlb_search_text_field"
     And Enter text from text key "keyAccountNumberPrefix" in element by id "nlb_search_text_field"
     And Assert Templates list with index "3" has value under key "keyAccountNumberPrefix"
     And Click on element by id "nlb_search_row_close_button"
@@ -55,4 +67,4 @@ Feature: Templates
 
     Examples:
       | rowindex |
-      |        9 |
+      |        8 |

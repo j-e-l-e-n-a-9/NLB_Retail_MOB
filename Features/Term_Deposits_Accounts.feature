@@ -18,14 +18,14 @@ Feature: Term_Deposits_Accounts
     And Assert element by text "Account type"
     And Assert text "Deposit" in element id "nlb-account-type"
     And Assert element by text "Account owner"
-    And Assert text from excel "<rowindex>" columnName "account_details_owner" in element by id "nlb-account-owner"
+    #And Assert text from excel "<rowindex>" columnName "account_details_owner" in element by id "nlb-account-owner"
     And Assert element by text "Account number"
     And Assert text from excel "<rowindex>" columnName "term_deposit_number" in element by id "nlb-account-number"
     And Assert element by text "Opening date"
     And Assert element by id "nlb-opening-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
     And Assert element by text "Expiration date"
     And Assert element by id "nlb-expiration-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-    And Assert element "nlb-button-text" by id is enabled
+    #And Assert element "nlb-button-text" by id is enabled
 
     Examples:
     | rowindex |

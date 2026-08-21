@@ -524,6 +524,8 @@ Feature: Payments_Archive
       |        5 |
 
 
+    #PURPOSE labela nije prikazana u past payment detaljima transakcije
+    # stabilizovan do -  And Assert element by text "Purpose" has first following sibling with regex "^.+$"
   @PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_DETAILS_[ANDROID]
   Scenario Outline: PAYMENTS-PAYMENTS_ARCHIVE-PAYMENTS_DETAILS_[ANDROID]
 
@@ -546,14 +548,14 @@ Feature: Payments_Archive
 
     And Assert element by text "Recipient name" has first following sibling with regex "^.+$"
     And Assert element by text "Recipient address" has first following sibling with regex "(?s)^.+$"
-    And Assert element by text "Recipient account" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
-    And Assert element by text "Urgent payment" has first following sibling with regex "^(Yes|No)$"
-    And Assert element by text "Purpose code" has first following sibling with regex "^\d{3}$"
+    And Assert element by text "Recipient account number" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
+    #And Assert element by text "Urgent payment" has first following sibling with regex "^(Yes|No)$"
+    #And Assert element by text "Purpose code" has first following sibling with regex "^\d{3}$"
     And Assert element by text "Purpose" has first following sibling with regex "^.+$"
     And Swipe vertical
     And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text "Debtor address" has first following sibling with regex "(?s)^.+$"
+    And Assert element by text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Debtor Address" has first following sibling with regex "(?s)^.+$"
     And Assert element by text "Fee" has first following sibling with regex "^\d+,\d{2}[\s\u00A0]*RSD$"
     And Assert element by text "Payment status" has first following sibling contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"

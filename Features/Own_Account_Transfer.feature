@@ -5,130 +5,583 @@ Feature: Own_Account_Transfer
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Wait for My NLB screen to load
+    And Click "My Products"
+    And Wait for element by text "Edit list"
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
     And Click "Back" content description from view tag "View"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+
+    And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
+    And Wait "1" seconds
     And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Remember available balance in currency "RSD" under key "IT_001_Creditor_Balance"
     And Click "Back" content description from view tag "View"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Wait for element by text "Pay"
 
     When Click on element by text "Pay"
-    And Wait for element by text "Internal transfer" to appear for "30" seconds
+    And Wait for element by text "Internal transfer"
     And Click on element by text "Internal transfer"
     And Wait for element by text "Debtor"
+
     And Click on "Debtor" container for current account picker in Own account Transfer
-    And Wait for element by text "Select account"
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by text "Debtor"
 
     And Click on "Recipient" container for current account picker in Own account Transfer
-    And Wait for element by text "Select recipient"
     And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
+    And Wait "1" seconds
     And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Wait for element by text "Debtor"
-    #And Assert Debtor in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "currentDomesticAccountName" and iban "currentDomesticAccountBBAN"
-    And Assert Recipient in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "second_personal_account_name" and iban "second_personal_account_bban"
-    
-    And Assert element by text "Payment"
-    And Assert element by text "In order to continue all input fields must be filled."
-    And Assert element by text "Payment amount"
-    And Assert element by text "RSD"
-    And Enter text "2" in element id "nlb-amount-with-currency-field"
-    And Assert element by text "Purpose"
-    And Assert element by text "INTERNAL TRANSFER"
-    And Assert element by text "Payment date"
-    And Assert "Payment date" date is today date
-    And Scroll down until element with text "Confirm" is in view
-    And Click on element by id "nlb-button-primary"
-    
-    Then Wait for element by text "Payment amount"
-    And Assert that text "Payment amount" has first following sibling with text "2,00 RSD"
-    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
-#    And Assert that text "Name" has first following sibling with text from Excel "<rowindex>" columnName "account_details_owner2"
-#    And Assert that text "Account number" has first following sibling with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    And Assert element by text "Debtor"
+    And Assert element by content desc "Current account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element by text "Recipient"
-#    And Assert that second text "Name" has first following sibling with text from Excel "<rowindex>" columnName "account_details_owner2"
-#    And Assert that second text "Account number" has first following sibling with text from Excel "<rowindex>" columnName "second_personal_account_bban"
-
+    And Assert element by text from excel "<rowindex>" columnName "second_personal_account_bban"
     And Assert element by text "Payment"
+    And Assert element by text "Payment amount"
+
+    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyPaymentAmount"
+    And Assert element by text "RSD"
     And Assert element by text "Purpose"
     And Assert element by text "INTERNAL TRANSFER"
-    And Assert element by text "Payment date"
-    And Assert "Payment date" date is today date
-    
-    And Scroll down until element with text "Pay" is in view
-    And Assert element by text "Cancel"
-    And Assert element by text "Pay"
-    And Click on element by id "nlb-button-primary"
-#    And Assert element by text "Success"
-#    And Click on element by text "Upcoming payments"
-#    And Assert element by text "INTERNAL TRANSFER"
-#    And Assert element by text "8,00"
-#    And Assert element by id "nlb-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-#    And Click "Back" content description
 
-    And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
-    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
-    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is lowered by "2" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Click "Back" content description
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
-    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
-    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
-    And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is increased by "2" using balance from key "IT_001_Creditor_Balance" for currency "RSD"
-    And Click "Back" content description
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Swipe vertical
+    And Wait for element by text "Cancel"
+    And Click on element by text "Confirm"
+    And Wait for element by contains text "Fee"
+
+    #payment review
+    And Assert element by text "Payment review"
+    And Assert payment amount in payment review for internal transfer is from key "keyPaymentAmount" in currency "RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+
+    And Assert element by text "Debtor"
+    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "second_personal_account_bban"
+
+    And Assert element by text "Payment details"
+    And Assert element by text "Purpose" has first following sibling contains text "INTERNAL TRANSFER"
+    And Swipe vertical
+    And Wait for element by text "Pay"
+    And Assert element by text "Cancel"
     And Click on element by text "Pay"
 
-    And Click on element by text "Past payments"
-    And Wait for element by id "nlb-title" to appear
-    And Assert element by text "Past payments"
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Wait for element by text "Payment amount"
+    And Assert that text "Payment amount" has first following sibling that contains text "1,00 RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by text "Payment date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
 
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
+    #past payments
+    And Wait for element by text "Past payments"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment
+    #selecting account in past payment
     And Click on Account selector in Payment list
-    And Wait for element by text "Select account"
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Wait for element by id "nlb-title" to appear
-    And Assert element by text "Past payments"
+    And Wait for first Past payment
+    And Click on first "Executed" past payment
+    And Wait element "Payment confirmation" by text
 
-    And Assert element by text "INTERNAL TRANSFER"
-    And Assert element by text "2,00"
-    And Assert element by id "nlb-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-    And Click on element by text "INTERNAL TRANSFER"
-    And Wait for element by text "Payment details"
-    And Assert element by text "Payment details"
-    And Assert element "nlb-date" by id has current date in format "dd.MM.yyyy"
-    And Assert text "RSD" in element id "nlb-currency"
-    And Assert text "2,00" in element id "nlb-amount"
-    #Odkomentarisi kad rese bug za vlasnika racuna
-#    And Assert text from excel "<rowindex>" columnName "user_name_for_payment_details" in element by id "nlb-details"
+    #past payment debtor current account
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by content desc "Executed"
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner"
 
-#    And Assert that text "Recipient" has first following sibling with text from Excel "<rowindex>" columnName "username_and_address"
-    And Assert that text "Account number" has first following sibling with text from Excel "<rowindex>" columnName "second_personal_account_bban"
-#    And Assert that text "SWIFT (BIC) Code" has first following sibling with text "LJBASI2X"
-#    And Assert that text "Name" has first following sibling with text from Excel "<rowindex>" columnName "user_name_for_payment_details"
-    And Assert that second text "Account number" has first following sibling with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Swipe vertical short
-    And Scroll down until element with text "Payment status" is in view
-#    And Assert that text "Informative fee" has first following sibling with text "0,00 EUR"
-    And Assert that text "Payment status" has first following sibling with text "Executed"
+    And Assert that upcoming or past payment title has amount from key "keyPaymentAmount"
+    And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_bban"
+
+    And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    #And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "personal_account_bban"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    And Swipe vertical
+
+    And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+    And Assert element by text "Payment status" has first following sibling contains text "Executed"
+    And Assert element by text "Repeat payment"
+    And Click "Back" content description
+    And Wait for first Past payment
+    And Click "Back" content description
+    And Wait element "My Products" by text
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
+
+    #products assertions after transaction debtor account
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by amount from key "keyPaymentAmount" using balance from key "IT_001_Debtor_Balance"
+
+    And Wait for first Transaction
+    And Wait element "nlb-item-row" by id
+    And Click on first transaction in product details
+
+    And Wait for element by text "Settlement date"
+    And Assert element by text "Transaction details"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert amount in transaction title is from key "keyPaymentAmount" with minus
+    #And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner2"
+   #And Assert that text "Name and address" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "RSD"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+    And Click "Back" content description
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Click "Back" content description
+    And Wait for first product in My products page
+
+    #products assertions after transaction recipient account
+    Then Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is increased by amount from key "keyPaymentAmount" using balance from key "IT_001_Creditor_Balance"
+    And Wait for first Transaction
+    And Wait element "nlb-item-row" by id
+    And Click on first transaction in product details
+
+    And Wait for element by text "Settlement date"
+    And Assert element by text "Transaction details"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert amount in transaction title is from key "keyPaymentAmount"
+    #And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Name and address" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "RSD"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
 
     Examples:
       | rowindex |
       |        2 |
+
+
+  @Payments_Own_Account_Transfer_From_Current_Foreign_Account_To_Current_Foreign_Account_[ANDROID]
+  Scenario Outline: Payments_Own_Account_Transfer_From_Current_Foreign_Account_To_Current_Foreign_Account_[ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click "My Products"
+    And Wait for element by text "Edit list"
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "EUR" under key "IT_001_Debtor_Balance"
+
+    And Click "Back" content description from view tag "View"
+    And Wait for first product in My products page
+    And Swipe vertical up
+    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_iban"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "EUR" under key "IT_001_Creditor_Balance"
+    And Click "Back" content description from view tag "View"
+    And Wait for element by text "Pay"
+
+    When Click on element by text "Pay"
+    And Wait for element by text "Internal transfer"
+    And Click on element by text "Internal transfer"
+    And Wait for element by text "Debtor"
+
+    And Click on "Debtor" container for current account picker in Own account Transfer
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by text "Debtor"
+
+    And Click on "Recipient" container for current account picker in Own account Transfer
+    And Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_iban"
+    And Wait for element by text "Debtor"
+
+    And Assert element by text "Debtor"
+    And Assert element by content desc "Current account"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Assert element by text "Recipient"
+    And Assert element by text from excel "<rowindex>" columnName "second_personal_account_iban"
+    And Assert element by text "Payment"
+    And Assert element by text "Payment amount"
+
+    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyPaymentAmount"
+    And Assert element by text "EUR"
+    And Assert element by text "Purpose"
+    And Assert element by text "INTERNAL TRANSFER"
+
+    And Swipe vertical
+    And Wait for element by text "Cancel"
+    And Click on element by text "Confirm"
+    And Wait for element by contains text "Fee"
+
+    #payment review
+    And Assert element by text "Payment review"
+    And Assert payment amount in payment review for internal transfer is from key "keyPaymentAmount" in currency "EUR"
+    And Assert that text "Fee" has first following sibling with text "0,00 EUR"
+
+    And Assert element by text "Debtor"
+    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "second_personal_account_iban"
+
+    And Assert element by text "Payment details"
+    And Assert element by text "Purpose" has first following sibling contains text "INTERNAL TRANSFER"
+    And Swipe vertical
+    And Wait for element by text "Pay"
+    And Assert element by text "Cancel"
+    And Click on element by text "Pay"
+
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Wait for element by text "Payment amount"
+    And Assert that text "Payment amount" has first following sibling that contains text "1,00 EUR"
+    And Assert that text "Fee" has first following sibling with text "0,00 EUR"
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by text "Payment date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
+    #past payments
+    And Wait for element by text "Past payments"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment
+    #selecting account in past payment
+    And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for first Past payment
+    And Click on first "Executed" past payment
+    And Wait element "Payment confirmation" by text
+
+    #past payment debtor current account
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by content desc "Executed"
+    And Assert element by id "nlb-currency" has text "EUR"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner"
+    
+    And Assert that upcoming or past payment title has amount from key "keyPaymentAmount"
+    And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_iban"
+
+    And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    #And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    And Swipe vertical
+
+    And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Fee" has first following sibling with text "0,00 EUR"
+    And Assert element by text "Payment status" has first following sibling contains text "Executed"
+    And Assert element by text "Repeat payment"
+    And Click "Back" content description
+    And Wait for first Past payment
+    And Click "Back" content description
+    And Wait element "My Products" by text
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
+
+    #products assertions after transaction debtor account
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by amount from key "keyPaymentAmount" using balance from key "IT_001_Debtor_Balance"
+
+    And Wait for first Transaction
+    And Wait element "nlb-item-row" by id
+    And Click on first transaction in product details
+
+    And Wait for element by text "Settlement date"
+    And Assert element by text "Transaction details"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" has text "EUR"
+    And Assert amount in transaction title is from key "keyPaymentAmount" with minus
+    #And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Name and address" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "EUR"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+    And Click "Back" content description
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Click "Back" content description
+    And Wait for first product in My products page
+    And Swipe vertical up
+
+    #products assertions after transaction recipient account
+    Then Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_iban"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is increased by amount from key "keyPaymentAmount" using balance from key "IT_001_Creditor_Balance"
+    And Wait for first Transaction
+    And Wait element "nlb-item-row" by id
+    And Click on first transaction in product details
+
+    And Wait for element by text "Settlement date"
+    And Assert element by text "Transaction details"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" has text "EUR"
+    And Assert amount in transaction title is from key "keyPaymentAmount"
+    #And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Name and address" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "EUR"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+  @Payments_Own_Account_Transfer_To_Loan_[ANDROID]
+  Scenario Outline: Payments_Own_Account_Transfer_To_Loan_[ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click "My Products"
+    And Wait for element by text "Edit list"
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+
+    And Click "Back" content description from view tag "View"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Creditor_Balance"
+    And Click "Back" content description from view tag "View"
+    And Wait for element by text "Pay"
+
+    When Click on element by text "Pay"
+    And Wait for element by text "Internal transfer"
+    And Click on element by text "Internal transfer"
+    And Wait for element by text "Debtor"
+
+    And Click on "Debtor" container for current account picker in Own account Transfer
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by text "Debtor"
+
+    And Click on "Recipient" container for current account picker in Own account Transfer
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for element by text "Debtor"
+
+    And Assert Debtor in Own Account Transfer has content description "Current account" and from Excel "<rowindex>" account name "currentDomesticAccountName" and iban "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Payment"
+    And Assert element by text "Payment amount"
+
+    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyPaymentAmount"
+    And Assert element by text "RSD"
+    And Assert element by text "Purpose"
+    And Assert element by text "INTERNAL TRANSFER"
+    And Assert "Payment date" date is today date
+
+    And Swipe vertical
+    And Wait for element by text "Cancel"
+    And Click on element by text "Confirm"
+    And Wait for element by contains text "Fee"
+
+    #payment review
+    And Assert element by text "Payment review"
+    And Assert payment amount in payment review for internal transfer is from key "keyPaymentAmount" in currency "RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+
+    And Assert element by text "Debtor"
+    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Account number" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "loan_account_number"
+
+    And Assert element by text "Payment"
+
+    And Assert element by text "Purpose" has first following sibling contains text "INTERNAL TRANSFER"
+    And Assert element by text "Payment date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Swipe vertical
+    And Wait for element by text "Pay"
+    And Assert element by text "Cancel"
+    And Click on element by text "Pay"
+
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Wait for element by text "Payment amount"
+    And Assert that text "Payment amount" has first following sibling that contains text "1,00 RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by text "Payment date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
+     #past payments
+    And Wait for element by text "Past payments"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment
+    And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment
+    And Click on first "Executed" past payment
+    And Wait element "Payment confirmation" by text
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by content desc "Executed"
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner"
+    And Assert that amount in past or upcoming payment title is from key "keyPaymentAmount"
+    And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "loan_account_number"
+
+    And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    And Swipe vertical
+
+    And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+    And Assert element by text "Payment status" has first following sibling contains text "Executed"
+    And Assert element by text "Repeat payment"
+    And Click "Back" content description
+    And Wait for first Past payment
+    And Click "Back" content description
+    And Wait element "My Products" by text
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
+
+    #products assertions after transaction debtor account
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by amount from key "keyPaymentAmount" using balance from key "IT_001_Debtor_Balance"
+
+    And Wait for first Transaction
+    And Wait element "nlb-item-row" by id
+    And Click on first transaction in product details
+
+    And Wait for element by text "Settlement date"
+    And Assert element by text "Transaction details"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert amount in transaction title is from key "keyPaymentAmount" with minus
+    And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "loan_account_number"
+    And Assert that text "Purpose" has first following sibling with text "INTERNAL TRANSFER"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "RSD"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+    And Click "Back" content description
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Click "Back" content description
+    And Wait for first product in My products page
+
+    # asertions of loan product
+    Then Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Wait "1" seconds
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Assert product header has available balance value from key "IT_001_Creditor_Balance"
+
+    Examples:
+      | rowindex |
+      | 8        |
 
 
   @Payments_Own_Account_Transfer-Flow_Disruption_Cancel/Back_[MOB_ANDROID]

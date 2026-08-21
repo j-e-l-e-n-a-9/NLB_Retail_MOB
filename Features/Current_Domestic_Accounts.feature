@@ -481,8 +481,8 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
-    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for first transaction to load
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id

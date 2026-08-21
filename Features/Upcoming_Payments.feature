@@ -11,7 +11,8 @@ Feature: Upcoming_Payments
     And Wait for element by text "Upcoming payments"
     And Click on element by text "Upcoming payments"
     And Wait for element by id "nlb-date" to appear
-    And Assert current month on page
+    #And Assert current month on page
+    And Assert current month is on top in upcoming payments
     And Remember transaction header sum for upcoming payments under key "upcoming_sum"
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"

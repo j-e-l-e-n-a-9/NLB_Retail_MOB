@@ -49,9 +49,10 @@ Feature: Authentication
   Scenario Outline: Authentication-Login_With_PIN_[MOB_ANDROID]
 
     Given Open Application
+    And Click on element by contains text "Continue"
+    And Wait for element by text "mToken"
     And Assert "NLB logo" content description from tag "ImageView" is displayed
 #    And Assert text "Security confirmations" in element by id "nlb-button-text" with descendant TextView widget
-    And Assert element by text "mToken"
 #    And Assert text "One-time password" in element by id "nlb-button-alternate" with descendant TextView widget
 
     When Assert element by text "Login to NLB Klik"

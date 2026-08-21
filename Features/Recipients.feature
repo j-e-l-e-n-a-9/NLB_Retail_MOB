@@ -59,7 +59,8 @@ Feature: Recipients
       | rowindex |
       |        5 |
 
-
+  # ne ide u past payment
+  # stabilizovan do koraka - And Assert element by id "nlb-title" has text that contains value from key "keyPurpose"
   @Payments_Recipient_Last_5_Payments_Of_Recipient_[MOB_ANDROID]-View_And_Repeat
   Scenario Outline: Payments_Recipient_Last_5_Payments_Of_Recipient_[MOB_ANDROID]-View_And_Repeat
 
@@ -81,11 +82,8 @@ Feature: Recipients
     And Wait for first recipient
     And Click on element by contains text "205-"
     And Wait for element by id "nlb-payment-date" to appear
-    #Nova metoda
     And Remember recipient account number in recipient details under key "keyRecipientAccount"
-    #Nova metoda
-    And Remember recipient name in recipient details under key "keyRecipientName"
-    #nova metoda
+    And Remember recipient name from last transaction in recipient details under key "keyRecipientName"
     And Remember element value by id "nlb-purpose" and index "1" under key "keyPurpose"
     And Remember element value by id "nlb-payment-amount" and index "1" under key "keyAmount"
 
@@ -110,26 +108,48 @@ Feature: Recipients
 
     #payment review
     And Wait for element by contains text "Fee"
-    #nova metoda
     And Assert payment amount in payment review is from key "keyAmount" and has currency "RSD"
     And Assert element by text "Fee" has first following sibling contains text "0.00 RSD"
     And Assert element by text "Debtor"
-    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"
-    And Assert element by text "Debtor address" has first following sibling contains text "TOLSTOJEVA 15"
-    And Assert element by text "Debtor address" has first following sibling contains text "Beograd"
-    And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text "Name" has first following sibling from key "keyRecipientName"
-    And Assert element by text "Address" has first following sibling that contains value from key "keyAddress"
-    And Assert element by text "Address" has first following sibling that contains value from key "keyCity"
-    And Assert element by text "Account number" has first following sibling that contains value from key "keyRecipientAccount"
+
+    And Assert element by text "Debtor"
+    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    And Assert element by text "Account number" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from key "keyRecipientName"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from key "keyAddress"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from key "keyCity"
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from key "keyRecipientAccount"
     And Assert Value date is todays date and in valid date format
-    And Assert element by text "Urgent payment" has first following sibling contains text "Yes"
+    And Assert element by text "Urgent" has first following sibling contains text "Yes"
     And Assert element by text "Purpose code" has first following sibling contains text "289"
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
 
     And Swipe vertical
     And Click on element by text "Confirm"
-    And Wait for element by contains text "Success"
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Wait for element by text "Payment amount"
+    And Assert payment amount in payment confirmation is from key "keyAmount" and currency "RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+    And Assert element by text from key "keyRecipientName" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
 
     And Wait for element by contains text "Past payments"
     And Click on element by text "Past payments"
@@ -153,7 +173,7 @@ Feature: Recipients
     And Assert element by text "Recipient address" has first following sibling that contains value from key "keyCity"
     And Assert element by text "Recipient address" has first following sibling that contains value from key "keyAddress"
     And Assert element by text "Recipient account number" has first following sibling that contains value from key "keyRecipientAccount"
-    And Assert that text "Urgent payment" has first following sibling with text "Yes"
+    And Assert that text "Urgent" has first following sibling with text "Yes"
     And Assert that text "Purpose code" has first following sibling with text "289"
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
     And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner2"

@@ -1,4 +1,4 @@
-#Feature: Credit_Cards
+Feature: Credit_Cards
 #
 #  @Credit_cards_transactions_filter_by_date-Date_Picker_[MOB_ANDROID]
 #  Scenario Outline: Credit_cards_transactions_filter_by_date-Date_Picker_[MOB_ANDROID]
@@ -312,62 +312,65 @@
 #      |        1 |
 #
 #
-#  @Credit_Cards-Details-Financial_Details_[MOB_ANDROID]
-#  Scenario Outline: Credit_Cards-Details-Financial_Details_[MOB_ANDROID]
-#
-#    Given Open Application
-#    And Select User from Excel "<rowindex>" columnName "username" and login
-#    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-#
-#    When Click "My Products"
-#    And Wait for element by id "nlb-value-product-account-name" to appear
-#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-#    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
-#    And Wait for element by text "Available balance"
-#    And Click "Details" content description from view tag "View"
-#    And Wait for element by text "Financial details"
-#
-#    Then Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
-#    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_name"
-#    And Assert element by text "Approved limit"
-#    And Assert element by id "nlb-product-details-approved-overdraft" has two decimal places and ends in "RSD"
-#    And Assert element by text "Daily limit - cash"
-#    And Assert element by id "nlb-product-details-daily-limit" has two decimal places and ends in "RSD"
-#    And Assert element by text "Daily limit - cash (foreign)"
-#    And Assert element by id "nlb-product-details-daily-limit-foreign" has two decimal places and ends in "RSD"
-#    And Assert element by text "Reserved funds"
-#    And Assert element by id "nlb-product-details-reserved-funds-rsd" has two decimal places and ends in "RSD"
-#    And Assert element by text "Monthly pay percentage"
-##    And Assert element by id "nlb-product-details-monthly-pay-percentage" has two decimal places and ends in ""
-#    And Assert element by id "nlb-product-details-monthly-pay-percentage" with regex "^\d+,\d{2} %$"
-#    And Assert element by text "Limit expiration"
-#    And Assert element by id "nlb-product-details-limit-expiration-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-##    And Assert element by text "Repay limit"
-#    And Assert element "nlb-button-text" by id is enabled
-#
-#    Examples:
-#      | rowindex |
-#      |        1 |
-#
-#
-#  @Credit_Cards_Details_Card_Details_[MOB_ANDROID]
-#  Scenario Outline: Credit_Cards_Details_Card_Details_[MOB_ANDROID]
-#
-#    Given Open Application
-#    And Select User from Excel "<rowindex>" columnName "username" and login
-#    And Wait for My NLB screen to load
-#
-#    When Click "My Products"
-#    And Wait for first product in My products page
-#    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
-#    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
-#
-#
-#    Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_2_number" is displayed correctly
-#    And Wait for element by text "Transactions"
-#    And Assert product option buttons for Credit cards
-##    And Assert order of card details
-#
-#    Examples:
-#      | rowindex |
-#      |        1 |
+  @Credit_Cards-Details-Financial_Details_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards-Details-Financial_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for element by id "nlb-value-product-account-name" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Wait for element by text "Available balance"
+    And Click "Details" content description from view tag "View"
+    And Wait for element by text "Financial details"
+
+    Then Assert element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Assert element by text from excel "<rowindex>" columnName "credit_card_2_name"
+    And Assert element by text "Approved limit"
+    And Assert element by id "nlb-product-details-approved-overdraft" has two decimal places and ends in "RSD"
+    And Assert element by text "Daily limit cash"
+    And Assert element by id "nlb-product-details-daily-limit" has two decimal places and ends in "RSD"
+    And Assert element by text "Daily limit cash - foreign"
+    And Assert element by id "nlb-product-details-daily-limit-foreign" has two decimal places and ends in "RSD"
+    And Assert element by text "Reserved funds"
+    And Assert element by id "nlb-product-details-reserved-funds-rsd" has two decimal places and ends in "RSD"
+    And Assert element by text "Monthly pay percentage"
+#    And Assert element by id "nlb-product-details-monthly-pay-percentage" has two decimal places and ends in ""
+    And Assert element by id "nlb-product-details-monthly-pay-percentage" with regex "^\d+,\d{2} %$"
+    And Assert element by text "Limit expiration"
+    And Assert element by id "nlb-product-details-limit-expiration-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+#    And Assert element by text "Repay limit"
+    And Assert element "nlb-button-text" by id is enabled
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+
+
+  @Credit_Cards_Details_Card_Details_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Details_Card_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_number"
+
+    Then Assert Credit Card from excel "<rowindex>" columnname "credit_card_number" is displayed correctly
+    And Wait for element by text "Transactions"
+    And Assert product option buttons for Credit cards
+    And Click on element by text "Details"
+    And Wait for element by text "Financial details"
+    And Assert order of card details
+
+    Examples:
+      | rowindex |
+      |        1 |

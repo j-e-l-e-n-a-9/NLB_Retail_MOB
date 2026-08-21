@@ -383,7 +383,8 @@ Feature: Loan_Accounts
       | rowindex |
       |        5 |
 
-
+    # u detaljima je prikazano drugo ime za account owner-a
+    # stabilizovan do koraka - Then Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
   @Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
   Scenario Outline: Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
 

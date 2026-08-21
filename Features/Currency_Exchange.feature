@@ -96,7 +96,7 @@ Feature: Currency_Exchange
     And Wait for element by text "From"
     And Assert "Next" button primary is disabled
     And Click on element by text "Discounted exchange rates"
-    And Wait for element by text "Bundle"
+    And Wait for element by text "Sell"
     And Remember text of first following sibling of element by text "Sell" in txt under key "keySell"
     And Click "Back" content description
     And Wait for element by text "From"
