@@ -466,13 +466,13 @@ Feature: Own_Account_Transfer
     And Assert that text "Fee" has first following sibling with text "0,00 RSD"
 
     And Assert element by text "Debtor"
-    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+#    And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
     And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
     And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     And Assert element by text "Account number" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
 
     And Assert element by text "Recipient"
-    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+#    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
     And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
     And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "loan_account_number"

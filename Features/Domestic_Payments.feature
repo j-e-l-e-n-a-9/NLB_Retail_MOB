@@ -1442,7 +1442,6 @@ Feature: Domestic_Payments
 #    And Assert element by text "Creditor account"
     And Enter text "265-1110312345678-24" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
-#    And Enter text "Automatizacija Osir" in element id "nlb-input-creditor-name" and remember it under key "keyName"
     And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
     And Assert element by text "Address"
     And Enter text "Vinca 13" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
