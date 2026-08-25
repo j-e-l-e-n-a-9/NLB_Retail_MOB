@@ -98,6 +98,7 @@ Feature: Currency_Exchange
     And Click on element by text "Discounted exchange rates"
     And Wait for element by text "Sell"
     And Remember text of first following sibling of element by text "Sell" in txt under key "keySell"
+
     And Click "Back" content description
     And Wait for element by text "From"
     And Enter text "2" in element id "nlb-amount-with-currency-flag-field" and remember it under key "keyAmount"
@@ -154,6 +155,7 @@ Feature: Currency_Exchange
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is increased by "2" using balance from key "IT_001_Creditor_Balance" for currency "EUR"
+
 
     Examples:
       | rowindex |

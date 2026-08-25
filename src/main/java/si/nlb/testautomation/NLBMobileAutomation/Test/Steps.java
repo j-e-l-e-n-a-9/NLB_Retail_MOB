@@ -7060,6 +7060,7 @@ public class Steps {
         String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         String textToRemember = element.getAttribute("text");
+        System.out.println("Text to remember "+textToRemember);
         DataManager.userObject.put(key, textToRemember);
 //        Utilities.saveTheValueToFile(textToRemember, key);
 //        Utilities.saveTheValueToFile(textToRemember.replaceAll("\\s+", ""), key + "_noSpace");
@@ -13193,6 +13194,45 @@ public class Steps {
         System.out.println(element.getText());
         System.out.println(textExpected);
         Assert.assertTrue(element.getText().trim().contains(textExpected));
+    }
+
+    @And("Remember date of first transaction under key {string}")
+    public void rememberDateOfFirstTrasactionUnderKey(String key) {
+        String id = "nlb-date";
+        String xPath = "//*[@resource-id='" + id + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String dateForKey = element.getText().trim();
+        System.out.println("Saving: "+dateForKey);
+        DataManager.userObject.put(key, dateForKey);
+    }
+
+    @And("Assert date for first transaction is from key {string}")
+    public void assertDateForFirstTransactionIsFromKey(String key) {
+        String dateExpected = DataManager.userObject.get(key).toString();
+        String id = "nlb-date";
+        String xPath = "//*[@resource-id='" + id + "']";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String dateFromUI = element.getText().trim();
+        System.out.println("Date from ui: "+dateFromUI);
+        Assert.assertEquals(dateFromUI, dateExpected);
+    }
+
+    @And("Wait for first Past payment or No past payments text")
+    public void waitForFirstPastPaymentOrNoPastPaymentsText() {
+        // xpath sadrzi opciju OR
+        String xpath = "(//android.widget.TextView[@resource-id='nlb-date']/ancestor::android.view.View[@resource-id='nlb-card-container'])[1] | //*[@text='No past payments'] | //*[@text='No upcoming payments.']";
+        By el = x.createByXpath(xpath);
+        WaitHelpers.waitForElement(el);
+    }
+
+
+    @And("Remember text of first following sibling of element by text {string} on index {string} under key {string}")
+    public void rememberTextOfFirstFollowingSiblingOfElementByTextOnIndexUnderKey(String text, String index, String key) {
+        String xPath = "(//*[@text='" + text + "']//following-sibling::*[1])["+index+"]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String textToRemember = element.getAttribute("text");
+        System.out.println("Text to remember "+textToRemember);
+        DataManager.userObject.put(key, textToRemember);
     }
 }
 

@@ -171,6 +171,7 @@ Feature: Upcoming_Payments
 
     And Click on Account selector in Payment list
     And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "auth_personal_account_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "auth_personal_account_number"
     And Wait for element by id "nlb-date" to appear
     And Click on first Past payment
@@ -197,6 +198,7 @@ Feature: Upcoming_Payments
 
     Then Click on Account selector in Payment list
     And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "saving_account_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
     And Wait element "No upcoming payments." by text
     And Assert element by text "No upcoming payments."

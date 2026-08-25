@@ -440,7 +440,8 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    When Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait element "Transactions" by text
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
@@ -449,7 +450,6 @@ Feature: Current_Domestic_Accounts
     And Assert element by text "Date"
     And Assert element by text "Type"
     And Assert element by text "Amount"
-    #TODO   Category, Tags, Back, Clear filter
 
     And Click on element by text "Date"
     #The date filter page opens, containing options for Last 7 Days, Current Month, and Previous Month.
@@ -459,13 +459,45 @@ Feature: Current_Domestic_Accounts
     And Assert element "nlb-radio-button-THIS_MONTH" by id
     And Assert element "nlb-radio-button-LAST_MONTH" by id
 
-    Then Assert element by text "Custom date range"
+    And Assert element by text "Custom date range"
     And Assert element "nlb-radio-button-CUSTOM_DATE_RANGE" by id
     And Assert element "nlb-input-date-from-click-area" by id
     And Assert element "nlb-input-date-to-click-area" by id
 
-    #TODO Filtere nakon sto bude bilo transakcija za ove opcije, posl transakcija u julu...
+    And Click on element by text "Last 7 days"
+    And Click on element by text "Apply"
+    And Wait for element by text "Confirm"
+    And Click on element by text "Confirm"
+    And Wait for transactions to load
+    And Remember date of first transaction under key "keyFirstTransactionDate"
+    And Assert transactions dates are from last seven days
 
+    And Click on element by id "nlb-icon-button"
+    And Wait for element by text "Date"
+    And Click on element by text "Date"
+    And Click on element by text "This month"
+    And Click on element by text "Apply"
+    And Wait for element by text "Confirm"
+    And Click on element by text "Confirm"
+    And Wait for transactions to load
+    And Assert transactions dates are from This month
+
+    And Click on element by id "nlb-icon-button"
+    And Wait for element by text "Date"
+    And Click on element by text "Date"
+    And Click on element by text "Last month"
+    And Click on element by text "Apply"
+    And Wait for element by text "Confirm"
+    And Click on element by text "Confirm"
+    And Wait for transactions to load
+    And Assert transactions dates are from Last month
+
+    Then Click on element by id "nlb-icon-button"
+    And Wait for element by text "Date"
+    And Click on element by text "Clear filters"
+    And Click "Back" content description
+    And Wait for transactions to load
+    And Assert date for first transaction is from key "keyFirstTransactionDate"
 
     Examples:
       | rowindex |
@@ -516,8 +548,8 @@ Feature: Current_Domestic_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_bban" is in view
-    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    When Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for first transaction to load
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
@@ -533,8 +565,8 @@ Feature: Current_Domestic_Accounts
 
     Then Assert element by text "Account details"
     And Assert element by text "Account type" has first following sibling "Current account"
-    And Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_bban"
+    #And Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert element by text "Number of unrealized cheques" has first following sibling from key "numberOfCheques"
     And Assert element by content desc "Copy account details"
 

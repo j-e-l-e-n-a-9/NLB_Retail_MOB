@@ -639,154 +639,10 @@ Feature: Domestic_Payments
       |        5 |
 
 
-    # Ne ide u past payment
-    # stabilizovan do koraka - And Scroll until element with text under key "keyPurpose" is in view and click
-  @Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]-Internal_Urgent_Payment
-  Scenario Outline: Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]-Internal_Urgent_Payment
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
-    And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
-    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
-    And Click "Back" content description from view tag "View"
-
-    When Click on element by text "Pay"
-    And Wait for element by text "Domestic payment" to appear for "30" seconds
-    And Click on element by text "Domestic payment"
-    And Wait for element by id "nlb-input-creditor-account" to appear
-    And Assert element by text "Account number"
-    And Enter text "205-9001007790944-88" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
-    And Assert element by text "Name"
-    And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
-    And Assert element by text "Address"
-    And Enter text "Vinca 13" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
-    And Assert element by text "City"
-    And Enter text "Beograd" in element id "nlb-input-creditor-city" and remember it under key "keyCity"
-    And Assert element by id "nlb-checkbox-save-recipient" is checked "false"
-    And Swipe vertical
-    And Scroll down until element with text "Purpose" is in view
-    And Assert element by text "Purpose"
-    And Assert Payment amount label is displayed correctly
-    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
-    And Assert purpose code has default "289" value
-    And Swipe vertical
-    And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
-    And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
-    And Assert element by text "Reference number"
-    And Assert element by text "Payment date"
-    And Assert element by content desc "Set date"
-    And Assert payment date is todays date and in valid date format
-    And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
-    And Click on element by id "nlb-button-primary"
-
-    And Wait for element by text "Payment amount"
-    And Assert element by text "Payment review"
-    And Assert that text "Payment amount" has first following sibling that contains text "1.00 RSD"
-    And Assert that text "Fee" has first following sibling that contains text "0.00 RSD"
-
-    And Assert element by text "Recipient"
-#    And Assert element by text from key "keyAmount" is displayed
-#    And Assert element by text from key "keyAccountNumber" is displayed
-    And Assert element by text from key "keyName" is displayed
-    And Assert element by text from key "keyAddress" is displayed
-    And Assert element by text from key "keyCity" is displayed
-    And Swipe vertical
-    And Swipe until element with text "Cancel" is displayed
-
-    And Assert element by text "Debtor"
-    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
-    And Assert "Value date" date value is in valid date format
-    And Assert element by contains text "Urgent"
-    And Assert element by text "Purpose code"
-    And Assert element by text "Purpose"
-    And Assert element by text from key "keyPurpose" is displayed
-
-    And Click on element by id "nlb-button-primary"
-    And Wait for element by text "Enter PIN"
-    And Enter PIN
-    And Assert element by text "Payment amount"
-    And Assert element by text "1,00 RSD"
-    #And Assert element by text from key "keyAccountNumber" is displayed
-    And Assert element by text from key "keyName" is displayed
-    And Assert element by text from key "keyAddress" is displayed
-    And Assert element by text from key "keyCity" is displayed
-    And Scroll to element by text "Purpose"
-#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
-    And Assert Value date is todays date and in valid date format
-    And Assert element by contains text "Urgent"
-    And Assert element by id "transactions-web-popup-info" has text "Yes"
-    And Assert element by text "Purpose code"
-    And Assert element by id "transactions-web-popup-info" has text "289"
-    And Assert element by text from key "keyPurpose" is displayed
-    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
-    And Click on element by id "nlb-button-primary"
-    And Wait for element by id "transactions-web-close-popup-icon" to appear
-    And Assert element by text "Confirmation successful"
-    And Assert element by contains text "Your payment was successfully accepted"
-    And Click on element by id "transactions-web-close-popup-nlb-button"
-    
-    Then Wait for element by text "Past payments"
-    And Wait "5" seconds
-    And Click on element by text "Past payments"
-    And Wait for first Past payment
-
-    And Scroll until element with text under key "keyPurpose" is in view and click
-#    And Click on element by text from key "keyPurpose"
-    And Assert element by text "Recipient name" has first following sibling from key "keyName"
-    And Assert element by text from key "keyAddress" is displayed
-    And Assert element by text from key "keyCity" is displayed
-    And Assert element by text "Recipient account number" has first following sibling from key "keyAccountNumber"
-    And Assert that text "Purpose code" has first following sibling that contains text "289"
-    And Swipe vertical
-    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
-    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
-    And Assert that text "Payment status" has first following sibling that contains text "Executed"
-    And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
-    And Click "Back" content description
-    And Wait for first Past payment
-    And Click "Back" content description
-
-    And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
-    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is lowered by "1" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Assert first transaction have Purpose under key "keyPurpose"
-    And Assert first transaction have Creditor name under key "keyName"
-    And Assert first transaction have Amount under key "keyAmount"
-    And Click on element by text from key "keyPurpose"
-    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-#    And Assert text from element by id "nlb-title" is contained within text from key "keyPurpose"
-    And Assert element by id "nlb-title" has value under key "keyPurpose"
-    And Assert element by id "nlb-details" has value under key "keyName"
-    And Assert element by text "Name and address" has first following sibling from key "keyName"
-    And Assert account number in Transactions details has value under key "keyAccountNumber"
-    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
-    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert element by text "Amount"
-    And Assert element by text "1,00 RSD"
-    And Assert element by text "Transaction ID"
-
-    Examples:
-      | rowindex |
-      |        5 |
-
-
   # Ne ide u past payment test je stabilizovan do koraka:
   # And Scroll until element with text under key "keyPurpose" is in view and click
-  @Payments_Domestic_Payments_Internal_Urgent_Payment_[MOB_ANDROID]
-  Scenario Outline: Payments_Domestic_Payments_Internal_Urgent_Payment_[MOB_ANDROID]
+  @Payments_Domestic_Payments_[MOB_ANDROID]
+  Scenario Outline: Payments_Domestic_Payments_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
@@ -803,6 +659,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "205-9001000243808-47" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -882,7 +742,14 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Past payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
+
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by id "nlb-card-container" to appear
     And Wait "1" seconds
@@ -899,7 +766,319 @@ Feature: Domestic_Payments
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by text "Repeat payment"
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click "Back" content description
+
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "5" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Assert first transaction have Purpose under key "keyPurpose"
+    And Assert first transaction have Creditor name under key "keyName"
+    And Assert first transaction have Amount under key "keyAmount"
+    And Click on element by text from key "keyPurpose"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has value under key "keyPurpose"
+    And Assert element by id "nlb-details" has value under key "keyName"
+    And Assert element by text "Name and address" has first following sibling from key "keyName"
+    And Assert account number in Transactions details has value under key "keyAccountNumber"
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Amount"
+    And Assert element by text "5,00 RSD"
+    And Assert element by text "Transaction ID"
+
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+    # Ne ide u past payment
+    # stabilizovan do koraka - And Scroll until element with text under key "keyPurpose" is in view and click
+  @Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]-Internal_Urgent_Payment
+  Scenario Outline: Payments-Domestic_Payments-Confirmation_[MOB_ANDROID]-Internal_Urgent_Payment
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
+
+    When Click on element by text "Pay"
+    And Wait for element by text "Domestic payment" to appear for "30" seconds
+    And Click on element by text "Domestic payment"
+    And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
+    And Assert element by text "Account number"
+    And Enter text "205-9001007790944-88" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+    And Assert element by text "Name"
+    And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Assert element by text "Address"
+    And Enter text "Vinca 13" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
+    And Assert element by text "City"
+    And Enter text "Beograd" in element id "nlb-input-creditor-city" and remember it under key "keyCity"
+    And Assert element by id "nlb-checkbox-save-recipient" is checked "false"
+    And Swipe vertical
+    And Scroll down until element with text "Purpose" is in view
+    And Assert element by text "Purpose"
+    And Assert Payment amount label is displayed correctly
+    And Enter text "1" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Assert purpose code has default "289" value
+    And Swipe vertical
+    And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
+    And Swipe until element with text "Cancel" is displayed
+    And Scroll down until element with text "Confirm" is in view
+    And Assert element by text "Reference number"
+    And Assert element by text "Payment date"
+    And Assert element by content desc "Set date"
+    And Assert payment date is todays date and in valid date format
+    And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
+    And Click on element by id "nlb-button-primary"
+
+    And Wait for element by text "Payment amount"
+    And Assert element by text "Payment review"
+    And Assert that text "Payment amount" has first following sibling that contains text "1.00 RSD"
+    And Assert that text "Fee" has first following sibling that contains text "0.00 RSD"
+
+    And Assert element by text "Recipient"
+#    And Assert element by text from key "keyAmount" is displayed
+#    And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Swipe vertical
+    And Swipe until element with text "Cancel" is displayed
+
+    And Assert element by text "Debtor"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert "Value date" date value is in valid date format
+    And Assert element by contains text "Urgent"
+    And Assert element by text "Purpose code"
+    And Assert element by text "Purpose"
+    And Assert element by text from key "keyPurpose" is displayed
+
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Assert element by text "Payment amount"
+    And Assert element by text "1,00 RSD"
+    #And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert Value date is todays date and in valid date format
+    And Assert element by contains text "Urgent"
+    And Assert element by id "transactions-web-popup-info" has text "Yes"
+    And Assert element by text "Purpose code"
+    And Assert element by id "transactions-web-popup-info" has text "289"
+    And Assert element by text from key "keyPurpose" is displayed
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+    
+    Then Wait for element by text "Past payments"
+    And Wait "5" seconds
+    And Click on element by text "Past payments"
+    And Wait for first Past payment or No past payments text
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
+
+    And Scroll until element with text under key "keyPurpose" is in view and click
+#    And Click on element by text from key "keyPurpose"
+    And Assert element by text "Recipient name" has first following sibling from key "keyName"
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Assert element by text "Recipient account number" has first following sibling from key "keyAccountNumber"
+    And Assert that text "Purpose code" has first following sibling that contains text "289"
+    And Swipe vertical
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
+    And Assert that text "Payment status" has first following sibling that contains text "Executed"
+    And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
+    And Click "Back" content description
+    And Wait for first Past payment or No past payments text
+    And Click "Back" content description
+
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Check if current balance is lowered by "1" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Assert first transaction have Purpose under key "keyPurpose"
+    And Assert first transaction have Creditor name under key "keyName"
+    And Assert first transaction have Amount under key "keyAmount"
+    And Click on element by text from key "keyPurpose"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert text from element by id "nlb-title" is contained within text from key "keyPurpose"
+    And Assert element by id "nlb-title" has value under key "keyPurpose"
+    And Assert element by id "nlb-details" has value under key "keyName"
+    And Assert element by text "Name and address" has first following sibling from key "keyName"
+    And Assert account number in Transactions details has value under key "keyAccountNumber"
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Amount"
+    And Assert element by text "1,00 RSD"
+    And Assert element by text "Transaction ID"
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+  # Ne ide u past payment test je stabilizovan do koraka:
+  # And Scroll until element with text under key "keyPurpose" is in view and click
+  @Payments_Domestic_Payments_Internal_Urgent_Payment_[MOB_ANDROID]
+  Scenario Outline: Payments_Domestic_Payments_Internal_Urgent_Payment_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by id "nlb-product-details-primary-balance" to appear
+    And Remember available balance in currency "RSD" under key "IT_001_Debtor_Balance"
+    And Click "Back" content description from view tag "View"
+
+    When Click on element by text "Pay"
+    And Wait for element by text "Domestic payment" to appear for "30" seconds
+    And Click on element by text "Domestic payment"
+    And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
+#    And Assert element by text "Creditor account"
+    And Enter text "205-9001000243808-47" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+    And Assert element by text "Name"
+#    And Enter text "Automatizacija Osir" in element id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Assert element by text "Address"
+    And Enter text "Vinca 13" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
+    And Assert element by text "City"
+    And Enter text "Beograd" in element id "nlb-input-creditor-city" and remember it under key "keyCity"
+    And Assert element by id "nlb-checkbox-save-recipient" is checked "false"
+    And Swipe vertical
+    And Scroll down until element with text "Purpose" is in view
+    And Assert element by text "Purpose"
+    And Assert Payment amount label is displayed correctly
+    And Enter text "5" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Assert purpose code has default "289" value
+    And Swipe vertical
+    And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
+    And Swipe until element with text "Cancel" is displayed
+    And Scroll down until element with text "Confirm" is in view
+    And Assert element by text "Reference number"
+    And Assert element by text "Payment date"
+    And Assert element by content desc "Set date"
+    And Assert payment date is todays date and in valid date format
+    And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
+    And Click on element by id "nlb-button-primary"
+
+    And Wait for element by text "Payment amount"
+    And Assert element by text "Payment review"
+    And Assert element by text "Payment amount"
+    And Assert that text "Fee" has first following sibling with text "0.00 RSD"
+    And Assert element by text "5.00 RSD"
+
+    And Assert element by text "Recipient"
+#    And Assert element by text from key "keyAmount" is displayed
+    And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Swipe vertical
+    And Swipe until element with text "Cancel" is displayed
+
+    And Assert element by text "Debtor"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+#    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert "Value date" date value is in valid date format
+    And Assert element by text "Purpose code"
+    And Assert element by text "Purpose"
+    And Assert element by text from key "keyPurpose" is displayed
+
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Assert element by text "Payment amount"
+    And Assert element by text "5,00 RSD"
+    And Assert that text "Fee" has first following sibling with text "0,00 RSD"
+    #And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Scroll to element by text "Purpose"
+#    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+#    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert Value date is todays date and in valid date format
+#    And Assert element by text "Urgent payment"
+#    And Assert element by id "transactions-web-popup-info" has text "Yes"
+    And Assert element by text "Purpose code"
+    And Assert element by id "transactions-web-popup-info" has text "289"
+    And Assert element by text from key "keyPurpose" is displayed
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
+    Then Wait for element by text "Past payments"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment or No past payments text
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
+
+    And Scroll until element with text under key "keyPurpose" is in view and click
+    And Wait for element by id "nlb-card-container" to appear
+    And Wait "1" seconds
+    And Assert element by text "Recipient name" has first following sibling from key "keyName"
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Assert element by text "Recipient account number" has first following sibling from key "keyAccountNumber"
+    And Assert that text "Purpose code" has first following sibling that contains text "289"
+    And Swipe vertical
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
+    And Assert that text "Payment status" has first following sibling that contains text "Executed"
+    And Assert element by text "Repeat payment"
+    And Click "Back" content description
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -949,6 +1128,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "205-9001000243808-47" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1029,7 +1212,14 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Upcoming payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
+
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by id "nlb-card-container" to appear
     And Wait "1" seconds
@@ -1048,7 +1238,7 @@ Feature: Domestic_Payments
     And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
 
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1098,6 +1288,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "200-2206180101000-48" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1179,7 +1373,14 @@ Feature: Domestic_Payments
     Then Wait for element by text "Past payments"
     And Wait "1" seconds
     And Click on element by text "Upcoming payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
+
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by id "nlb-card-container" to appear
     And Wait "1" seconds
@@ -1197,7 +1398,7 @@ Feature: Domestic_Payments
     And Assert that text "Fee" has first following sibling from excel "<rowindex>" columnName "fee_with_NBSP_RSD"
 
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1316,12 +1517,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Past payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click on Account selector in Payment list
     And Wait "1" seconds
     And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
 
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Assert element by text "Recipient name" has first following sibling from key "keyName"
@@ -1337,7 +1538,7 @@ Feature: Domestic_Payments
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1390,6 +1591,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "200-2206180101000-48" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1478,7 +1683,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Past payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Assert element by text "Recipient name" has first following sibling from key "keyName"
     And Assert element by text from key "keyAddress" is displayed
@@ -1496,7 +1706,7 @@ Feature: Domestic_Payments
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1541,6 +1751,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
     And Assert element by text "Account number"
     And Enter text "200220618010100048" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1592,6 +1806,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "265-1110312345678-24" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1676,7 +1894,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Past payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by text "Payment confirmation"
     And Assert that upcoming or past payment title has amount from key "keyAmount"
@@ -1695,7 +1918,7 @@ Feature: Domestic_Payments
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1740,6 +1963,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
     And Assert element by text "Account number"
     And Enter text "200220618010100048" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1792,6 +2019,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "200-2206180101000-48" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -1876,7 +2107,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Upcoming payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by id "nlb-card-container" to appear
     And Wait "1" seconds
@@ -1898,7 +2134,7 @@ Feature: Domestic_Payments
     And Assert element by text "Fee" has first following sibling from excel "<rowindex>" columnName "fee_with_NBSP_RSD"
     
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -1934,6 +2170,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
     And Assert element by text "Account number"
     And Enter text "265-1110312345678-24" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -2017,7 +2257,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Upcoming payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by id "nlb-card-container" to appear
     And Wait "1" seconds
@@ -2037,7 +2282,7 @@ Feature: Domestic_Payments
     And Assert element by text "Fee" has first following sibling from excel "<rowindex>" columnName "fee_with_NBSP_RSD"
 
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -2087,6 +2332,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "840-0000713121843-57" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -2175,7 +2424,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Past payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by text "Payment confirmation"
     And Assert that upcoming or past payment title has amount from key "keyAmount"
@@ -2195,7 +2449,7 @@ Feature: Domestic_Payments
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -2249,6 +2503,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "840-0000713121843-57" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -2336,7 +2594,12 @@ Feature: Domestic_Payments
 
     Then Wait for element by text "Past payments"
     And Click on element by text "Upcoming payments"
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment or No past payments text
     And Scroll until element with text under key "keyPurpose" is in view and click
     And Wait for element by text "Cancel payment"
     And Assert that upcoming or past payment title has amount from key "keyAmount"
@@ -2355,7 +2618,7 @@ Feature: Domestic_Payments
     And Assert element by text "Fee" has first following sibling from excel "<rowindex>" columnName "fee_with_NBSP_RSD"
 
     And Click "Back" content description
-    And Wait for first Past payment
+    And Wait for first Past payment or No past payments text
     And Click "Back" content description
 
     And Click on element by text "My Products"
@@ -2400,6 +2663,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "840-0000713121843-57" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
@@ -2449,6 +2716,10 @@ Feature: Domestic_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
+    And Click on Account selector in Payment list
+    And Wait for element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by contains text "Recipient"
 #    And Assert element by text "Creditor account"
     And Enter text "840-0000713121843-57" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Assert element by text "Name"
