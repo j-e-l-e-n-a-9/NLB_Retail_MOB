@@ -22,6 +22,7 @@ Feature: Dashboard
     And Assert active account in dashboard is from Excel "<rowindex>" with name "personal_account_name" and iban "personal_account_iban" and balance under keys "current_balance" and "available_balance"
     #And Expand latest transactions in dashboard
     And Remember latest transaction purposes from dashboard under key "latest_transaction_purposes"
+
     And Click Next arrow in dashboard
     And Assert element by text from excel "<rowindex>" columnName "second_personal_account_iban"
     And Wait for element by id "nlb-title" to appear

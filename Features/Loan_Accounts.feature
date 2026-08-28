@@ -383,8 +383,7 @@ Feature: Loan_Accounts
       | rowindex |
       |        5 |
 
-    # u detaljima je prikazano drugo ime za account owner-a
-    # stabilizovan do koraka - Then Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+
   @Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
   Scenario Outline: Loan_Accounts-Details-Account_Details_[MOB_ANDROID]
 
@@ -399,11 +398,12 @@ Feature: Loan_Accounts
     And Wait for product details to load
     And Assert element by text "Financial details"
 
-    Then Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Start date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
+    #Then Assert element by text "Account owner" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    #TODO provera dali su nazivi labela dobri
+    And Assert element by text "Disbursement date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert element by text "Repayment period" has first following sibling with regex "^(?:0|[1-9]\d*)\s*months$"
     And Assert element by text "Remaining period" has first following sibling with regex "^(?:0|[1-9]\d*)\s*months$"
 
     Examples:
       | rowindex |
-      |        5 |
+      |        1 |

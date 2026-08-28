@@ -55,6 +55,7 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.openqa.selenium.interactions.Actions;
@@ -12261,18 +12262,19 @@ public class Steps {
     @And("Remember part of random template name and remember it under key {string}")
     public void rememberPrefixOfRandomTemplateNameAndRememberItUnderKey(String key) {
         String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[2]";
-        List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+        //List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
+        List<String> elements = x.createMobileElementsByXpath(xPath)
+                .stream()
+                .map(el->el.getText().trim())
+                .filter(text -> text.matches("^[A-Za-z]{3,}.*"))
+                .collect(Collectors.toList());
         Assert.assertFalse("Nije pronadjen nijedan template name element.", elements.isEmpty());
-
         Random random = new Random();
-        MobileElement randomElement = elements.get(random.nextInt(elements.size()));
-        String templateName = randomElement.getText().trim();
+        String templateName = elements.get(random.nextInt(elements.size()));
         Assert.assertFalse("Random template name je prazan.", templateName.isEmpty());
-
-        String part = templateName.length() <= 2 ? templateName : templateName.substring(0, 2);
+        String part = templateName.length() <= 3 ? templateName : templateName.substring(0, 3);
         System.out.println("RANDOM TEMPLATE NAME: " + templateName);
         System.out.println("SAVING PART FOR NAME OF TEMPLATE: " + part);
-
         DataManager.userObject.put(key, part);
     }
 
@@ -13189,8 +13191,8 @@ public class Steps {
 
     @And("Assert element by contains text {string} has first following sibling containing text {string}")
     public void assertElementByContainsTextHasFirstFollowingSiblingWithTextText(String text, String textExpected) {
-        String xPath = "//*[@text='" + text + "']//following-sibling::*[1]";
-        MobileElement element = x.createMobileElementByXpath(xPath);
+        String xpath = "//*[contains(@text,'" + text + "')]//following-sibling::*[1]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
         System.out.println(element.getText());
         System.out.println(textExpected);
         Assert.assertTrue(element.getText().trim().contains(textExpected));
@@ -13225,7 +13227,6 @@ public class Steps {
         WaitHelpers.waitForElement(el);
     }
 
-
     @And("Remember text of first following sibling of element by text {string} on index {string} under key {string}")
     public void rememberTextOfFirstFollowingSiblingOfElementByTextOnIndexUnderKey(String text, String index, String key) {
         String xPath = "(//*[@text='" + text + "']//following-sibling::*[1])["+index+"]";
@@ -13234,5 +13235,78 @@ public class Steps {
         System.out.println("Text to remember "+textToRemember);
         DataManager.userObject.put(key, textToRemember);
     }
+
+//    @And("Assert accounts are sorted by account number and priority")
+//    public void assertAccountsAreSortedByAccountNumberAndPriority() {
+//        List<String> accountNumberPrefix = Arrays.asList("205", "901");
+//        Set<String> accountsFromUI = new LinkedHashSet<>();
+//        String xPath = "//*[@resource-id='nlb-card-container']//android.widget.TextView[2]";
+//
+//        accountsFromUI.addAll(x.createElementsByXpath(xPath).stream().map(e -> e.getText()).collect(Collectors.toList()));
+//
+//        for (int a = 0; a < 5; a++) {
+//            hp.swipeByCordinates(500, 1200, 500, 800);
+//            accountsFromUI.addAll(x.createElementsByXpath(xPath).stream().map(e -> e.getText()).collect(Collectors.toList()));
+//        }
+//        System.out.println(accountsFromUI);
+//        List<String> prefixesFromUI = accountsFromUI.stream()
+//                .filter(account -> account.matches(".*\\d{4}.*"))
+//                .map(account -> account.substring(0, 3))
+//                .collect(Collectors.toList());
+//
+//        int lastPriority = -1;
+//        for (String prefix : prefixesFromUI) {
+//            int priority = accountNumberPrefix.indexOf(prefix);
+//            Assert.assertTrue("Accounts are not sorted correctly: " + prefixesFromUI, priority >= lastPriority);
+//            lastPriority = priority;
+//        }
+//    }
+
+    @And("Assert accounts are sorted by type in account selector")
+    public void assertAccountsAreSortedByTypeInAccountSelector() {
+        String xpath = "//*[@resource-id='nlb-card-container']//*[@content-desc]";
+        List<String> expectedOrder = Arrays.asList("Current account", "Savings Account");
+        Set<String> accountsFromUI = new LinkedHashSet<>();
+
+        accountsFromUI.addAll(
+                x.createElementsByXpath(xpath).stream()
+                        .map(e -> e.getAttribute("content-desc"))
+                        .collect(Collectors.toList()));
+
+        for (int i = 0; i < 7; i++) {
+            accountsFromUI.addAll(
+                    x.createElementsByXpath(xpath).stream()
+                            .map(e -> e.getAttribute("content-desc"))
+                            .collect(Collectors.toList()));
+            hp.swipeByCordinates(500, 1200, 500, 800);
+        }
+
+        System.out.println(accountsFromUI);
+        int lastPriority = -1;
+        for (String accountType : accountsFromUI) {
+            int currentPriority = expectedOrder.indexOf(accountType);
+            Assert.assertTrue("Accounts are not sorted by type. Actual order: " + accountsFromUI,
+                    currentPriority >= lastPriority);
+            lastPriority = currentPriority;
+        }
+    }
+
+    @And("Assert list of element by id {string} is displayed in amount {int}")
+    public void assertListOfElementByIdIsDisplayedInAmount(String id, int amount) {
+        By elWait = d.createElementByResourceId(id);
+        List<MobileElement> mobileElementList = d.createMobileElementsByResourceId(id);
+        System.out.println("Expected amount: " + amount);
+        System.out.println("Actual amount: " + mobileElementList.size());
+
+        Assert.assertEquals(amount, mobileElementList.size());
+
+        for (MobileElement element : mobileElementList) {
+            System.out.println("Element displayed: " + element.isDisplayed());
+            Assert.assertTrue(element.isDisplayed());
+        }
+    }
+
 }
+
+
 

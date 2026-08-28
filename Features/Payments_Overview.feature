@@ -14,6 +14,11 @@ Feature: Payments_Overview
 
     Then Assert element by text "Overview and edit"
     And Assert Overview and edit option buttons in Pay screen
+    And Click on element by text "Past payments"
+    And Wait for first Past payment or No past payments text
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Assert accounts are sorted by type in account selector
 
     Examples:
       | rowindex |
