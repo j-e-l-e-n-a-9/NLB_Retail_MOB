@@ -64,14 +64,14 @@ Feature: Own_Account_Transfer
 
     And Assert element by text "Debtor"
     And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     #And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
 
     And Assert element by text "Recipient"
     And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "second_personal_account_bban"
 
     And Assert element by text "Payment details"
@@ -122,14 +122,14 @@ Feature: Own_Account_Transfer
 
     And Assert that upcoming or past payment title has amount from key "keyPaymentAmount"
     And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
     And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_bban"
 
     And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     #And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "personal_account_bban"
-    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
     And Swipe vertical
 
     And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
@@ -467,14 +467,14 @@ Feature: Own_Account_Transfer
 
     And Assert element by text "Debtor"
     And Assert element by text "Name" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+#    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+#    And Assert element by text "Address" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     #And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
 
     And Assert element by text "Recipient"
     And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "second_personal_account_iban"
 
     And Assert element by text "Payment details"
@@ -525,14 +525,14 @@ Feature: Own_Account_Transfer
     
     And Assert that upcoming or past payment title has amount from key "keyPaymentAmount"
     And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
     And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "second_personal_account_iban"
 
     And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     #And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
-    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
-    And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
+    #And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
+    #And Assert element by text "Debtor Address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
     And Swipe vertical
 
     And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"

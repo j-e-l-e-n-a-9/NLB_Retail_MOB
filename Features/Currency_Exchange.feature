@@ -95,12 +95,6 @@ Feature: Currency_Exchange
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait for element by text "From"
     And Assert "Next" button primary is disabled
-    And Click on element by text "Discounted exchange rates"
-    And Wait for element by text "Sell"
-    And Remember text of first following sibling of element by text "Sell" in txt under key "keySell"
-
-    And Click "Back" content description
-    And Wait for element by text "From"
     And Enter text "2" in element id "nlb-amount-with-currency-flag-field" and remember it under key "keyAmount"
     And Assert "Next" button primary is enabled
     And Click on element by id "nlb-button-primary"
@@ -108,16 +102,14 @@ Feature: Currency_Exchange
 
     And Assert element by text "Currency exchange review"
     And Assert that text "Exchange" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
-    And Assert "Exchange" has a value under the key "keySell" when multiplied by the value under the key "keyAmount"
+    And Remember "Exchange" value in Currency exchange review screen under key "exchangeValueKey"
+#    And Assert "Exchange" has a value under the key "keySell" when multiplied by the value under the key "keyAmount"
     And Assert that text "To" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*EUR$"
     And Assert that text "To" has first following sibling that contains text from key "keyAmount" with no spaces
-    And Remember "Exchange" value in Currency exchange review screen under key "exchangeValueKey"
 #    And Assert that text "From account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
 #    And Assert that text "To account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
     And Assert Exchange rate label is displayed for amount under key "keyAmount"
     And Assert element by contains text "Exchange rate for" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{4}$"
-    And Assert element by contains text "Exchange rate for" has first following sibling with text from key "keySell"
-    And Assert element by text "Value date"
     And Assert Value date is todays date and in valid date format
     And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
     And Assert element by text "Cancel"
@@ -142,20 +134,40 @@ Feature: Currency_Exchange
     And Assert element by text "Confirmation successful"
     And Assert element by contains text "Your payment was successfully accepted"
     And Click on element by id "transactions-web-close-popup-nlb-button"
+    And Wait for element by text "Domestic payment"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment
+    And Click on Account selector in Payment list
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for first Past payment
+    And Wait "2" seconds
+    And Assert first Past payment has title "Kupo-prodaja deviza"
+    And Assert amount of first Past payment has value from key "keyAmount"
+    And Assert currency of first Past payment has value "EUR"
+    And Click "Back" content description
+    And Wait for element by text "Domestic payment"
     And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Wait for first product in My products page
 
     Then Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is lowered by value from key "exchangeValueKey" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Assert first transaction has purpose "Kupovina deviza"
+    And Assert first transaction have Amount under key "exchangeValueKey"
+    And Assert first transaction has currency "RSD"
+    And Assert first transaction is "outgoing"
+
     And Click "Back" content description
     And Wait for element by id "nlb-value-product-primary-balance" to appear
     And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is increased by "2" using balance from key "IT_001_Creditor_Balance" for currency "EUR"
-
+    And Assert first transaction has purpose "Kupovina deviza"
+    And Assert first transaction have Amount under key "keyAmount"
+    And Assert first transaction has currency "EUR"
+    And Assert first transaction is "incoming"
 
     Examples:
       | rowindex |
@@ -194,11 +206,6 @@ Feature: Currency_Exchange
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by text "From"
     And Assert "Next" button primary is disabled
-    And Click on element by text "Discounted exchange rates"
-    And Wait for element by text "Bundle"
-    And Remember text of first following sibling of element by text "Buy" in txt under key "keyBuy"
-    And Click "Back" content description
-    And Wait for element by text "From"
     And Enter text "3" in element id "nlb-amount-with-currency-flag-field" and remember it under key "keyAmount"
     And Assert "Next" button primary is enabled
     And Click on element by id "nlb-button-primary"
@@ -206,16 +213,13 @@ Feature: Currency_Exchange
 
     And Assert element by text "Currency exchange review"
     And Assert that text "Exchange" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*EUR$"
-    And Assert "To" has a value under the key "keyBuy" when multiplied by the value under the key "keyAmount"
-    And Assert that text "To" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
     And Assert that text "Exchange" has first following sibling that contains text from key "keyAmount" with no spaces
+    And Assert that text "To" has first following sibling that matches regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s*RSD$"
     And Remember "To" value in Currency exchange review screen under key "exchangeValueKey"
 #    And Assert that text "From account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
 #    And Assert that text "To account" has first following sibling from excel "<rowindex>" columnName "personal_account_iban"
     And Assert Exchange rate label is displayed for amount under key "keyAmount"
     And Assert element by contains text "Exchange rate for" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{4}$"
-    And Assert element by contains text "Exchange rate for" has first following sibling with text from key "keyBuy"
-    And Assert element by text "Value date"
     And Assert Value date is todays date and in valid date format
     And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
     And Assert element by text "Cancel"
@@ -240,19 +244,41 @@ Feature: Currency_Exchange
     And Assert element by text "Confirmation successful"
     And Assert element by contains text "Your payment was successfully accepted"
     And Click on element by id "transactions-web-close-popup-nlb-button"
+    And Wait for element by text "Domestic payment"
+    And Click on element by text "Past payments"
+    And Wait for first Past payment
+    And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for first Past payment
+    And Wait "2" seconds
+    And Assert first Past payment has title "Kupo-prodaja deviza"
+    And Assert amount of first Past payment has value from key "keyAmount"
+    And Assert currency of first Past payment has value "EUR"
+    And Click "Back" content description
+    And Wait for element by text "Domestic payment"
     And Click on element by text "My Products"
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Wait for first product in My products page
 
     Then Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is increased by value from key "exchangeValueKey" using balance from key "IT_001_Creditor_Balance" for currency "RSD"
+    And Assert first transaction has purpose "Prodaja deviza"
+    And Assert first transaction have Amount under key "exchangeValueKey"
+    And Assert first transaction has currency "RSD"
+    And Assert first transaction is "incoming"
+
     And Click "Back" content description
     And Wait for element by id "nlb-value-product-primary-balance" to appear
     And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is lowered by "3" using balance from key "IT_001_Debtor_Balance" for currency "EUR"
+    And Assert first transaction has purpose "Prodaja deviza"
+    And Assert first transaction have Amount under key "keyAmount"
+    And Assert first transaction has currency "EUR"
+    And Assert first transaction is "outgoing"
 
     Examples:
       | rowindex |

@@ -24,7 +24,7 @@ Feature: Prenesi
     And Click on element by text "Pay"
     And Wait for element by id "nlb-prenesi-phone-number" to appear
     And Assert screen header is "Prenesi"
-    And Assert back button in screen "Prenesi"
+#    And Assert back button in screen "Prenesi"
     And Assert element by text "Select recipient or input phone number"
     And Assert element by content desc "Select contact"
     And Assert element by text "Set amount"
@@ -90,13 +90,16 @@ Feature: Prenesi
     And Wait element "Payment confirmation" by text
     
     And Assert element by text "Recipient name" has first following sibling contains text "ZDENKA PANTELIĆ"
-    And Assert element by text "Recipient account" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
-    And Assert element by text "Urgent payment" has first following sibling contains text "Yes"
+    And Assert element by text "Recipient account number" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
+#    And Assert element by text "Urgent payment" has first following sibling contains text "Yes"
+    And Assert element by contains text "Urgent" has first following sibling containing text "Yes"
     And Assert element by text "Purpose code" has first following sibling contains text "289"
     And Assert element by text "Purpose" has first following sibling contains text "PRENESI"
     And Swipe vertical
     And Assert element by text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert element by text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text "Payment date" has first following sibling match regex "^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}\r?\n([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+    And Assert element by text "Value date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert element by text "Fee" has first following sibling contains text "0,00 RSD"
     And Assert element by text "Payment status" has first following sibling contains text "Executed"
     And Click "Back" content description

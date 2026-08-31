@@ -147,7 +147,8 @@ Feature: Upcoming_Payments
     And Wait "1" seconds
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-date" to appear
-    And Click on first Past payment
+    And Swipe until element with text "TRANSACTIONS BY ORDER OF CITIZENS" is displayed
+    And Click on element by text "TRANSACTIONS BY ORDER OF CITIZENS"
     And Wait for element by text "Cancel payment"
     And Assert element by content desc "Pending"
     And Assert list of element by id "nlb-title" is displayed
@@ -174,7 +175,8 @@ Feature: Upcoming_Payments
     And Scroll until element with text from Excel "<rowindex>" columnName "auth_personal_account_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "auth_personal_account_number"
     And Wait for element by id "nlb-date" to appear
-    And Click on first Past payment
+    And Swipe until element with text "TRANSACTIONS BY ORDER OF CITIZENS" is displayed
+    And Click on element by text "TRANSACTIONS BY ORDER OF CITIZENS"
     And Wait for element by text "Cancel payment"
     And Assert element by content desc "Pending"
     And Assert list of element by id "nlb-title" is displayed
@@ -195,6 +197,35 @@ Feature: Upcoming_Payments
     And Assert element by text "Debtor Address" has first following sibling with regex "(?s)^.+$"
     And Click "Back" content description
     And Wait for element by id "nlb-date" to appear
+
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Scroll until element with text from Excel "<rowindex>" columnName "personal_account_iban" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait element "No upcoming payments." by text
+    And Assert element by text "No upcoming payments."
+#    And Wait for element by id "nlb-date" to appear
+#    And Click on first Past payment
+#    And Wait for element by text "Cancel payment"
+#    And Assert element by content desc "Pending"
+#    And Assert list of element by id "nlb-title" is displayed
+#    And Assert list of element by id "nlb-details" is displayed
+#    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert element by id "nlb-currency" has text "RSD"
+#    And Assert element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+#    And Assert element by id "nlb-button-text" that has descendant text "Cancel payment"
+#    And Assert element by text "Recipient name" has first following sibling with regex "^.+$"
+#    And Assert element by text "Recipient address" has first following sibling with regex "(?s)^.+$"
+#    And Assert element by text "Recipient account number" has first following sibling with regex "^\d{3}-\d{13}-\d{2}$"
+##    And Assert element by text "Urgent payment" is not displayed
+#    And Assert element by text "Purpose code" has first following sibling with regex "^\d{3}$"
+#    And Assert element by text "Purpose" has first following sibling with regex "^.+$"
+#    And Swipe vertical
+##    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "auth_personal_account_owner_name"
+#    And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "auth_personal_account_number"
+#    And Assert element by text "Debtor Address" has first following sibling with regex "(?s)^.+$"
+#    And Click "Back" content description
+#    And Wait for element by id "nlb-date" to appear
 
     Then Click on Account selector in Payment list
     And Wait "1" seconds

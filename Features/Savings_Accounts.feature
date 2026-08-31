@@ -152,6 +152,7 @@ Feature: Savings_Accounts
       |        1 |
 
 
+    #Odkomentarisi korake testa kada budem imao transakcije koje nisu samo iz proslog meseca
   @Savings_Accounts_Transactions_Filter_By_Date_Predefined_Date_Range_[MOB_ANDROID]
   Scenario Outline: Savings_Accounts_Transactions_Filter_By_Date_Predefined_Date_Range_[MOB_ANDROID]
 
@@ -190,45 +191,45 @@ Feature: Savings_Accounts
     And Assert From field is correctly displayed in Date transactions filter
     And Assert To field is correctly displayed in Date transactions filter
 
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
-    And Assert "Apply" button primary is enabled
-
-    #7 days
-    And Click on element by id "nlb-button-primary"
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter Date is correct for Last seven days
-    And Assert "Confirm" button primary is enabled
-    And Assert "Clear filters" button alternate is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait for first transaction to load after filter
-    And Assert transactions dates are from last seven days
-
-    #this month
-    And Click Transaction filter button in Product
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter Date is correct for Last seven days
-    And Click on element by text "Date"
-    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
-    And Click on element by id "nlb-radio-button-THIS_MONTH"
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
-    And Assert "Apply" button primary is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter Date is correct for This month
-    And Assert "Confirm" button primary is enabled
-    And Assert "Clear filters" button alternate is enabled
-    And Click on element by id "nlb-button-primary"
-    And Wait for first transaction to load after filter
-    And Assert transactions dates are from This month
-
-    #last month
-    And Click Transaction filter button in Product
-    And Wait first Transaction filter
-    And Assert subtitle of Transaction filter Date is correct for This month
-    And Click on element by text "Date"
-    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
-    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+#    And Assert "Apply" button primary is enabled
+#
+#    #7 days
+#    And Click on element by id "nlb-button-primary"
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter Date is correct for Last seven days
+#    And Assert "Confirm" button primary is enabled
+#    And Assert "Clear filters" button alternate is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait for first transaction to load after filter
+#    And Assert transactions dates are from last seven days
+#
+#    #this month
+#    And Click Transaction filter button in Product
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter Date is correct for Last seven days
+#    And Click on element by text "Date"
+#    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+#    And Click on element by id "nlb-radio-button-THIS_MONTH"
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
+#    And Assert "Apply" button primary is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter Date is correct for This month
+#    And Assert "Confirm" button primary is enabled
+#    And Assert "Clear filters" button alternate is enabled
+#    And Click on element by id "nlb-button-primary"
+#    And Wait for first transaction to load after filter
+#    And Assert transactions dates are from This month
+#
+#    #last month
+#    And Click Transaction filter button in Product
+#    And Wait first Transaction filter
+#    And Assert subtitle of Transaction filter Date is correct for This month
+#    And Click on element by text "Date"
+#    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+#    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
     And Click on element by id "nlb-radio-button-LAST_MONTH"
     And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_MONTH"
     And Assert "Apply" button primary is enabled
@@ -255,48 +256,7 @@ Feature: Savings_Accounts
 
     When Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
-    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
-    And Wait for first transaction to load
-
-    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
-    And Assert list of transactions is displayed correctly in Product
-    And Assert Transaction filter button in Product
-    And Click on button in Product details "Statements"
-    And Wait for first statement to appear
-
-    And Assert screen header is "Statements"
-    And Assert back button in screen "Statements"
-    And Assert Year filter for statements
-    And Assert statemant year filter has current year
-    And Assert Year filter for statements has expected options
-    And Click on element by text "2021"
-    And Wait for first statement to appear
-    And Remember number of Statemants under key "keyStatemantsNumber"
-    And Swipe vertical up
-    And Assert the statements counter displays the expected number of items from key "keyStatemantsNumber"
-    And Assert all statements from list has year "2021" and they are sorted properly
-
-    Then Click on element by id "nlb-icon-row" with index "1"
-    And Wait for element by contains text "Izvod_"
-    And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
-    And Go Back
-    And Assert screen header is "Statements"
-
-    Examples:
-      | rowindex |
-      |        1 |
-
-
-  @Savings_Accounts_Statemants_List_[MOB_ANDROID]
-  Scenario Outline: Savings_Accounts_Statemants_List_[MOB_ANDROID]
-
-    Given Open Application
-    And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for My NLB screen to load
-
-    When Click on Bottom navigation button "My Products"
-    And Wait for element by id "nlb-button-edit-products" to appear
-    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
+    And Swipe to element by text from Excel "<rowindex>" columnName "auth_savings_account_number" and click on it
     And Wait for first transaction to load
 
     And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed

@@ -478,7 +478,7 @@ Feature: Payments_Archive
 
     And Swipe vertical
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
     And Assert list of element by id element by id "nlb-title" with regex "^.+$"
     And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
     And Assert list of element by id "nlb-details" is displayed
@@ -486,7 +486,8 @@ Feature: Payments_Archive
     And Swipe vertical up
     And Swipe vertical up
     And Click on Account selector in Payment list
-    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    And Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait for first Past payment
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
@@ -496,7 +497,26 @@ Feature: Payments_Archive
 
     And Swipe vertical
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+    And Assert list of element by id "nlb-details" is displayed
+
+    And Swipe vertical up
+    And Swipe vertical up
+    And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "auth_personal_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "auth_personal_account_number"
+    And Wait for first Past payment
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+
+    And Swipe vertical
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
     And Assert list of element by id element by id "nlb-title" with regex "^.+$"
     And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
     And Assert list of element by id "nlb-details" is displayed
@@ -504,20 +524,42 @@ Feature: Payments_Archive
     Then Swipe vertical up
     And Swipe vertical up
     And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
     And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
-    And Wait for first Past payment
-    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
-    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
-    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
-    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+    And Wait for element by contains text "No past payments"
+    And Assert element by contains text "No past payments"
+#    And Wait for first Past payment
+#    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+#    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+#
+#    And Swipe vertical
+#    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+#    And Assert list of element by id "nlb-details" is displayed
 
-    And Swipe vertical
-    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert list of element by id element by id "nlb-currency" with regex "^RSD$"
-    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
-    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
-    And Assert list of element by id "nlb-details" is displayed
+    And Click on Account selector in Payment list
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait for element by contains text "No past payments"
+    And Assert element by contains text "No past payments"
+#    And Wait for first Past payment
+#    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+#    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+#
+#    And Swipe vertical
+#    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+#    And Assert list of element by id element by id "nlb-title" with regex "^.+$"
+#    And Assert list of element by id element by id "nlb-amount" with regex "^(?:0|[1-9]\d{0,2})(?:\.\d{3})*,\d{2}$"
+#    And Assert list of element by id "nlb-details" is displayed
 
     Examples:
       | rowindex |

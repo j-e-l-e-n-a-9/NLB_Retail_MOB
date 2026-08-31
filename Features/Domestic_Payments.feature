@@ -1406,7 +1406,7 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    #And Check if current balance is lowered by "3" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+#    And Check if current balance is lowered by "3" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
     And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
 
     Examples:

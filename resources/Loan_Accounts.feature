@@ -2,17 +2,16 @@ Feature: Loan_Accounts
 
   @Loan_Accounts-Details-Financial_Details_[MOB_ANDROID]
   Scenario Outline: Loan_Accounts-Details-Financial_Details_[MOB_ANDROID]
-    #C71059
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
 
-    When Click "My Products" content description from view tag "View"
+    When Click on element by text "My Products"
     And Wait for element by id "nlb-value-product-account-name" to appear
-    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_iban" is in view
-    And Click on element by text from excel "<rowindex>" columnName "loan_account_iban"
-    And Wait for element by id "nlb-principal-amount" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Wait for product details to load
 
     Then Assert element by text "Financial details"
     And Assert element by text "Opening amount"
@@ -35,11 +34,11 @@ Feature: Loan_Accounts
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
 
-    When Click "My Products" content description from view tag "View"
+    When Click on element by text "My Products"
     And Wait for element by id "nlb-value-product-account-name" to appear
-    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_iban" is in view
-    And Click on element by text from excel "<rowindex>" columnName "loan_account_iban"
-    And Wait for element by id "nlb-principal-amount" to appear
+    And Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    And Click on element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Wait for product details to load
 
     Then Assert element by text "Account details"
     And Assert element by text "Account owner"
