@@ -1109,7 +1109,6 @@ Feature: Domestic_Payments
       |        5 |
 
     #pada na proveri balansa jer se stanje umanjuje
-    # pada na koraku - And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
   @Payments-Domestic_Payments_[MOB_ANDROID]-Internal_Non_Urgent_Payment
   Scenario Outline: Payments-Domestic_Payments_[MOB_ANDROID]-Internal_Non_Urgent_Payment
 
@@ -1406,9 +1405,8 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-#    And Check if current balance is lowered by "3" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
-
+    #And Check if current balance is lowered by "3" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
     Examples:
       | rowindex |
       |        5 |
@@ -1999,8 +1997,7 @@ Feature: Domestic_Payments
 
 
     # Balans se umanjuje iako je neurgentno placanje
-    # pada na koraku And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
-  @Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_11
+   @Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_11
   Scenario Outline: Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_11
 
     Given Open Application
@@ -2142,16 +2139,14 @@ Feature: Domestic_Payments
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     #And Check if current balance is lowered by "7" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
-
+     And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
 
     Examples:
       | rowindex |
       |        5 |
 
     # balanse se umanjuje na neurgentnom placanju
-    # And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
-  @Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_97
+   @Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_97
   Scenario Outline: Payments-Domestic_Payments_[MOB_ANDROID]-External_Non_Urgent_Payment_Model_97
 
     Given Open Application
@@ -2289,7 +2284,7 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
+     And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
 #    And Assert first transaction have Purpose under key "keyPurpose"
 #    And Assert first transaction have Creditor name under key "keyName"
 #    And Assert first transaction have Amount under key "keyAmount"
@@ -2483,7 +2478,6 @@ Feature: Domestic_Payments
       |        5 |
 
     # umanjuje se balans na ne urgentnom placanju
-    # pada na koraku - And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
   @Domestic_Payments_Budzetski_Non_Urgent_Payment_Model97_[MOB_ANDROID]
   Scenario Outline: Domestic_Payments_Budzetski_Non_Urgent_Payment_Model97_[MOB_ANDROID]
 
@@ -2626,7 +2620,8 @@ Feature: Domestic_Payments
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     #And Check if current balance is lowered by "4" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Check if current balance is lowered with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
+    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+
     And Assert first transaction have Purpose under key "keyPurpose"
     And Assert first transaction have Creditor name under key "keyName"
     And Assert first transaction have Amount under key "keyAmount"
