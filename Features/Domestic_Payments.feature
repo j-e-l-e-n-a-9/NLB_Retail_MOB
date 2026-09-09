@@ -88,7 +88,7 @@ Feature: Domestic_Payments
     And Assert Payment amount label is displayed correctly
     And Enter text "0,1" in element id "nlb-amount-with-currency-field"
     And Swipe vertical
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -152,7 +152,7 @@ Feature: Domestic_Payments
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -261,7 +261,7 @@ Feature: Domestic_Payments
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -310,7 +310,7 @@ Feature: Domestic_Payments
     And Assert purpose code has default "289" value
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -418,7 +418,7 @@ Feature: Domestic_Payments
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe vertical
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert purpose code has default "289" value
     And Assert element by content desc "Set date"
@@ -682,7 +682,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -838,7 +838,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -994,7 +994,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1149,7 +1149,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1310,7 +1310,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1455,7 +1455,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1614,7 +1614,7 @@ Feature: Domestic_Payments
     And Click on element by text "11"
     And Enter text "801240107032-25119-1" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1772,7 +1772,7 @@ Feature: Domestic_Payments
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Click "Model, -" content description
     And Click on element by text "11"
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Click on element by id "nlb-button-primary"
 
     Then Wait for element by text "Error"
@@ -1829,7 +1829,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
     And Enter text "30600268000161" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -1984,7 +1984,7 @@ Feature: Domestic_Payments
     And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
     And Click "Model, -" content description
     And Click on element by text "97"
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Click on element by id "nlb-button-primary"
 
     Then Wait for element by text "Error"
@@ -2041,7 +2041,7 @@ Feature: Domestic_Payments
     And Click on element by text "11"
     And Enter text "801240107032-25119-1" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -2190,7 +2190,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
     And Enter text "30600268000161" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -2354,7 +2354,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
     And Enter text "020201701973791828" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -2524,7 +2524,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
     And Enter text "020201701973791828" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -2682,7 +2682,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
     And Enter text "020201701973791828" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"
@@ -2737,7 +2737,7 @@ Feature: Domestic_Payments
     And Click on element by text "97"
 #    And Enter text "020201701973791828" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
     And Swipe until element with text "Cancel" is displayed
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Assert element by text "Reference number"
     And Assert element by text "Payment date"
     And Assert element by content desc "Set date"

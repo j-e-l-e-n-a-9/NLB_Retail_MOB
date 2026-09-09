@@ -12456,9 +12456,14 @@ public class Steps {
         String xpath = "//android.widget.TextView[@text='Payment amount']/following::android.widget.TextView[1]";
         MobileElement element = x.createMobileElementByXpath(xpath);
         String textFromUi = element.getText();
-        String textExpected = DataManager.userObject.get(key).toString()+ " "+currency;
-        if(textExpected.contains(",")) {
-            textExpected = textExpected.replace(",", ".");
+        String textFromKey = DataManager.userObject.get(key).toString();
+        String textExpected = "";
+
+        if(!textFromKey.contains(",")){
+            textExpected = textFromKey+",00 "+currency;
+        }
+        else{
+            textExpected = textFromKey+" "+ currency;
         }
         System.out.println("Text from ui "+textFromUi);
         System.out.println("Text expected "+ textExpected);
@@ -12925,7 +12930,7 @@ public class Steps {
             finalExpectedAmount = amountFromKey+",00 "+currency;
         }
         else{
-            System.out.println("Metoda ne podrzava format broja iz kljuca");
+            finalExpectedAmount = amountFromKey+" "+currency;
         }
         MobileElement element = x.createMobileElementByXpath(xpath);
         String textFromUI = element.getText().trim();
@@ -12942,8 +12947,8 @@ public class Steps {
         if(!amountFromKey.contains(",")){
             finalExpectedAmount = "−"+amountFromKey+",00";
         }
-        else{
-            System.out.println("Metoda ne podrzava format broja iz kljuca");
+        else if(amountFromKey.contains(",")){
+            finalExpectedAmount = "−"+amountFromKey;
         }
         MobileElement element = x.createMobileElementByXpath(xpath);
         String textFromUI = element.getText().trim();
@@ -13309,6 +13314,133 @@ public class Steps {
         }
     }
 
+    @And("Remember text from element by id {string} under key {string}")
+    public void rememberTextFromElementByIdUnderKey(String id, String key) {
+        List<MobileElement> mobileElementList = d.createMobileElementsByResourceId(id);
+        String text = mobileElementList.get(0).getText().trim();
+        System.out.println("Text form UI "+ text);
+        DataManager.userObject.put(key, text);
+    }
+
+    @And("Check if urgent checkbox is checked and if not set to urgent")
+    public void assertCheckIfUrgentIsCheckedAndIfNotSetToUrgent() {
+        String id = "nlb-checkbox-urgent-payment";
+        MobileElement element = d.createMobileElementByResourceId(id);
+        if (!Boolean.parseBoolean(element.getAttribute("checked"))) {
+            element.click();
+        }
+    }
+
+
+    @And("Assert payment amount in payment review for domestic payment is from key {string} and has currency {string}")
+    public void assertPaymentAmountInPaymentReviewForDomesticPaymentIsFromKeyAndHasCurrency(String key, String currency) {
+        String xpath = "//android.widget.TextView[@text='Payment amount']/following::android.widget.TextView[1]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String textFromUi = element.getText();
+        String textFromKey = DataManager.userObject.get(key).toString();
+        String textExpected = "";
+
+        if(!textFromKey.contains(",")){
+            textExpected = textFromKey+".00 "+currency;
+        }
+        else{
+            textExpected = textFromKey.replace(",",".")+" "+ currency;
+        }
+        System.out.println("Text from ui "+textFromUi);
+        System.out.println("Text expected "+ textExpected);
+        Assert.assertEquals(textExpected, textFromUi);
+    }
+
+    @And("Assert fee amount in payment review for domestic payment is from key {string}")
+    public void assertFeeAmountInPaymentReviewForDomesticPaymentIsFromKey(String key) {
+        String xpath = "//android.widget.TextView[@text='Fee']/following::android.widget.TextView[1]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String textFromUi = element.getText();
+        String textFromKey = DataManager.userObject.get(key).toString();
+        String textExpected = "";
+        if(textFromKey.contains(",")){
+            textExpected = textFromKey.replace(",",".").replace(" ", " ");
+        }
+        else{
+            System.out.println("Nepodzran format");
+        }
+        System.out.println("Text from ui "+textFromUi);
+        System.out.println("Text expected "+ textExpected);
+        Assert.assertEquals(textExpected, textFromUi);
+    }
+
+    @And("Check if current balance is lowered by amount from key {string} and with fee from key {string} using balance from key {string}")
+    public void checkIfCurrentBalanceIsLoweredByAmountFromKeyAndWithFeeFromKeyUsingBalanceFromKey(String keyPaymentAmount, String keyFee, String keyBalanceOld) {
+        String feeValueString = DataManager.userObject.get(keyFee).toString().replaceAll("[A-Za-z\\s]", "");
+        String paymentAmountString = DataManager.userObject.get(keyPaymentAmount).toString();
+        String oldBalanceString = DataManager.userObject.get(keyBalanceOld).toString();
+
+        System.out.println("feeValueString: [" + feeValueString + "]");
+        System.out.println("paymentAmountString: [" + paymentAmountString + "]");
+        System.out.println("oldBalanceString: [" + oldBalanceString + "]");
+
+        feeValueString = feeValueString
+                .trim()
+                .replaceAll("\\s+", "")
+                .replaceAll("[^0-9,.-]", "");
+
+        paymentAmountString = paymentAmountString
+                .trim()
+                .replaceAll("\\s+", "")
+                .replaceAll("[^0-9,.-]", "");
+
+        oldBalanceString = oldBalanceString
+                .trim()
+                .replaceAll("\\s+", "")
+                .replaceAll("[^0-9,.-]", "");
+
+        if (feeValueString.contains(",")) {
+            feeValueString = feeValueString.replace(".", "").replace(",", ".");
+        }
+        if (paymentAmountString.contains(",")) {
+            paymentAmountString = paymentAmountString.replace(".", "").replace(",", ".");
+        }
+        if (oldBalanceString.contains(",")) {
+            oldBalanceString = oldBalanceString.replace(".", "").replace(",", ".");
+        }
+        BigDecimal feeValue = new BigDecimal(feeValueString);
+        BigDecimal paymentAmount = new BigDecimal(paymentAmountString);
+        BigDecimal oldBalance = new BigDecimal(oldBalanceString);
+
+        BigDecimal expectedBalance = oldBalance
+                .subtract(paymentAmount)
+                .subtract(feeValue);
+
+        String xpath = "//*[@resource-id='nlb-product-details-primary-balance']";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String uiBalanceRaw = element.getText();
+        System.out.println("TEXT FROM UI: [" + uiBalanceRaw + "]");
+
+        String balanceFromUI = uiBalanceRaw
+                .trim()
+                .replaceAll("\\s+", "")
+                .replaceAll("[^0-9,.-]", "");
+
+        if (balanceFromUI.contains(",")) {
+            balanceFromUI = balanceFromUI.replace(".", "").replace(",", ".");
+        }
+        BigDecimal currentBalance = new BigDecimal(balanceFromUI);
+
+        System.out.println("========================================");
+        System.out.println("Old balance:        " + oldBalance);
+        System.out.println("Payment amount:     " + paymentAmount);
+        System.out.println("Fee:                " + feeValue);
+        System.out.println("Expected balance:   " + expectedBalance);
+        System.out.println("Current UI balance: " + currentBalance);
+        System.out.println("========================================");
+
+        Assert.assertEquals(
+                "Balance is not correct. Expected: "
+                        + expectedBalance
+                        + ", but actual: "
+                        + currentBalance, 0, expectedBalance.compareTo(currentBalance)
+        );
+    }
 }
 
 

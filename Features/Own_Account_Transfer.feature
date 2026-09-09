@@ -605,7 +605,7 @@ Feature: Own_Account_Transfer
       | rowindex |
       |        5 |
 
-  #TODO novi test u izradi
+
   @Payments_Own_Account_Transfer_To_Card_[ANDROID]-From_Current_Domestic_Account
   Scenario Outline: Payments_Own_Account_Transfer_To_Card_[ANDROID]-From_Current_Domestic_Account
 
@@ -778,7 +778,7 @@ Feature: Own_Account_Transfer
     And Wait "1" seconds
     And Click on element by text from excel "<rowindex>" columnName "credit_card_number"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    #And Assert product header has available balance value from key "IT_001_Creditor_Balance"
+    And Assert product header has available balance value from key "IT_001_Creditor_Balance"
 
     And Wait "3" seconds
     And Click on first transaction in product details
@@ -796,14 +796,11 @@ Feature: Own_Account_Transfer
     And Assert element by text "Amount in Local Currency" has first following sibling that contains value from key "keyPaymentAmount"
     And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
 
-
     Examples:
       | rowindex |
       |        2 |
-    #TODO novi test u izradi
 
 
-    #TODO novi test u izradi
   @Payments_Own_Account_Transfer_To_Card_[ANDROID]-From_Saving_Account
   Scenario Outline: Payments_Own_Account_Transfer_To_Card_[ANDROID]-From_Saving_Account
 
@@ -981,7 +978,6 @@ Feature: Own_Account_Transfer
     Examples:
       | rowindex |
       | 1        |
-    #TODO novi test u izradi
 
 
   @Payments_Own_Account_Transfer_To_Loan_[ANDROID]

@@ -532,3 +532,57 @@ Feature: Current_Foreign_Accounts
     Examples:
       | rowindex |
       |        5 |
+
+
+  @Current_Foreign_Accounts_Transaction_Details_[MOB_ANDROID]
+  Scenario Outline: Current_Foreign_Accounts_Transaction_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "personal_account_iban" and click on it
+    And Wait for first transaction to load
+
+    #internal transfer transaction
+    And Enter text "internal" into EditText element
+    And Wait "2" seconds
+    And Wait for first transaction to load
+    And Click on element by id "nlb-card-container" with index "2"
+    And Wait for element by contains text "Purpose"
+    
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
+    And Assert element by id "nlb-currency" with regex "^(?!RSD$)[A-Z]{3}$"
+    And Assert element by text "Name and address" has first following sibling match regex "^[A-Za-zČĆŠŽĐčćšžđ ]+$"
+    #And Assert element by text "Account number" has first following sibling match regex ""
+    And Assert element by text "Purpose" has first following sibling match regex "^[A-Za-zČĆŠŽĐčćšžđ ]+$"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Amount" has first following sibling match regex "^\d+,\d{2}(?: |\u00A0)*[A-Z]{3}$"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+    And Click "Back" content description
+    And Wait element by contains Content desc "Clear search input" for "5" seconds
+    And Click "Clear search input" content description
+
+    #currency exchange transaction
+    Then Enter text "deviza" into EditText element
+    And Wait "2" seconds
+    And Wait for first transaction to load
+    And Click on element by id "nlb-card-container" with index "2"
+    And Wait for element by contains text "Purpose"
+    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" with regex "^.*Kupovina\s*deviza.*\d+\.\d{2}\s*[A-Z]{3}.*$"
+    And Assert element by id "nlb-currency" with regex "^(?!RSD$)[A-Z]{3}$"
+    #And Assert element by text "Account number" has first following sibling match regex ""
+    And Assert element by text "Purpose" has first following sibling match regex "^.*Kupovina\s*deviza.*\d+\.\d{2}\s*[A-Z]{3}.*$"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Amount" has first following sibling match regex "^\d+,\d{2}(?: |\u00A0)*[A-Z]{3}$"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+
+    Examples:
+      | rowindex |
+      |        5 |
