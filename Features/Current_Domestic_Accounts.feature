@@ -740,7 +740,7 @@ Feature: Current_Domestic_Accounts
     And Wait for first statement to appear
 
     And Assert screen header is "Statements"
-    And Assert back button in screen "Statements"
+    And Assert element by content desc "Back"
     And Assert Year filter for statements
     And Assert statemant year filter has current year
     And Assert Year filter for statements has expected options

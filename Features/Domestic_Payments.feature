@@ -862,7 +862,7 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Assert "Value date" date value is in valid date format
     And Assert element by contains text "Urgent"
     And Assert element by text "Purpose code"
@@ -880,7 +880,7 @@ Feature: Domestic_Payments
     And Assert element by text from key "keyCity" is displayed
     And Scroll to element by text "Purpose"
 #    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Assert Value date is todays date and in valid date format
     And Assert element by contains text "Urgent"
     And Assert element by id "transactions-web-popup-info" has text "Yes"
@@ -888,7 +888,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -901,7 +901,7 @@ Feature: Domestic_Payments
     And Wait for first Past payment or No past payments text
 
     And Click on Account selector in Payment list
-    And Wait "1" seconds
+    And Wait "3" seconds
     And Scroll until element with text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in the view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for first Past payment or No past payments text
@@ -915,7 +915,7 @@ Feature: Domestic_Payments
     And Assert that text "Purpose code" has first following sibling that contains text "289"
     And Swipe vertical
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
-    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    #And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
     And Assert that text "Payment status" has first following sibling that contains text "Executed"

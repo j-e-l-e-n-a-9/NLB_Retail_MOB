@@ -71,7 +71,7 @@ Feature: Prenesi
     And Assert element by text "Fee:" has first following sibling contains text "0,00 RSD"
     And Assert element by text "Amount:" has first following sibling that contains value from key "keyAmount"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by text "Close"
     

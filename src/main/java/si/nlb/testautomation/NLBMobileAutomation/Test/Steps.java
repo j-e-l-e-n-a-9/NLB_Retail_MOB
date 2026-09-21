@@ -11568,14 +11568,15 @@ public class Steps {
 
     @And("Remember recipient name under key {string} in Select recipient by index {string}")
     public void rememberRecipientNameUnderKeyInSelectRecipientByIndex(String key, String i) {
-        String xPath = "(//*[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[2])[" + i + "]";
+        String xPath = "(//*[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[1])[" + i + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
+        System.out.println("TEXT TO REMEMBER "+ element.getText());
         DataManager.userObject.put(key, element.getText());
     }
 
     @And("Remember recipient account number under key {string} in Select recipient by index {string}")
     public void rememberRecipientAccountNumberUnderKeyInSelectRecipientByIndex(String key, String i) {
-        String xPath = "(//*[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[3])[" + i + "]";
+        String xPath = "(//*[@resource-id='nlb-icon-row']/android.view.View/android.widget.TextView[2])[" + i + "]";
         MobileElement element = x.createMobileElementByXpath(xPath);
         DataManager.userObject.put(key, element.getText());
         System.out.println("Acc num of Recipient: " + element.getText());
@@ -12264,7 +12265,7 @@ public class Steps {
 
     @And("Remember part of random template name and remember it under key {string}")
     public void rememberPrefixOfRandomTemplateNameAndRememberItUnderKey(String key) {
-        String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[2]";
+        String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[1]";
         //List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
         List<String> elements = x.createMobileElementsByXpath(xPath)
                 .stream()
@@ -12283,7 +12284,7 @@ public class Steps {
 
     @And("Remember part of random template account number and remember it under key {string}")
     public void rememberPartOfRandomTemplateAccountNumberAndRememberItUnderKey(String key) {
-        String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[3]";
+        String xPath = "//*[@resource-id='nlb-card-container']/android.view.View/android.widget.TextView[2]";
         List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
         Assert.assertFalse("Nije pronadjen nijedan template name element.", elements.isEmpty());
 
@@ -12435,7 +12436,7 @@ public class Steps {
 
     @And("Remember recipient account number in recipient details under key {string}")
     public void rememberRecipientAccountNumberInRecipientDetailsUnderKey(String key) {
-        String xpath = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[3]";
+        String xpath = "(//android.view.View[@resource-id='nlb-card-container']//android.widget.TextView[2])[1]";
         MobileElement element = x.createMobileElementByXpath(xpath);
         String accNumber = element.getText().trim();
         System.out.println("Remembering acc number "+ accNumber);
@@ -12444,31 +12445,13 @@ public class Steps {
 
     @And("Remember recipient name in recipient details under key {string}")
     public void rememberRecipientNameInRecipientDetailsUnderKey(String key) {
-        String xpath = "//android.view.View[@resource-id='nlb-icon-row']//android.widget.TextView[2]";
+        String xpath = "(//android.view.View[@resource-id='nlb-card-container']//android.widget.TextView[1])[2]";
         MobileElement element = x.createMobileElementByXpath(xpath);
         String name = element.getText().trim();
         System.out.println("Remembering name "+ name);
         DataManager.userObject.put(key, name);
     }
 
-    @And("Assert payment amount in payment review is from key {string} and has currency {string}")
-    public void assertPaymentAmountInPaymentReviewIsFromKeyAndHasCurrency(String key, String currency) {
-        String xpath = "//android.widget.TextView[@text='Payment amount']/following::android.widget.TextView[1]";
-        MobileElement element = x.createMobileElementByXpath(xpath);
-        String textFromUi = element.getText();
-        String textFromKey = DataManager.userObject.get(key).toString();
-        String textExpected = "";
-
-        if(!textFromKey.contains(",")){
-            textExpected = textFromKey+",00 "+currency;
-        }
-        else{
-            textExpected = textFromKey+" "+ currency;
-        }
-        System.out.println("Text from ui "+textFromUi);
-        System.out.println("Text expected "+ textExpected);
-        Assert.assertEquals(textExpected, textFromUi);
-    }
 
     @And("Remember element value by id {string} and index {string} under key {string}")
     public void rememberElementValueByIdAndIndexUnderKey(String id, String index, String key) {
@@ -12567,12 +12550,13 @@ public class Steps {
     @And("Clear input box by element id {string}")
     public void clearInputBoxByElementId(String elementId) throws InterruptedException {
         MobileElement input = x.createMobileElementById(elementId);
-        input.click();
-        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-        input.sendKeys(Keys.BACK_SPACE);
-        Thread.sleep(300);
+//        input.click();
+//        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+//        input.sendKeys(Keys.BACK_SPACE);
+//        Thread.sleep(300);
         if (!input.getText().trim().isEmpty()) {
             input.clear();
+            Thread.sleep(300);
         }
     }
 
@@ -12943,11 +12927,12 @@ public class Steps {
     public void assertAmountInTransactionTitleIsFromKeyWithMinus(String key) {
         String xpath = "//*[@resource-id='nlb-amount']";
         String amountFromKey = DataManager.userObject.get(key).toString();
+        System.out.println("Amount from key "+amountFromKey);
         String finalExpectedAmount = "";
         if(!amountFromKey.contains(",")){
             finalExpectedAmount = "−"+amountFromKey+",00";
         }
-        else if(amountFromKey.contains(",")){
+        else{
             finalExpectedAmount = "−"+amountFromKey;
         }
         MobileElement element = x.createMobileElementByXpath(xpath);
@@ -13331,10 +13316,9 @@ public class Steps {
         }
     }
 
-
     @And("Assert payment amount in payment review for domestic payment is from key {string} and has currency {string}")
     public void assertPaymentAmountInPaymentReviewForDomesticPaymentIsFromKeyAndHasCurrency(String key, String currency) {
-        String xpath = "//android.widget.TextView[@text='Payment amount']/following::android.widget.TextView[1]";
+        String xpath = "//android.widget.TextView[@text='Payment amount']/following-sibling::android.widget.TextView[1]";
         MobileElement element = x.createMobileElementByXpath(xpath);
         String textFromUi = element.getText();
         String textFromKey = DataManager.userObject.get(key).toString();
@@ -13353,7 +13337,7 @@ public class Steps {
 
     @And("Assert fee amount in payment review for domestic payment is from key {string}")
     public void assertFeeAmountInPaymentReviewForDomesticPaymentIsFromKey(String key) {
-        String xpath = "//android.widget.TextView[@text='Fee']/following::android.widget.TextView[1]";
+        String xpath = "//android.widget.TextView[@text='Fee']/following-sibling::android.widget.TextView[1]";
         MobileElement element = x.createMobileElementByXpath(xpath);
         String textFromUi = element.getText();
         String textFromKey = DataManager.userObject.get(key).toString();
@@ -13441,6 +13425,40 @@ public class Steps {
                         + currentBalance, 0, expectedBalance.compareTo(currentBalance)
         );
     }
+
+    @And("Assert payment amount in payment review is from key {string} and has currency {string}")
+    public void assertPaymentAmountInPaymentReviewIsFromKeyAndHasCurrency(String key, String currency) {
+        String xpath = "//android.widget.TextView[@text='Payment amount']/following-sibling::android.widget.TextView[1]";
+        MobileElement element = x.createMobileElementByXpath(xpath);
+        String textFromUi = element.getText();
+        String textFromKey = DataManager.userObject.get(key).toString();
+        String textExpected = "";
+
+        if(!textFromKey.contains(",")){
+            textExpected = textFromKey+",00 "+currency;
+        }
+        else{
+            textExpected = textFromKey+" "+ currency;
+        }
+        System.out.println("Text from ui "+textFromUi);
+        System.out.println("Text expected "+ textExpected);
+        Assert.assertEquals(textExpected, textFromUi);
+    }
+
+    @And("Scroll down until element contains text {string} is in view")
+    public void scrollDownUntilElementContainsTextIsInView(String text) {
+        WaitHelpers.waitForSeconds(3);
+
+        String xPath = "//*[contains(@text, '" + text + "')]";
+        By el = By.xpath(xPath);
+
+        for (int i = 0; i < 35; i++) {
+            if (hp.isElementNotPresent(el)) {
+                hp.scrollDown(driver);
+            }
+        }
+    }
+
 }
 
 

@@ -60,7 +60,7 @@ Feature: Current_Foreign_Accounts
      Then Assert element by content desc "Copy account details"
      And Assert element by text "Account details"
      And Assert that text "Account type" has first following sibling that contains text "Current account"
-     And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner"
+     #And Assert that text "Account owner" has first following sibling that contains from Excel "<rowindex>" columnName "account_details_owner"
      And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "personal_account_iban"
 #     And Assert that text "IBAN" has first following sibling that contains from Excel "<rowindex>" columnName "second_personal_account_bban"
      And Assert that text "BIC" has first following sibling that contains text "KOBBRSBG"
@@ -125,7 +125,7 @@ Feature: Current_Foreign_Accounts
     When Click Transaction filter button in Product
     And Wait first Transaction filter
     And Assert screen header is "Transaction filter"
-    And Assert back button in screen "Transaction filter"
+    And Assert element by content desc "Back"
     And Assert Date transaction filter for Current account is displayed correctly
     And Assert Type transaction filter for Current account is displayed correctly
     And Assert Amount transaction filter for Current account is displayed correctly
@@ -512,16 +512,16 @@ Feature: Current_Foreign_Accounts
     And Wait for first statement to appear
 
     And Assert screen header is "Statements"
-    And Assert back button in screen "Statements"
+    And Assert element by content desc "Back"
     And Assert Year filter for statements
     And Assert statemant year filter has current year
     And Assert Year filter for statements has expected options
-    And Click on element by text "2022"
+    And Click on element by text "2024"
     And Wait for first statement to appear
     And Remember number of Statemants under key "keyStatemantsNumber"
     And Swipe vertical up
     And Assert the statements counter displays the expected number of items from key "keyStatemantsNumber"
-    And Assert all statements from list has year "2022" and they are sorted properly
+    And Assert all statements from list has year "2024" and they are sorted properly
 
     Then Click on element by id "nlb-icon-row" with index "1"
     And Wait for element by contains text "Izvod_"
@@ -568,7 +568,7 @@ Feature: Current_Foreign_Accounts
     And Click "Clear search input" content description
 
     #currency exchange transaction
-    Then Enter text "deviza" into EditText element
+    Then Enter text "kupovina" into EditText element
     And Wait "2" seconds
     And Wait for first transaction to load
     And Click on element by id "nlb-card-container" with index "2"

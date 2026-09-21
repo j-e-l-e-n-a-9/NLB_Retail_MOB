@@ -14,12 +14,18 @@ Feature: Loan_Accounts
     And Wait for product details to load
 
     Then Assert element by text "Financial details"
-    And Assert element by text "Opening amount"
-    And Assert element by id "nlb-principal-amount" with regex "^(?:(?:0|[1-9]\d{0,2})(?:.\d{3})*),\d{2} EUR$"
-    And Assert element by text "Monthly annuity"
-    And Assert element by id "nlb-monthly-annuity" with regex "^(?:(?:0|[1-9]\d{0,2})(?:.\d{3})*),\d{2} EUR$"
-    And Assert element by text "Interest rate"
+    And Assert element by text "Principal amount"
+    And Assert element by id "nlb-opening-amount" with regex "^\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})\s*RSD$"
+    And Assert element by text "Annuity amount"
+    And Assert element by id "nlb-monthly-annuity" with regex "^\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})\s*RSD$"
+    And Assert element by text "Nominal interest rate"
     And Assert element by id "nlb-interest-rate" with regex "^(?:(?:0|[1-9]\d{0,2})(?:.\d{3})*),\d{2} [%]{1}$"
+    And Assert element by text "Last installment date"
+    And Assert element by id "nlb-last-installment-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Next installment date"
+    And Assert element by id "nlb-next-installment-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Remaining principal amount"
+    And Assert element by id "nlb-principal-to-pay" with regex "^\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})\s*RSD$"
 
 
     Examples:

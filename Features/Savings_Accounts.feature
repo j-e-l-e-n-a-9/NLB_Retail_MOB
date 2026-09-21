@@ -170,7 +170,7 @@ Feature: Savings_Accounts
     And Wait first Transaction filter
 
     And Assert screen header is "Transaction filter"
-    And Assert back button in screen "Transaction filter"
+    And Assert element by content desc "Back"
     And Assert Date transaction filter for Current account is displayed correctly
     And Assert Type transaction filter for Current account is displayed correctly
     And Assert Amount transaction filter for Current account is displayed correctly
@@ -179,7 +179,7 @@ Feature: Savings_Accounts
     And Click on element by text "Date"
     And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
     And Assert screen header is "Date"
-    And Assert back button in screen "Date"
+    And Assert element by content desc "Back"
     And Assert element "nlb-radio-button-LAST_7_DAYS" by id
     And Assert element "nlb-radio-button-THIS_MONTH" by id
     And Assert element "nlb-radio-button-LAST_MONTH" by id

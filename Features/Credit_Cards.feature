@@ -372,3 +372,40 @@ Feature: Credit_Cards
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Credit_Cards_Transaction_Details_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Transaction_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_number"
+    And Assert Credit Card from excel "<rowindex>" columnname "credit_card_number" is displayed correctly
+    And Wait for first transaction to load
+    And Enter text "internal" into EditText element
+    And Wait "1" seconds
+    And Wait for first transaction to load
+    And Click on first transaction in product details
+    And Wait for element by text "Purpose"
+
+    Then Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by id "nlb-title" has text "INTERNAL TRANSFER "
+    And Assert element by id "nlb-currency" has text "RSD"
+    And Assert element by id "nlb-amount" with regex "^\d+,\d{2}$"
+    And Assert that text "Purpose" has first following sibling that contains text "INTERNAL TRANSFER"
+    And Assert element by text "Authorization date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Settlement date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert element by text "Amount in Local Currency" has first following sibling match regex "^\d+,\d{2}[\s\u00A0]+RSD$"
+    And Assert element by text "Amount" has first following sibling match regex "^\d+,\d{2}[\s\u00A0]+RSD$"
+    And Assert element by text "Transaction ID" has first following sibling match regex "^[A-Za-z0-9]{14}$"
+
+
+    Examples:
+      | rowindex |
+      |        1 |

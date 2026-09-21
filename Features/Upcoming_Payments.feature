@@ -19,17 +19,17 @@ Feature: Upcoming_Payments
     And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
     And Assert list of element by id element by id "nlb-title" with regex "^.*$"
     And Assert list of element by id element by id "nlb-details" with regex "^.*$"
-#    And Click on Account selector in Payment list
-#    And Wait for element by text from excel "<rowindex>" columnName "auth_personal_account_number"
-#    And Click on element by text from excel "<rowindex>" columnName "auth_personal_account_number"
-#    And Wait for element by id "nlb-date" to appear
-#    And Assert transaction header sum for upcoming payments is different from one under key "upcoming_sum"
-#
-#    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-#    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
-#    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
-#    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
-#    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+    And Click on Account selector in Payment list
+    And Swipe until element with name from Excel "<rowindex>" columnName "second_personal_account_bban" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "second_personal_account_bban"
+    And Wait for element by id "nlb-date" to appear
+    And Assert transaction header sum for upcoming payments is different from one under key "upcoming_sum"
+
+    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
 
     Examples:
       | rowindex |
