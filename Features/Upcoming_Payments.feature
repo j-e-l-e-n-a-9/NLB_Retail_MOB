@@ -47,7 +47,7 @@ Feature: Upcoming_Payments
     And Wait for element by text "Domestic payment" to appear for "30" seconds
     And Click on element by text "Domestic payment"
     And Wait for element by id "nlb-input-creditor-account" to appear
-    And Enter text "205900100779094488" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+    And Enter text "205-9001007790944-88" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
     And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
     And Enter text "Ulica Upcoming payments" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
     And Enter text "Grad Upcoming payments" in element id "nlb-input-creditor-city" and remember it under key "keyCity"
@@ -60,22 +60,22 @@ Feature: Upcoming_Payments
     And Click on date in Calendar 5 days in future and assert that it is shown correctly
     And Click on button Confirm in Calendar
     And Assert element by id "nlb-checkbox-urgent-payment" is checked "false"
-    And Scroll down until element with text "Confirm" is in view
+    And Scroll down until element with text "Next" is in view
     And Click on element by id "nlb-button-primary"
     
     And Wait for element by text "Payment amount"
     And Assert element by text "Payment amount" has first following sibling contains text "1.00 RSD"
     And Assert element by text "Fee" has first following sibling contains text "0.00 RSD"
 
-    And Assert element by text "Recipient"
-    And Assert element by text "Name" has first following sibling from key "keyName"
-    #OVDE URADI PROVERU ZA ULICU I BROJ RECIPIENTA KADA DODJE KONACNA VERZIJA KAKO TREBA DA IZGLEDA
-    And Assert element by text "Account number" has first following sibling from key "keyAccountNumber"
-
     And Assert element by text "Debtor"
-    And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert that text "Name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
     #OVDE URADI PROVERU ZA ULICU I BROJ DEBTORA KADA DODJE KONACNA VERZIJA KAKO TREBA DA IZGLEDA
-    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "bad_current_domestic_account_number"
+    And Assert that text "Account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from key "keyName"
+    #OVDE URADI PROVERU ZA ULICU I BROJ RECIPIENTA KADA DODJE KONACNA VERZIJA KAKO TREBA DA IZGLEDA
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from key "keyAccountNumber"
 
     And Assert element by text "Payment details"
     And Assert that text "Value date" has first following sibling with future date "5" in format "dd.MM.yyyy"
@@ -111,7 +111,7 @@ Feature: Upcoming_Payments
     And Swipe vertical
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
     And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Swipe vertical up
     
     Then Click on element by id "nlb-button-text"

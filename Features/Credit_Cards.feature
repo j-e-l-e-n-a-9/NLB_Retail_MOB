@@ -409,3 +409,61 @@ Feature: Credit_Cards
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Credit_Cards_Transactions_List_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Transactions_List_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_number"
+    And Wait for first transaction to load
+
+    Then Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Credit_Cards_Transactions_Details_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Transactions_Details_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Wait for first transaction to load
+
+    Then Click on first transaction in product details
+    And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert list of element by id element by id "nlb-currency" with regex "^[A-Z]{3}$"
+    And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
+    And Assert list of element by id element by id "nlb-title" with regex "^.*$"
+    And Assert list of element by id element by id "nlb-details" with regex "^.*$"
+#    And Assert that text "Name and address" has first following sibling that matches regex "^.*$"
+#    And Assert that text "Account number" has first following sibling that matches regex "^.*$"
+    And Assert that text "Purpose" has first following sibling that matches regex "^.*$"
+    And Assert that text "Authorization date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+    And Assert that text "Amount" has first following sibling that matches regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s[A-Z]{3}$"
+    And Assert that text "Amount in Local Currency" has first following sibling that matches regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s[A-Z]{3}$"
+    And Assert that text "Transaction ID" has first following sibling that matches regex "^.*$"
+
+    Examples:
+      | rowindex |
+      |        1 |

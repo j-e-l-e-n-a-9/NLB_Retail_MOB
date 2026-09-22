@@ -70,7 +70,6 @@ Feature: Current_Foreign_Accounts
        |        1 |
 
 
-     #UAT
   @CURRENT_FOREIGN_ACCOUNTS-TRANSACTIONS-OVERVIEW_BY_DIFFERENT_CURRENCIES_[MOB_ANDROID]
   Scenario Outline: CURRENT_FOREIGN_ACCOUNTS-TRANSACTIONS-OVERVIEW_BY_DIFFERENT_CURRENCIES_[MOB_ANDROID]
 
@@ -582,6 +581,36 @@ Feature: Current_Foreign_Accounts
     And Assert element by text "Value date" has first following sibling match regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert element by text "Amount" has first following sibling match regex "^\d+,\d{2}(?: |\u00A0)*[A-Z]{3}$"
     And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+  @Current_Foreign_Accounts_Statemants_Share_[MOB_ANDROID]
+  Scenario Outline: Current_Foreign_Accounts_Statemants_Share_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "personal_account_iban" and click on it
+    And Wait for first transaction to load
+
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Click on button in Product details "Statements"
+    And Wait for first statement to appear
+    And Click on element by id "nlb-icon-row" with index "1"
+    And Wait for element by contains text "Izvod_"
+    And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
+    And Click "More options" content description
+    And Click on element by text "Send file…"
+
+    Then Assert element by complete id "com.android.intentresolver:id/chooser_scrollable_container"
+    And Assert element by contains id "file_icon" is displayed
+    And Assert list of element by id "android:id/icon" is displayed
 
     Examples:
       | rowindex |

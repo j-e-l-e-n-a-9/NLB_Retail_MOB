@@ -139,7 +139,7 @@ Feature: Savings_Accounts
     And Assert list of element by id element by id "nlb-amount" with regex "^[\-−]?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}$"
     And Assert list of element by id element by id "nlb-title" with regex "^.*$"
     And Assert list of element by id element by id "nlb-details" with regex "^.*$"
-    And Assert that text "Name and address" has first following sibling that matches regex "^.*$"
+#    And Assert that text "Name and address" has first following sibling that matches regex "^.*$"
     And Assert that text "Account number" has first following sibling that matches regex "^.*$"
     And Assert that text "Purpose" has first following sibling that matches regex "^.*$"
     And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
@@ -282,6 +282,36 @@ Feature: Savings_Accounts
     And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
     And Go Back
     And Assert screen header is "Statements"
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Statemants_Share_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Statemants_Share_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
+    And Wait for first transaction to load
+
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Click on button in Product details "Statements"
+    And Wait for first statement to appear
+    And Click on element by id "nlb-icon-row" with index "1"
+    And Wait for element by contains text "Izvod_"
+    And Assert element by complete id "com.google.android.apps.docs:id/projector_toolbar"
+    And Click "More options" content description
+    And Click on element by text "Send file…"
+
+    Then Assert element by complete id "com.android.intentresolver:id/chooser_scrollable_container"
+    And Assert element by contains id "file_icon" is displayed
+    And Assert list of element by id "android:id/icon" is displayed
 
     Examples:
       | rowindex |

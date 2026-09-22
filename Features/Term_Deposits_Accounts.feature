@@ -74,7 +74,6 @@ Feature: Term_Deposits_Accounts
       |        2 |
 
 
-    #UAT
   @Term_Deposit_Accounts_Details_Financial_Details_[MOB_ANDROID]
   Scenario Outline: Term_Deposit_Accounts_Details_Financial_Details_[MOB_ANDROID]
 
@@ -97,7 +96,7 @@ Feature: Term_Deposits_Accounts
     And Assert element by id "nlb-interest-rate" with regex "^\d{1,2},\d{4} \%$"
     And Assert element by text "Accrued interest"
     And Assert element by id "nlb-accrued-interest" with regex "^(?:(?:0|[1-9]\d{0,2})(?:\.\d{3})*),\d{2}\s*[A-Z]{3}$"
-    And Assert element by text "Pay out account"
+    And Assert element by text "Payout account"
     And Assert element by id "nlb-maturity-account" with regex "^9\d{12}$"
 
     Examples:
