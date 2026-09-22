@@ -4170,6 +4170,7 @@ public class Steps {
         String xPath = "(//*[@resource-id='nlb-amount'])[1]";
         By el = x.createByXpath(xPath);
         WaitHelpers.waitForElement(el);
+
     }
 
     @And("Assert Product page for product with name from Excel {string} columnName {string}")
@@ -11815,7 +11816,7 @@ public class Steps {
     @And("Assert Recipient account number in Payment details in Past payments is from key {string}")
     public void assertRecipientAccountNumberInPaymentDetailsInPastPaymentsIsFromKey(String key) {
         String expected = DataManager.userObject.get(key).toString().trim();
-        String xPath = "//*[@text='Recipient account number']/following-sibling::*[1]";
+        String xPath = "//*[@text='Recipient account']/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
 
         String actual = element.getText().trim();
@@ -13458,12 +13459,6 @@ public class Steps {
         }
     }
 
-    @And("Assert element by contains id {string} is displayed")
-    public void assertElementByContainsIdIsDisplayed(String id) {
-        String xPath = "//*[contains(@resource-id, '" + id + "')]";
-        MobileElement element = x.createMobileElementByXpath(xPath);
-        Assert.assertTrue(element.isDisplayed());
-    }
 }
 
 

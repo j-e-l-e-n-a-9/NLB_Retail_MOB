@@ -176,7 +176,6 @@ Feature: Payments_Specific_Payments
     And Assert that amount label in transaction details has value from key "keyPaymentAmount" in currency "RSD"
     And Assert element by text "Amount in Local Currency" has first following sibling that contains value from key "keyPaymentAmount"
     And Assert element by text "Transaction ID" has first following sibling match regex "^.{14}$"
-    
 
     Examples:
       | rowindex |
@@ -225,7 +224,6 @@ Feature: Payments_Specific_Payments
     And Click on element by contains text "Confirm"
     And Wait for element by text "Not-possible-transfer-between-accounts"
     And Assert element by contains text "Error"
-
 
     Examples:
       | rowindex |

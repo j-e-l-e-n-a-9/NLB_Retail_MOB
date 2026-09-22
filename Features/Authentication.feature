@@ -70,3 +70,28 @@ Feature: Authentication
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Authentication_Mobile_Login_Forgot_PIN_[MOB_ANDROID]
+  Scenario Outline: Authentication_Mobile_Login_Forgot_PIN_[MOB_ANDROID]
+
+    Given Open Application
+    And Click login button
+    And Wait for element by contains text "Forgot PIN?"
+
+    When Click on element by contains text "Forgot PIN?"
+    And Wait for element by contains text "Forgot your PIN?"
+    And Assert element by contains text "In case you forgot your PIN, you will have to re-activate mobile application."
+    And Click on element by contains text "Cancel"
+    And Wait for element by contains text "Forgot PIN?"
+    And Click on element by contains text "Forgot PIN?"
+    And Wait for element by contains text "Forgot your PIN?"
+
+    Then Assert element by contains text "Enter code"
+    And Click on element by text "Call"
+    And Wait element by contains Content desc "backspace" for "8" seconds
+    And Assert element by contains text "011 2018 600"
+
+    Examples:
+      | rowindex |
+      |        1 |
