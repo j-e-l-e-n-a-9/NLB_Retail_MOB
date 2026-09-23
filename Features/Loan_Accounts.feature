@@ -28,7 +28,6 @@ Feature: Loan_Accounts
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for My NLB screen to load
-#    And Click on Bottom navigation button "My Products"
     And Click on element by text "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
@@ -36,8 +35,7 @@ Feature: Loan_Accounts
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
-    #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
-#    And Assert Loan accounts current loan balance is displayed
+    And Assert Loan accounts current loan balance is displayed
 
     Then Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
     And Wait for element by text "Financial details"

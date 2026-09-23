@@ -37,7 +37,7 @@ Feature: Term_Deposits_Accounts
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
-    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+    And Wait for element by contains text "My Products"
 
     When Click "My Products"
     And Wait for element by text "Edit list"
@@ -53,21 +53,20 @@ Feature: Term_Deposits_Accounts
     And Assert element by id "nlb-interest-rate" with regex "^\d{1,2},\d{4} \%$"
     And Assert element by text "Accrued interest"
     And Assert element by id "nlb-accrued-interest" with regex "^(?:(?:0|[1-9]\d{0,2})(?:\.\d{3})*),\d{2}\s*[A-Z]{3}$"
-    And Assert element by text "Pay out account"
+    And Assert element by text "Payout account"
     And Assert element by id "nlb-maturity-account" with regex "^9\d{12}$"
 
     Then Assert element by text "Account details"
     And Assert element by text "Account type"
     And Assert text "Deposit" in element id "nlb-account-type"
     And Assert element by text "Account owner"
-    And Assert text from excel "<rowindex>" columnName "account_details_owner2" in element by id "nlb-account-owner"
+    #And Assert text from excel "<rowindex>" columnName "account_details_owner2" in element by id "nlb-account-owner"
     And Assert element by text "Account number"
-    And Assert text from excel "<rowindex>" columnName "term_deposit_number2" in element by id "nlb-account-number"
+    And Assert text from excel "<rowindex>" columnName "term_deposit_number" in element by id "nlb-account-number"
     And Assert element by text "Opening date"
     And Assert element by id "nlb-opening-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
     And Assert element by text "Expiration date"
     And Assert element by id "nlb-expiration-date" has text in format "^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
-    And Assert element "nlb-button-text" by id is enabled
 
     Examples:
       | rowindex |

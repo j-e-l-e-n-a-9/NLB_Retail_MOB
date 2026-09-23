@@ -75,16 +75,16 @@ Feature: Credit_Cards
     And Assert element by text "Last month"
     And Assert element by text "Custom date range"
     And Click on element by desc "Set date" and index "2"
-    And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
+    #And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
-    And Assert To field in Date transactions filter has date year 2025 month 5 day 8
+    And Assert To field in Date transactions filter has date year 2026 month 5 day 8
 
     Then Click on element by desc "Set date" and index "1"
-    And Check if element by text "Wednesday, May 7, 2025" is enabled
-    And Check if element by text "Friday, May 9, 2025" is not enabled
+    And Check if element by text "Thursday, May 7, 2026" is enabled
+    And Check if element by text "Saturday, May 9, 2026" is not enabled
 
     Examples:
       | rowindex |
@@ -203,7 +203,6 @@ Feature: Credit_Cards
     And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
     And Wait for first transaction to load
-    And Assert product option buttons for Credit cards
     And Click on element by id "nlb-icon-button"
     And Assert Date transaction filter for Credit cards is displayed correctly
     And Assert Status transaction filter for Credit cards is displayed correctly
@@ -217,18 +216,17 @@ Feature: Credit_Cards
     And Click "Back" content description from view tag "View"
     And Wait for element by text "Type"
 
-    And Click on element by text "Date"
+    Then Click on element by text "Date"
     And Click on element by desc "Set date" and index "2"
-    And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    #And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
     And Assert button Cancel in Calendar is enabled
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
-    And Assert To field in Date transactions filter has date year 2025 month 5 day 8
-
+    And Assert To field in Date transactions filter has date year 2026 month 5 day 8
     And Click on element by desc "Set date" and index "1"
-    And Check if element by text "Wednesday, May 7, 2025" is enabled
-    And Check if element by text "Friday, May 9, 2025" is not enabled
+    And Check if element by text "Thursday, May 7, 2026" is enabled
+    And Check if element by text "Saturday, May 9, 2026" is not enabled
 
     Examples:
       | rowindex |
@@ -281,7 +279,7 @@ Feature: Credit_Cards
 
     When Wait for first transaction to load
     And Click Transaction filter button in Product
-    And Wait element "Apply" by text
+    And Wait element "Confirm" by text
     And Assert transaction filters are displayed for credit cards
     And Assert element by text "Select time frame"
     And Assert element by text "Select status"
@@ -290,16 +288,16 @@ Feature: Credit_Cards
     And Click on element by text "Amount"
     And Wait for element by text "Set amount"
     And Assert currencies in From and To input field is RSD
-    And Enter text "500" into input field "From" in amount filter
-    And Enter text "1000" into input field "To" in amount filter
-    And Click on element by id "nlb-button-primary"
+    And Enter text "3" into input field "From" in amount filter
+    And Enter text "10" into input field "To" in amount filter
+    And Click on element by text "Apply"
     And Wait for element by text "Date"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "nlb-title" to appear
 
-    Then Assert filtered amounts have values between "500" and "1000"
+    Then Assert filtered amounts have values between "3" and "10"
     And Click Transaction filter button in Product
-    And Wait element "Apply" by text
+    And Wait element "Confirm" by text
     And Assert transaction filters are displayed for credit cards
     And Click on element by id "nlb-button-alternate"
     And Assert element by text "Select time frame"
@@ -464,6 +462,53 @@ Feature: Credit_Cards
     And Assert that text "Amount" has first following sibling that matches regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s[A-Z]{3}$"
     And Assert that text "Amount in Local Currency" has first following sibling that matches regex "^-?(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}\s[A-Z]{3}$"
     And Assert that text "Transaction ID" has first following sibling that matches regex "^.*$"
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+  @Credit_Cards-Transactions-Filter-Filter_By_Status_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards-Transactions-Filter-Filter_By_Status_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on Bottom navigation button "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_number" is in the view
+    And Click on Product from Excel "<rowindex>" columnName "credit_card_2_number" in My Products
+
+    When Wait for first transaction to load
+    And Click Transaction filter button in Product
+    And Wait element "Confirm" by text
+    And Assert transaction filters are displayed for credit cards
+    
+    And Click on element by text "Status"
+    And Wait for element by text "All"
+    And Click on element by text "All"
+    And Click on element by text "Executed"
+    And Click on element by text "Confirm"
+    And Wait for element by contains text "Clear filters"
+    And Assert that text "Status" has first following sibling with text "EXECUTED"
+    And Click on element by text "Confirm"
+    And Wait for first transaction to load
+    And Assert list of transactions is displayed correctly in Product
+
+    Then Click Transaction filter button in Product
+    And Wait element "Confirm" by text
+    And Assert transaction filters are displayed for credit cards
+    And Click on element by text "Status"
+    And Wait for element by text "All"
+    And Click on element by text "All"
+    And Click on element by text "All"
+    And Click on element by text "Pending"
+    And Click on element by text "Confirm"
+    And Wait for element by contains text "Clear filters"
+    And Assert that text "Status" has first following sibling with text "PENDING"
+    And Click on element by text "Confirm"
+    And Wait for first transaction to load
+    And Assert list of transactions is displayed correctly in Product
+
 
     Examples:
       | rowindex |

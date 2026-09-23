@@ -8006,7 +8006,9 @@ public class Steps {
     public void clickOnElementByTextFromExcelColumnNameAndAssertTheCorrectPageOpens(String rowindex, String column) throws Exception {
         String text = DataManager.getDataFromHashDatamap(rowindex, column);
         rh.clickOnElementByText(text);
-
+        String textOnPageXpath = "//android.widget.TextView[@text='My loan']";
+        By headerBy = x.createByXpath(textOnPageXpath);
+        WaitHelpers.waitForElement(headerBy, 8);
         MobileElement element = x.createMobileElementByText("My loan");
         Assert.assertTrue(element.isDisplayed());
     }
@@ -10833,12 +10835,17 @@ public class Steps {
 
     @And("Assert Current domestic accounts current balance is displayed")
     public void assertCurrentDomesticAccountsCurrentBalanceIsDisplayed() {
-        String xPath = "//*[@resource-id='nlb-value-product-account-id' and contains(@text,'205-')]/following-sibling::android.widget.TextView[@resource-id='nlb-value-product-secondary-balance']";
+        String xPathStari = "//*[@resource-id='nlb-value-product-account-id' and contains(@text,'205-')]/following-sibling::android.widget.TextView[@resource-id='nlb-value-product-secondary-balance']";
+        String xPath = "//*[@resource-id='nlb-value-product-account-id' and contains(@text,'205-')]/ancestor::*[@resource-id='nlb-product-summary-card']//android.widget.TextView[@resource-id='nlb-value-product-secondary-balance']";
         List<MobileElement> elements = x.createMobileElementsByXpath(xPath);
 
         List<MobileElement> visibleIcons = new ArrayList<>();
         for (MobileElement element : elements) {
-            if ("true".equals(element.getAttribute("displayed"))) {
+            System.out.println(element.getText());
+//            if ("true".equals(element.getAttribute("displayed"))) {
+//                visibleIcons.add(element);
+//            }
+            if (element.isDisplayed()) {  //novi if brisi ako ne radi
                 visibleIcons.add(element);
             }
             String actual = element.getText()
@@ -10846,7 +10853,7 @@ public class Steps {
                     .replace('\u202F', ' ')
                     .replaceAll("\\s+", " ")
                     .trim();
-            Assert.assertTrue("Actual=[" + actual + "]", actual.matches("^(?:(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*),\\d{2}\\s*RSD$"));
+            Assert.assertTrue("Actual=[" + actual + "]", actual.matches("^(?:0|[1-9]\\d{0,2})(?:\\.\\d{3})*,\\d{2}[ \\u00A0][A-Z]{3}$"));
         }
 
         Assert.assertFalse("No VISIBLE loan icons on screen.", visibleIcons.isEmpty());

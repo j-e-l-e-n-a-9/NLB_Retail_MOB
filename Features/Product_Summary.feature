@@ -66,7 +66,6 @@ Feature: Product_Summary
     When Click "My Products"
     And Wait for element by text "Edit list"
 
-#    And Loan accounts are displayed, sorted by ascending
     When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
 
     #Then Assert that product card of name "loan_account_name" and bban "loan_account_number" from Excel "<rowindex>" for loan account are shown correctly
@@ -573,7 +572,7 @@ Feature: Product_Summary
     Then Assert Current domestic accounts icons is displayed
     And Assert Current domestic accounts product names is displayed
     And Assert Current domestic accounts account numbers is displayed
-    And Assert Current domestic accounts available balance is displayed
+    And Assert balance in current account cards are displayed in valid balance format
     And Assert Current domestic accounts current balance is displayed
     And Click on Product from Excel "<rowindex>" columnName "currentDomesticAccountBBAN" in My Products
     And Wait element "Transactions" by text
@@ -632,7 +631,7 @@ Feature: Product_Summary
     And Scroll up until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Hide account from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Hide account from Excel "<rowindex>" columnName "personal_account_iban"
-#    And Hide account from Excel "<rowindex>" columnName "credit_card_2_number"
+    And Hide account from Excel "<rowindex>" columnName "credit_card_number"
     And Hide account from Excel "<rowindex>" columnName "saving_account_number"
     And Hide account from Excel "<rowindex>" columnName "term_deposit_number"
     And Hide account from Excel "<rowindex>" columnName "loan_account_number"
@@ -641,7 +640,7 @@ Feature: Product_Summary
     And Wait for first product in My products page
     And Assert account from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is not displayed
     And Assert account from excel "<rowindex>" columnName "personal_account_iban" is not displayed
-#    And Assert account from excel "<rowindex>" columnName "credit_card_2_number" is not displayed
+    And Assert account from excel "<rowindex>" columnName "credit_card_number" is not displayed
     And Swipe vertical
     And Assert account from excel "<rowindex>" columnName "saving_account_number" is not displayed
     And Assert account from excel "<rowindex>" columnName "term_deposit_number" is not displayed
