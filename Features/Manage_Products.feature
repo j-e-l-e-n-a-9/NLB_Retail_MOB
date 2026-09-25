@@ -1,5 +1,120 @@
 Feature: Manage_Products
 
+  @Manage_Products_Favorite_account_[MOB_ANDROID]
+  Scenario Outline: Manage_Products_Favorite_account_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for element by text "Edit list"
+    And Click on element by text "Edit list"
+    And Wait for element by text "Set favorite account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "Set favorite account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by text "Apply"
+    And Assert element by text "Default sorting"
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "Apply"
+    And Wait for element by text "Edit products view"
+    And Wait "3" seconds
+    And Wait for element with "Back" content description from view tag "View"
+    And Click on element by desc "Back"
+    And Wait for element by id "nlb-product-summary-card" to appear
+
+    Then Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "My NLB"
+    And Wait for element by id "card-row-product-card" to appear
+    And Click on element by text "My Products"
+    And Click on element by text "My NLB"
+    And Wait "1" seconds
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "My Products"
+    And Wait for element by text "Edit list"
+    And Click on element by id "nlb-button-edit-products"
+    And Wait for element by text "Set favorite account"
+    And Click on element by text "Set favorite account"
+    And Click on element by text "Default sorting"
+    And Click on element by text "Apply"
+    And Wait for element by text "Edit products view"
+    And Wait "3" seconds
+    And Wait for element with "Back" content description from view tag "View"
+    And Click on element by desc "Back"
+    And Wait for element by id "nlb-product-summary-card" to appear
+    And Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text "My NLB"
+    And Wait for element by id "card-row-product-card" to appear
+    And Click on element by text "My Products"
+    And Click on element by text "My NLB"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    Examples:
+      | rowindex |
+      |        2 |
+
+
+  @Manage_Products_Favorite_account_[MOB_ANDROID]-Removal_Of_The_Favorite_Account
+  Scenario Outline: Manage_Products_Favorite_account_[MOB_ANDROID]-Removal_Of_The_Favorite_Account
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for element by text "Edit list"
+    And Click on element by text "Edit list"
+    And Wait for element by text "Set favorite account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "Set favorite account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by text "Apply"
+    And Assert element by text "Default sorting"
+    And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
+    And Click on element by text "Apply"
+    And Wait for element by text "Edit products view"
+    And Wait "1" seconds
+    And Assert first product in edit product view list is from excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element with "Back" content description from view tag "View"
+    And Click on element by desc "Back"
+    And Wait for element by id "nlb-product-summary-card" to appear
+    And Click on element by text "My NLB"
+    And Wait for My NLB screen to load
+    And Assert element by text from excel "<rowindex>" columnName "personal_account_iban"
+
+    Then Click on element by text "My Products"
+    And Wait for first product in My products page
+    And Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "personal_account_iban"
+    And Wait for element by text "Edit list"
+    And Click on element by id "nlb-button-edit-products"
+    And Wait for element by text "Set favorite account"
+    And Click on element by text "Set favorite account"
+    And Click on element by text "Default sorting"
+    And Click on element by text "Apply"
+    And Wait "1" seconds
+    And Assert first product in edit product view list is from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait for element by text "Edit products view"
+    And Wait "1" seconds
+    And Wait for element with "Back" content description from view tag "View"
+    And Click on element by desc "Back"
+    And Wait for element by id "nlb-product-summary-card" to appear
+    And Click on element by text "My NLB"
+    And Wait for My NLB screen to load
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
+    And Assert first product shown in my products is favorite account from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+
+    Examples:
+      | rowindex |
+      |        2 |
+
+
   @Manage_Products_Nickname_Product_[MOB_ANDROID]
   Scenario Outline: Manage_Products_Nickname_Product_[MOB_ANDROID]
 
