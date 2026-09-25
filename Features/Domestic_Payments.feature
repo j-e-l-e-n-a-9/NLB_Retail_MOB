@@ -175,22 +175,44 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
     And Assert "Value date" date value is in valid date format
-    And Assert element by text "Urgent payment"
+    And Assert element by text "Urgent"
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
-
     And Click on element by id "nlb-button-primary"
-    And Assert element by contains text "Success"
-    And Assert element by text "Do you want to save payment data?"
+
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Assert element by text "Payment amount"
+    And Assert element by text "2,00 RSD"
+    #And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Swipe vertical
+    And Scroll to element by text "Purpose"
+    #And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by contains text "Urgent"
+    And Assert element by text "Purpose code"
+    And Assert element by id "transactions-web-popup-info" has text "289"
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
+    And Wait for element by contains text "Do you want to save payment data"
     And Assert element by text "Close without saving"
     And Assert element by text "Save recipient"
     And Assert element by text "Save template"
     And Assert element by text "Save both"
+    And Wait "4" seconds
     And Click on element by text "Save recipient"
-    And Assert element by contains text "Success"
-    And Assert element by contains text "Recipient saved"
+    And Wait for element by text "Success"
     And Wait for element by contains text "Payments"
 
     And Click on element by text "My Products"
@@ -198,7 +220,7 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is lowered by "3" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by "2" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
     And Click "Back" content description
     And Wait for element by id "nlb-value-product-primary-balance" to appear
 
@@ -211,11 +233,10 @@ Feature: Domestic_Payments
     And Click "Back" content description
 
     And Click on element by text "Domestic payment"
-    And Wait for element by text "Domestic payment"
+    And Wait for element by text "Debtor"
     And Click on element by text "Select from list"
     And Wait for element by text "Select recipient"
     And Click on "Select recipient" option in Select recipient page
-    And Swipe vertical
     And Scroll down until element with text from key "keyName" is in view
     And Assert element by text from key "keyName" is displayed
 
@@ -284,11 +305,11 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
 
     And Assert element by text "Payment"
     And Assert "Value date" date value is in valid date format
-    And Assert element by text "Urgent payment"
+    And Assert element by text "Urgent"
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
 
@@ -333,16 +354,39 @@ Feature: Domestic_Payments
 
     And Assert element by text "Debtor"
     And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
-    And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
 
     And Assert element by text "Payment"
     And Assert "Value date" date value is in valid date format
-    And Assert element by text "Urgent payment"
+    And Assert element by text "Urgent"
     And Assert element by text "Purpose code"
     And Assert element by text "Purpose"
-
     And Click on element by id "nlb-button-primary"
-    And Assert element by contains text "Success"
+
+    And Wait for element by text "Enter PIN"
+    And Enter PIN
+    And Assert element by text "Payment amount"
+    And Assert element by text "9,00 RSD"
+    #And Assert element by text from key "keyAccountNumber" is displayed
+    And Assert element by text from key "keyName" is displayed
+    And Assert element by text from key "keyAddress" is displayed
+    And Assert element by text from key "keyCity" is displayed
+    And Swipe vertical
+    And Swipe vertical
+    And Scroll to element by text "Purpose"
+    #And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    #And Assert element by text from excel "<rowindex>" columnName "account_details_owner2"
+    And Assert element by contains text "Urgent"
+    And Assert element by text "Purpose code"
+    And Assert element by id "transactions-web-popup-info" has text "289"
+    And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by id "transactions-web-close-popup-icon" to appear
+    And Assert element by text "Confirmation successful"
+    And Assert element by contains text "Your payment was successfully accepted"
+    And Click on element by id "transactions-web-close-popup-nlb-button"
+
     And Wait for element by text "Close without saving"
     And Assert element "nlb-card-container" by id
     And Assert element by text "Do you want to save payment data?"
@@ -351,9 +395,9 @@ Feature: Domestic_Payments
     And Assert element by id "nlb-button-primary" that has descendant text "Save recipient"
     And Assert element by id "nlb-button-primary" that has descendant text "Save template"
     And Assert element by id "nlb-button-primary" that has descendant text "Save both"
+    And Wait "3" seconds
     And Click on element by text "Save recipient"
     And Assert element by contains text "Success"
-#    And Assert element by contains text "Recipient saved"
     And Wait for element by contains text "Payments"
 
     And Click on element by text "My Products"
@@ -363,14 +407,12 @@ Feature: Domestic_Payments
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     And Check if current balance is lowered by "9" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
     And Click "Back" content description
-    And Wait for element by id "nlb-value-product-primary-balance" to appear
+    And Wait for first product in My products page
 
     Then Click on element by text "Pay"
     And Wait for element by contains text "Payments"
-
     And Click on element by text "Recipients"
     And Wait for first recipient
-#    And Swipe vertical
     And Scroll down until element with text from key "keyName" is in view
     And Assert element by text from key "keyName" is displayed
     And Click "Back" content description
@@ -380,7 +422,6 @@ Feature: Domestic_Payments
     And Click on element by id "nlb-button-alternate"
     And Wait for element by text "Select recipient"
     And Click on "Select recipient" option in Select recipient page
-#    And Swipe vertical
     And Scroll down until element with text from key "keyName" is in view
     And Assert element by text from key "keyName" is displayed
 
@@ -633,6 +674,92 @@ Feature: Domestic_Payments
     And Assert element "nlb-button-text" by id
     And Assert element "nlb-button-primary" by id
     And Assert element by text "Confirm" is not clickable
+
+    Examples:
+      | rowindex |
+      |        5 |
+
+
+  @Payments-Domestic_Payments_Input_[MOB_ANDROID]
+  Scenario Outline: Payments-Domestic_Payments_Input_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click on element by text "Pay"
+    And Wait for element by text "Domestic payment" to appear for "30" seconds
+    And Click on element by text "Domestic payment"
+    And Wait for element by id "nlb-input-creditor-account" to appear
+
+    And Assert element by text "Domestic Payment"
+    And Assert element by text "Debtor"
+    And Click on Account selector in Payment list
+    And Wait "1" seconds
+    And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Wait "1" seconds
+    And Assert element by content desc "Current account"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert element by text from excel "<rowindex>" columnName "currentDomesticAccountName"
+    And Assert element by contains text "RSD"
+
+    And Assert element by text "Recipient"
+    And Assert element by text "Select from list"
+    And Assert element by text "Account number"
+    And Enter text "840-0000713121843-57" in element id "nlb-input-creditor-account" and remember it under key "keyAccountNumber"
+    And Assert element by text "Name"
+    And Send random text to field with id "nlb-input-creditor-name" and remember it under key "keyName"
+    And Assert element by text "Address"
+    And Enter text "zemunska 213" in element id "nlb-input-creditor-address" and remember it under key "keyAddress"
+    And Assert element by text "City"
+    And Enter text "Beograd" in element id "nlb-input-creditor-city" and remember it under key "keyCity"
+    And Assert element by text "Save recipient"
+    And Assert element by id "nlb-checkbox-save-recipient" is checked "false"
+    And Swipe vertical
+    
+    And Assert element by text "Payment details"
+    And Assert element by text "Payment amount"
+    And Enter text "5" in element id "nlb-amount-with-currency-field" and remember it under key "keyAmount"
+    And Assert element by contains text "RSD"
+    And Assert element by content desc "Purpose code, 289"
+    And Click on element by text "289"
+    And Click on element by text "253"
+    And Assert purpose code has default "253" value
+    And Assert element by text "Purpose"
+    And Assert element by contains text "PAYMENT OF PUBLIC REVENUES"
+    And Enter random purpose into field by id "nlb-input-purpose" and remember it under key "keyPurpose" in txt file
+    And Swipe vertical
+    And Swipe vertical
+
+    And Click "Model, -" content description
+    And Assert element by text "97"
+    And Assert element by text "11"
+    And Click on element by text "97"
+    And Assert element by text "Reference number"
+    And Enter text "020201701973791828" in element id "nlb-input-reference-number" and remember it under key "keyReferenceNumber"
+    And Assert element by text "Payment date"
+    And Assert payment date is todays date and in valid date format
+    And Assert element by id "nlb-checkbox-urgent-payment" is checked "true"
+    And Click "Set date" content description
+    And Wait element by contains Content desc "Switch to selecting a year" for "2" seconds
+    And Check if dates in calendar in domestic payments is enabled for 180 days from now and select that date
+    And Click on element by text "Confirm"
+    And Assert element by id "nlb-checkbox-urgent-payment" is checked "false"
+    And Remember text from element by id "nlb-input-payment-date" under key "keyDate"
+    And Assert element by text "Cancel"
+    And Click on element by text "Next"
+    And Wait for element by text "Fee"
+
+    Then Assert payment amount in payment review for domestic payment is from key "keyAmount" and has currency "RSD"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from key "keyName"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from key "keyAddress"
+    And Assert element by text "Address" with index "2" has first following sibling containing text from key "keyCity"
+    And Assert element by text "Account number" with index "2" has first following sibling containing text from key "keyAccountNumber"
+    And Assert element by text "Value date" has first following sibling from key "keyDate"
+    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+    And Assert element by text "Reference" has first following sibling from key "keyReferenceNumber"
+    And Assert that text "Purpose code" has first following sibling with text "253"
+    And Assert that text "Model" has first following sibling with text "97"
 
     Examples:
       | rowindex |

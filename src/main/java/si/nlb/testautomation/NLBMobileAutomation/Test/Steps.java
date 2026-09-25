@@ -13466,6 +13466,42 @@ public class Steps {
         }
     }
 
+    @And("Check if dates in calendar in domestic payments is enabled for {int} days from now and select that date")
+    public void checkIfDatesInCalendarInDomesticPaymetsIsEnabledForDaysFromNow(int daysInFuture) {
+        String contentDescNextButtonXpath = "//*[@content-desc='Change to next month']";
+        LocalDate targetDate = LocalDate.now().plusDays(daysInFuture - 1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+        String targetDateFormatted = targetDate.format(formatter);
+        LocalDate nextDate = targetDate.plusDays(1);
+        String nextDateFormatted = nextDate.format(formatter);
+        String nextDateXpath = "//*[@text='" + nextDateFormatted + "']";
+
+        System.out.println(targetDateFormatted);
+        String xpathDayTarget = "//*[@text='" + targetDateFormatted +"']";
+
+        for (int i = 0; i < 14; i++) {
+            if (x.createElementsByXpath(xpathDayTarget).size()>0) {
+                break;
+            }
+            MobileElement element = x.createMobileElementByXpath(contentDescNextButtonXpath);
+            element.click();
+        }
+        MobileElement targetDay = x.createMobileElementByXpath(xpathDayTarget);
+        MobileElement nextDay = x.createMobileElementByXpath(nextDateXpath);
+        Assert.assertTrue(targetDay.isEnabled() && !nextDay.isEnabled());
+        targetDay.click();
+
+    }
+
+    @And("Assert first product in edit product view list is from excel {string} columnName {string}")
+    public void assertFirstProductInEditProductViewListIsFromExcelColumnName(String rowindex, String columnName) {
+        String xPath = "//*[@resource-id='nlb-card-container'][1]//android.widget.TextView[2]";
+        String accountName = DataManager.getDataFromHashDatamap(rowindex, columnName);
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        System.out.println("UI "+ element.getText());
+        System.out.println("EXCEL "+ accountName);
+        Assert.assertEquals(accountName, element.getText());
+    }
 }
 
 
