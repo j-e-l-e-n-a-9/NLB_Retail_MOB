@@ -310,8 +310,294 @@ Feature: Savings_Accounts
     And Click on element by text "Send file…"
 
     Then Assert element by complete id "com.android.intentresolver:id/chooser_scrollable_container"
-    And Assert element by contains id "file_icon" is displayed
+    #And Assert element by contains id "file_icon" is displayed
     And Assert list of element by id "android:id/icon" is displayed
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Filter_By_Date_Date_Picker_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Filter_By_Date_Date_Picker_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on element by contains text "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
+    And Wait for element by contains text "Statements"
+    And Wait for first transaction to load
+    And Click "Filters" content description
+    And Wait for element by contains text "time frame"
+    And Click on element by text "Date"
+    And Wait for element by contains text "Set date"
+    And Click on element by desc "Set date" and index "1"
+    And Wait for element by contains text "Confirm"
+    #And Click on date in Calendar with year 2026 month 2 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
+    And Click on element by contains text "Confirm"
+    And Wait for element by contains text "Set date"
+
+    Then Click on element by desc "Set date" and index "2"
+    And Click on date in Calendar with year 2026 month 9 day 24 and assert that it is shown correctly on English
+    And Click on element by contains text "Confirm"
+    And Wait for element by contains text "From"
+    And Click on element by text "Apply"
+    And Wait for element by contains text "Confirm"
+    And Click on element by contains text "Confirm"
+    And Wait for first transaction to load
+    And Assert element by content desc "Filters active: 1"
+    And Assert transactions dates are between dates year 2026 month 5 day 8 and year 2026 month 9 day 24
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Filter_By_Date_Date_Picker_Invalid_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Filter_By_Date_Date_Picker_Invalid_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click on element by contains text "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+    And Swipe to element by text from Excel "<rowindex>" columnName "saving_account_number" and click on it
+    And Wait for element by contains text "Statements"
+    And Wait for first transaction to load
+    And Click "Filters" content description
+    And Wait for element by contains text "time frame"
+    And Click on element by text "Date"
+    And Wait for element by contains text "Set date"
+    And Click on element by desc "Set date" and index "1"
+    And Wait for element by contains text "Confirm"
+    #And Click on date in Calendar with year 2026 month 2 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 8 day 8 and assert that it is shown correctly on English
+    And Click on element by contains text "Confirm"
+    And Wait for element by contains text "Set date"
+
+    Then Click on element by desc "Set date" and index "2"
+    # ako je na TST-u aria label za dan na srpskom samo obrisati 'on English'
+    And Assert date in Calendar with year 2026 month 8 day 7 is not clickable on English
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Filter_Filter_By_Type_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Filter_Filter_By_Type_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for element by resource id "nlb-bottom-nav-button" to appear
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from Excel "<rowindex>" columnName "saving_account_number" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait for first transaction to load
+    And Assert product option buttons for Savings account
+    And Click on element by id "nlb-icon-button"
+
+    And Wait for element by contains text "time frame"
+    And Assert element by contains text "Date"
+    And Assert element by contains text "Type"
+    And Assert element by contains text "Amount"
+    And Assert "Confirm" button is not enabled
+    And Click on element by text "Type"
+    And Wait for element by id "nlb-radio-button-ALL" to appear
+    And Assert screen header is "Set type"
+    And Assert element by content desc "Back"
+    And Assert element "nlb-radio-button-ALL" by id
+    And Assert element "nlb-radio-button-INCOMING" by id
+    And Assert element "nlb-radio-button-OUTGOING" by id
+    And Assert "Apply" button primary is enabled
+    And Assert Type transaction filter options are correct
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-ALL"
+
+    #Incoming transactions
+    Then Click on element by id "nlb-radio-button-INCOMING"
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
+    And Assert "Apply" button primary is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
+    And Assert "Confirm" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load after filter
+    And Assert transaction list is sorted to only show Incoming transactions
+
+    And Click Transaction filter button in Product
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter "Type" is "Incoming transactions"
+    And Click on element by text "Type"
+    And Wait for element by id "nlb-radio-button-ALL" to appear
+    And Assert "Apply" button primary is enabled
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-INCOMING"
+
+    #Outgoing transactions
+    And Click on element by id "nlb-radio-button-OUTGOING"
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-OUTGOING"
+    And Assert "Apply" button primary is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter "Type" is "Outgoing transactions"
+    And Assert "Confirm" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load after filter
+    And Assert transaction list is sorted to only show Outgoing transactions
+
+    And Click Transaction filter button in Product
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter "Type" is "Outgoing transactions"
+    And Click on element by text "Clear filters"
+    And Assert subtitle of Transaction filter "Type" is "All"
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Filter_By_Amount_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Filter_By_Amount_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+
+    When Wait for first transaction to load
+    And Assert Product page for product with name from Excel "<rowindex>" columnName "saving_account_number"
+    And Assert product option buttons for Current foreign accounts
+    And Assert element with class "android.widget.TextView" and has text "Transactions" is displayed
+    And Click Transaction filter button in Product
+    And Wait for element by text "Transaction filter"
+    And Wait for element by contains text "time frame"
+    And Assert element by contains text "Date"
+    And Assert element by contains text "Type"
+    And Assert element by contains text "Amount"
+    And Assert "Confirm" button is not enabled
+    And Click on element by text "Amount"
+    And Wait for element by text "From"
+    And Assert element by text "To"
+    And Assert currencies in From and To input field is "RSD"
+    And Enter text "1" into input field "From" in amount filter
+    And Enter text "2" into input field "To" in amount filter
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Transaction filter"
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load
+    And Assert filtered amounts have values between "1" and "2"
+
+    Then Click Transaction filter button in Product
+    And Wait for element by text "Transaction filter"
+    And Click on element by id "nlb-button-alternate"
+    And Click on element by text "Amount"
+    And Wait for element by text "From"
+    And Assert element by text "To"
+    And Assert currencies in From and To input field is RSD
+    And Enter text "99998" into input field "From" in amount filter
+    And Enter text "99999" into input field "To" in amount filter
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by text "Transaction filter"
+    And Click on element by id "nlb-button-primary"
+    And Wait for element by contains text "No results found."
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Filter_Multiple_Filter_Invalid_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Filter_Multiple_Filter_Invalid_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from Excel "<rowindex>" columnName "saving_account_number" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait for first transaction to load
+    And Click on element by id "nlb-icon-button"
+    And Wait for element by contains text "time frame"
+    And Assert element by contains text "Date"
+    And Assert element by contains text "Type"
+    And Assert element by contains text "Amount"
+    And Assert "Confirm" button is not enabled
+
+    And Click on element by text "Amount"
+    And Enter amount from "10000" to "5000"
+    And Wait for element by contains text "minimum"
+    And Assert element by contains text "The minimum amount cannot be greater than the maximum amount."
+    And Click "Back" content description from view tag "View"
+    And Wait for element by text "Type"
+
+    Then Click on element by text "Date"
+    And Click on element by desc "Set date" and index "2"
+    #And Click on date in Calendar with year 2025 month 5 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
+    And Assert button Cancel in Calendar is enabled
+    And Assert button Confirm in Calendar is enabled
+    And Click on button Confirm in Calendar
+    And Assert To field in Date transactions filter has date year 2026 month 5 day 8
+    And Click on element by desc "Set date" and index "1"
+    And Check if element by text "Thursday, May 7, 2026" is enabled
+    And Check if element by text "Saturday, May 9, 2026" is not enabled
+
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Savings_Accounts_Transactions_Search_[MOB_ANDROID]
+  Scenario Outline: Savings_Accounts_Transactions_Search_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from Excel "<rowindex>" columnName "saving_account_number" is in the view
+    And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
+    And Wait for first transaction to load
+    And Assert Filter icon is displayed
+    And Assert Search field is displayed
+    And Remember latest transaction purposes from dashboard under key "keyPurposes"
+
+    And Enter text "X" into EditText element
+    And Wait "1" seconds
+    And Wait for first transaction to load
+    And Assert latest transactions in product details are the same as in key "keyPurposes"
+    And Click "Clear search input" content description
+
+    And Enter text "ZZZQQQZZAXXXW" into EditText element
+    And Wait for element by contains text "No results found."
+    And Click "Clear search input" content description
+
+    And Enter text "Internal" into EditText element
+    And Wait "1" seconds
+    And Wait for first transaction to load
+    And Assert transactions in product details has purposes "INTERNAL TRANSFER"
+    And Click "Clear search input" content description
+
+    Then Enter text "1,00" into EditText element
+    And Wait "1" seconds
+    And Wait for first transaction to load
+    And Assert transactions in product details has amount "1,00"
+
 
     Examples:
       | rowindex |

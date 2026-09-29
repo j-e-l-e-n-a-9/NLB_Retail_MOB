@@ -9,7 +9,6 @@ Feature: Current_Foreign_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-#    When Scroll until element with BBAN from Excel "<rowindex>" columnName "second_personal_account_bban" is in the view
     When Scroll until element with text from excel "<rowindex>" columnName "personal_account_iban" is in view
     And Click on element by text from excel "<rowindex>" columnName "personal_account_iban"
     And Wait element "Transactions" by text
@@ -25,10 +24,8 @@ Feature: Current_Foreign_Accounts
     Then Scroll until element with text from excel "<rowindex>" columnName "second_personal_account_iban" is in view
     And Click on element by text from excel "<rowindex>" columnName "second_personal_account_iban"
     And Wait element "Transactions" by text
-#    And Assert product option buttons for Current foreign accounts
     And Assert element by contains text "Transactions"
     And Assert element "nlb-icon-button" by id
-
     And Click on element by text "Details"
     And Wait for element by text "Account details"
     And Assert element by text "Financial details" is not displayed

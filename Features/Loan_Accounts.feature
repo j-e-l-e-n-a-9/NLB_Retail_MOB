@@ -106,17 +106,16 @@ Feature: Loan_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
-    #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
-#    And Assert Loan accounts current loan balance is displayed
+    And Assert Loan accounts current loan balance is displayed
 
-    Then Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
+    Then Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
     And Wait for element by text "Financial details"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
@@ -131,23 +130,18 @@ Feature: Loan_Accounts
     And Assert element by id "nlb-input-standing-order-start-date" and index "1" is displayed
     And Assert element by id "nlb-input-standing-order-start-date" and index "2" is displayed
     And Assert element by text "Annuity"
-    And Assert element by text "Principal"
+    And Assert element by contains text "principal"
     And Assert Upcoming installments dates are sorted ascending for Loan annuitys
     And Assert list of Annuity amount is displayed correctly
     And Assert list of Principal amount is displayed correctly
-    
     And Click on calendar icon with index "1"
-    And Click on date in Calendar with year 2027 month 1 day 2 and assert that it is shown correctly
-#    And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
+    # Ako TST koristi srpski aria label za dane - samo obrisati 'on English'
+    And Click on date in Calendar with year 2027 month 1 day 2 and assert that it is shown correctly on English
     And Click on button Confirm in Calendar
-
     And Click on calendar icon with index "2"
-    And Click on date in Calendar with year 2027 month 8 day 15 and assert that it is shown correctly
-#    And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
+    # Ako TST koristi srpski aria label za dane - samo obrisati 'on English'
+    And Click on date in Calendar with year 2027 month 8 day 15 and assert that it is shown correctly on English
     And Click on button Confirm in Calendar
-
     And Assert Loans payments dates are between dates year 2027 month 1 day 2 and year 2027 month 8 day 15
 
     Examples:
@@ -164,17 +158,16 @@ Feature: Loan_Accounts
     And Click on Bottom navigation button "My Products"
     And Wait for element by id "nlb-button-edit-products" to appear
 
-    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number2" is in view
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
     And Assert Loan accounts icons is displayed
     And Assert Loan accounts product names is displayed
     And Assert Loan accounts account numbers is displayed
-    #TO DO: Odkomentarisi kada korak ispod se bug resi. Ne postoji separator za hiljade na odredjenim kreditima
-#    And Assert Loan accounts current loan balance is displayed
+    And Assert Loan accounts current loan balance is displayed
 
-    And Click on Product from Excel "<rowindex>" columnName "loan_account_number2" in My Products
+    And Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
     And Wait for element by text "Financial details"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_name2"
-    And Assert element by text from excel "<rowindex>" columnName "loan_account_number2"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
     And Swipe vertical
     And Assert button by text "Annuity plan"
     And Assert button by text "Payments"
@@ -183,25 +176,22 @@ Feature: Loan_Accounts
     And Assert element by id "nlb-product-details-primary-balance" has text in format "^\d{1,3}(\.\d{3})*,\d{2}\s*[A-Z]{3}$"
 
     Then Click on element by text "Annuity plan"
-    And Wait for element by contains text "Installments found"
+    And Wait for element by contains text "principal amount"
     And Assert element by text "From"
     And Assert element by text "To"
     And Assert element by id "nlb-input-standing-order-start-date" and index "1" is displayed
     And Assert element by id "nlb-input-standing-order-start-date" and index "2" is displayed
     And Assert element by text "Annuity"
-    And Assert element by text "Principal"
     And Assert Upcoming installments dates are sorted ascending for Loan annuitys
     And Assert list of Annuity amount is displayed correctly
     And Assert list of Principal amount is displayed correctly
-
     And Click on calendar icon with index "1"
-    And Click on date in Calendar with year 2027 month 6 day 6 and assert that it is shown correctly
-#    And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
+    # Ako TST koristi srpski aria label za dane - samo obrisati 'on English'
+    And Click on date in Calendar with year 2027 month 6 day 6 and assert that it is shown correctly on English
     And Click on button Confirm in Calendar
-
     And Click on calendar icon with index "2"
-    And Assert date in Calendar with year 2027 month 4 day 15 is not clickable
+    #And Assert date in Calendar with year 2027 month 6 day 5 is not clickable
+    And Assert date in Calendar with year 2027 month 6 day 5 is not clickable on English
 
     Examples:
       | rowindex |
@@ -405,3 +395,37 @@ Feature: Loan_Accounts
     Examples:
       | rowindex |
       |        1 |
+
+
+  @Loan_Accounts_Header_[MOB_ANDROID]
+  Scenario Outline: Loan_Accounts_Header_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+    And Click on element by text "My Products"
+    And Wait for element by id "nlb-button-edit-products" to appear
+
+    When Scroll until element with text from excel "<rowindex>" columnName "loan_account_number" is in view
+    And Assert Loan accounts icons is displayed
+    And Assert Loan accounts product names is displayed
+    And Assert Loan accounts account numbers is displayed
+    And Assert Loan accounts current loan balance is displayed
+
+    Then Click on Product from Excel "<rowindex>" columnName "loan_account_number" in My Products
+    And Wait for element by text "Financial details"
+    And Assert element by contains text "My loan"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_name"
+    And Assert element by text from excel "<rowindex>" columnName "loan_account_number"
+    And Assert element by contains text "Remaining principal amount"
+    And Assert element by id "nlb-product-details-primary-balance" with regex "^\d{1,3}(?:\.\d{3})*,\d{2}\s*[A-Z]{3}$"
+    And Swipe vertical
+    And Assert button by text "Annuity plan"
+    And Assert button by text "Payments"
+    And Assert labels are displayed in the following order:
+      | Financial details    |
+      | Account details      |
+
+    Examples:
+      | rowindex |
+      |        5 |

@@ -1,14 +1,14 @@
 Feature: Credit_Cards
-#
-  @Credit_cards_transactions_filter_by_date-Date_Picker_[MOB_ANDROID]
-  Scenario Outline: Credit_cards_transactions_filter_by_date-Date_Picker_[MOB_ANDROID]
+
+  @Credit_Cards_Transactions_Filter_By_Date-Date_Picker_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Transactions_Filter_By_Date-Date_Picker_[MOB_ANDROID]
 
     Given Open Application
     And Select User from Excel "<rowindex>" columnName "username" and login
     And Wait for My NLB screen to load
     And Wait for element by resource id "nlb-bottom-nav-button" to appear
 
-    When Click on Bottom navigation button "Cards"
+    When Click on element by text "My Products"
     And Wait for first product in My products page
     And Scroll until element with text from Excel "<rowindex>" columnName "credit_card_2_number" is in the view
     And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
@@ -22,29 +22,28 @@ Feature: Credit_Cards
     And Assert element by text "Last month"
     And Assert element by text "Custom date range"
     And Click on element by desc "Set date" and index "1"
-    And Click on date in Calendar with year 2025 month 2 day 8 and assert that it is shown correctly
+    #And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
     And Assert button Cancel in Calendar is enabled
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
-    And Assert From field in Date transactions filter has date year 2025 month 2 day 8
+    And Assert From field in Date transactions filter has date year 2026 month 5 day 8
 
     And Click on element by desc "Set date" and index "2"
-    And Click on date in Calendar with year 2025 month 11 day 8 and assert that it is shown correctly
+    #And Click on date in Calendar with year 2026 month 9 day 8 and assert that it is shown correctly
+    And Click on date in Calendar with year 2026 month 9 day 8 and assert that it is shown correctly on English
     And Assert button Cancel in Calendar is enabled
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
-#    And Click on element by text "Add filter"
-    And Assert To field in Date transactions filter has date year 2025 month 11 day 8
+    And Assert To field in Date transactions filter has date year 2026 month 9 day 8
 
-    And Click on element by text "Apply"
+    Then Click on element by text "Apply"
     And Wait for element by text "Confirm"
     And Assert "Confirm" button primary is enabled
     And Assert "Clear filters" button alternate is enabled
     And Click on element by text "Confirm"
     And Wait for first transaction to load after filter
-
-    Then Assert transactions dates are between dates year 2025 month 2 day 8 and year 2025 month 11 day 8
+    And Assert transactions dates are between dates year 2026 month 2 day 8 and year 2026 month 9 day 8
 
     Examples:
       | rowindex |
@@ -74,17 +73,16 @@ Feature: Credit_Cards
     And Assert element by text "This month"
     And Assert element by text "Last month"
     And Assert element by text "Custom date range"
-    And Click on element by desc "Set date" and index "2"
+    And Click on element by desc "Set date" and index "1"
     And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly on English
     #And Click on date in Calendar with year 2026 month 5 day 8 and assert that it is shown correctly
     And Assert button Cancel in Calendar is enabled
     And Assert button Confirm in Calendar is enabled
     And Click on button Confirm in Calendar
-    And Assert To field in Date transactions filter has date year 2026 month 5 day 8
+    And Assert From field in Date transactions filter has date year 2026 month 5 day 8
 
-    Then Click on element by desc "Set date" and index "1"
-    And Check if element by text "Thursday, May 7, 2026" is enabled
-    And Check if element by text "Saturday, May 9, 2026" is not enabled
+    Then Click on element by desc "Set date" and index "2"
+    And Assert date in Calendar with year 2026 month 5 day 7 is not clickable on English
 
     Examples:
       | rowindex |
@@ -509,6 +507,98 @@ Feature: Credit_Cards
     And Wait for first transaction to load
     And Assert list of transactions is displayed correctly in Product
 
+    Examples:
+      | rowindex |
+      |        1 |
+
+
+  @Credit_Cards_Transactions_Filter_By_Date_Predefined_Date_Range_[MOB_ANDROID]
+  Scenario Outline: Credit_Cards_Transactions_Filter_By_Date_Predefined_Date_Range_[MOB_ANDROID]
+
+    Given Open Application
+    And Select User from Excel "<rowindex>" columnName "username" and login
+    And Wait for My NLB screen to load
+
+    When Click "My Products"
+    And Wait for first product in My products page
+    And Scroll until element with text from excel "<rowindex>" columnName "credit_card_2_number" is in view
+    And Click on element by text from excel "<rowindex>" columnName "credit_card_2_number"
+    And Wait for first transaction to load
+    And Assert Transaction filter button in Product
+    And Click Transaction filter button in Product
+    And Wait first Transaction filter
+
+    And Assert screen header is "Transaction filter"
+    And Assert element by content desc "Back"
+    And Assert Date transaction filter for Credit cards is displayed correctly
+    And Assert Type transaction filter for Credit cards is displayed correctly
+    And Assert Amount transaction filter for Credit cards is displayed correctly
+    And Assert "Confirm" button is not enabled
+
+    And Click on element by text "Date"
+    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+    And Assert screen header is "Date"
+    And Assert element by content desc "Back"
+    And Assert element "nlb-radio-button-LAST_7_DAYS" by id
+    And Assert element "nlb-radio-button-THIS_MONTH" by id
+    And Assert element "nlb-radio-button-LAST_MONTH" by id
+    And Assert element "nlb-radio-button-CUSTOM_DATE_RANGE" by id
+    And Assert element "nlb-input-date-from-click-area" by id
+    And Assert element "nlb-input-date-to-click-area" by id
+    And Assert From label in Date transactions filter
+    And Assert To label in Date transactions filter
+    And Assert From field is correctly displayed in Date transactions filter
+    And Assert To field is correctly displayed in Date transactions filter
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+    And Assert "Apply" button primary is enabled
+
+    #7 days
+    And Click on element by id "nlb-button-primary"
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter Date is correct for Last seven days
+    And Assert "Confirm" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load after filter
+    And Assert transactions dates are from last seven days
+
+    #this month
+    And Click Transaction filter button in Product
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter Date is correct for Last seven days
+    And Click on element by text "Date"
+    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_7_DAYS"
+    And Click on element by id "nlb-radio-button-THIS_MONTH"
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
+    And Assert "Apply" button primary is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter Date is correct for This month
+    And Assert "Confirm" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load after filter
+    And Assert transactions dates are from This month
+
+    #last month
+    Then Click Transaction filter button in Product
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter Date is correct for This month
+    And Click on element by text "Date"
+    And Wait for element by id "nlb-radio-button-LAST_7_DAYS" to appear
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-THIS_MONTH"
+    And Click on element by id "nlb-radio-button-LAST_MONTH"
+    And Assert Type transaction filter that is currently selected is one with id "nlb-radio-button-LAST_MONTH"
+    And Assert "Apply" button primary is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait first Transaction filter
+    And Assert subtitle of Transaction filter date is correct for Last month
+    And Assert "Confirm" button primary is enabled
+    And Assert "Clear filters" button alternate is enabled
+    And Click on element by id "nlb-button-primary"
+    And Wait for first transaction to load after filter
+    And Assert transactions dates are from Last month
 
     Examples:
       | rowindex |

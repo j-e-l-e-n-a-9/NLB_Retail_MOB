@@ -4483,6 +4483,7 @@ public class Steps {
         String pastDate = rh.getDateXDaysInPastFromTodayInFormat(7, "dd.MM.yyyy");
         String todayDate = rh.getTodayDateInFormat("dd.MM.yyyy");
         String expected = pastDate + " - " + todayDate;
+        System.out.println("Expected range "+ expected);
         String xPath = "//android.widget.TextView[@text='Date']/following-sibling::android.widget.TextView";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
@@ -13501,6 +13502,90 @@ public class Steps {
         System.out.println("UI "+ element.getText());
         System.out.println("EXCEL "+ accountName);
         Assert.assertEquals(accountName, element.getText());
+    }
+
+    @And("Assert latest transactions in product details are the same as in key {string}")
+    public void assertLatestTransactionsInProductDetailsAreTheSameAsInKey(String key) {
+        List<String>purposes = (List<String>) DataManager.userObject.get(key);
+        String xpath = "//*[@resource-id='nlb-title']";
+        List<String>actual = x.createMobileElementsByXpath(xpath)
+                .stream()
+                .map(el -> el.getText())
+                .collect(Collectors.toList());
+        System.out.println("From key "+ purposes);
+        System.out.println("current from ui "+ actual);
+
+        Assert.assertEquals(purposes, actual);
+    }
+
+    @And("Assert transactions in product details has purposes {string}")
+    public void assertTransactionsHasPurposes(String expectedPurpose) throws Exception {
+        List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-title");
+
+        for(String purpose: list){
+            Assert.assertEquals(purpose, expectedPurpose);
+        }
+    }
+
+    @And("Assert transactions in product details has amount {string}")
+    public void assertTransactionsInProductDetailsHasAmount(String expectedAmount) throws Exception {
+        List<String> list = rh.scrollDownAndPutEveryElementWithIdIntoList("nlb-amount");
+
+        for(String amount: list){
+            Assert.assertTrue(amount.contains(expectedAmount));
+        }
+    }
+
+    @And("Assert date in Calendar with year {int} month {int} day {int} is not clickable on English")
+    public void assertDateInCalendarIsNotClickableOnEnglish(int year, int month, int day) throws Exception {
+        LocalDate target = LocalDate.of(year, month, day);
+        java.time.format.DateTimeFormatter englishFormatter =
+                java.time.format.DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", java.util.Locale.ENGLISH);
+        String targetFull = target.format(englishFormatter);
+
+        By prevBtn = x.createByXpath("//*[@content-desc='Change to previous month']");
+        By nextBtn = x.createByXpath("//*[@content-desc='Change to next month']");
+
+        String selectionXpath = "//*[contains(@content-desc, 'Current selection')]";
+        MobileElement selectionEl = x.createMobileElementByXpath(selectionXpath);
+        String cd = selectionEl.getAttribute("content-desc");
+        if (cd == null) cd = "";
+        String selPart = cd.contains(":") ? cd.substring(cd.indexOf(":") + 1).trim() : cd.trim();
+
+        LocalDate selected;
+        try {
+            selected = LocalDate.parse(selPart, englishFormatter);
+        } catch (Exception e1) {
+            try {
+                selected = LocalDate.parse(selPart, java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy", java.util.Locale.ENGLISH));
+            } catch (Exception e2) {
+                selected = LocalDate.parse(selPart, java.time.format.DateTimeFormatter.ofPattern("MMMM d, yyyy", java.util.Locale.ENGLISH));
+            }
+        }
+        String targetXpath = "//*[contains(@text, '" + targetFull + "')]";
+
+        int maxSteps = 48;
+        boolean visible = false;
+
+        for (int i = 0; i < maxSteps; i++) {
+            if (!x.createMobileElementsByXpath(targetXpath).isEmpty()) {
+                visible = true;
+                break;
+            }
+            if (target.isAfter(selected)) {
+                hp.clickElement(nextBtn);
+            } else if (target.isBefore(selected)) {
+                hp.clickElement(prevBtn);
+            } else {
+                break;
+            }
+        }
+        Assert.assertTrue("Target date is not visible in calendar grid. xpath=" + targetXpath, visible);
+        MobileElement dayEl = x.createMobileElementByXpath(targetXpath);
+        String enabled = dayEl.getAttribute("enabled");
+        Assert.assertNotNull("Enabled attribute is null (unexpected).", enabled);
+        Assert.assertEquals("Expected date to be disabled but enabled=" + enabled + " for target=" + targetFull,
+                "false", enabled.toLowerCase());
     }
 }
 
