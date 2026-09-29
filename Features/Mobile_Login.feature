@@ -38,7 +38,7 @@ Feature: Mobile_Login
     And Wait for element by text "Enter PIN"
     And Enter wrong PIN
     And Wait for element by text "Enter PIN"
-    And Assert element by text "Incorrect PIN"
+    And Assert element by contains text "Attempts remaining:"
     And Enter PIN
 
     Then Wait for element by text "One-time password"

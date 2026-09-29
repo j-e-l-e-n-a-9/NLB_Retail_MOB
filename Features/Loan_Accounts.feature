@@ -365,7 +365,7 @@ Feature: Loan_Accounts
     And Assert element by text "Nominal interest rate" has first following sibling with regex "^\d{1,3},\d{2}\s*%$"
     And Assert element by text "Last installment date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert element by text "Next installment date" has first following sibling with regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert element by text "Remaining principal amount" has first following sibling with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}[\s\u00A0][A-Z]{3}$"
+    And Assert element by text "Remaining principal amount" with index "2" has first following sibling containing with regex "^(?:0|[1-9]\d{0,2}(?:\.\d{3})*),\d{2}[\s\u00A0][A-Z]{3}$"
 
     Examples:
       | rowindex |

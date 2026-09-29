@@ -169,6 +169,8 @@ Feature: Upcoming_Payments
     And Assert element by text "Debtor Address" has first following sibling with regex "(?s)^.+$"
     And Click "Back" content description
     And Wait for element by id "nlb-date" to appear
+    And Swipe vertical up
+    And Swipe vertical up
 
     And Click on Account selector in Payment list
     And Wait "1" seconds

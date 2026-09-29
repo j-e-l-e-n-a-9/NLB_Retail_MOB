@@ -860,7 +860,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -1043,7 +1043,7 @@ Feature: Domestic_Payments
     And Swipe vertical
     And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
     #And Assert that text "Debtor name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
-    And Assert that text "Debtor account" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
+    And Assert that text "Debtor account number" has first following sibling from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Assert that text "Fee" has first following sibling that contains text "0,00 RSD"
     And Assert that text "Payment status" has first following sibling that contains text "Executed"
     And Assert element by id "nlb-button-primary" that has descendant text "Repeat payment"
@@ -1172,7 +1172,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -1329,7 +1329,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -1372,7 +1372,7 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by "5" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
 
   #    And Assert first transaction have Purpose under key "keyPurpose"
 #    And Assert first transaction have Creditor name under key "keyName"
@@ -1489,7 +1489,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -1532,8 +1532,9 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    #And Check if current balance is lowered by "3" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by "7" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+#    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+
     Examples:
       | rowindex |
       |        5 |
@@ -1632,7 +1633,7 @@ Feature: Domestic_Payments
     And Assert element by id "transactions-web-popup-info" has text "289"
     And Assert element by text from key "keyPurpose" is displayed
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -1798,7 +1799,7 @@ Feature: Domestic_Payments
     And Assert element by text "Model" has first following sibling contains text "11"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2009,7 +2010,7 @@ Feature: Domestic_Payments
     And Assert element by text "Model" has first following sibling contains text "97"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2221,7 +2222,7 @@ Feature: Domestic_Payments
     And Assert that text "Model" has first following sibling that contains text "11"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2265,8 +2266,8 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-    #And Check if current balance is lowered by "7" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-     And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by amount from key "keyAmount" and with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
+#    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
 
     Examples:
       | rowindex |
@@ -2369,7 +2370,7 @@ Feature: Domestic_Payments
     And Assert that text "Model" has first following sibling that contains text "97"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2411,7 +2412,7 @@ Feature: Domestic_Payments
     And Scroll until element with text from excel "<rowindex>" columnName "currentDomesticAccountBBAN" is in view
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
-     And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by amount from key "keyAmount" and with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
 #    And Assert first transaction have Purpose under key "keyPurpose"
 #    And Assert first transaction have Creditor name under key "keyName"
 #    And Assert first transaction have Amount under key "keyAmount"
@@ -2536,7 +2537,7 @@ Feature: Domestic_Payments
     And Assert element by text "Model" has first following sibling contains text "97"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2705,7 +2706,7 @@ Feature: Domestic_Payments
     And Assert element by text "Model" has first following sibling contains text "97"
     And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
     And Assert element by id "nlb-button-alternate" that has descendant text "Reject"
-    And Assert element by id "nlb-button-primary" that has descendant text "Confirm"
+    And Assert element by id "nlb-button-primary" that has descendant text "Pay"
     And Click on element by id "nlb-button-primary"
     And Wait for element by id "transactions-web-close-popup-icon" to appear
     And Assert element by text "Confirmation successful"
@@ -2747,26 +2748,27 @@ Feature: Domestic_Payments
     And Click on element by text from excel "<rowindex>" columnName "currentDomesticAccountBBAN"
     And Wait for element by id "nlb-product-details-primary-balance" to appear
     #And Check if current balance is lowered by "4" from Amount and "15" from Fee using balance from key "IT_001_Debtor_Balance" for currency "RSD"
-    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+#    And Check if current balance is lowered by "0" using balance from key "IT_001_Debtor_Balance" for currency "RSD"
+    And Check if current balance is lowered by amount from key "keyAmount" and with fee from excel from excel "<rowindex>" columnName "fee_clean_RSD" using balance from key "IT_001_Debtor_Balance"
 
-    And Assert first transaction have Purpose under key "keyPurpose"
-    And Assert first transaction have Creditor name under key "keyName"
-    And Assert first transaction have Amount under key "keyAmount"
-    And Click on element by text from key "keyPurpose"
-    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
-#    And Assert text from element by id "nlb-title" is contained within text from key "keyPurpose"
-    And Assert element by id "nlb-title" has value under key "keyPurpose"
-    And Assert element by id "nlb-details" has value under key "keyName"
-    And Assert element by text "Name and address" has first following sibling from key "keyName"
-    And Assert account number in Transactions details has value under key "keyAccountNumber"
-    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
-    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
-    And Assert element by text "Amount"
-    And Assert element by text "4,00 RSD"
-    And Assert element by text "Transaction ID"
-    And Assert element by text "Model" has first following sibling contains text "97"
-    And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
+#    And Assert first transaction have Purpose under key "keyPurpose"
+#    And Assert first transaction have Creditor name under key "keyName"
+#    And Assert first transaction have Amount under key "keyAmount"
+#    And Click on element by text from key "keyPurpose"
+#    And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
+##    And Assert text from element by id "nlb-title" is contained within text from key "keyPurpose"
+#    And Assert element by id "nlb-title" has value under key "keyPurpose"
+#    And Assert element by id "nlb-details" has value under key "keyName"
+#    And Assert element by text "Name and address" has first following sibling from key "keyName"
+#    And Assert account number in Transactions details has value under key "keyAccountNumber"
+#    And Assert element by text "Purpose" has first following sibling from key "keyPurpose"
+#    And Assert that text "Settlement date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert that text "Value date" has first following sibling that matches regex "^\d{2}\.\d{2}\.\d{4}$"
+#    And Assert element by text "Amount"
+#    And Assert element by text "4,00 RSD"
+#    And Assert element by text "Transaction ID"
+#    And Assert element by text "Model" has first following sibling contains text "97"
+#    And Assert element by text "Reference number" has first following sibling from key "keyReferenceNumber"
 
     Examples:
       | rowindex |

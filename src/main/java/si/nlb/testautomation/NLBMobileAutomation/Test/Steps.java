@@ -11824,7 +11824,7 @@ public class Steps {
     @And("Assert Recipient account number in Payment details in Past payments is from key {string}")
     public void assertRecipientAccountNumberInPaymentDetailsInPastPaymentsIsFromKey(String key) {
         String expected = DataManager.userObject.get(key).toString().trim();
-        String xPath = "//*[@text='Recipient account']/following-sibling::*[1]";
+        String xPath = "//*[@text='Recipient account number']/following-sibling::*[1]";
         MobileElement element = x.createMobileElementByXpath(xPath);
 
         String actual = element.getText().trim();
@@ -12715,14 +12715,7 @@ public class Steps {
         System.out.println("Current UI balance: " + currentBalance);
         System.out.println("========================================");
 
-        Assert.assertEquals(
-                "Balance is not correct. Expected: "
-                        + expectedBalance
-                        + ", but actual: "
-                        + currentBalance,
-                0,
-                expectedBalance.compareTo(currentBalance)
-        );
+        Assert.assertEquals("Balance is not correct. Expected: " + expectedBalance + ", but actual: " + currentBalance, 0, expectedBalance.compareTo(currentBalance));
     }
 
     @And("Assert that Fee in payment review has value from excel {string} columnName {string}")
@@ -13467,6 +13460,20 @@ public class Steps {
         }
     }
 
+    @And("Assert element by contains id {string} is displayed")
+    public void assertElementByContainsIdIsDisplayed(String id) {
+        String xPath = "//*[contains(@resource-id, '" + id + "')]";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        Assert.assertTrue(element.isDisplayed());
+    }
+
+    @And("Assert element by text {string} with index {string} has first following sibling containing with regex {string}")
+    public void assertElementByTextWithIndexHasFirstFollowingSiblingContainingWithRegex(String text, String index, String regex) {
+        String xPath = "(//*[contains(@text, '" + text + "')])[" + index + "]/following-sibling::*";
+        MobileElement element = x.createMobileElementByXpath(xPath);
+        String actualText = element.getText().trim();
+        Assert.assertTrue("Tekst [" + actualText + "] ne odgovara regex-u [" + regex + "]", actualText.matches(regex));
+    }
     @And("Check if dates in calendar in domestic payments is enabled for {int} days from now and select that date")
     public void checkIfDatesInCalendarInDomesticPaymetsIsEnabledForDaysFromNow(int daysInFuture) {
         String contentDescNextButtonXpath = "//*[@content-desc='Change to next month']";

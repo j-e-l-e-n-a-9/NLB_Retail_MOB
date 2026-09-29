@@ -152,7 +152,7 @@ Feature: Own_Account_Transfer
     And Check if current balance is lowered by amount from key "keyPaymentAmount" using balance from key "IT_001_Debtor_Balance"
 
     And Wait for first Transaction
-    And Wait "6" seconds
+    And Wait "3" seconds
     And Click on first transaction in product details
 
     And Wait for element by text "Settlement date"
@@ -272,7 +272,7 @@ Feature: Own_Account_Transfer
     And Assert element by text "Account number" with index "1" has first following sibling containing text from Excel "<rowindex>" columnName "currentDomesticAccountBBAN"
 
     And Assert element by text "Recipient"
-    #And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Name" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "auth_personal_account_name"
     #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_street"
     #And Assert element by text "Address" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "user_city"
     And Assert element by text "Account number" with index "2" has first following sibling containing text from Excel "<rowindex>" columnName "auth_personal_account_number"
@@ -305,6 +305,10 @@ Feature: Own_Account_Transfer
     And Click on element by id "transactions-web-close-popup-nlb-button"
 
     #past payments
+    And Wait "60" seconds
+    And Click on element by text "My Products"
+    And Wait for first product in My products page
+    And Click on element by text "Pay"
     And Wait for element by text "Past payments"
     And Click on element by text "Past payments"
     And Wait for first Past payment
@@ -319,9 +323,9 @@ Feature: Own_Account_Transfer
     And Assert element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
     And Assert element by id "nlb-currency" has text "RSD"
     And Assert element by id "nlb-title" has text "INTERNAL TRANSFER"
-    And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "account_details_owner"
+    And Assert element by id "nlb-details" has text from Exel "<rowindex>" columnName "auth_personal_account_name"
     And Assert that upcoming or past payment title has amount from key "keyPaymentAmount"
-    And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "account_details_owner"
+    And Assert element by text "Recipient name" has first following sibling from excel "<rowindex>" columnName "auth_personal_account_name"
     #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_street"
     #And Assert element by text "Recipient address" has first following sibling containing text from excel "<rowindex>" columnName "user_city"
     And Assert element by text "Recipient account number" has first following sibling from excel "<rowindex>" columnName "auth_personal_account_number"

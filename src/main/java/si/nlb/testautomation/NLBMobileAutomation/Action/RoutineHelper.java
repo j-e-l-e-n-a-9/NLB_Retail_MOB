@@ -1552,7 +1552,7 @@ public class RoutineHelper {
         MobileElement elementForSubSuccessMessage = x.createMobileElementByXpath(xPathForSuccessSubMessage);
         Assert.assertTrue(elementForSubSuccessMessage.isDisplayed());
 
-        String xPath = "//*[@resource-id='nlb-card-container']/android.widget.ProgressBar";
+        String xPath = "//android.widget.ProgressBar";
         MobileElement element = x.createMobileElementByXpath(xPath);
         Assert.assertTrue(element.isDisplayed());
 

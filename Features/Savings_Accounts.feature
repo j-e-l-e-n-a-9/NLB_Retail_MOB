@@ -131,7 +131,7 @@ Feature: Savings_Accounts
     And Wait for first product in My products page
     And Scroll until element with text from excel "<rowindex>" columnName "saving_account_number" is in view
     And Click on element by text from excel "<rowindex>" columnName "saving_account_number"
-    And Wait element "Transactions" by text
+    And Wait for first transaction to load
 
     Then Click on first transaction in product details
     And Assert list of element by id element by id "nlb-date" with regex "^\d{2}\.\d{2}\.\d{4}$"
